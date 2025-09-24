@@ -13,6 +13,7 @@
     }
   },
   "dependencies": {
+    "mqtt": "^5.14.1",
     "preact": "^10.26.9"
   },
   "devDependencies": {
