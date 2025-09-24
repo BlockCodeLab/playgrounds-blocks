@@ -116,7 +116,7 @@ export function emulator(runtime) {
         console.error(err);
       }
 
-      if (res?.choices?.[0]?.message?.content) {
+      if (res?.choices[0]?.message.content) {
         // 加入回答内容
         this.addHistory(target, res.choices[0].message);
         runtime.setData(target, `brain.result`, res.choices[0].message.content);

@@ -5,7 +5,7 @@ export function emulator(runtime) {
   let errors;
 
   runtime.on('stop', () => {
-    runtime.extensions.websocket?.disconnect?.();
+    runtime.extensions.websocket?.disconnect();
   });
 
   return {

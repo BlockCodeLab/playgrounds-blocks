@@ -432,7 +432,7 @@ function getAllProcedureReturnTypes(workspace) {
   const blocks = workspace.getTopBlocks(false);
   for (let i = 0; i < blocks.length; i++) {
     if (blocks[i].type == ScratchBlocks.PROCEDURES_DEFINITION_BLOCK_TYPE) {
-      const procCode = blocks[i].getInput('custom_block').connection.targetBlock()?.getProcCode?.();
+      const procCode = blocks[i].getInput('custom_block').connection.targetBlock()?.getProcCode();
       // To match behavior of getDefineBlock, if multiple instances of this procedure are
       // defined, only use the first one.
       if (procCode && !Object.prototype.hasOwnProperty.call(result, procCode)) {

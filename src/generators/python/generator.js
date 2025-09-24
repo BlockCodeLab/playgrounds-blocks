@@ -287,7 +287,7 @@ export class PythonGenerator extends ScratchBlocks.Generator {
    * @param {boolean=} opt_negate Whether to negate the value.
    * @return {string|number}
    */
-  getAdjustedInt(block, atId, opt_delta, opt_negate) {
+  getAdjusted(block, atId, opt_delta, opt_negate) {
     let delta = opt_delta || 0;
     if (block.workspace.options.oneBasedIndex) {
       delta--;

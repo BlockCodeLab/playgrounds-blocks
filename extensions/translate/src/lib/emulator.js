@@ -92,7 +92,7 @@ export function emulator(runtime) {
         console.error(err);
       }
 
-      return res?.choices?.[0]?.message?.content ?? text;
+      return res?.choices[0]?.message.content ?? text;
     },
   };
 }
