@@ -12,7 +12,7 @@ export function DataMonitor({ offset }) {
       className={styles.dataMonitorWrapper}
       style={offset}
     >
-      {appState.value?.monitors?.map?.((monitor) =>
+      {appState.value?.monitors?.map((monitor) =>
         monitor.type === MonitorTypes.Value ? (
           <MonitorValue
             className={styles.monitorItem}

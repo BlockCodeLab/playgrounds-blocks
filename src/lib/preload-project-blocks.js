@@ -9,7 +9,7 @@ export async function preloadProjectBlocks(meta, files) {
 
   if (meta.extensions) {
     for (const extId of meta.extensions) {
-      const extObj = await importExtension(extId);
+      const extObj = await importExtension(meta, extId);
       extensions.set(extId, extObj);
     }
   }

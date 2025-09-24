@@ -186,11 +186,13 @@ export function BlocksEditor({
     if (!meta.value.monitors) return;
     if (enableMonitor && !splashVisible.value) {
       const flyout = ScratchBlocks.getMainWorkspace().getFlyout();
-      for (const monitor of meta.value.monitors) {
-        if (['data', fileId.value].includes(monitor.groupId)) {
-          flyout.setCheckboxState(monitor.id, monitor.visible);
+      setTimeout(() => {
+        for (const monitor of meta.value.monitors) {
+          if (['data', fileId.value].includes(monitor.groupId)) {
+            flyout.setCheckboxState(monitor.id, monitor.visible);
+          }
         }
-      }
+      });
     }
   }, [enableMonitor, fileId.value, meta.value, splashVisible.value]);
 
@@ -249,7 +251,7 @@ export function BlocksEditor({
       setAlert('importing', { id: extId });
 
       // 载入扩展
-      const extObj = await importExtension(extId);
+      const extObj = await importExtension(meta.value, extId);
       loadedExtensions.set(extObj.id, extObj);
       if (onExtensionLoad) {
         onExtensionLoad(extObj);
@@ -286,7 +288,8 @@ export function BlocksEditor({
       const resources = {};
       for (const extObj of loadedExtensions.values()) {
         if (extensions.includes(extObj.id) && extObj.files) {
-          resources[extObj.id] = extObj.files.map((res) => ({
+          const extFiles = typeof extObj.files === 'function' ? extObj.files(meta.value) : extObj.files;
+          resources[extObj.id] = extFiles.map((res) => ({
             name: res.name,
             type: res.type,
           }));
@@ -511,10 +514,15 @@ export function BlocksEditor({
         if (splashVisible.value) return;
 
         // 创建变量后添加积木前选项框
-        const varMonitorIndex = meta.value.monitors?.findIndex?.(
-          (monitor) => monitor.groupId === 'data' && monitor.id === e.varId,
-        );
-        if (e.type === ScratchBlocks.Events.VAR_CREATE && varMonitorIndex === -1) {
+        // 只允许变量，过滤列表等其他
+        const isVarType = ![
+          ScratchBlocks.BROADCAST_MESSAGE_VARIABLE_TYPE,
+          ScratchBlocks.LIST_VARIABLE_TYPE,
+          ScratchBlocks.DICTIONARY_VARIABLE_TYPE,
+        ].includes(e.varType);
+        // 变量是否已经监测
+        const varMonitorIndex = meta.value.monitors?.findIndex((monitor) => monitor.id === e.varId) ?? -1;
+        if (e.type === ScratchBlocks.Events.VAR_CREATE && isVarType && varMonitorIndex === -1) {
           const config = {
             id: e.varId,
             visible: true,
@@ -523,13 +531,15 @@ export function BlocksEditor({
             label: e.varName,
           };
           batch(() => {
-            setMonitor(config, true);
+            setMonitor(config, !e.isLocal);
             handleChange(true);
           });
           return;
         }
+        // 修改变量名字或删除
         if (
-          (e.type === ScratchBlocks.Events.VAR_DELETE || e.type === ScratchBlocks.Events.VAR_RENAME) &&
+          [ScratchBlocks.Events.VAR_DELETE, ScratchBlocks.Events.VAR_RENAME].includes(e.type) &&
+          isVarType &&
           varMonitorIndex !== -1
         ) {
           const monitors = meta.value.monitors;

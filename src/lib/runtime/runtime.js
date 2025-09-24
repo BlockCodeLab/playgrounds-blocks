@@ -417,10 +417,10 @@ export class Runtime extends EventEmitter {
   sleep(signal, sec) {
     const secValue = MathUtils.toNumber(sec);
 
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve) => {
       const handleAbort = () => {
         signal.off('abort', handleAbort);
-        reject();
+        resolve();
       };
       signal.once('abort', handleAbort);
 
@@ -519,10 +519,11 @@ export class Runtime extends EventEmitter {
       });
       this.setMonitorValue(monitorLabel);
       maxWidth = monitorLabel.width() > maxWidth ? monitorLabel.width() : maxWidth;
-      y -= 24;
+      y -= 25;
       if (y < -this.stage.height() / 2 + 30) {
-        y = 110;
+        y = this.stage.height() / 2 - 10;
         x += Math.round(maxWidth + 3);
+        maxWidth = 0;
       }
     }
   }
@@ -550,7 +551,7 @@ export class Runtime extends EventEmitter {
   }
 
   setMonitorVisible(label, visible) {
-    label?.setVisible?.(visible);
+    label?.setVisible(visible);
   }
 
   setMonitorVisibleById(id, visible) {
