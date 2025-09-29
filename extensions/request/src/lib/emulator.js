@@ -41,10 +41,10 @@ export function emulator(runtime) {
       await fetch(`${url}`, option)
         .then((res) => {
           runtime.setData(target, 'request.response', res);
-          runtime.run('request.success');
+          runtime.call('request.success');
         })
         .catch((e) => {
-          runtime.run('request.fails');
+          runtime.call('request.fails');
         })
         .finally(() => {
           // 清除单次请求的配置

@@ -5,28 +5,28 @@ const proto = MicroPythonGenerator.prototype;
 proto['operator_add'] = function (block) {
   const num1Code = this.valueToCode(block, 'NUM1', this.ORDER_NONE) || 0;
   const num2Code = this.valueToCode(block, 'NUM2', this.ORDER_NONE) || 0;
-  const code = `(num(${num1Code}) + num(${num2Code}))`;
+  const code = `(${num1Code} + ${num2Code})`;
   return [code, this.ORDER_SUBTRACTION];
 };
 
 proto['operator_subtract'] = function (block) {
   const num1Code = this.valueToCode(block, 'NUM1', this.ORDER_NONE) || 0;
   const num2Code = this.valueToCode(block, 'NUM2', this.ORDER_NONE) || 0;
-  const code = `(num(${num1Code}) - num(${num2Code}))`;
+  const code = `(${num1Code} - ${num2Code})`;
   return [code, this.ORDER_SUBTRACTION];
 };
 
 proto['operator_multiply'] = function (block) {
   const num1Code = this.valueToCode(block, 'NUM1', this.ORDER_NONE) || 0;
   const num2Code = this.valueToCode(block, 'NUM2', this.ORDER_NONE) || 0;
-  const code = `(num(${num1Code}) * num(${num2Code}))`;
+  const code = `(${num1Code} * ${num2Code})`;
   return [code, this.ORDER_SUBTRACTION];
 };
 
 proto['operator_divide'] = function (block) {
   const num1Code = this.valueToCode(block, 'NUM1', this.ORDER_NONE) || 0;
   const num2Code = this.valueToCode(block, 'NUM2', this.ORDER_NONE) || 0;
-  const code = `(num(${num1Code}) / num(${num2Code}))`;
+  const code = `(${num1Code} / ${num2Code})`;
   return [code, this.ORDER_SUBTRACTION];
 };
 
@@ -41,7 +41,7 @@ proto['operator_random'] = function (block) {
 proto['operator_gt'] = function (block) {
   const operand1Code = this.valueToCode(block, 'OPERAND1', this.ORDER_NONE) || 0;
   const operand2Code = this.valueToCode(block, 'OPERAND2', this.ORDER_NONE) || 0;
-  const code = `(num(${operand1Code}) > num(${operand2Code}))`;
+  const code = `(${operand1Code} > ${operand2Code})`;
   return [code, this.ORDER_RELATIONAL];
 };
 
@@ -49,7 +49,7 @@ proto['operator_gt'] = function (block) {
 proto['operator_gte'] = function (block) {
   const operand1Code = this.valueToCode(block, 'OPERAND1', this.ORDER_NONE) || 0;
   const operand2Code = this.valueToCode(block, 'OPERAND2', this.ORDER_NONE) || 0;
-  const code = `(num(${operand1Code}) >= num(${operand2Code}))`;
+  const code = `(${operand1Code} >= ${operand2Code})`;
   return [code, this.ORDER_RELATIONAL];
 };
 
@@ -57,7 +57,7 @@ proto['operator_gte'] = function (block) {
 proto['operator_lt'] = function (block) {
   const operand1Code = this.valueToCode(block, 'OPERAND1', this.ORDER_NONE) || 0;
   const operand2Code = this.valueToCode(block, 'OPERAND2', this.ORDER_NONE) || 0;
-  const code = `(num(${operand1Code}) < num(${operand2Code}))`;
+  const code = `(${operand1Code} < ${operand2Code})`;
   return [code, this.ORDER_RELATIONAL];
 };
 
@@ -65,7 +65,7 @@ proto['operator_lt'] = function (block) {
 proto['operator_lte'] = function (block) {
   const operand1Code = this.valueToCode(block, 'OPERAND1', this.ORDER_NONE) || 0;
   const operand2Code = this.valueToCode(block, 'OPERAND2', this.ORDER_NONE) || 0;
-  const code = `(num(${operand1Code}) <= num(${operand2Code}))`;
+  const code = `(${operand1Code} <= ${operand2Code})`;
   return [code, this.ORDER_RELATIONAL];
 };
 
@@ -113,7 +113,7 @@ proto['operator_join'] = function (block) {
 proto['operator_letter_of'] = function (block) {
   const letterValue = this.valueToCode(block, 'LETTER', this.ORDER_NONE) || 1;
   const stringValue = this.valueToCode(block, 'STRING', this.ORDER_NONE) || '""';
-  const code = `runtime.list(str(${stringValue}), 'get', num(${letterValue}))`;
+  const code = `runtime.list(str(${stringValue}), 'get', ${letterValue})`;
   return [code, this.ORDER_FUNCTION_CALL];
 };
 
@@ -133,14 +133,14 @@ proto['operator_contains'] = function (block) {
 proto['operator_mod'] = function (block) {
   const num1Code = this.valueToCode(block, 'NUM1', this.ORDER_NONE) || 0;
   const num2Code = this.valueToCode(block, 'NUM2', this.ORDER_NONE) || 0;
-  const code = `(num(${num1Code}) % num(${num2Code}))`;
+  const code = `(${num1Code} % ${num2Code})`;
   return [code, this.ORDER_MODULUS];
 };
 
 proto['operator_round'] = function (block) {
   this.definitions_['import_math'] = 'import math';
   const numCode = this.valueToCode(block, 'NUM', this.ORDER_NONE) || 0;
-  const code = `math.round(num(${numCode}))`;
+  const code = `math.round(${numCode})`;
   return [code, this.ORDER_FUNCTION_CALL];
 };
 
@@ -150,23 +150,23 @@ proto['operator_mathop'] = function (block) {
   const operatorValue = block.getFieldValue('OPERATOR');
   let code = '';
   if (operatorValue === 'ceiling') {
-    code += `math.ceil(num(${numCode}))`;
+    code += `math.ceil(${numCode})`;
   } else if (operatorValue === 'sin' || operatorValue === 'cos' || operatorValue === 'tan') {
-    code += `math.${operatorValue}(math.radians(num(${numCode})))`;
+    code += `math.${operatorValue}(math.radians(${numCode}))`;
   } else if (operatorValue === 'asin' || operatorValue === 'acos' || operatorValue === 'atan') {
-    code += `math.degrees(math.${operatorValue}(num(${numCode})))`;
+    code += `math.degrees(math.${operatorValue}(${numCode}))`;
   } else if (operatorValue === 'ln') {
-    code += `(math.log(num(${numCode}))`;
+    code += `(math.log(${numCode})`;
   } else if (operatorValue === 'log') {
-    code += `(math.log10(num(${numCode}))`;
+    code += `(math.log10(${numCode})`;
   } else if (operatorValue === 'e ^') {
-    code += `math.exp(num(${numCode}))`;
+    code += `math.exp(${numCode})`;
   } else if (operatorValue === '10 ^') {
-    code += `math.pow(10, num(${numCode}))`;
+    code += `math.pow(10, ${numCode})`;
   } else if (operatorValue === 'abs') {
-    code += `abs(num(${numCode}))`;
+    code += `abs(${numCode})`;
   } else {
-    code += `math.${operatorValue}(num(${numCode}))`;
+    code += `math.${operatorValue}(${numCode})`;
   }
   return [code, this.ORDER_FUNCTION_CALL];
 };

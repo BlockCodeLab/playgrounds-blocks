@@ -20,7 +20,7 @@ export function emulator(runtime) {
           const ws = new WebSocket(`${url}`);
           ws.addEventListener('open', () => {
             socket = ws;
-            runtime.run('websocket.connected');
+            runtime.call('websocket.connected');
             resolve();
           });
           ws.addEventListener('message', (event) => {
@@ -29,21 +29,21 @@ export function emulator(runtime) {
               delete lastReceived.json;
             }
             lastReceived.text = event.data;
-            runtime.run('websocket.received');
+            runtime.call('websocket.received');
           });
           ws.addEventListener('close', () => {
-            runtime.run('websocket.disconnected');
+            runtime.call('websocket.disconnected');
             errors = null;
             socket = null;
           });
           ws.addEventListener('error', (e) => {
             errors = e;
-            runtime.run('websocket.errors');
+            runtime.call('websocket.errors');
             resolve();
           });
         } catch (e) {
           errors = e;
-          runtime.run('websocket.errors');
+          runtime.call('websocket.errors');
           resolve();
         }
       });
@@ -52,7 +52,7 @@ export function emulator(runtime) {
     disconnect() {
       if (socket) {
         socket.close();
-        runtime.run('websocket.disconnected');
+        runtime.call('websocket.disconnected');
         errors = null;
         socket = null;
       }
@@ -80,7 +80,7 @@ export function emulator(runtime) {
           socket.send(message);
         } catch (e) {
           errors = e;
-          runtime.run('websocket.errors');
+          runtime.call('websocket.errors');
         }
       }
     },

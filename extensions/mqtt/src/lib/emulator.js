@@ -18,7 +18,7 @@ export function emulator(runtime) {
       try {
         mqttClient = await mqtt.connectAsync(url);
         mqttClient.on('message', () => {});
-        runtime.run('mqtt.connected');
+        runtime.call('mqtt.connected');
       } catch (err) {
         mqttClient = null;
       }

@@ -531,7 +531,7 @@ export function BlocksEditor({
             label: e.varName,
           };
           batch(() => {
-            setMonitor(config, !e.isLocal);
+            setMonitor(config, true);
             handleChange(true);
           });
           return;

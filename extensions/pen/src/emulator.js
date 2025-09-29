@@ -43,12 +43,12 @@ export function emulator(runtime, Konva) {
     },
 
     async stamp(target) {
-      if (!this.renderer) return;
-
       // 等待造型更新完成
-      while (target.getAttr('_frameIndex') != null) {
+      while (target.getAttr('rendering')) {
         await runtime.nextTick();
       }
+
+      if (!this.renderer) return;
 
       const image = target.clone({
         id: null, // 移除ID和名字

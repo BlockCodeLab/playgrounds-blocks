@@ -1,7 +1,6 @@
 import { EventEmitter } from 'node:events';
-import { nanoid, sleep, sleepMs, MathUtils, getUserLanguage } from '@blockcode/utils';
+import { nanoid, sleep, sleepMs, MathUtils, ScriptController, getUserLanguage } from '@blockcode/utils';
 import { setAppState, setMeta } from '@blockcode/core';
-import { AbortController } from './abort-controller';
 import { Tone } from './tone';
 
 const DefaultFPS = 60;
@@ -47,13 +46,7 @@ export class Runtime extends EventEmitter {
     this._running = false;
 
     // 运行计时
-    this._timer = 0;
-
-    // 所有定时器
-    this._timers = [];
-
-    // 所有中断控制器
-    this._abortControllers = [];
+    this._times = 0;
 
     // 监视器
     this._monitors = {};
@@ -62,14 +55,13 @@ export class Runtime extends EventEmitter {
     this._data = new Map();
 
     // 当脚本正在运行
-    this._scriptRunnings = new Map();
+    this._runningScripts = new Map();
 
     // 侦测阀值
     this._thresholds = new Map();
 
     // 扩展
     this._extensions = new Map();
-
     this._extensionsProxy = new Proxy(
       {},
       {
@@ -150,11 +142,24 @@ export class Runtime extends EventEmitter {
   }
 
   get times() {
-    return this._timer ? (Date.now() - this._timer) / 1000 : 0;
+    return this._times ? (Date.now() - this._times) / 1000 : 0;
   }
 
   get extensions() {
     return this._extensionsProxy;
+  }
+
+  async launch(code) {
+    try {
+      let launcher = new Function('runtime', 'MathUtils', 'ScriptController', code);
+      launcher(this, MathUtils, ScriptController);
+      launcher = null;
+    } catch (err) {
+      if (DEBUG) {
+        console.error(err);
+      }
+      this.stop(true);
+    }
   }
 
   reset() {
@@ -162,29 +167,26 @@ export class Runtime extends EventEmitter {
     this._running = false;
 
     // 运行计时
-    this._timer = 0;
-
-    // 所有定时器
-    this._timers.length = 0;
-
-    // 所有中断控制器
-    this._abortControllers.length = 0;
+    this._times = 0;
 
     // 附加数据
     this._data.clear();
 
     // 当脚本正在运行
-    this._scriptRunnings.clear();
+    this._runningScripts.clear();
 
     // 侦测阀值
     this._thresholds.clear();
 
     // 重置模拟器
     this._events.reset();
+
+    // 清除可中断的异步调用
+    ScriptController.clear();
   }
 
   resetTimes() {
-    this._timer = Date.now();
+    this._times = Date.now();
   }
 
   setData(key, value) {
@@ -292,12 +294,6 @@ export class Runtime extends EventEmitter {
     return nanoid();
   }
 
-  createAbortController() {
-    const controller = new AbortController();
-    this._abortControllers.push(controller);
-    return controller;
-  }
-
   querySelector(selector) {
     return this.stage.findOne(selector);
   }
@@ -306,33 +302,20 @@ export class Runtime extends EventEmitter {
     return this.stage.find(selector);
   }
 
-  async launch(code) {
-    try {
-      let launcher = new Function('runtime', 'MathUtils', code);
-      launcher(this, MathUtils);
-      launcher = null;
-    } catch (err) {
-      if (DEBUG) {
-        console.error(err);
-      }
-      this.stop(true);
-    }
-  }
-
-  define(...args) {
+  onEvent(...args) {
     this._events.on(...args);
   }
 
   when(scriptName, script) {
-    let runnings = this._scriptRunnings.get(scriptName);
+    let runnings = this._runningScripts.get(scriptName);
     if (!runnings) {
       runnings = [];
     }
     runnings.push(false);
-    this._scriptRunnings.set(scriptName, runnings);
+    this._runningScripts.set(scriptName, runnings);
 
     const i = runnings.length - 1;
-    this.define(`${scriptName}_${i}`, script);
+    this.onEvent(`${scriptName}_${i}`, script);
   }
 
   whenGreaterThen(name, value, script) {
@@ -341,27 +324,27 @@ export class Runtime extends EventEmitter {
     this.when(`threshold:${key}`, script);
   }
 
-  call(...args) {
+  emitEvent(...args) {
     if (!this.running) return;
     return this._events.emit(...args);
   }
 
-  run(scriptName, ...args) {
+  call(scriptName, ...args) {
     if (!this.running) return;
-    this.call(scriptName, ...args);
+    this.emitEvent(scriptName, ...args);
 
     // 检查脚本是否正在运行，如果已经在运行则不触发
-    const runnings = this._scriptRunnings.get(scriptName);
-    if (runnings?.length > 0) {
+    const scripts = this._runningScripts.get(scriptName);
+    if (scripts?.length > 0) {
       return Promise.all(
-        runnings.map(async (running, i) => {
+        scripts.map(async (running, i) => {
           if (!running) {
             // 将运行中标识设为正在运行
-            runnings[i] = true;
-            await this.call(`${scriptName}_${i}`, ...args);
+            scripts[i] = true;
+            await this.emitEvent(`${scriptName}_${i}`, ...args);
             // 因为脚本有执行时间，结束后如果没有停止则重置运行中标识
             if (this.running) {
-              runnings[i] = false;
+              scripts[i] = false;
             }
           }
         }),
@@ -377,7 +360,7 @@ export class Runtime extends EventEmitter {
       if (name === 'TIMER') {
         const isGreater = this.times > parseFloat(value);
         if (isGreater && !this._thresholds.get(key)) {
-          this.run(`threshold:${key}`);
+          this.call(`threshold:${key}`);
         }
         this._thresholds.set(key, isGreater);
       }
@@ -397,38 +380,26 @@ export class Runtime extends EventEmitter {
     if (!this.stage) return;
     this._running = true;
     this.emit('start');
-    this.run('start');
+    this.call('start');
     this.resetTimes();
   }
 
   stop(force) {
     if (force || this.running) {
-      this.tone.stop();
       this.emit('stop');
-      this._timers.forEach(clearTimeout);
-      this._abortControllers.forEach((controller) => controller.abort());
       this._running = false;
+
+      ScriptController.abortAll();
+      this.tone.stop();
       this.reset();
 
       setAppState('monitors', null);
     }
   }
 
-  sleep(signal, sec) {
+  sleep(sec) {
     const secValue = MathUtils.toNumber(sec);
-
-    return new Promise(async (resolve) => {
-      const handleAbort = () => {
-        signal.off('abort', handleAbort);
-        resolve();
-      };
-      signal.once('abort', handleAbort);
-
-      await sleep(secValue);
-
-      signal.off('abort', handleAbort);
-      resolve();
-    });
+    return sleep(secValue);
   }
 
   nextFrame() {
@@ -436,7 +407,7 @@ export class Runtime extends EventEmitter {
   }
 
   nextTick() {
-    return sleepMs(0);
+    return sleepMs(1);
   }
 
   // 更新监测

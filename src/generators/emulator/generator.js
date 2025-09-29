@@ -1,7 +1,14 @@
 import { ScratchBlocks } from '../../lib/scratch-blocks';
 import { JavaScriptGenerator } from '../javascript';
 
+const GUARD_LOOP_MAX = 500;
+
 export class EmulatorGenerator extends JavaScriptGenerator {
+  INFINITE_LOOP_TRAP = 'await runtime.nextTick();\n';
+  GUARD_LOOP_RENDER = 2;
+  GUARD_LOOP_ENABLE = true;
+  GUARD_LOOP_DISABLE = false;
+
   constructor() {
     super('EMU');
   }
@@ -10,8 +17,7 @@ export class EmulatorGenerator extends JavaScriptGenerator {
     super.init(workspace);
 
     // 中断运行控制
-    this.definitions_['abort_controller'] = 'const controller = runtime.createAbortController();';
-    this.definitions_['abort_signal'] = 'const signal = controller.signal;';
+    this.definitions_['script_controller'] = 'const scripter = new ScriptController();';
 
     // 获取用户定义
     this.onDefinitions?.();
@@ -52,49 +58,42 @@ export class EmulatorGenerator extends JavaScriptGenerator {
     return block?.startHat_ || block?.parentBlock_;
   }
 
-  addEventTrap(branchCode, id) {
+  addEventTrap(branchCode) {
     let code = '';
     code += '(done) => {\n';
-    code += `const funcId = ${this.quote_(id)};\n`; // 用于检查是否满足函数中断控制的条件
-    code += 'const warpMode = runtime.warpMode;\n'; // 是否跳过请求屏幕刷新
-    code += 'return new Promise(async (resolve) => {\n';
-    code += `${this.INDENT}let forceWait = Date.now();\n`; // 强制等待（避免死循环）
-    code += `${this.INDENT}let renderMode = false;\n`; // 渲染模式，当需要渲染时设为 true
-    // 中断函数控制
-    code += `${this.INDENT}const handleAbort = (skipId) => {\n`;
-    code += `${this.INDENT}${this.INDENT}if (funcId === skipId) return;\n`;
-    code += `${this.INDENT}${this.INDENT}signal.off('abort', handleAbort);\n`;
-    code += `${this.INDENT}${this.INDENT}handleAbort.stopped = true;\n`;
-    code += `${this.INDENT}${this.INDENT}resolve();\n`;
-    code += `${this.INDENT}};\n`;
-    code += `${this.INDENT}signal.once('abort', handleAbort);\n`;
-    // 用户积木脚本
-    code += branchCode;
-    // 完成脚本
-    code += `${this.INDENT}signal.off('abort', handleAbort);\n`;
-    code += `${this.INDENT}resolve();\n`;
-    code += '}).then(done).catch(done);\n';
+    code += 'const userscript = async () => {\n';
+    code += branchCode; // 用户积木脚本
+    code += '};\n';
+    code += `userscript.warpMode = runtime.warpMode;\n`; // 快速模式，当为 true 时，跳过强制循环等待（防死循环）
+    code += 'return scripter.execute(userscript).then(done).catch(done);\n';
     code += '}';
     return code;
   }
 
   addLoopTrap(branchCode, id) {
     let code = '';
-    // 等待帧渲染
-    code += `${this.INDENT}if (renderMode && !warpMode) {\n`;
-    code += `${this.INDENT}${this.INDENT}await runtime.nextFrame();\n`;
-    code += `${this.INDENT}${this.INDENT}forceWait = Date.now();\n`;
-    code += `${this.INDENT}${this.INDENT}renderMode = false;\n`;
-    code += `${this.INDENT}}\n`;
-    // 循环代码
+    code += '  if (userscript.aborted) return;\n';
     code += super.addLoopTrap(branchCode, id);
-    // 退出循环
-    code += `${this.INDENT}if (handleAbort.stopped) break;\n`;
-    // 防止死循环
-    code += `${this.INDENT}if ((!renderMode && !warpMode) || Date.now() - forceWait > 300) {\n`;
-    code += `${this.INDENT}${this.INDENT}await runtime.nextTick();\n`;
-    code += `${this.INDENT}${this.INDENT}forceWait = Date.now();\n`;
-    code += `${this.INDENT}}\n`;
+    // 防死循环
+    if (this._guardLoop !== this.GUARD_LOOP_DISABLE && branchCode) {
+      code += '  if (+userscript.warpMode < 1) {\n';
+      // 非快速模式
+      if (this._guardLoop === this.GUARD_LOOP_RENDER) {
+        // 等待渲染帧
+        code += '    await runtime.nextFrame();\n';
+      } else {
+        code += `    if (userscript.warpMode-- < -${GUARD_LOOP_MAX - 1}) {\n`;
+        code += '      userscript.warpMode = false;\n';
+        code += `      ${this.INFINITE_LOOP_TRAP}`;
+        code += '    }\n';
+      }
+      // 快速模式
+      code += `  } else if (userscript.warpMode++ > ${GUARD_LOOP_MAX}) {\n`;
+      code += '    userscript.warpMode = true;\n';
+      code += `    ${this.INFINITE_LOOP_TRAP}`;
+      code += '  }\n';
+    }
+    delete this._guardLoop;
     return code;
   }
 }

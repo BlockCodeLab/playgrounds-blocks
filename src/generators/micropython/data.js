@@ -17,7 +17,7 @@ proto['data_setvariableto'] = function (block) {
 proto['data_changevariableby'] = function (block) {
   const varName = this.getVariableName(block.getFieldValue('VARIABLE'));
   const valueCode = this.valueToCode(block, 'VALUE', this.ORDER_NONE) || 0;
-  const code = `${varName} = num(${varName}) + num(${valueCode})\n`;
+  const code = `${varName} = ${varName} + ${valueCode}\n`;
   return code;
 };
 
@@ -36,7 +36,7 @@ proto['data_addtolist'] = function (block) {
 proto['data_deleteoflist'] = function (block) {
   const varName = `${this.getVariableName(block.getFieldValue('LIST'))}_ls`;
   const indexCode = this.valueToCode(block, 'INDEX', this.ORDER_NONE) || 1;
-  const code = `runtime.list(${varName}, 'remove', num(${indexCode}))\n`;
+  const code = `runtime.list(${varName}, 'remove', ${indexCode})\n`;
   return code;
 };
 
@@ -50,7 +50,7 @@ proto['data_insertatlist'] = function (block) {
   const varName = `${this.getVariableName(block.getFieldValue('LIST'))}_ls`;
   const indexCode = this.valueToCode(block, 'INDEX', this.ORDER_NONE) || 1;
   const itemValue = this.valueToCode(block, 'ITEM', this.ORDER_NONE) || '""';
-  const code = `runtime.list(${varName}, 'insert', num(${indexCode}), ${itemValue})\n`;
+  const code = `runtime.list(${varName}, 'insert', ${indexCode}, ${itemValue})\n`;
   return code;
 };
 
@@ -58,14 +58,14 @@ proto['data_replaceitemoflist'] = function (block) {
   const varName = `${this.getVariableName(block.getFieldValue('LIST'))}_ls`;
   const indexCode = this.valueToCode(block, 'INDEX', this.ORDER_NONE) || 1;
   const itemValue = this.valueToCode(block, 'ITEM', this.ORDER_NONE) || '""';
-  const code = `runtime.list(${varName}, 'replace', num(${indexCode}), ${itemValue})\n`;
+  const code = `runtime.list(${varName}, 'replace', ${indexCode}, ${itemValue})\n`;
   return code;
 };
 
 proto['data_itemoflist'] = function (block) {
   const varName = `${this.getVariableName(block.getFieldValue('LIST'))}_ls`;
   const indexCode = this.valueToCode(block, 'INDEX', this.ORDER_NONE) || 1;
-  const code = `runtime.list(${varName}, 'get', num(${indexCode}))`;
+  const code = `runtime.list(${varName}, 'get', ${indexCode})`;
   return [code, this.ORDER_FUNCTION_CALL];
 };
 

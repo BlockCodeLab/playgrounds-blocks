@@ -4,7 +4,7 @@ const proto = MicroPythonGenerator.prototype;
 
 proto['control_wait'] = function (block) {
   const durationCode = this.valueToCode(block, 'DURATION', this.ORDER_NONE);
-  const code = `await asyncio.sleep(num(${durationCode}))\n`;
+  const code = `await asyncio.sleep(${durationCode})\n`;
   return code;
 };
 
@@ -15,7 +15,7 @@ proto['control_repeat'] = function (block) {
   branchCode = this.addLoopTrap(branchCode, block.id);
 
   let code = '';
-  code += `for _ in range(num(${timesCode})):\n`;
+  code += `for _ in range(${timesCode}):\n`;
   code += branchCode;
   return code;
 };

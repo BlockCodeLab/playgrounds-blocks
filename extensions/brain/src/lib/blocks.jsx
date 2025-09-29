@@ -28,11 +28,12 @@ export const blocks = (meta) => [
       return code;
     },
     mpy(block) {
-      const model = this.quote_(getUserConfig('SparkAI.Model') ?? 'lite');
-      const apiPassword = this.quote_(getUserConfig('SparkAI.APIPassword') ?? APIPASSWORD);
       this.definitions_['my_brain'] = `my_brain = brain.Brain(${apiPassword}, ${model})`;
 
+      const model = this.quote_(getUserConfig('SparkAI.Model') ?? 'lite');
+      const apiPassword = this.quote_(getUserConfig('SparkAI.APIPassword') ?? APIPASSWORD);
       const prompt = this.valueToCode(block, 'PROMPT', this.ORDER_NONE) || '';
+
       const code = `my_brain.add_prompt(${prompt})\n`;
       return code;
     },
@@ -59,15 +60,18 @@ export const blocks = (meta) => [
     emu(block) {
       const question = this.valueToCode(block, 'QUESTION', this.ORDER_NONE) || '""';
       const code = `await runtime.extensions.brain.askSpark(target, ${question})\n`;
+      this._guardLoop = this.GUARD_LOOP_DISABLE;
       return code;
     },
     mpy(block) {
-      const model = this.quote_(getUserConfig('SparkAI.Model') ?? 'lite');
-      const apiPassword = this.quote_(getUserConfig('SparkAI.APIPassword') ?? APIPASSWORD);
       this.definitions_['my_brain'] = `my_brain = brain.Brain(${apiPassword}, ${model})`;
 
+      const model = this.quote_(getUserConfig('SparkAI.Model') ?? 'lite');
+      const apiPassword = this.quote_(getUserConfig('SparkAI.APIPassword') ?? APIPASSWORD);
       const question = this.valueToCode(block, 'QUESTION', this.ORDER_NONE) || '""';
+
       const code = `await my_brain.ask(${question})\n`;
+      this._guardLoop = this.GUARD_LOOP_DISABLE;
       return code;
     },
   },
