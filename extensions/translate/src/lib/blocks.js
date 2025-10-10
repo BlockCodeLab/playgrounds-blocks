@@ -31,7 +31,6 @@ export const blocks = [
       const words = this.valueToCode(block, 'WORDS', this.ORDER_NONE);
       const language = this.valueToCode(block, 'LANGUAGE', this.ORDER_NONE);
       const code = `(await runtime.extensions.translate.translate(${words}, ${language}, ${model}))`;
-      this._guardLoop = this.GUARD_LOOP_DISABLE;
       return [code, this.ORDER_FUNCTION_CALL];
     },
     mpy(block) {

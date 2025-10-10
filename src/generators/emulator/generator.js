@@ -1,13 +1,9 @@
 import { ScratchBlocks } from '../../lib/scratch-blocks';
 import { JavaScriptGenerator } from '../javascript';
 
-const GUARD_LOOP_MAX = 500;
-
 export class EmulatorGenerator extends JavaScriptGenerator {
   INFINITE_LOOP_TRAP = 'await runtime.nextTick();\n';
-  GUARD_LOOP_RENDER = 2;
-  GUARD_LOOP_ENABLE = true;
-  GUARD_LOOP_DISABLE = false;
+  RENDER_LOOP_TRAP = 'await runtime.nextFrame();\n';
 
   constructor() {
     super('EMU');
@@ -64,36 +60,45 @@ export class EmulatorGenerator extends JavaScriptGenerator {
     code += 'const userscript = async () => {\n';
     code += branchCode; // 用户积木脚本
     code += '};\n';
+    code += 'userscript.i = 0;\n';
     code += `userscript.warpMode = runtime.warpMode;\n`; // 快速模式，当为 true 时，跳过强制循环等待（防死循环）
     code += 'return scripter.execute(userscript).then(done).catch(done);\n';
     code += '}';
     return code;
   }
 
+  statementToCode(block, name) {
+    delete this.loopTrap_;
+    return super.statementToCode(block, name);
+  }
+
+  renderLoopTrap() {
+    this.loopTrap_ = this.RENDER_LOOP_TRAP;
+  }
+
   addLoopTrap(branchCode, id) {
+    // 检查是否有 await 语句，有则可以无需防死循环
+    this.loopTrap_ = this.loopTrap_ ?? !/\bawait /m.test(branchCode);
+
     let code = '';
     code += '  if (userscript.aborted) return;\n';
     code += super.addLoopTrap(branchCode, id);
+
     // 防死循环
-    if (this._guardLoop !== this.GUARD_LOOP_DISABLE && branchCode) {
-      code += '  if (+userscript.warpMode < 1) {\n';
-      // 非快速模式
-      if (this._guardLoop === this.GUARD_LOOP_RENDER) {
-        // 等待渲染帧
-        code += '    await runtime.nextFrame();\n';
+    if (this.loopTrap_ && branchCode) {
+      // 等待渲染帧
+      if (this.loopTrap_ === this.RENDER_LOOP_TRAP) {
+        code += '  if (!userscript.warpMode) {\n';
+        code += `    ${this.RENDER_LOOP_TRAP}`;
+        code += `  } else if (userscript.i++ > 500) {\n`;
       } else {
-        code += `    if (userscript.warpMode-- < -${GUARD_LOOP_MAX - 1}) {\n`;
-        code += '      userscript.warpMode = false;\n';
-        code += `      ${this.INFINITE_LOOP_TRAP}`;
-        code += '    }\n';
+        code += `  if (userscript.warpMode && userscript.i++ > 500) {\n`;
       }
-      // 快速模式
-      code += `  } else if (userscript.warpMode++ > ${GUARD_LOOP_MAX}) {\n`;
-      code += '    userscript.warpMode = true;\n';
+      // 极速模式
+      code += '    userscript.i = 1;\n';
       code += `    ${this.INFINITE_LOOP_TRAP}`;
       code += '  }\n';
     }
-    delete this._guardLoop;
     return code;
   }
 }

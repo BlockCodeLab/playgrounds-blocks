@@ -22,6 +22,5 @@ proto['procedures_call'] = function (block) {
   const args = block.argumentIds_.map((arg) => this.valueToCode(block, arg, this.ORDER_NONE) || 'false');
   const argsCode = args.length > 0 ? `, ${args.join(', ')}` : '';
   const code = `await runtime.emitEvent('procedure:${funcName}'${argsCode});\n`;
-  this._guardLoop = this.GUARD_LOOP_DISABLE;
   return code;
 };

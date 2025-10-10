@@ -46,7 +46,6 @@ export const blocks = (meta) => [
       const method = this.quote_(block.getFieldValue('MOTHOD')) || '"GET"';
       const url = this.valueToCode(block, 'URL', this.ORDER_NONE) || '""';
       const code = `await runtime.extensions.request.fetch(target, ${method}, ${url});\n`;
-      this._guardLoop = this.GUARD_LOOP_DISABLE;
       return code;
     },
   },
@@ -92,7 +91,6 @@ export const blocks = (meta) => [
     emu(block) {
       const path = this.valueToCode(block, 'PATH', this.ORDER_NONE) || '""';
       const code = `(await runtime.extensions.request.getJson(target, ${path}))`;
-      this._guardLoop = this.GUARD_LOOP_DISABLE;
       return [code, this.ORDER_FUNCTION_CALL];
     },
   },
@@ -111,7 +109,6 @@ export const blocks = (meta) => [
     },
     emu(block) {
       const code = `(await runtime.extensions.request.getText(target))`;
-      this._guardLoop = this.GUARD_LOOP_DISABLE;
       return [code, this.ORDER_FUNCTION_CALL];
     },
   },

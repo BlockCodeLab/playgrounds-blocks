@@ -23,7 +23,6 @@ export const blocks = [
     emu(block) {
       const url = this.valueToCode(block, 'URL', this.ORDER_NONE);
       const code = `await runtime.extensions.websocket.connect(${url});\n`;
-      this._guardLoop = this.GUARD_LOOP_DISABLE;
       return code;
     },
   },

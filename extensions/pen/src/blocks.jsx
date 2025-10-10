@@ -11,7 +11,7 @@ export const blocks = [
     ),
     emu(block) {
       const code = `runtime.extensions.pen.erase();\n`;
-      this._guardLoop = this.GUARD_LOOP_RENDER;
+      this.renderLoopTrap();
       return code;
     },
     mpy(block) {
@@ -30,7 +30,7 @@ export const blocks = [
     forStage: false,
     emu(block) {
       const code = `await runtime.extensions.pen.stamp(target);\n`;
-      this._guardLoop = this.GUARD_LOOP_RENDER;
+      this.renderLoopTrap();
       return code;
     },
     mpy(block) {

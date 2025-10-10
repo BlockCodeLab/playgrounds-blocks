@@ -55,27 +55,6 @@ export class ClangGenerator extends ScratchBlocks.Generator {
   }
 
   /**
-   * Initialise the database of variable names.
-   * @param {!ScratchBlocks.Workspace} workspace Workspace to generate code from.
-   */
-  init(workspace) {
-    super.init(workspace);
-
-    // Create a dictionary of definitions to be printed before the code.
-    this.definitions_ = Object.create(null);
-    // Create a dictionary mapping desired function names in definitions_
-    // to actual function names (to avoid collisions with user functions).
-    this.functionNames_ = Object.create(null);
-
-    if (!this.variableDB_) {
-      this.variableDB_ = new ScratchBlocks.Names(this.RESERVED_WORDS_);
-    } else {
-      this.variableDB_.reset();
-    }
-    this.variableDB_.setVariableMap(workspace.getVariableMap());
-  }
-
-  /**
    * Prepend the generated code with the variable definitions.
    * @param {string} code Generated code.
    * @return {string} Completed code.

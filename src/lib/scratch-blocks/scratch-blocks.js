@@ -1,6 +1,6 @@
 import { importModuleExport } from '../import-module-export' with { type: 'macro' };
 
-const module = {};
+const module = Object.create(null);
 const code = importModuleExport('scratch-blocks/dist/vertical');
 new Function('module', code)(module);
 export const ScratchBlocks = module.exports;
@@ -40,7 +40,7 @@ ScratchBlocks.Extensions.register(
 
 // 备份变量列表自动添加的积木
 // 有些情况下会改变这些积木
-export const DataCategoryFunctions = {};
+export const DataCategoryFunctions = Object.create(null);
 for (const key in ScratchBlocks.DataCategory) {
   if (key.startsWith('add')) {
     DataCategoryFunctions[key] = ScratchBlocks.DataCategory[key];

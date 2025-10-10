@@ -60,7 +60,6 @@ export const blocks = (meta) => [
     emu(block) {
       const question = this.valueToCode(block, 'QUESTION', this.ORDER_NONE) || '""';
       const code = `await runtime.extensions.brain.askSpark(target, ${question})\n`;
-      this._guardLoop = this.GUARD_LOOP_DISABLE;
       return code;
     },
     mpy(block) {
@@ -71,7 +70,6 @@ export const blocks = (meta) => [
       const question = this.valueToCode(block, 'QUESTION', this.ORDER_NONE) || '""';
 
       const code = `await my_brain.ask(${question})\n`;
-      this._guardLoop = this.GUARD_LOOP_DISABLE;
       return code;
     },
   },

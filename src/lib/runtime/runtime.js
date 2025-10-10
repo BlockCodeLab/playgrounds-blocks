@@ -49,7 +49,7 @@ export class Runtime extends EventEmitter {
     this._times = 0;
 
     // 监视器
-    this._monitors = {};
+    this._monitors = Object.create(null);
 
     // 附加数据
     this._data = new Map();

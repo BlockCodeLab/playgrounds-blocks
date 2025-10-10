@@ -285,14 +285,11 @@ export function BlocksEditor({
       );
 
       // 查询扩展附带的资源
-      const resources = {};
+      const resources = Object.create(null);
       for (const extObj of loadedExtensions.values()) {
         if (extensions.includes(extObj.id) && extObj.files) {
           const extFiles = typeof extObj.files === 'function' ? extObj.files(meta.value) : extObj.files;
-          resources[extObj.id] = extFiles.map((res) => ({
-            name: res.name,
-            type: res.type,
-          }));
+          resources[extObj.id] = extFiles.map(({ content, data, uri, ...res }) => res);
         }
       }
 
