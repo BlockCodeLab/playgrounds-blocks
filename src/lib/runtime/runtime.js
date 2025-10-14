@@ -1,5 +1,5 @@
 import { EventEmitter } from 'node:events';
-import { nanoid, sleep, sleepMs, MathUtils, ScriptController, getUserLanguage } from '@blockcode/utils';
+import { nanoid, sleep, sleepMs, MathUtils, Base64Utils, ScriptController, getUserLanguage } from '@blockcode/utils';
 import { setAppState, setMeta } from '@blockcode/core';
 import { Tone } from './tone';
 
@@ -419,7 +419,10 @@ export class Runtime extends EventEmitter {
     let y = this.stage.height() / 2 - 10;
     let maxWidth = 0;
     for (const monitor of this.monitors) {
-      const labelId = monitor.groupId !== 'data' ? btoa(`${monitor.groupId}.${monitor.id}`) : btoa(monitor.id);
+      const labelId =
+        monitor.groupId !== 'data'
+          ? Base64Utils.stringToBase64(`${monitor.groupId}.${monitor.id}`)
+          : Base64Utils.stringToBase64(monitor.id);
       let monitorLabel = this.boardLayer.findOne(`#${labelId}`);
       if (!monitorLabel) {
         const label = new Konva.Label({
@@ -517,7 +520,7 @@ export class Runtime extends EventEmitter {
   }
 
   setMonitorValueById(id, value) {
-    const label = this.boardLayer.findOne(`#${btoa(id)}`);
+    const label = this.boardLayer.findOne(`#${Base64Utils.stringToBase64(id)}`);
     this.setMonitorValue(label, value);
   }
 
@@ -526,7 +529,7 @@ export class Runtime extends EventEmitter {
   }
 
   setMonitorVisibleById(id, visible) {
-    const label = this.boardLayer.findOne(`#${btoa(id)}`);
+    const label = this.boardLayer.findOne(`#${Base64Utils.stringToBase64(id)}`);
     this.setMonitorVisible(label, visible);
   }
 }

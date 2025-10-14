@@ -565,6 +565,16 @@ export function BlocksEditor({
             name: enableMultiTargets && block.category_ !== 'sensing' ? file.value.name : false,
             label: block.inputList[0].fieldRow[2]?.text_ ?? block.inputList[0].fieldRow[0]?.text_,
           };
+          // 单击变量选项框区分全局和私有变量显示
+          if (block.category_ === 'data') {
+            const variables = block.workspace.getAllVariables();
+            for (let i = 0; i < variables.length; i++) {
+              if (variables[i].getId() === e.blockId) {
+                config.name = variables[i].isLocal ? file.value.name : false;
+                break;
+              }
+            }
+          }
           batch(() => {
             setMonitor(config, block.category_ === 'data' || block.category_ === 'sensing');
             handleChange(e.oldValue !== e.newValue);
