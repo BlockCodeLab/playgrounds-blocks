@@ -1,4 +1,10 @@
+import { ColorUtils } from '@blockcode/utils';
 import { Text } from '@blockcode/core';
+
+const randomColor = () => {
+  var num = Math.floor(Math.random() * Math.pow(2, 24));
+  return '#' + ('00000' + num.toString(16)).substr(-6);
+};
 
 export const blocks = [
   {
@@ -85,18 +91,39 @@ export const blocks = [
     forStage: false,
     inputs: {
       COLOR: {
-        type: 'color',
+        shadow: 'hsvColor',
       },
     },
     emu(block) {
-      const color = this.valueToCode(block, 'COLOR', this.ORDER_NONE) || '"#ff0000"';
+      const color = this.valueToCode(block, 'COLOR', this.ORDER_NONE);
       const code = `runtime.extensions.pen.setColor(target, ${color});\n`;
       return code;
     },
     mpy(block) {
-      const color = this.valueToCode(block, 'COLOR', this.ORDER_NONE) || '(255, 0, 0)';
+      const color = this.valueToCode(block, 'COLOR', this.ORDER_NONE);
       const code = `pen.set_color(target, ${color})\n`;
       return code;
+    },
+  },
+  {
+    id: 'hsvColor',
+    shadow: true,
+    output: 'string',
+    inputs: {
+      COLOR: {
+        type: 'color',
+        format: 'hsv',
+        defaultValue: randomColor(),
+      },
+    },
+    emu(block) {
+      const code = this.quote_(block.getFieldValue('COLOR'));
+      return [code, this.ORDER_ATOMIC];
+    },
+    mpy(block) {
+      const { r, g, b } = ColorUtils.hexToRgb(block.getFieldValue('COLOR'));
+      const code = `(${r},${g},${b})`;
+      return [code, this.ORDER_ATOMIC];
     },
   },
   {
