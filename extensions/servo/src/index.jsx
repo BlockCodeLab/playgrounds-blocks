@@ -48,6 +48,31 @@ export default {
       },
     },
     {
+      id: 'setServo270',
+      text: (
+        <Text
+          id="blocks.servo.270servo"
+          defaultMessage="set PIN [PIN] 270° servo angle to [ANGLE]°"
+        />
+      ),
+      inputs: {
+        PIN: {
+          type: 'integer',
+          defaultValue: 1,
+        },
+        ANGLE: {
+          shadow: 'angle270',
+          defaultValue: 0,
+        },
+      },
+      mpy(block) {
+        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE) || 0;
+        const angleCode = this.valueToCode(block, 'ANGLE', this.ORDER_NONE) || 0;
+        const code = `servo.set_angle(${pin}, ${angleCode}, angle=270)\n`;
+        return code;
+      },
+    },
+    {
       id: 'setServo90',
       text: (
         <Text
@@ -87,6 +112,9 @@ export default {
           defaultValue: 1,
         },
         ROTATE: {
+          type: 'integer',
+          inputMode: true,
+          defaultValue: 1,
           menu: [
             [
               <Text
@@ -122,7 +150,7 @@ export default {
     // 内连输入积木，不显示
     {
       id: 'angle180',
-      inline: true,
+      shadow: true,
       output: 'number',
       inputs: {
         ANGLE: {
@@ -139,7 +167,7 @@ export default {
     },
     {
       id: 'angle90',
-      inline: true,
+      shadow: true,
       output: 'number',
       inputs: {
         ANGLE: {
@@ -147,6 +175,23 @@ export default {
           defaultValue: 0,
           min: 0,
           max: 90,
+        },
+      },
+      mpy(block) {
+        const angleCode = block.getFieldValue('ANGLE') || 0;
+        return [angleCode, this.ORDER_NONE];
+      },
+    },
+    {
+      id: 'angle270',
+      shadow: true,
+      output: 'number',
+      inputs: {
+        ANGLE: {
+          type: 'slider',
+          defaultValue: 0,
+          min: 0,
+          max: 270,
         },
       },
       mpy(block) {

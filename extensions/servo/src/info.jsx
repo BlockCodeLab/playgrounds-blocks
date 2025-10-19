@@ -17,7 +17,7 @@ export default {
       defaultMessage="Standard servo module."
     />
   ),
-  tags: ['device', 'actuator'],
+  tags: ['device', 'arduino', 'actuator'],
 };
 
 addLocalesMessages({
