@@ -1,5 +1,5 @@
 import { xmlEscape, Konva } from '@blockcode/utils';
-import { themeColors, maybeTranslate } from '@blockcode/core';
+import { themeColors, maybeTranslate, translate } from '@blockcode/core';
 import { Runtime } from './runtime/runtime';
 import { ScratchBlocks } from '../lib/scratch-blocks';
 import { blockSeparator, categorySeparator } from '../lib/make-toolbox-xml';
@@ -81,6 +81,14 @@ export function loadExtension(extObj, options, meta) {
 
   extObj.menus = extObj.menus || {};
 
+  // 说明文档
+  if (extObj.readme) {
+    categoryXML +=
+      `<button text="${translate('blocks.extensions.documentation', 'open documentation')}" ` +
+      `web-class="readme-${xmlEscape(extObj.readme)}" ` +
+      'callbackKey="OPEN_DOCUMENTATION"/>';
+  }
+
   const blocks = typeof extObj.blocks === 'function' ? extObj.blocks(meta) : extObj.blocks;
 
   categoryXML += blocks
@@ -102,21 +110,19 @@ export function loadExtension(extObj, options, meta) {
       if (!block.hidden) {
         // 文本标签
         if (block.label) {
-          return blocksXML + `<label text="${block.label}"/>`;
+          return blocksXML + `<label text="${maybeTranslate(block.label)}"/>`;
         }
         // 按钮
         if (block.button) {
+          const buttonKey = `${extId}_${block.button}`;
           const workspace = ScratchBlocks.getMainWorkspace();
           if (workspace) {
-            const flyout = workspace.getFlyout();
-            if (flyout) {
-              const toolboxWorkspace = flyout.getWorkspace();
-              if (toolboxWorkspace) {
-                toolboxWorkspace.registerButtonCallback(block.button, block.onClick);
-              }
+            const toolboxWorkspace = workspace.getFlyout()?.getWorkspace();
+            if (toolboxWorkspace) {
+              toolboxWorkspace.registerButtonCallback(buttonKey, block.onClick);
             }
           }
-          return blocksXML + `<button text="${maybeTranslate(block.text)}" callbackKey="${block.button}"/>`;
+          return blocksXML + `<button text="${maybeTranslate(block.text)}" callbackKey="${buttonKey}"/>`;
         }
       }
 
@@ -136,7 +142,7 @@ export function loadExtension(extObj, options, meta) {
       }
 
       // 创建新的积木（内部连接或可显示）
-      else if (block.inline || block.text) {
+      else if (block.shadow || block.text) {
         blockXML = `<block type="${xmlEscape(blockId)}">`;
 
         const blockJson = {
@@ -149,7 +155,7 @@ export function loadExtension(extObj, options, meta) {
         };
 
         let argsIndexStart = 1;
-        if (!block.inline && extObj.icon) {
+        if (!block.shadow && extObj.icon) {
           blockJson.message0 = `%1 %2 ${blockJson.message0}`;
           blockJson.args0 = [
             {
@@ -248,13 +254,23 @@ export function loadExtension(extObj, options, meta) {
                   blockJson.colourQuaternary = ScratchBlocks.Colours.textField;
                   break;
 
-                case 'matrix':
-                  argObject.type = 'field_matrix';
-                  argObject.width = arg.width ?? 5;
-                  argObject.height = arg.height ?? 5;
-                  break;
-
                 default:
+                  if (block.shadow) {
+                    // 自定义原生内联积木
+                    // 添加修改参数
+                    if (arg.type === 'matrix') {
+                      argObject.type = 'field_matrix';
+                      argObject.width = arg.width ?? 5;
+                      argObject.height = arg.height ?? 5;
+                      break;
+                    } else if (arg.type === 'color') {
+                      argObject.type = 'field_colour_slider';
+                      argObject.format = arg.format ?? 'rgb';
+                      argObject.color = arg.defaultValue;
+                      break;
+                    }
+                  }
+
                   argObject.type = 'input_value';
 
                   if (arg.type === 'boolean') {
@@ -345,7 +361,7 @@ export function loadExtension(extObj, options, meta) {
         };
 
         blockXML += '</block>';
-        if (block.inline) {
+        if (block.shadow) {
           blockXML = '';
         }
       }

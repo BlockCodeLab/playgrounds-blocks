@@ -97,6 +97,9 @@ const updateScratchBlocksMsgs = (enableMultiTargets, enableVariableTypes) => {
         CATEGORY_MONITOR: translate('blocks.monitor', 'Monitor'),
         MONITOR_SHOWVALUE: translate('blocks.monitor.showValue', 'show value %1'),
         MONITOR_SHOWNAMEDVALUE: translate('blocks.monitor.showNamedValue', 'show value %1 named %2'),
+        COLOUR_RED_LABEL: translate('blocks.colorPicker.redLabel', 'Red'),
+        COLOUR_GREEN_LABEL: translate('blocks.colorPicker.greenLabel', 'Green'),
+        COLOUR_BLUE_LABEL: translate('blocks.colorPicker.blueLabel', 'Blue'),
       },
       enableMultiTargets
         ? {
@@ -650,6 +653,20 @@ export function BlocksEditor({
 
       // 清空撤销记录
       ref.workspace.clearUndo();
+
+      // 积木区自定义按钮
+      const toolboxWorkspace = ref.workspace.getFlyout()?.getWorkspace();
+      if (toolboxWorkspace) {
+        // 打开文档按钮
+        toolboxWorkspace.registerButtonCallback('OPEN_DOCUMENTATION', (block) => {
+          const CLASS_PREFIX = 'readme-';
+          const docsURIClass = Array.from(block.svgGroup_.classList).find((i) => i.startsWith(CLASS_PREFIX));
+          if (!docsURIClass) return;
+          const docsURI = docsURIClass.substr(CLASS_PREFIX.length);
+          const url = new URL(docsURI);
+          window.open(docsURI, '_blank');
+        });
+      }
 
       // 创建变量
       ScratchBlocks.prompt = (message, defaultValue, callback, optTitle, optVarType) => {

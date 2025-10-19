@@ -10,3 +10,4 @@ import './argument-blocks';
 
 import './field-slider';
 import './field-matrix';
+import './field-color-picker';

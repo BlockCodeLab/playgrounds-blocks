@@ -48,6 +48,7 @@ export function ExtensionsLibrary({ tags, onSelect, onClose, onFilter }) {
       Object.assign(info, {
         beta: info.beta || (DEBUG && info.disabled), // 正式版 beta 显示为禁用，DEBUG 时禁用也显示为 beta
         disabled: !DEBUG && (info.disabled || (!BETA && info.beta)), // DEBUG 时没有禁用，正式版 beta 也显示为禁用
+        uri: info.readme,
         onSelect: () => {
           onSelect(info.id);
           onClose();

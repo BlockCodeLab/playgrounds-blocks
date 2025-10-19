@@ -7,6 +7,7 @@ blocks.panes.monitor: Monitor
 
 blocks.extensions.addExtension: Add Extension
 blocks.extensions.empty: No extension!
+blocks.extensions.documentation: open documentation
 
 blocks.prompt.ok: OK
 blocks.prompt.cancel: Cancel
@@ -62,6 +63,10 @@ blocks.monitor.showNamedValue: show value %1 named %2
 blocks.monitor.trueValue: "true"
 blocks.monitor.falseValue: "false"
 blocks.monitor.listLength: "{length} items"
+
+blocks.colorPicker.redLabel: Red
+blocks.colorPicker.greenLabel: Green
+blocks.colorPicker.blueLabel: Blue
 
 blocks.extensionStatusMenu.bluetooth: Connect via Bluetooth
 blocks.extensionStatusMenu.serial: Connect via USB

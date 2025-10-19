@@ -1,8 +1,6 @@
 import { MathUtils } from '@blockcode/utils';
 import { ScratchBlocks } from './scratch-blocks';
 
-const BaseFieldMatrix = ScratchBlocks.FieldMatrix;
-
 const MIN_WIDTH = 3;
 const MIN_HEIGHT = 3;
 const MAX_WIDTH = 18;
@@ -10,7 +8,7 @@ const MAX_HEIGHT = 9;
 const DEFAULT_WIDTH = 5;
 const DEFAULT_HEIGHT = 5;
 
-class FieldMatrix extends BaseFieldMatrix {
+class FieldMatrix extends ScratchBlocks.FieldMatrix {
   constructor(matrix, opt_width = DEFAULT_WIDTH, opt_height = DEFAULT_HEIGHT) {
     super(matrix);
     this.width_ = MathUtils.clamp(opt_width, MIN_WIDTH, MAX_WIDTH);

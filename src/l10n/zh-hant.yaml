@@ -7,6 +7,7 @@ blocks.panes.monitor: 監視器
 
 blocks.extensions.addExtension: 添加擴展
 blocks.extensions.empty: 沒有擴展！
+blocks.extensions.documentation: 打開檔案
 
 blocks.prompt.ok: 確認
 blocks.prompt.cancel: 取消
@@ -62,6 +63,10 @@ blocks.monitor.showNamedValue: 顯示名為 %2 的 %1 值
 blocks.monitor.trueValue: 真
 blocks.monitor.falseValue: 假
 blocks.monitor.listLength: "{length} 項"
+
+blocks.colorPicker.redLabel: 紅
+blocks.colorPicker.greenLabel: 綠
+blocks.colorPicker.blueLabel: 藍
 
 blocks.extensionStatusMenu.bluetooth: 藍牙連接
 blocks.extensionStatusMenu.serial: USB 連接
