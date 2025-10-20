@@ -29,6 +29,23 @@ export class Runtime extends EventEmitter {
     return Runtime._currentRuntime;
   }
 
+  get MonitorStyles() {
+    return {
+      cornerRadius: {
+        [Runtime.MonitorMode.Monitor]: 6,
+        [Runtime.MonitorMode.Label]: 6,
+      },
+      fontSize: {
+        [Runtime.MonitorMode.Monitor]: 18,
+        [Runtime.MonitorMode.Label]: 14,
+      },
+      padding: {
+        [Runtime.MonitorMode.Monitor]: 4,
+        [Runtime.MonitorMode.Label]: 6,
+      },
+    };
+  }
+
   constructor(stage, warpMode = false) {
     super();
     Runtime._currentRuntime = this;
@@ -437,17 +454,17 @@ export class Runtime extends EventEmitter {
         label.add(
           new Konva.Tag({
             fill: monitor.color,
-            cornerRadius: 5,
+            cornerRadius: this.MonitorStyles.cornerRadius[monitor.mode],
           }),
         );
         label.add(
           new Konva.Text({
             fontFamily: 'Helvetica',
-            fontSize: monitor.mode === Runtime.MonitorMode.Monitor ? 12 : 16,
-            padding: 4,
+            fontSize: this.MonitorStyles.fontSize[monitor.mode],
+            padding: this.MonitorStyles.padding[monitor.mode],
             fill: 'white',
             text:
-              monitor.mode === Runtime.MonitorMode.Monitor
+              monitor.mode === Runtime.MonitorMode.Label
                 ? (monitor.name ? `${monitor.name}: ` : '') + `${monitor.label}: 0`
                 : '0',
           }),
@@ -469,6 +486,11 @@ export class Runtime extends EventEmitter {
           monitor.mode = (monitor.mode + 1) % 2;
           const index = monitors.findIndex((m) => m.groupId === monitor.groupId && m.id === monitor.id);
           monitors[index] = monitor;
+          label.getTag().setAttr('cornerRadius', this.MonitorStyles.cornerRadius[monitor.mode]);
+          label.getText().setAttrs({
+            fontSize: this.MonitorStyles.fontSize[monitor.mode],
+            padding: this.MonitorStyles.padding[monitor.mode],
+          });
           setMeta({ monitors });
           this.setMonitorValue(label);
         });
@@ -493,7 +515,7 @@ export class Runtime extends EventEmitter {
       });
       this.setMonitorValue(monitorLabel);
       maxWidth = monitorLabel.width() > maxWidth ? monitorLabel.width() : maxWidth;
-      y -= 25;
+      y -= monitorLabel.height() + 3;
       if (y < -this.stage.height() / 2 + 30) {
         y = this.stage.height() / 2 - 10;
         x += Math.round(maxWidth + 3);
@@ -505,16 +527,11 @@ export class Runtime extends EventEmitter {
   setMonitorValue(label, value = 0) {
     if (label) {
       const monitor = label.getAttr('monitor');
-      if (monitor.mode === Runtime.MonitorMode.Monitor) {
-        label.getText().setAttrs({
-          fontSize: 12,
-          text: (monitor.name ? `${monitor.name}: ` : '') + `${monitor.label}: ${value}`,
-        });
+      const text = label.getText();
+      if (monitor.mode === Runtime.MonitorMode.Label) {
+        text.setAttr('text', (monitor.name ? `${monitor.name}: ` : '') + `${monitor.label}: ${value}`);
       } else {
-        label.getText().setAttrs({
-          fontSize: 16,
-          text: `${value}`,
-        });
+        text.setAttr('text', `${value}`);
       }
     }
   }

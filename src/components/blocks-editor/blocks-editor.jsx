@@ -505,7 +505,7 @@ export function BlocksEditor({
         }
         monitors[index].visible = config.visible;
         monitors[index].label = config.label;
-        monitors[index].mode = Runtime.MonitorMode.Monitor;
+        monitors[index].mode = Runtime.MonitorMode.Label;
         setMeta({ monitors });
       };
 
