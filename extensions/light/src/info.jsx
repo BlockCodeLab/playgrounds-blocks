@@ -17,7 +17,7 @@ export default {
       defaultMessage="Sense and use the light."
     />
   ),
-  tags: ['scratch', 'sensor', 'display'],
+  tags: ['scratch', 'device', 'sensor', 'display'],
 };
 
 addLocalesMessages({
