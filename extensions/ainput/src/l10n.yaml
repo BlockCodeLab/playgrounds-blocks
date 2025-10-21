@@ -1,0 +1,21 @@
+en:
+  blocks.ainput.name: Analog Input
+  blocks.ainput.rawValue: pin [PIN] raw value
+  blocks.ainput.percentage: pin [PIN] percentage
+  blocks.ainput.joystick: pin [PIN] joystick
+  blocks.ainput.voltage: pin [PIN] voltage #, reference [REF]
+
+
+zh-Hans:
+  blocks.ainput.name: 模拟输入
+  blocks.ainput.rawValue: 引脚[PIN]模拟值
+  blocks.ainput.percentage: 引脚[PIN]百分比
+  blocks.ainput.joystick: 引脚[PIN]摇杆值
+  blocks.ainput.voltage: 引脚[PIN]电压 #，参考电压[REF]
+
+zh-Hant:
+  blocks.ainput.name: 模擬輸入
+  blocks.ainput.rawValue: 引腳[PIN]模擬值
+  blocks.ainput.percentage: 引腳[PIN]百分比
+  blocks.ainput.joystick: 引腳[PIN]搖杆值
+  blocks.ainput.voltage: 引腳[PIN]電壓 #，參考電壓[REF]
