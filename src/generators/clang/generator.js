@@ -68,13 +68,13 @@ export class ClangGenerator extends ScratchBlocks.Generator {
     const defvars = [];
     for (let name in this.definitions_) {
       const def = this.definitions_[name];
-      if (name.match('include')) {
+      if (name.match('include_')) {
         includes.push(def);
-      } else if (name.match('Func_declare')) {
+      } else if (name.match('declare_')) {
         declarations.push(def); // declaration
-      } else if (name.match('define')) {
+      } else if (name.match('define_')) {
         defines.push(def); // #define
-      } else if (name.match('variable')) {
+      } else if (name.match('variable_')) {
         defvars.push(def); // variable
       } else {
         func_definitions.push(def); // definition

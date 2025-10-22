@@ -107,6 +107,8 @@ class FieldColourSlider extends ScratchBlocks.FieldColourSlider {
     super.showEditor_();
     if (this.format_ === 'hsv') return;
 
+    this.sliderCallbacksEnabled_ = false;
+
     const color = this.getValue();
     const rgb = ColorUtils.hexToRgb(color);
     this.hue_ = rgb.r;
@@ -129,6 +131,7 @@ class FieldColourSlider extends ScratchBlocks.FieldColourSlider {
     this.brightnessSlider_.setMaximum(255);
 
     this.setValue(color);
+    this.sliderCallbacksEnabled_ = true;
   }
 }
 
