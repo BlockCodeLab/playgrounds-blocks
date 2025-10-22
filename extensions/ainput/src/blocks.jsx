@@ -36,6 +36,7 @@ export const blocks = (meta) => [
       this.definitions_['import_adc'] = 'from machine import ADC';
       this.definitions_[pinName] = `${pinName} = ADC(Pin(${pin}))`;
       this.definitions_[`${pinName}_atten`] = `${pinName}.atten(ADC.ATTN_11DB)`;
+      this.definitions_[`${pinName}_width`] = `${pinName}.width(ADC.WIDTH_10BIT)`;
       const code = `${pinName}.read()`;
       return [code, this.ORDER_FUNCTION_CALL];
     },
@@ -72,7 +73,8 @@ export const blocks = (meta) => [
       this.definitions_['import_adc'] = 'from machine import ADC';
       this.definitions_[pinName] = `${pinName} = ADC(Pin(${pin}))`;
       this.definitions_[`${pinName}_atten`] = `${pinName}.atten(ADC.ATTN_11DB)`;
-      const code = `round((${pinName}.read() / 4095) * 100)`;
+      this.definitions_[`${pinName}_width`] = `${pinName}.width(ADC.WIDTH_10BIT)`;
+      const code = `round((${pinName}.read() / 1023) * 100)`;
       return [code, this.ORDER_FUNCTION_CALL];
     },
   },
@@ -108,7 +110,8 @@ export const blocks = (meta) => [
       this.definitions_['import_adc'] = 'from machine import ADC';
       this.definitions_[pinName] = `${pinName} = ADC(Pin(${pin}))`;
       this.definitions_[`${pinName}_atten`] = `${pinName}.atten(ADC.ATTN_11DB)`;
-      const code = `round(((${pinName}.read() - 2047) / 2047) * 100)`;
+      this.definitions_[`${pinName}_width`] = `${pinName}.width(ADC.WIDTH_10BIT)`;
+      const code = `round(((${pinName}.read() - 511) / 511) * 100)`;
       return [code, this.ORDER_FUNCTION_CALL];
     },
   },
