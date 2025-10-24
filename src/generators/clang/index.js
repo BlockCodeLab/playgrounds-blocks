@@ -1,7 +1,8 @@
 import './color';
+import './math';
+import './note';
 import './procedures';
 import './text';
 import './unsupported';
-import './math';
 
 export { ClangGenerator } from './generator';

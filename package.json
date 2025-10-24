@@ -8,7 +8,7 @@
     "@preact/signals": "^2.2.1",
     "preact": "^10.26.9",
     "save-svg-as-png": "^1.4.17",
-    "scratch-blocks": "^1.1.210"
+    "scratch-blocks": "^1.1.225"
   },
   "devDependencies": {
     "@types/bun": "latest",
