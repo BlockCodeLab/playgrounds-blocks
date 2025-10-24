@@ -1,0 +1,20 @@
+en:
+  blocks.dht.name: DHT
+  blocks.dht.temperature11: pin [PIN] DHT11 temperature
+  blocks.dht.humidity11: pin [PIN] DHT11 humidity
+  blocks.dht.temperature22: pin [PIN] DHT22 temperature
+  blocks.dht.humidity22: pin [PIN] DHT22 humidity
+
+zh-Hans:
+  blocks.dht.name: DHT 温湿度
+  blocks.dht.temperature11: 引脚[PIN] DHT11 温度
+  blocks.dht.humidity11: 引脚[PIN] DHT11 湿度
+  blocks.dht.temperature22: 引脚[PIN] DHT22 温度
+  blocks.dht.humidity22: 引脚[PIN] DHT22 湿度
+
+zh-Hant:
+  blocks.dht.name: DHT 溫濕度
+  blocks.dht.temperature11: 引腳[PIN] DHT11 溫度
+  blocks.dht.humidity11: 引腳[PIN] DHT11 濕度
+  blocks.dht.temperature22: 引腳[PIN] DHT22 溫度
+  blocks.dht.humidity22: 引腳[PIN] DHT22 濕度
