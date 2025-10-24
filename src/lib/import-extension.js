@@ -4,7 +4,13 @@ import { addAsset } from '@blockcode/core';
 const escape = (name) => name.replaceAll(/[^a-z0-9]/gi, '_');
 
 export async function importExtension(meta, extId) {
-  const { default: extObj } = await import(extId);
+  // 载入本地扩展
+  let moduleName = extId;
+  if (window.electron?.localBlocks[extId]) {
+    moduleName = window.electron.localBlocks[extId].main;
+  }
+
+  const { default: extObj } = await import(moduleName);
   extObj.id = extId;
 
   // 载入扩展附带的静态文件（库文件）
