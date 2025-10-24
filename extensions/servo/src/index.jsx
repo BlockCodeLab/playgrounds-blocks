@@ -11,16 +11,21 @@ export default {
   name: (
     <Text
       id="blocks.servo.name"
-      defaultMessage="Servo"
+      defaultMessage="9g Servo"
     />
   ),
-  files: [
-    {
-      name: 'servo',
-      type: 'text/x-python',
-      uri: servoFile,
-    },
-  ],
+  files(meta) {
+    if (meta.editor !== '@blockcode/arduino') {
+      return [
+        {
+          name: 'servo',
+          type: 'text/x-python',
+          uri: servoFile,
+        },
+      ];
+    }
+    return [];
+  },
   blocks: [
     {
       id: 'setServo180',
@@ -41,9 +46,19 @@ export default {
         },
       },
       mpy(block) {
-        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE) || 0;
-        const angleCode = this.valueToCode(block, 'ANGLE', this.ORDER_NONE) || 90;
+        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const angleCode = this.valueToCode(block, 'ANGLE', this.ORDER_NONE);
         const code = `servo.set_angle(${pin}, ${angleCode})\n`;
+        return code;
+      },
+      ino(block) {
+        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const angleCode = this.valueToCode(block, 'ANGLE', this.ORDER_NONE);
+        this.definitions_['include_servo'] = '#include <Servo.h>';
+        this.definitions_['variable_servo'] = 'Servo _servo;';
+        let code = '';
+        code += `_servo.attach(${pin}); `;
+        code += `_servo.write(${angleCode});\n`;
         return code;
       },
     },
@@ -71,32 +86,52 @@ export default {
         const code = `servo.set_angle(${pin}, ${angleCode}, angle=270)\n`;
         return code;
       },
-    },
-    {
-      id: 'setServo90',
-      text: (
-        <Text
-          id="blocks.servo.90servo"
-          defaultMessage="set PIN [PIN] 90° servo angle to [ANGLE]°"
-        />
-      ),
-      inputs: {
-        PIN: {
-          type: 'integer',
-          defaultValue: 1,
-        },
-        ANGLE: {
-          shadow: 'angle90',
-          defaultValue: 0,
-        },
-      },
-      mpy(block) {
-        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE) || 0;
-        const angleCode = this.valueToCode(block, 'ANGLE', this.ORDER_NONE) || 0;
-        const code = `servo.set_angle(${pin}, ${angleCode}, angle=90)\n`;
+      ino(block) {
+        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const angleCode = this.valueToCode(block, 'ANGLE', this.ORDER_NONE);
+        this.definitions_['include_servo'] = '#include <Servo.h>';
+        this.definitions_['variable_servo'] = 'Servo _servo;';
+        let code = '';
+        code += `_servo.attach(${pin}); `;
+        code += `_servo.write(map(${angleCode}, 0, 270, 0, 180));\n`;
         return code;
       },
     },
+    // {
+    //   id: 'setServo90',
+    //   text: (
+    //     <Text
+    //       id="blocks.servo.90servo"
+    //       defaultMessage="set PIN [PIN] 90° servo angle to [ANGLE]°"
+    //     />
+    //   ),
+    //   inputs: {
+    //     PIN: {
+    //       type: 'integer',
+    //       defaultValue: 1,
+    //     },
+    //     ANGLE: {
+    //       shadow: 'angle90',
+    //       defaultValue: 0,
+    //     },
+    //   },
+    //   mpy(block) {
+    //     const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE) || 0;
+    //     const angleCode = this.valueToCode(block, 'ANGLE', this.ORDER_NONE) || 0;
+    //     const code = `servo.set_angle(${pin}, ${angleCode}, angle=90)\n`;
+    //     return code;
+    //   },
+    //   ino(block) {
+    //     const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+    //     const angleCode = this.valueToCode(block, 'ANGLE', this.ORDER_NONE);
+    //     this.definitions_['include_servo'] = '#include <Servo.h>';
+    //     this.definitions_['variable_servo'] = 'Servo _servo;';
+    //     let code = '';
+    //     code += `_servo.attach(${pin}); `;
+    //     code += `_servo.write(map(${angleCode}, 0, 90, 0, 180));\n`;
+    //     return code;
+    //   },
+    // },
     '---',
     {
       id: 'setMotor',
@@ -146,6 +181,16 @@ export default {
         const code = `servo.set_motor(${pin}, ${rotate})\n`;
         return code;
       },
+      ino(block) {
+        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE) || 0;
+        const rotate = block.getFieldValue('ROTATE') || '1';
+        this.definitions_['include_servo'] = '#include <Servo.h>';
+        this.definitions_['variable_servo'] = 'Servo _servo;';
+        let code = '';
+        code += `_servo.attach(${pin}); `;
+        code += `_servo.writeMicroseconds(${[1500, 2000, 1000][rotate]});\n`;
+        return code;
+      },
     },
     // 内连输入积木，不显示
     {
@@ -161,6 +206,31 @@ export default {
         },
       },
       mpy(block) {
+        const angleCode = block.getFieldValue('ANGLE') || 0;
+        return [angleCode, this.ORDER_NONE];
+      },
+      ino(block) {
+        const angleCode = block.getFieldValue('ANGLE') || 0;
+        return [angleCode, this.ORDER_NONE];
+      },
+    },
+    {
+      id: 'angle270',
+      shadow: true,
+      output: 'number',
+      inputs: {
+        ANGLE: {
+          type: 'slider',
+          defaultValue: 0,
+          min: 0,
+          max: 270,
+        },
+      },
+      mpy(block) {
+        const angleCode = block.getFieldValue('ANGLE') || 0;
+        return [angleCode, this.ORDER_NONE];
+      },
+      ino(block) {
         const angleCode = block.getFieldValue('ANGLE') || 0;
         return [angleCode, this.ORDER_NONE];
       },
@@ -181,20 +251,7 @@ export default {
         const angleCode = block.getFieldValue('ANGLE') || 0;
         return [angleCode, this.ORDER_NONE];
       },
-    },
-    {
-      id: 'angle270',
-      shadow: true,
-      output: 'number',
-      inputs: {
-        ANGLE: {
-          type: 'slider',
-          defaultValue: 0,
-          min: 0,
-          max: 270,
-        },
-      },
-      mpy(block) {
+      ino(block) {
         const angleCode = block.getFieldValue('ANGLE') || 0;
         return [angleCode, this.ORDER_NONE];
       },
