@@ -31,7 +31,7 @@ export const blocks = [
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_pwm'] = 'from machine import PWM';
-      this.definitions_[pinName] = `${pinName} = PWM(Pin(${pin}), freq=1000);`;
+      this.definitions_[pinName] = `${pinName} = PWM(Pin(${pin}), freq=1000)`;
       const code = `${pinName}.duty(${state === '1' ? 1023 : 0})\n`;
       return code;
     },
@@ -62,7 +62,7 @@ export const blocks = [
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_pwm'] = 'from machine import PWM';
-      this.definitions_[pinName] = `${pinName} = PWM(Pin(${pin}), freq=1000);`;
+      this.definitions_[pinName] = `${pinName} = PWM(Pin(${pin}), freq=1000)`;
       const code = `${pinName}.duty(0 if ${pinName}.duty() else 1023)\n`;
       return code;
     },
@@ -98,7 +98,7 @@ export const blocks = [
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_pwm'] = 'from machine import PWM';
-      this.definitions_[pinName] = `${pinName} = PWM(Pin(${pin}), freq=1000);`;
+      this.definitions_[pinName] = `${pinName} = PWM(Pin(${pin}), freq=1000)`;
       const code = `${pinName}.duty(round(${level} * 51.15))\n`;
       return code;
     },

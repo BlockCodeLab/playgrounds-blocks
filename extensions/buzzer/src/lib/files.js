@@ -24,16 +24,12 @@ export const files = (meta) => {
     ];
   }
 
-  if (meta.editor === '@blockcode/gui-esp32') {
-    return [
-      {
-        common: true,
-        name: 'buzzer',
-        type: 'text/x-python',
-        uri: buzzerPyUri,
-      },
-    ];
-  }
-
-  return [];
+  return [
+    {
+      common: true,
+      name: 'buzzer',
+      type: 'text/x-python',
+      uri: buzzerPyUri,
+    },
+  ];
 };

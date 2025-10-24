@@ -155,12 +155,13 @@ export function loadExtension(extObj, options, meta) {
         };
 
         let argsIndexStart = 1;
-        if (!block.shadow && extObj.icon) {
+        const blockIcon = block.icon ?? extObj.blockIcon ?? extObj.icon;
+        if (!block.shadow && blockIcon) {
           blockJson.message0 = `%1 %2 ${blockJson.message0}`;
           blockJson.args0 = [
             {
               type: 'field_image',
-              src: extObj.icon,
+              src: blockIcon,
               width: 40,
               height: 40,
             },
