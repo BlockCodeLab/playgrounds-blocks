@@ -5,17 +5,15 @@ const extensions = readExtensions();
 
 export default function () {
   // 读取本地扩展积木信息
-  let locals = [];
-  if (window.electron?.localBlocks) {
-    locals = Object.values(window.electron.localBlocks);
-  }
+  const locals = window.electron?.getLocalBlocks() ?? [];
   return Promise.all(
     [].concat(
-      locals.map(async (ext) => {
+      Object.values(locals).map(async (ext) => {
         const { default: info } = await import(ext.info);
         info.id = ext.id;
         info.icon = resolve(dirname(ext.info), info.icon);
         info.image = resolve(dirname(ext.info), info.image);
+        info.tags.push('custom');
         return info;
       }),
       extensions.map(async (id) => {

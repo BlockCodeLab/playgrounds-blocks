@@ -8,6 +8,7 @@ blocks.panes.monitor: 监视器
 blocks.extensions.addExtension: 添加扩展
 blocks.extensions.empty: 没有扩展！
 blocks.extensions.documentation: 打开文档
+blocks.extensions.custom: 自定义
 
 blocks.prompt.ok: 确认
 blocks.prompt.cancel: 取消

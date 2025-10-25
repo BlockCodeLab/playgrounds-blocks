@@ -1,13 +1,14 @@
 import { batch } from '@preact/signals';
 import { addAsset } from '@blockcode/core';
 
-const escape = (name) => name.replaceAll(/[^a-z0-9]/gi, '_');
+const escape = (name) => name.replaceAll(/[^a-z0-9]/gi, '_').replace(/^_/, '');
 
 export async function importExtension(meta, extId) {
   // 载入本地扩展
   let moduleName = extId;
-  if (window.electron?.localBlocks[extId]) {
-    moduleName = window.electron.localBlocks[extId].main;
+  const localBlocks = window.electron?.getLocalBlocks();
+  if (localBlocks?.[extId]?.main) {
+    moduleName = localBlocks[extId].main;
   }
 
   const { default: extObj } = await import(moduleName);

@@ -140,6 +140,7 @@ export function BlocksEditor({
   disableGenerateCode,
   disableSensingBlocks,
   disableExtensionButton,
+  disableCustomExtension,
   variableTypes,
   extensionTags,
   onBuildinExtensions,
@@ -949,6 +950,7 @@ export function BlocksEditor({
       {extensionsLibraryVisible.value && (
         <ExtensionsLibrary
           tags={extensionTags}
+          disableCustom={disableCustomExtension}
           onFilter={onExtensionsFilter}
           onSelect={handleSelectExtension}
           onClose={useCallback(() => (extensionsLibraryVisible.value = false), [])}

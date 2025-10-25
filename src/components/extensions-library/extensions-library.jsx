@@ -1,10 +1,12 @@
 import { useCallback, useEffect } from 'preact/hooks';
-import { batch, useSignal } from '@preact/signals';
-import { Text, Library } from '@blockcode/core';
+import { useSignal } from '@preact/signals';
+import { setAlert, delAlert, Text, Library } from '@blockcode/core';
+import styles from './extensions-library.module.css';
+import plusIcon from './icon-plus.svg';
 
 import getExtensions from '../../lib/get-extensions';
 
-export function ExtensionsLibrary({ tags, onSelect, onClose, onFilter }) {
+export function ExtensionsLibrary({ tags, disableCustom, onSelect, onClose, onFilter }) {
   const data = useSignal([]);
 
   const handleFilter = useCallback(
@@ -42,7 +44,7 @@ export function ExtensionsLibrary({ tags, onSelect, onClose, onFilter }) {
     [onFilter],
   );
 
-  useEffect(async () => {
+  const updateExtensions = useCallback(async () => {
     let result = await getExtensions();
     result = result.map((info) =>
       Object.assign(info, {
@@ -56,8 +58,39 @@ export function ExtensionsLibrary({ tags, onSelect, onClose, onFilter }) {
       }),
     );
     result = result.filter(handleFilter);
+
+    // 离线版能显示自定义积木添加按钮
+    if (window.electron) {
+      result.unshift({
+        eeggTag: 'custom',
+        className: styles.addCustomButton,
+        custom: <img src={plusIcon} />,
+        async onSelect() {
+          const id = setAlert('importing');
+          await window.electron.loadBlocksZip();
+          updateExtensions();
+          delAlert(id);
+        },
+      });
+    }
+
     data.value = result;
   }, []);
+  useEffect(updateExtensions, []);
+
+  // 离线版能显示自定义积木分类
+  if (window.electron && !disableCustom) {
+    tags = tags || [];
+    tags.push({
+      tag: 'custom',
+      label: (
+        <Text
+          id="blocks.extensions.custom"
+          defaultMessage="Custom"
+        />
+      ),
+    });
+  }
 
   return (
     <Library
