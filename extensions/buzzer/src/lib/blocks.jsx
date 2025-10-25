@@ -42,7 +42,7 @@ export const blocks = (meta) => [
       const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const state = this.valueToCode(block, 'STATE', this.ORDER_NONE);
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, OUTPUT);`;
-      const code = `digitalWrite(${pin}, ${state === '1' ? 'HIGH' : 'LOW'});\n`;
+      const code = `digitalWrite(${pin}, ${state == 1 ? 'HIGH' : 'LOW'});\n`;
       return code;
     },
     mpy(block) {

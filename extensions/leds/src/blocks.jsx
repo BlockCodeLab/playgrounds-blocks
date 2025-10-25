@@ -22,7 +22,7 @@ export const blocks = [
       const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const state = this.valueToCode(block, 'STATE', this.ORDER_NONE);
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, OUTPUT);`;
-      const code = `digitalWrite(${pin}, ${state === '1' ? 'HIGH' : 'LOW'});\n`;
+      const code = `digitalWrite(${pin}, ${state == 1 ? 'HIGH' : 'LOW'});\n`;
       return code;
     },
     mpy(block) {
@@ -32,7 +32,7 @@ export const blocks = [
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_pwm'] = 'from machine import PWM';
       this.definitions_[pinName] = `${pinName} = PWM(Pin(${pin}), freq=1000)`;
-      const code = `${pinName}.duty(${state === '1' ? 1023 : 0})\n`;
+      const code = `${pinName}.duty(${state == 1 ? 1023 : 0})\n`;
       return code;
     },
   },
@@ -215,9 +215,9 @@ export const blocks = [
       const stateY = this.valueToCode(block, 'Y', this.ORDER_NONE);
       const stateG = this.valueToCode(block, 'G', this.ORDER_NONE);
       let code = 'setTrafficLeds(';
-      code += `${stateG === '1' ? 'HIGH' : 'LOW'}, `;
-      code += `${stateY === '1' ? 'HIGH' : 'LOW'}, `;
-      code += `${stateR === '1' ? 'HIGH' : 'LOW'});\n`;
+      code += `${stateG == 1 ? 'HIGH' : 'LOW'}, `;
+      code += `${stateY == 1 ? 'HIGH' : 'LOW'}, `;
+      code += `${stateR == 1 ? 'HIGH' : 'LOW'});\n`;
       return code;
     },
     mpy(block) {
@@ -225,9 +225,9 @@ export const blocks = [
       const stateY = this.valueToCode(block, 'Y', this.ORDER_NONE);
       const stateG = this.valueToCode(block, 'G', this.ORDER_NONE);
       let code = 'set_traffic_leds(';
-      code += `${stateG === '1' ? 'True' : 'False'}, `;
-      code += `${stateY === '1' ? 'True' : 'False'}, `;
-      code += `${stateR === '1' ? 'True' : 'False'})\n`;
+      code += `${stateG == 1 ? 'True' : 'False'}, `;
+      code += `${stateY == 1 ? 'True' : 'False'}, `;
+      code += `${stateR == 1 ? 'True' : 'False'})\n`;
       return code;
     },
   },
