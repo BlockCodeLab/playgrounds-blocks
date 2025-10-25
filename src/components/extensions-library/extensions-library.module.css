@@ -1,0 +1,8 @@
+.add-custom-button {
+  background: none;
+  border-style: dashed;
+}
+
+.add-custom-button > :first-child {
+  margin: auto;
+}
