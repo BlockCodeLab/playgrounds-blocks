@@ -79,24 +79,27 @@ export function ExtensionsLibrary({ tags, disableCustom, onSelect, onClose, onFi
   useEffect(updateExtensions, []);
 
   // 离线版能显示自定义积木分类
-  if (window.electron && !disableCustom) {
-    tags = tags || [];
-    tags.push({
-      tag: 'custom',
-      label: (
-        <Text
-          id="blocks.extensions.custom"
-          defaultMessage="Custom"
-        />
-      ),
-    });
-  }
+  const enabledCustomTag = window.electron && !disableCustom;
+  const customTags = []
+    .concat(
+      tags,
+      enabledCustomTag && {
+        tag: 'custom',
+        label: (
+          <Text
+            id="blocks.extensions.custom"
+            defaultMessage="Custom"
+          />
+        ),
+      },
+    )
+    .filter(Boolean);
 
   return (
     <Library
       featured
       filterable
-      tags={tags}
+      tags={customTags}
       items={data.value}
       filterPlaceholder={
         <Text
