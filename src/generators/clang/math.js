@@ -3,19 +3,20 @@ import { ClangGenerator } from './generator';
 const proto = ClangGenerator.prototype;
 
 proto['math_number'] = function (block) {
-  let code = parseFloat(block.getFieldValue('NUM'));
   let order;
-  if (code === Infinity) {
+  let code = block.getFieldValue('NUM');
+  const num = parseFloat(code);
+  if (num === Infinity) {
     code = '3.4028235E+38';
     order = this.ORDER_FUNCTION_CALL;
-  } else if (code === -Infinity) {
+  } else if (num === -Infinity) {
     code = '-3.4028235E+38';
     order = this.ORDER_UNARY_SIGN;
-  } else if (Number.isNaN(code)) {
+  } else if (Number.isNaN(num)) {
     code = '0';
     order = this.ORDER_UNARY_SIGN;
   } else {
-    order = code < 0 ? this.ORDER_UNARY_SIGN : this.ORDER_ATOMIC;
+    order = num < 0 ? this.ORDER_UNARY_SIGN : this.ORDER_ATOMIC;
   }
   return [code, order];
 };
@@ -32,19 +33,20 @@ proto['math_whole_number'] = function (block) {
 };
 
 proto['math_positive_number'] = function (block) {
-  let code = parseFloat(block.getFieldValue('NUM'));
   let order;
-  if (code === Infinity) {
+  let code = block.getFieldValue('NUM');
+  const num = parseFloat(code);
+  if (num === Infinity) {
     code = '3.4028235E+38';
     order = this.ORDER_FUNCTION_CALL;
-  } else if (code === -Infinity) {
+  } else if (num === -Infinity) {
     code = '-3.4028235E+38';
     order = this.ORDER_FUNCTION_CALL;
-  } else if (Number.isNaN(code)) {
+  } else if (Number.isNaN(num)) {
     code = '0';
     order = this.ORDER_FUNCTION_CALL;
   } else {
-    code = code < 0 ? 0 : code;
+    code = num < 0 ? '0' : code;
     order = this.ORDER_ATOMIC;
   }
   return [code, order];
@@ -53,10 +55,10 @@ proto['math_positive_number'] = function (block) {
 proto['math_angle'] = function (block) {
   let code = parseFloat(block.getFieldValue('NUM'));
   let order;
-  if (code == Infinity) {
+  if (code === Infinity) {
     code = '3.4028235E+38';
     order = this.ORDER_FUNCTION_CALL;
-  } else if (code == -Infinity) {
+  } else if (code === -Infinity) {
     code = '-3.4028235E+38';
     order = this.ORDER_UNARY_SIGN;
   } else {

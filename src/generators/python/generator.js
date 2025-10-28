@@ -170,8 +170,8 @@ export class PythonGenerator extends ScratchBlocks.Generator {
     delete this.functionNames_;
     this.variableDB_.reset();
 
-    const allDefs = imports.join('\n') + '\n\n' + variables.join('\n') + '\n\n' + definitions.join('\n');
-    return allDefs.replace(/\n\n+/g, '\n\n') + '\n' + code;
+    const allDefs = imports.join('\n') + '\n\n' + variables.join('\n') + '\n\n' + definitions.join('\n') + '\n\n';
+    return allDefs.replace(/\n\n+/g, '\n\n') + code;
   }
 
   /**
