@@ -1,0 +1,17 @@
+en:
+  blocks.temperature.name: Temperature
+  blocks.temperature.lm35: pin [PIN] LM35 temperature
+  blocks.temperature.nl50: pin [PIN] NL50 temperature
+  blocks.temperature.ds8b20: pin [PIN] DS8B20 temperature
+
+zh-Hans:
+  blocks.temperature.name: 温度模块
+  blocks.temperature.lm35: 引脚[PIN] LM35 温度
+  blocks.temperature.nl50: 引脚[PIN] NL50 温度
+  blocks.temperature.ds8b20: 引脚[PIN] DS8B20 温度
+
+zh-Hant:
+  blocks.temperature.name: 溫度模組
+  blocks.temperature.lm35: 引腳[PIN] LM35 溫度
+  blocks.temperature.nl50: 引腳[PIN] NL50 溫度
+  blocks.temperature.ds8b20: 引腳[PIN] DS8B20 溫度
