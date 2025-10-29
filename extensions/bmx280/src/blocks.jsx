@@ -54,11 +54,9 @@ export const blocks = (meta) =>
       ),
       inputs: {
         ADDR: {
-          type: 'integer',
-          defaultValue: '118',
           menu: [
-            ['0×76', '118'],
-            ['0×77', '119'],
+            ['0×76', '0x76'],
+            ['0×77', '0x77'],
           ],
         },
       },
@@ -72,16 +70,6 @@ export const blocks = (meta) =>
       mpy(block) {
         const addr = block.getFieldValue('ADDR');
         this.definitions_['bmx280_addr'] = `# BMx280 addr: ${addr}`;
-
-        let bmxCode = '';
-        bmxCode += 'def get_bmx280_value(mode=2):\n';
-        bmxCode += '  _bmx280.read()\n';
-        bmxCode += '  if mode == 1: return _bmx280.temperature\n';
-        bmxCode += '  if mode == 2: return _bmx280.pressure\n';
-        bmxCode += '  if mode == 3: return _bmx280.humidity\n';
-        bmxCode += '  if mode == 4: return _bmx280.altitude\n';
-        this.definitions_[`get_bmx280_value`] = bmxCode;
-
         return '';
       },
     },
