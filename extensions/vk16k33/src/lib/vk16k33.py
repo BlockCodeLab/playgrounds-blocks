@@ -143,7 +143,19 @@ class Vk16k33(X16k33):
             self[self._digit_buffer_position(position)] = 0x00
             position -= 1
 
+        self.show_colon(False)
         self.write()
+
+    def show_time(self, hour: int, minute: int) -> None:
+        hour = min(max(hour, 0), 99)
+        minute = min(max(minute, 0), 99)
+        num = hour * 100 + minute
+        self.show_number(num, 10, 0)
+        self.show_colon(True)
+        if hour < 1:
+            self.show_digit_number(1, 0)
+        if minute < 10:
+            self.show_digit_number(2, 0)
 
     def _show_error(self) -> None:
         for i in range(4):

@@ -2,52 +2,59 @@ import { Text } from '@blockcode/core';
 
 const notArduino = (meta) => meta.editor !== '@blockcode/gui-arduino';
 
+const autoInitArduino = (gen) => {
+  gen.definitions_['include_ht16k33'] = '#include <HT16K33.h>';
+  gen.definitions_['variable_digit16k33'] = `HT16K33 _digit16k33(0x70);`;
+  gen.definitions_['setup_wire'] = 'Wire.begin();';
+  gen.definitions_['setup_digit16k33'] = '_digit16k33.begin();';
+};
+
 export const blocks = (meta) =>
   []
     .concat(
-      notArduino(meta) && [
-        {
-          id: 'init',
-          text: (
-            <Text
-              id="blocks.vk16k33.init"
-              defaultMessage="set pin SCL[SCL] pin SDA[SDA]"
-            />
-          ),
-          inputs: {
-            SCL: {
-              type: 'integer',
-              defaultValue: '2',
-            },
-            SDA: {
-              type: 'integer',
-              defaultValue: '3',
-            },
+      notArduino(meta) && {
+        id: 'init',
+        text: (
+          <Text
+            id="blocks.vk16k33.init"
+            defaultMessage="set pin SCL[SCL] pin SDA[SDA]"
+          />
+        ),
+        inputs: {
+          SCL: {
+            type: 'integer',
+            defaultValue: '2',
           },
-          mpy(block) {
-            const scl = this.valueToCode(block, 'SCL', this.ORDER_NONE);
-            const sda = this.valueToCode(block, 'SDA', this.ORDER_NONE);
-            this.definitions_['digit_display'] = `_digit_display = vk16k33.Vk16k33(${scl}, ${sda})`;
-            return '';
+          SDA: {
+            type: 'integer',
+            defaultValue: '3',
           },
         },
-        // {
-        //   id: 'addr',
-        //   text: (
-        //     <Text
-        //       id="blocks.vk16k33.addr"
-        //       defaultMessage="set I2C address [ADDR]"
-        //     />
-        //   ),
-        //   inputs: {
-        //     ADDR: {
-        //       type: 'integer',
-        //       defaultValue: '112',
-        //     },
-        //   },
-        // },
-        '---',
-      ],
+        mpy(block) {
+          const scl = this.valueToCode(block, 'SCL', this.ORDER_NONE);
+          const sda = this.valueToCode(block, 'SDA', this.ORDER_NONE);
+          this.definitions_['digit16k33'] = `_digit16k33 = vk16k33.Vk16k33(${scl}, ${sda})`;
+          return '';
+        },
+      },
+      // {
+      //   id: 'addr',
+      //   text: (
+      //     <Text
+      //       id="blocks.vk16k33.addr"
+      //       defaultMessage="set I2C address [ADDR]"
+      //     />
+      //   ),
+      //   inputs: {
+      //     ADDR: {
+      //       menu: [
+      //         ['0×70', '0x70'],
+      //         ['0×77', '0x77'],
+      //       ],
+      //     },
+      //   },
+      // },
+      '---',
       {
         id: 'display',
         text: (
@@ -63,53 +70,105 @@ export const blocks = (meta) =>
           },
         },
         ino(block) {
+          autoInitArduino(this);
           const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
-          this.definitions_['variable_digitDisplay'] = 'DigitDisplay _digitDisplay;';
-          this.definitions_['setup_digitDisplay'] = '_digitDisplay.Setup();';
-          const code = `_digitDisplay.ShowNumber(${num});\n`;
+
+          let numCode = '';
+          numCode += 'void ht16k33DisplayNumber(float number) {\n';
+          numCode += '  _digit16k33.setDigits(1);\n';
+          numCode += '  _digit16k33.displayColon(0);\n';
+          numCode += '  char buffer[15];\n';
+          numCode += '  dtostrf(number, 0, 4, buffer);\n';
+          numCode += "  char *dot = strchr(buffer, '.');\n";
+          numCode += '  if (dot == NULL) {\n';
+          numCode += '    _digit16k33.displayInt((int)number);\n';
+          numCode += '    return;\n';
+          numCode += '  }\n';
+          numCode += '  char *frac = dot + 1;\n';
+          numCode += '  int len = strlen(frac);\n';
+          numCode += "  while (len > 0 && frac[len - 1] == '0') {\n";
+          numCode += '    len--;\n';
+          numCode += '  }\n';
+          numCode += '  len > 0 ? _digit16k33.displayFloat(number, len) : _digit16k33.displayInt((int)number);\n';
+          numCode += '}\n';
+          this.definitions_['declare_ht16k33DisplayNumber'] = 'void ht16k33DisplayNumber(float number);';
+          this.definitions_['ht16k33DisplayNumber'] = numCode;
+
+          const code = `ht16k33DisplayNumber(${num});\n`;
           return code;
         },
         mpy(block) {
           const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
-          const code = `_digit_display.show_number(${num})\n`;
+          const code = `_digit16k33.show_number(${num})\n`;
           return code;
         },
       },
       {
-        id: 'digit',
+        id: 'time',
         text: (
           <Text
-            id="blocks.vk16k33.digit"
-            defaultMessage="set digit [DIGIT] at [POS]"
+            id="blocks.vk16k33.time"
+            defaultMessage="set time [HH]:[MM]"
           />
         ),
         inputs: {
-          DIGIT: {
+          HH: {
             type: 'integer',
-            defaultValue: '1',
+            defaultValue: '0',
           },
-          POS: {
+          MM: {
             type: 'integer',
-            inputMode: true,
-            defaultValue: '1',
-            menu: ['1', '2', '3', '4'],
+            defaultValue: '0',
           },
         },
         ino(block) {
-          const digit = this.valueToCode(block, 'DIGIT', this.ORDER_NONE);
-          const pos = this.valueToCode(block, 'POS', this.ORDER_NONE);
-          this.definitions_['variable_digitDisplay'] = 'DigitDisplay _digitDisplay;';
-          this.definitions_['setup_digitDisplay'] = '_digitDisplay.Setup();';
-          const code = `_digitDisplay.ShowDigitNumber(${pos}, ${digit});\n`;
+          autoInitArduino(this);
+          const hour = this.valueToCode(block, 'HH', this.ORDER_NONE);
+          const minute = this.valueToCode(block, 'MM', this.ORDER_NONE);
+          let code = '';
+          code += '_digit16k33.suppressLeadingZeroPlaces(1);\n';
+          code += `_digit16k33.displayTime(${hour}, ${minute});\n`;
           return code;
         },
         mpy(block) {
-          const digit = this.valueToCode(block, 'DIGIT', this.ORDER_NONE);
-          const pos = this.valueToCode(block, 'POS', this.ORDER_NONE);
-          const code = `_digit_display.show_digit_number(${pos}, ${digit})\n`;
+          const hour = this.valueToCode(block, 'HH', this.ORDER_NONE);
+          const minute = this.valueToCode(block, 'MM', this.ORDER_NONE);
+          const code = `_digit16k33.show_time(${hour}, ${minute})\n`;
           return code;
         },
       },
+      // {
+      //   id: 'digit',
+      //   text: (
+      //     <Text
+      //       id="blocks.vk16k33.digit"
+      //       defaultMessage="set digit [DIGIT] at [POS]"
+      //     />
+      //   ),
+      //   inputs: {
+      //     DIGIT: {
+      //       type: 'integer',
+      //       defaultValue: '1',
+      //     },
+      //     POS: {
+      //       type: 'integer',
+      //       inputMode: true,
+      //       defaultValue: '1',
+      //       menu: ['1', '2', '3', '4'],
+      //     },
+      //   },
+      //   ino(block) {
+      //     const digit = this.valueToCode(block, 'DIGIT', this.ORDER_NONE);
+      //     const pos = this.valueToCode(block, 'POS', this.ORDER_NONE);
+      //     return '';
+      //   },
+      //   mpy(block) {
+      //     const digit = this.valueToCode(block, 'DIGIT', this.ORDER_NONE);
+      //     const pos = this.valueToCode(block, 'POS', this.ORDER_NONE);
+      //     const code = `_digit16k33.show_digit_number(${pos}, ${digit})\n`;
+      //     return code;
+      //   },
+      // },
       {
         id: 'clear',
         text: (
@@ -119,63 +178,14 @@ export const blocks = (meta) =>
           />
         ),
         ino(block) {
-          this.definitions_['variable_digitDisplay'] = 'DigitDisplay _digitDisplay;';
-          this.definitions_['setup_digitDisplay'] = '_digitDisplay.Setup();';
-          return '_digitDisplay.Clear();\n';
+          autoInitArduino(this);
+          return '_digit16k33.displayClear();\n';
         },
         mpy(block) {
-          return '_digit_display.clear()\n';
+          return '_digit16k33.clear()\n';
         },
       },
       '---',
-      {
-        id: 'brightness',
-        text: (
-          <Text
-            id="blocks.vk16k33.brightness"
-            defaultMessage="set brightness [LEVEL]"
-          />
-        ),
-        inputs: {
-          LEVEL: {
-            shadow: 'brightnessLevel',
-            defaultValue: '9',
-          },
-        },
-        ino(block) {
-          const level = this.valueToCode(block, 'LEVEL', this.ORDER_NONE);
-          this.definitions_['variable_digitDisplay'] = 'DigitDisplay _digitDisplay;';
-          this.definitions_['setup_digitDisplay'] = '_digitDisplay.Setup();';
-          const code = `_digitDisplay.SetBrightness(${level});\n`;
-          return code;
-        },
-        mpy(block) {
-          const level = this.valueToCode(block, 'LEVEL', this.ORDER_NONE);
-          const code = `_digit_display.brightness(${level})\n`;
-          return code;
-        },
-      },
-      {
-        id: 'brightnessLevel',
-        shadow: true,
-        output: 'number',
-        inputs: {
-          LEVEL: {
-            type: 'slider',
-            defaultValue: 0,
-            min: 0,
-            max: 15,
-          },
-        },
-        mpy(block) {
-          const code = block.getFieldValue('LEVEL') || 0;
-          return [code, this.ORDER_NONE];
-        },
-        ino(block) {
-          const code = block.getFieldValue('LEVEL') || 0;
-          return [code, this.ORDER_NONE];
-        },
-      },
       {
         id: 'colon',
         text: (
@@ -208,16 +218,62 @@ export const blocks = (meta) =>
           },
         },
         ino(block) {
+          autoInitArduino(this);
           const state = this.valueToCode(block, 'STATE', this.ORDER_NONE);
-          this.definitions_['variable_digitDisplay'] = 'DigitDisplay _digitDisplay;';
-          this.definitions_['setup_digitDisplay'] = '_digitDisplay.Setup();';
-          const code = `_digitDisplay.ShowColon(${state == 1});\n`;
+          const code = `_digit16k33.displayColon(${state});\n`;
           return code;
         },
         mpy(block) {
           const state = this.valueToCode(block, 'STATE', this.ORDER_NONE);
-          const code = `_digit_display.show_colon(${state})\n`;
+          const code = `_digit16k33.show_colon(${state})\n`;
           return code;
+        },
+      },
+      {
+        id: 'brightness',
+        text: (
+          <Text
+            id="blocks.vk16k33.brightness"
+            defaultMessage="set brightness [LEVEL]"
+          />
+        ),
+        inputs: {
+          LEVEL: {
+            shadow: 'brightnessLevel',
+            defaultValue: '9',
+          },
+        },
+        ino(block) {
+          autoInitArduino(this);
+          const level = this.valueToCode(block, 'LEVEL', this.ORDER_NONE);
+          const code = `_digit16k33.setBrightness(${level});\n`;
+          return code;
+        },
+        mpy(block) {
+          const level = this.valueToCode(block, 'LEVEL', this.ORDER_NONE);
+          const code = `_digit16k33.brightness(${level})\n`;
+          return code;
+        },
+      },
+      {
+        id: 'brightnessLevel',
+        shadow: true,
+        output: 'number',
+        inputs: {
+          LEVEL: {
+            type: 'slider',
+            defaultValue: 0,
+            min: 0,
+            max: 15,
+          },
+        },
+        mpy(block) {
+          const code = block.getFieldValue('LEVEL') || 0;
+          return [code, this.ORDER_NONE];
+        },
+        ino(block) {
+          const code = block.getFieldValue('LEVEL') || 0;
+          return [code, this.ORDER_NONE];
         },
       },
       {
@@ -247,15 +303,14 @@ export const blocks = (meta) =>
           },
         },
         ino(block) {
+          autoInitArduino(this);
           const freq = block.getFieldValue('FREQ') || 0;
-          this.definitions_['variable_digitDisplay'] = 'DigitDisplay _digitDisplay;';
-          this.definitions_['setup_digitDisplay'] = '_digitDisplay.Setup();';
-          const code = `_digitDisplay.SetBlinkRate(${freq});\n`;
+          const code = `_digit16k33.setBlink(${freq});\n`;
           return code;
         },
         mpy(block) {
           const freq = block.getFieldValue('FREQ') || 0;
-          const code = `_digit_display.blink_rate(${freq})\n`;
+          const code = `_digit16k33.blink_rate(${freq})\n`;
           return code;
         },
       },
