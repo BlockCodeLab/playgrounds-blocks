@@ -9,7 +9,7 @@ export class Tone {
   constructor(option = {}) {
     this.ticks = option.ticks || 4;
     this.bpm = option.bpm || 120;
-    this._type = option.type || 'sine';
+    this._type = option.type || 'square'; // "sine"、"square"、"sawtooth"、"triangle"
     this._octave = 4;
     this._duration = 4;
     this._playing = false;
@@ -76,7 +76,7 @@ export class Tone {
     if (duration > 0) {
       duration -= ARTICULATION_MS;
       if (duration < 0) {
-        duration = 10;
+        duration = ARTICULATION_MS;
       }
       await sleepMs(duration);
       if (!this._oscillator) return;
@@ -98,9 +98,9 @@ export class Tone {
 
     const note = noteArr.length > 0 ? noteArr[0] : 'r';
     let noteIndex = note.charCodeAt(0) - 'a'.charCodeAt(0);
-
-    // Like 'c4', 'c#', 'db'
     let sharp = false;
+
+    // Like 'c4', 'c#4', 'db'
     if (note.length === 2) {
       const octave = parseInt(note[1]);
       if (octave !== NaN) {
@@ -108,35 +108,30 @@ export class Tone {
       } else {
         sharp = true;
         if (note[1] === 'b' && noteIndex <= 6) {
-          noteIndex -= 1;
+          noteIndex--;
         }
       }
-    } else if (note.length === 3) {
+    }
+    // Like "c#4"
+    else if (note.length === 3) {
       const octave = parseInt(note[2]);
       if (octave !== NaN) {
         this._octave = octave;
       }
       sharp = true;
       if (note[1] === 'b' && noteIndex <= 6) {
-        noteIndex -= 1;
+        noteIndex--;
       }
     }
 
     let frequency = 0;
     if (noteIndex <= 6) {
-      const shiftCount = self._octave - 4;
-      if (sharp) {
-        if (shiftCount > 0) {
-          frequency = MIDDLE_SHARPS_FREQUENCIES[noteIndex] << shiftCount;
-        } else {
-          frequency = MIDDLE_SHARPS_FREQUENCIES[noteIndex] >> -shiftCount;
-        }
+      const shiftCount = this._octave - 4;
+      const baseFrequency = sharp ? MIDDLE_SHARPS_FREQUENCIES.at(noteIndex) : MIDDLE_FREQUENCIES.at(noteIndex);
+      if (shiftCount > 0) {
+        frequency = baseFrequency << shiftCount;
       } else {
-        if (shiftCount > 0) {
-          frequency = MIDDLE_FREQUENCIES[noteIndex] << shiftCount;
-        } else {
-          frequency = MIDDLE_FREQUENCIES[noteIndex] >> -shiftCount;
-        }
+        frequency = baseFrequency >> -shiftCount;
       }
     }
     return frequency;
