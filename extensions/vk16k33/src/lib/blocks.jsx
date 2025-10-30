@@ -33,7 +33,7 @@ export const blocks = (meta) =>
         mpy(block) {
           const scl = this.valueToCode(block, 'SCL', this.ORDER_NONE);
           const sda = this.valueToCode(block, 'SDA', this.ORDER_NONE);
-          this.definitions_['digit16k33'] = `_digit16k33 = vk16k33.Vk16k33(${scl}, ${sda})`;
+          this.definitions_['digit16k33'] = `_digit16k33 = decimal16k33.Decimal(${scl}, ${sda})`;
           return '';
         },
       },
@@ -78,7 +78,7 @@ export const blocks = (meta) =>
           numCode += '  _digit16k33.setDigits(1);\n';
           numCode += '  _digit16k33.displayColon(0);\n';
           numCode += '  char buffer[15];\n';
-          numCode += '  dtostrf(number, 0, 4, buffer);\n';
+          numCode += '  dtostrf(number, 0, 3, buffer);\n';
           numCode += "  char *dot = strchr(buffer, '.');\n";
           numCode += '  if (dot == NULL) {\n';
           numCode += '    _digit16k33.displayInt((int)number);\n';
@@ -126,7 +126,7 @@ export const blocks = (meta) =>
           const hour = this.valueToCode(block, 'HH', this.ORDER_NONE);
           const minute = this.valueToCode(block, 'MM', this.ORDER_NONE);
           let code = '';
-          code += '_digit16k33.suppressLeadingZeroPlaces(1);\n';
+          code += '_digit16k33.suppressLeadingZeroPlaces(0);\n';
           code += `_digit16k33.displayTime(${hour}, ${minute});\n`;
           return code;
         },
