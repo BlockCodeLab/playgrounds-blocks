@@ -1,0 +1,22 @@
+{
+  "name": "@blockcode/blocks-tracking",
+  "private": "true",
+  "version": "1.0.0",
+  "readme": "https://docs.emakefun.com/#/zh-cn/ph2.0_sensors/sensors/five_line_tracker_v3/five_line_tracker_v3",
+  "type": "module",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./info": {
+      "import": "./dist/info.js"
+    }
+  },
+  "dependencies": {
+    "preact": "^10.26.9"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
