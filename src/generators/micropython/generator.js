@@ -3,8 +3,8 @@ import { PythonGenerator } from '../python';
 export class MicroPythonGenerator extends PythonGenerator {
   INFINITE_LOOP_TRAP = 'await asyncio.sleep(0)\n';
 
-  constructor() {
-    super('MPY');
+  constructor(name = 'MPY') {
+    super(name);
   }
 
   init(workspace) {

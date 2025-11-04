@@ -5,13 +5,14 @@
   "type": "module",
   "module": "./dist/index.js",
   "dependencies": {
-    "@preact/signals": "^2.2.1",
-    "preact": "^10.26.9",
+    "@preact/signals": "^2.3.2",
+    "preact": "^10.27.2",
     "save-svg-as-png": "^1.4.17",
-    "scratch-blocks": "^1.1.225"
+    "scratch-blocks": "^1.1.226"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "bun-copy-plugin": "^0.2.1"
+    "bun-copy-plugin": "^0.2.1",
+    "playground-build": "git+https://github.com/BlockCodeLab/playground-build.git"
   }
 }
