@@ -1,0 +1,9 @@
+.text-input {
+  width: 30rem;
+  border: 1px solid var(--ui-black-transparent);
+  border-radius: 5px;
+  padding: 0.5rem;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  resize: none;
+}

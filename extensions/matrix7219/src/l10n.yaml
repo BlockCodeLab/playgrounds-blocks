@@ -1,0 +1,46 @@
+en:
+  blocks.matrix7219.name: LED Matrix
+  blocks.matrix7219.fontCreator: Font Creator
+  blocks.matrix7219.fontCreatorLabel: "Enter the non-English characters(max {count}) to add to the font:"
+  blocks.matrix7219.fontCreatorPlaceholder: Enter characters...
+  blocks.matrix7219.init: set pin CLK[CLK] pin DIN[DIN] pin CS[CS]
+  blocks.matrix7219.devices: set matrix devices [NUM]
+  blocks.matrix7219.display: display [MATRIX] on device [IDX]
+  blocks.matrix7219.text: display [MSG]
+  blocks.matrix7219.rotate: rotate device [IDX] to [ANGLE]
+  blocks.matrix7219.brightness: set device [IDX] brightness [LEVEL]
+  blocks.matrix7219.brightnessall: set all devices brightness [LEVEL]
+  blocks.matrix7219.clear: clear device [IDX]
+  blocks.matrix7219.clearall: clear all devices
+
+
+zh-Hans:
+  blocks.matrix7219.name: LED 点阵
+  blocks.matrix7219.fontCreator: 自定义字库
+  blocks.matrix7219.fontCreatorLabel: 请输入字库包含的非英文字符（最多 {count} 个）：
+  blocks.matrix7219.fontCreatorPlaceholder: 输入字符…
+  blocks.matrix7219.init: 初始引脚 CLK[CLK] 引脚 DIN[DIN] 引脚 CS[CS]
+  blocks.matrix7219.devices: 初始屏数 [NUM]
+  blocks.matrix7219.display: 在第[IDX]屏显示[MATRIX]
+  blocks.matrix7219.text: 显示[MSG]
+  blocks.matrix7219.rotate: 将第[IDX]屏旋转[ANGLE]
+  blocks.matrix7219.brightness: 将第[IDX]屏亮度设为[LEVEL]
+  blocks.matrix7219.brightnessall: 将所有屏亮度设为[LEVEL]
+  blocks.matrix7219.clear: 清除第[IDX]屏
+  blocks.matrix7219.clearall: 清除所有屏
+
+
+zh-Hant:
+  blocks.matrix7219.name: LED 點陣
+  blocks.matrix7219.fontCreator: 生成字庫
+  blocks.matrix7219.fontCreatorLabel: 請輸入字庫包含的非英文字符（最多 {count} 個）：
+  blocks.matrix7219.fontCreatorPlaceholder: 輸入字符…
+  blocks.matrix7219.init: 初始引腳 CLK[CLK] 引腳 DIN[DIN] 引腳 CS[CS]
+  blocks.matrix7219.devices: 初始屏數 [NUM]
+  blocks.matrix7219.display: 在第[IDX]屏顯示[MATRIX]
+  blocks.matrix7219.text: 顯示[MSG]
+  blocks.matrix7219.rotate: 將第[IDX]屏旋轉[ANGLE]
+  blocks.matrix7219.brightness: 將第[IDX]屏亮度設為[LEVEL]
+  blocks.matrix7219.brightnessall: 將所有屏亮度設為[LEVEL]
+  blocks.matrix7219.clear: 清除第[IDX]屏
+  blocks.matrix7219.clearall: 清除所有屏
