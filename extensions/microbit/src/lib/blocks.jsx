@@ -17,7 +17,6 @@ export const blocks = [
       link.click();
     },
   },
-  '---',
   {
     id: 'whenButtonPressed',
     hat: true,

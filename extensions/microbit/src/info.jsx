@@ -6,7 +6,7 @@ import iconImage from './icon.svg';
 addLocalesMessages({
   en: {
     'blocks.microbit.name': 'micro:bit',
-    'blocks.microbit.description': 'Play with all functions of micro:bit.',
+    'blocks.microbit.description': 'Explore all functions of micro:bit.',
     'blocks.microbit.collaborator': 'Koji Yokokawa',
   },
   'zh-Hans': {

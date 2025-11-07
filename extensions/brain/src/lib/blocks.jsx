@@ -28,11 +28,10 @@ export const blocks = (meta) => [
       return code;
     },
     mpy(block) {
-      this.definitions_['my_brain'] = `my_brain = brain.Brain(${apiPassword}, ${model})`;
-
       const model = this.quote_(getUserConfig('SparkAI.Model') ?? 'lite');
       const apiPassword = this.quote_(getUserConfig('SparkAI.APIPassword') ?? APIPASSWORD);
       const prompt = this.valueToCode(block, 'PROMPT', this.ORDER_NONE) || '';
+      this.definitions_['my_brain'] = `my_brain = brain.Brain(${apiPassword}, ${model})`;
 
       const code = `my_brain.add_prompt(${prompt})\n`;
       return code;
@@ -63,11 +62,10 @@ export const blocks = (meta) => [
       return code;
     },
     mpy(block) {
-      this.definitions_['my_brain'] = `my_brain = brain.Brain(${apiPassword}, ${model})`;
-
       const model = this.quote_(getUserConfig('SparkAI.Model') ?? 'lite');
       const apiPassword = this.quote_(getUserConfig('SparkAI.APIPassword') ?? APIPASSWORD);
       const question = this.valueToCode(block, 'QUESTION', this.ORDER_NONE) || '""';
+      this.definitions_['my_brain'] = `my_brain = brain.Brain(${apiPassword}, ${model})`;
 
       const code = `await my_brain.ask(${question})\n`;
       return code;

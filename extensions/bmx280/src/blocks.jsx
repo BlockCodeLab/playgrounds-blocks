@@ -25,9 +25,11 @@ export const blocks = (meta) =>
       mpy(block) {
         const scl = this.valueToCode(block, 'SCL', this.ORDER_NONE);
         const sda = this.valueToCode(block, 'SDA', this.ORDER_NONE);
+
         if (this.definitions_['bmx280_addr']) {
           const addr = this.definitions_['bmx280_addr'].replace('# BMx280 addr: ', '');
           this.definitions_['bmx280'] = `_bmx280 = bmx280.BMx280(${scl}, ${sda}, ${addr})`;
+          delete this.definitions_['bmx280_addr'];
         } else {
           this.definitions_['bmx280'] = `_bmx280 = bmx280.BMx280(${scl}, ${sda})`;
         }
@@ -69,7 +71,11 @@ export const blocks = (meta) =>
       },
       mpy(block) {
         const addr = block.getFieldValue('ADDR');
-        this.definitions_['bmx280_addr'] = `# BMx280 addr: ${addr}`;
+        if (this.definitions_['bmx280']) {
+          this.definitions_['bmx280'] = this.definitions_['bmx280'].replace(/(\d+)\)$/, `$1, ${addr})`);
+        } else {
+          this.definitions_['bmx280_addr'] = `# BMx280 addr: ${addr}`;
+        }
         return '';
       },
     },
