@@ -245,22 +245,14 @@ export class PythonGenerator extends ScratchBlocks.Generator {
       }
     }
 
-    const nextBlock = block.nextConnection && block.nextConnection.targetBlock();
-    let nextCode = this.blockToCode(nextBlock);
-
+    // 帽子积木自处理后续积木代码
     if (block.startHat_) {
-      if (nextCode) {
-        nextCode = this.prefixLines(nextCode, this.INDENT);
-        code = code.replace(`\n${this.PASS}`, `\n${nextCode}`);
-      }
       return commentCode + code;
     }
 
-    if (block.parentBlock_) {
-      return commentCode + code + nextCode;
-    }
-
-    return '';
+    const nextBlock = block.nextConnection?.targetBlock();
+    const nextCode = this.blockToCode(nextBlock);
+    return commentCode + code + nextCode;
   }
 
   /**

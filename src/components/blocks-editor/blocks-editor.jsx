@@ -228,7 +228,7 @@ export function BlocksEditor({
   //
   const updateWorkspace = useCallback(() => {
     const buildinExtensions = onBuildinExtensions?.();
-    const xml = updateToolboxXml(buildinExtensions, options, meta.value);
+    const xml = updateToolboxXml(buildinExtensions, { ...options, updateWorkspace }, meta.value);
     if (ref.workspace?.toolbox_) {
       updateWorkspaceToolbox(ref.workspace, wrapToolboxXml(xml));
     }
@@ -257,6 +257,7 @@ export function BlocksEditor({
       // 载入扩展
       const extObj = await importExtension(meta.value, extId);
       loadedExtensions.set(extObj.id, extObj);
+      updateWorkspace();
       if (onExtensionLoad) {
         onExtensionLoad(extObj);
       }
@@ -405,13 +406,13 @@ export function BlocksEditor({
     }
   }, [modified.value, generateCodes]);
 
-  // 增减文件、增加扩展后
+  // 增减文件后更新
   //
   useEffect(() => {
     if (splashVisible.value) return;
     if (appState.value?.running) return;
     updateWorkspace();
-  }, [files.value.length, loadedExtensions.size, updateWorkspace]);
+  }, [files.value.length, updateWorkspace]);
 
   // 在其他标签修改后，更新造型等列表
   //

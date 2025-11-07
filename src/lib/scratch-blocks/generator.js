@@ -47,8 +47,9 @@ class Generator extends BaseGenerator {
     return code;
   }
 
+  // 检查孤立积木
   check_(block) {
-    return !!block;
+    return block?.startHat_ || block?.parentBlock_;
   }
 
   addLoopTrap(branch, id) {

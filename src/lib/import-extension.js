@@ -25,7 +25,7 @@ export async function importExtension(meta, extId) {
       });
       // micropython 库文件
       if (file.type === 'text/x-python') {
-        asset.id = file.common
+        asset.name = file.common
           ? `lib/${file.name}` // 公共文件
           : `lib/${escape(extId)}/${file.name}`;
       }

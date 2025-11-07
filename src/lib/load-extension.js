@@ -12,6 +12,8 @@ const ShadowTypes = {
   broadcast: 'event_broadcast_menu',
   number: 'math_number',
   integer: 'math_integer',
+  positive_number: 'math_positive_number',
+  positive_integer: 'math_whole_number',
   angle: 'math_angle',
   text: 'text',
   string: 'text',
@@ -24,6 +26,8 @@ const FieldNames = {
   broadcast: 'BROADCAST_INPUT',
   number: 'NUM',
   integer: 'NUM',
+  positive_number: 'NUM',
+  positive_integer: 'NUM',
   angle: 'NUM',
   text: 'TEXT',
   string: 'TEXT',
@@ -118,8 +122,13 @@ export function loadExtension(extObj, options, meta) {
           const workspace = ScratchBlocks.getMainWorkspace();
           if (workspace) {
             const toolboxWorkspace = workspace.getFlyout()?.getWorkspace();
-            if (toolboxWorkspace) {
-              toolboxWorkspace.registerButtonCallback(buttonKey, block.onClick);
+            if (toolboxWorkspace && block.onClick) {
+              toolboxWorkspace.registerButtonCallback(buttonKey, async (arg) => {
+                // 如果返回 true 值，则刷新工作区
+                if ((await block.onClick(arg)) === true) {
+                  options.updateWorkspace();
+                }
+              });
             }
           }
           return blocksXML + `<button text="${maybeTranslate(block.text)}" callbackKey="${buttonKey}"/>`;

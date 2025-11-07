@@ -175,11 +175,6 @@ export class ClangGenerator extends ScratchBlocks.Generator {
     return commentCode + code + nextCode;
   }
 
-  // 检查孤立积木
-  check_(block) {
-    return block?.startHat_ || block?.parentBlock_;
-  }
-
   /**
    * Gets a property and adjusts the value while taking into account indexing.
    * @param {!ScratchBlocks.Block} block The block.
