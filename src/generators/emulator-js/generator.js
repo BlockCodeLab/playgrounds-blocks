@@ -49,11 +49,6 @@ export class EmulatorGenerator extends JavaScriptGenerator {
     }
   }
 
-  // 检查孤立积木
-  check_(block) {
-    return block?.startHat_ || block?.parentBlock_;
-  }
-
   addEventTrap(branchCode) {
     let code = '';
     code += '(done) => {\n';

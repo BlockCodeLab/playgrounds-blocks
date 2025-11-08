@@ -37,4 +37,4 @@ export { ClangGenerator } from './generators/clang';
 
 export { MicroPythonGenerator } from './generators/micropython';
 
-export { EmulatorGenerator } from './generators/emulator';
+export { EmulatorGenerator } from './generators/emulator-js';
