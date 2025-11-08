@@ -43,6 +43,7 @@ export class Runtime extends EventEmitter {
         [Runtime.MonitorMode.Monitor]: 4,
         [Runtime.MonitorMode.Label]: 6,
       },
+      margin: 4,
     };
   }
 
@@ -454,6 +455,8 @@ export class Runtime extends EventEmitter {
         label.add(
           new Konva.Tag({
             fill: monitor.color,
+            stroke: monitor.borderColor ?? monitor.color,
+            strokeWidth: 1,
             cornerRadius: this.MonitorStyles.cornerRadius[monitor.mode],
           }),
         );
@@ -515,10 +518,10 @@ export class Runtime extends EventEmitter {
       });
       this.setMonitorValue(monitorLabel);
       maxWidth = monitorLabel.width() > maxWidth ? monitorLabel.width() : maxWidth;
-      y -= monitorLabel.height() + 3;
+      y -= monitorLabel.height() + this.MonitorStyles.margin;
       if (y < -this.stage.height() / 2 + 30) {
         y = this.stage.height() / 2 - 10;
-        x += Math.round(maxWidth + 3);
+        x += Math.round(maxWidth + this.MonitorStyles.margin);
         maxWidth = 0;
       }
     }

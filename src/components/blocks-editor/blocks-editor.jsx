@@ -529,6 +529,7 @@ export function BlocksEditor({
             id: e.varId,
             visible: true,
             color: themeColors.blocks.variables.primary,
+            borderColor: themeColors.blocks.variables.tertiary,
             name: enableMultiTargets && e.isLocal ? file.value.name : false,
             label: e.varName,
           };
@@ -567,6 +568,7 @@ export function BlocksEditor({
             id: e.blockId,
             visible: e.newValue,
             color: block.colour_,
+            borderColor: block.colourTertiary_,
             name: enableMultiTargets && block.category_ !== 'sensing' ? file.value.name : false,
             label: block.inputList[0].fieldRow[2]?.text_ ?? block.inputList[0].fieldRow[0]?.text_,
           };
