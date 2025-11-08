@@ -62,8 +62,8 @@ export const blocks = (meta) => [
               if (isArduino) {
                 fontMap
                   ? addAsset({
-                      id: 'user_fonts',
-                      name: 'user_fonts.h',
+                      id: 'user_fonts.h',
+                      name: 'user_fonts',
                       type: 'text/x-c',
                       content: fonts.content,
                     })
@@ -71,8 +71,8 @@ export const blocks = (meta) => [
               } else {
                 fontMap
                   ? addAsset({
-                      id: 'user_fonts',
-                      name: '/lib/user_fonts/matrix7219',
+                      id: '/lib/user_fonts/matrix7219',
+                      name: 'user_fonts',
                       type: 'text/x-python',
                       content: fonts.content,
                     })
