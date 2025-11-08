@@ -465,7 +465,7 @@ export class Runtime extends EventEmitter {
             fill: 'white',
             text:
               monitor.mode === Runtime.MonitorMode.Label
-                ? (monitor.name ? `${monitor.name}: ` : '') + `${monitor.label}: 0`
+                ? (monitor.name ? `${monitor.name}-` : '') + `${monitor.label}: 0`
                 : '0',
           }),
         );
@@ -529,7 +529,7 @@ export class Runtime extends EventEmitter {
       const monitor = label.getAttr('monitor');
       const text = label.getText();
       if (monitor.mode === Runtime.MonitorMode.Label) {
-        text.setAttr('text', (monitor.name ? `${monitor.name}: ` : '') + `${monitor.label}: ${value}`);
+        text.setAttr('text', (monitor.name ? `${monitor.name}-` : '') + `${monitor.label}: ${value}`);
       } else {
         text.setAttr('text', `${value}`);
       }

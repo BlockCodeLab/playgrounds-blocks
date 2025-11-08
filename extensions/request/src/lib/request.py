@@ -1,5 +1,4 @@
-import _aiohttp as aiohttp
-import asyncio
+import aiohttp
 
 option = {}
 status = 0

@@ -264,10 +264,10 @@ export class JavaScriptGenerator extends ScratchBlocks.Generator {
       // If the index is dynamic, adjust it in code.
       let innerOrder;
       if (delta > 0) {
-        at = at + ' + ' + delta;
+        at = '((+' + at + ') + ' + delta + ')';
         innerOrder = this.ORDER_ADDITION;
       } else if (delta < 0) {
-        at = at + ' - ' + -delta;
+        at = '((+' + at + ') - ' + -delta + ')';
         innerOrder = this.ORDER_SUBTRACTION;
       }
       if (opt_negate) {

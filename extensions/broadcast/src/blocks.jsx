@@ -56,7 +56,7 @@ export const blocks = [
     ),
     output: 'string',
     mpy(block) {
-      const code = 'broadcast.get_message()\n';
+      const code = 'broadcast.get_message()';
       return [code, this.ORDER_FUNCTION_CALL];
     },
   },

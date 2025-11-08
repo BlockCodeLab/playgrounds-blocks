@@ -1,4 +1,3 @@
-import { ScratchBlocks } from '../../lib/scratch-blocks';
 import { MicroPythonGenerator } from './generator';
 
 const proto = MicroPythonGenerator.prototype;
@@ -6,21 +5,25 @@ const proto = MicroPythonGenerator.prototype;
 proto['procedures_definition'] = function (block) {
   const myBlock = block.childBlocks_[0];
   const funcName = this.getFunctionName(myBlock.getProcCode());
-  const args = myBlock.childBlocks_.map((argBlock) => this.getVariableName(argBlock.getFieldValue('VALUE')));
+  let branchCode = this.statementToCode(block) || this.PASS;
 
-  let branchCode = this.statementToCode(block);
-  branchCode = this.addEventTrap(branchCode, block.id);
+  // 参数格式：name
+  const args = myBlock.childBlocks_.map((argBlock) => `${this.getVariableName(argBlock.getFieldValue('VALUE'))}`);
 
+  // 定义函数
   let code = '';
-  code += `@when_procedure("procedure:${funcName}")\n`;
-  code += `def ${funcName}(${args.join(', ')}):\n`;
+  code += `async def ${funcName}(${args.join(', ')}):\n`;
   code += branchCode;
+  this.definitions_[funcName] = code;
 };
 
 proto['procedures_call'] = function (block) {
-  const funcName = this.getFunctionName(myBlock.getProcCode());
-  const args = block.argumentIds_.map((arg) => this.valueToCode(block, arg, this.ORDER_NONE));
-  const argsCode = args.length > 0 ? `, ${args.join(', ')}` : '';
-  const code = `await runtime.procedure_call("procedure:${funcName}"${argsCode})\n`;
-  return code;
+  const funcName = this.getFunctionName(block.getProcCode());
+  const args = block.argumentIds_.map((arg) => this.valueToCode(block, arg, this.ORDER_NONE) || 'False');
+  const code = `await ${funcName}(${args.join(', ')})`;
+
+  if (block.return_) {
+    return [code, this.ORDER_FUNCTION_CALL];
+  }
+  return code + '\n';
 };

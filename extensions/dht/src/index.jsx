@@ -84,7 +84,7 @@ export default {
 
         let humCode = '';
         humCode += 'int getHumidity(int pin, bool dht22) {\n';
-        temCode += '  dht22 ? _dht.read22(pin) : _dht.read11(pin);\n';
+        humCode += '  dht22 ? _dht.read22(pin) : _dht.read11(pin);\n';
         humCode += '  return _dht.humidity;\n';
         humCode += '}';
         this.definitions_[`declare_getHumidity`] = `int getHumidity(int pin, bool dht22 = false);`;
@@ -181,7 +181,7 @@ export default {
 
         let humCode = '';
         humCode += 'int getHumidity(int pin, bool dht22) {\n';
-        temCode += '  dht22 ? _dht.read22(pin) : _dht.read11(pin);\n';
+        humCode += '  dht22 ? _dht.read22(pin) : _dht.read11(pin);\n';
         humCode += '  return _dht.humidity;\n';
         humCode += '}';
         this.definitions_[`declare_getHumidity`] = `int getHumidity(int pin, bool dht22 = false);`;

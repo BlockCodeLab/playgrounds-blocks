@@ -282,9 +282,9 @@ export class PythonGenerator extends ScratchBlocks.Generator {
     } else {
       // If the index is dynamic, adjust it in code.
       if (delta > 0) {
-        at = 'int(' + at + ' + ' + delta + ')';
+        at = '(int(' + at + ') + ' + delta + ')';
       } else if (delta < 0) {
-        at = 'int(' + at + ' - ' + -delta + ')';
+        at = '(int(' + at + ') - ' + -delta + ')';
       } else {
         at = 'int(' + at + ')';
       }

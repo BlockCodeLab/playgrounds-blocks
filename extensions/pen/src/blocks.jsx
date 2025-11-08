@@ -145,13 +145,13 @@ export const blocks = [
       },
     },
     emu(block) {
-      const option = this.valueToCode(block, 'OPTION', this.ORDER_NONE);
+      const option = block.getFieldValue('OPTION');
       const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE) || 10;
       const code = `runtime.extensions.pen.addColorParam(target, '${option}', ${value});\n`;
       return code;
     },
     mpy(block) {
-      const option = this.valueToCode(block, 'OPTION', this.ORDER_NONE);
+      const option = block.getFieldValue('OPTION');
       const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE) || 10;
       const code = `pen.change_color(target, ${option}=${value})\n`;
       return code;
@@ -176,13 +176,13 @@ export const blocks = [
       },
     },
     emu(block) {
-      const option = this.valueToCode(block, 'OPTION', this.ORDER_NONE);
+      const option = block.getFieldValue('OPTION');
       const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE) || '0';
       const code = `runtime.extensions.pen.setColorParam(target, '${option}', ${value});\n`;
       return code;
     },
     mpy(block) {
-      const option = this.valueToCode(block, 'OPTION', this.ORDER_NONE);
+      const option = block.getFieldValue('OPTION');
       const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE) || '0';
       const code = `pen.set_color(target, ${option}=${value})\n`;
       return code;
@@ -244,7 +244,6 @@ export const blocks = [
 
 export const menus = {
   colorParam: {
-    inputMode: true,
     defaultValue: 'hue',
     items: [
       [
