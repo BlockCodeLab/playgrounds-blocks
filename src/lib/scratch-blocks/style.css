@@ -90,3 +90,7 @@
   width: 24px !important;
   margin-top: -7px;
 }
+
+.blocklyAngleCircleEx {
+  stroke-width: 1;
+}
