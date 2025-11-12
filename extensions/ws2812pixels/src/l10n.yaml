@@ -1,0 +1,53 @@
+en:
+  blocks.ws2812pixels.name: WS2812 Pixels
+  blocks.ws2812pixels.init: set pin [PIN] leds [NUM]
+  blocks.ws2812pixels.led: set pin [PIN] led [POS][COLOR] brightness[BRIGHTNESS]
+  blocks.ws2812pixels.close: close pin [PIN] leds
+  blocks.ws2812pixels.effect: start pin [PIN] [EFFECT] effect
+  blocks.ws2812pixels.effectColor: start pin [PIN] [COLOR] [EFFECT] effect
+  blocks.ws2812pixels.effect.rainbow: rainbow cycle
+  blocks.ws2812pixels.effect.chase: chase
+  blocks.ws2812pixels.effect.twinkle: twinkle
+  blocks.ws2812pixels.effect.sparkle: sparkle
+  blocks.ws2812pixels.effect.breathing: breathing
+  blocks.ws2812pixels.effect.scanner: scanner
+  blocks.ws2812pixels.effect.waterfall: waterfall
+  blocks.ws2812pixels.effect.whirlpool: whirlpool
+  blocks.ws2812pixels.effect.spot: light spot
+  blocks.ws2812pixels.effect.wheel: light wheel
+
+zh-Hans:
+  blocks.ws2812pixels.name: WS2812 彩灯
+  blocks.ws2812pixels.init: 初始引脚[PIN]彩灯数量[NUM]
+  blocks.ws2812pixels.led: 将引脚[PIN]第[POS]个灯设为[COLOR]亮度[BRIGHTNESS]
+  blocks.ws2812pixels.close: 关闭引脚[PIN]所有灯
+  blocks.ws2812pixels.effect: 开启引脚[PIN][EFFECT]效果
+  blocks.ws2812pixels.effectColor: 开启引脚[PIN][COLOR][EFFECT]效果
+  blocks.ws2812pixels.effect.rainbow: 彩虹环
+  blocks.ws2812pixels.effect.chase: 追逐
+  blocks.ws2812pixels.effect.twinkle: 爆闪
+  blocks.ws2812pixels.effect.sparkle: 闪烁
+  blocks.ws2812pixels.effect.breathing: 呼吸
+  blocks.ws2812pixels.effect.scanner: 扫描
+  blocks.ws2812pixels.effect.waterfall: 流水
+  blocks.ws2812pixels.effect.whirlpool: 漩涡
+  blocks.ws2812pixels.effect.spot: 光点
+  blocks.ws2812pixels.effect.wheel: 轮盘
+
+zh-Hant:
+  blocks.ws2812pixels.name: WS2812 彩燈
+  blocks.ws2812pixels.init: 初始引腳[PIN]彩燈數量[NUM]
+  blocks.ws2812pixels.led: 將引腳[PIN]第[POS]個燈設為[COLOR]亮度[BRIGHTNESS]
+  blocks.ws2812pixels.close: 關閉引腳[PIN]所有燈
+  blocks.ws2812pixels.effect: 開啟引腳[PIN][EFFECT]效果
+  blocks.ws2812pixels.effectColor: 開啟引腳[PIN][COLOR][EFFECT]效果
+  blocks.ws2812pixels.effect.rainbow: 彩虹環
+  blocks.ws2812pixels.effect.chase: 追逐
+  blocks.ws2812pixels.effect.twinkle: 爆閃
+  blocks.ws2812pixels.effect.sparkle: 閃爍
+  blocks.ws2812pixels.effect.breathing: 呼吸
+  blocks.ws2812pixels.effect.scanner: 掃描
+  blocks.ws2812pixels.effect.waterfall: 流水
+  blocks.ws2812pixels.effect.whirlpool: 漩渦
+  blocks.ws2812pixels.effect.spot: 光點
+  blocks.ws2812pixels.effect.wheel: 輪盤
