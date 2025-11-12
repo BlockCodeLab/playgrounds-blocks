@@ -32,6 +32,6 @@ export default {
       defaultMessage="Request network data via HTTP."
     />
   ),
-  tags: ['data', 'communication'],
+  tags: ['scratch', 'device', 'communication'],
   internetRequired: true,
 };

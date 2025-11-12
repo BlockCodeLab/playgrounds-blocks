@@ -1,6 +1,6 @@
 en:
   blocks.tm1650.name: TM1650 4-Digit
-  blocks.tm1650.init: set pin SCL[SCL] pin SDA[SDA]
+  blocks.tm1650.init: set pins SCL[SCL] SDA[SDA]
   blocks.tm1650.addr: set I2C address [ADDR]
   blocks.tm1650.display: display number [NUM]
   blocks.tm1650.digit: set digit [DIGIT] at [POS]
@@ -10,7 +10,7 @@ en:
 
 zh-Hans:
   blocks.tm1650.name: TM1650 四位数码管
-  blocks.tm1650.init: 初始引脚 SCL[SCL] 引脚 SDA[SDA]
+  blocks.tm1650.init: 初始引脚 SCL[SCL] SDA[SDA]
   blocks.tm1650.addr: 初始 I2C 地址[ADDR]
   blocks.tm1650.display: 显示数字[NUM]
   blocks.tm1650.digit: 将第[POS]位数字设为[DIGIT]
@@ -19,7 +19,7 @@ zh-Hans:
 
 zh-Hant:
   blocks.tm1650.name: TM1650 四位數碼管
-  blocks.tm1650.init: 初始引腳 SCL[SCL] 引腳 SDA[SDA]
+  blocks.tm1650.init: 初始引腳 SCL[SCL] SDA[SDA]
   blocks.tm1650.addr: 初始 I2C 地址[ADDR]
   blocks.tm1650.display: 顯示數字[NUM]
   blocks.tm1650.digit: 將第[POS]位數字設為[DIGIT]

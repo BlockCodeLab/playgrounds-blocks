@@ -49,7 +49,7 @@ export const blocks = [
     ),
     inputs: {
       RPM: {
-        type: 'positive_integer',
+        shadow: 'rpmSlider',
         defaultValue: 10,
       },
     },
@@ -57,6 +57,23 @@ export const blocks = [
       const rpm = this.valueToCode(block, 'RPM', this.ORDER_NONE);
       const code = `_stepper.rpm = ${rpm}\n`;
       return code;
+    },
+  },
+  {
+    id: 'rpmSlider',
+    shadow: true,
+    output: 'number',
+    inputs: {
+      RPM: {
+        type: 'slider',
+        defaultValue: 0,
+        min: 0,
+        max: 20,
+      },
+    },
+    mpy(block) {
+      const code = block.getFieldValue('RPM') || 0;
+      return [code, this.ORDER_NONE];
     },
   },
   {

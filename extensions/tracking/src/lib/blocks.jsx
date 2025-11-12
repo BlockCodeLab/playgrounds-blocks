@@ -101,7 +101,7 @@ export const blocks = (meta) =>
       text: (
         <Text
           id="blocks.tracking.init5"
-          defaultMessage="set 5-channel tracker pin SCL [SCL] pin SDA [SDA]"
+          defaultMessage="set 5-channel tracker pins SCL [SCL] SDA [SDA]"
         />
       ),
       inputs: {

@@ -1,6 +1,6 @@
 en:
   blocks.bmx280.name: BMx280
-  blocks.bmx280.init: set pin SCL[SCL] pin SDA[SDA]
+  blocks.bmx280.init: set pins SCL[SCL] SDA[SDA]
   blocks.bmx280.addr: set I2C address [ADDR]
   blocks.bmx280.pressure: pressure atmosphere
   blocks.bmx280.temperature: temperature
@@ -9,7 +9,7 @@ en:
 
 zh-Hans:
   blocks.bmx280.name: BMx280 气压
-  blocks.bmx280.init: 初始引脚 SCL[SCL] 引脚 SDA[SDA]
+  blocks.bmx280.init: 初始引脚 SCL[SCL] SDA[SDA]
   blocks.bmx280.addr: 初始 I2C 地址[ADDR]
   blocks.bmx280.pressure: 气压
   blocks.bmx280.temperature: 温度
@@ -18,7 +18,7 @@ zh-Hans:
 
 zh-Hant:
   blocks.bmx280.name: BMx280 氣壓
-  blocks.bmx280.init: 初始引腳 SCL[SCL] 引腳 SDA[SDA]
+  blocks.bmx280.init: 初始引腳 SCL[SCL] SDA[SDA]
   blocks.bmx280.addr: 初始 I2C 地址[ADDR]
   blocks.bmx280.pressure: 氣壓
   blocks.bmx280.temperature: 溫度

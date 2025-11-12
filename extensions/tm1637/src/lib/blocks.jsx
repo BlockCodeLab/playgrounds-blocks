@@ -6,7 +6,7 @@ export const blocks = [
     text: (
       <Text
         id="blocks.tm1637.init"
-        defaultMessage="set pin CLK[CLK] pin DIO[DIO]"
+        defaultMessage="set pins CLK[CLK] DIO[DIO]"
       />
     ),
     inputs: {

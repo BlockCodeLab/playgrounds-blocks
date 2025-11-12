@@ -33,6 +33,6 @@ export default {
       defaultMessage="Connect to WebSocket server."
     />
   ),
-  tags: ['scratch'],
+  tags: ['scratch', 'device', 'communication'],
   internetRequired: true,
 };

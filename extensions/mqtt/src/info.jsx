@@ -33,6 +33,6 @@ export default {
       defaultMessage="The standard for IoT messaging."
     />
   ),
-  tags: ['data', 'communication'],
+  tags: ['scratch', 'device', 'communication'],
   internetRequired: true,
 };

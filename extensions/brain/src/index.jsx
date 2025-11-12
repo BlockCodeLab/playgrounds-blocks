@@ -27,12 +27,14 @@ export default {
       uri: brainFile,
     },
     {
-      name: '_aiohttp/__init__',
+      common: true,
+      name: 'aiohttp/__init__',
       type: 'text/x-python',
       uri: aiohttpFile,
     },
     {
-      name: '_aiohttp/aiohttp_ws',
+      common: true,
+      name: 'aiohttp/aiohttp_ws',
       type: 'text/x-python',
       uri: aiohttpWsFile,
     },
