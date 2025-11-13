@@ -3,7 +3,9 @@ import { Text } from '@blockcode/core';
 import imageTurnLeft from './turn-left.svg';
 import imageTurnRight from './turn-right.svg';
 
-export const blocks = [
+const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
+
+export const blocks = (meta) => [
   {
     id: 'init',
     text: (
@@ -13,28 +15,36 @@ export const blocks = [
       />
     ),
     inputs: {
-      INA: {
-        type: 'positive_integer',
-        defaultValue: 1,
-      },
-      INB: {
-        type: 'positive_integer',
-        defaultValue: 2,
-      },
-      INC: {
-        type: 'positive_integer',
-        defaultValue: 3,
-      },
-      IND: {
-        type: 'positive_integer',
-        defaultValue: 4,
-      },
+      INA: isIotBit(meta)
+        ? { menu: 'iotOutPins', defaultValue: 'P5' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
+      INB: isIotBit(meta)
+        ? { menu: 'iotOutPins', defaultValue: 'P6' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 2,
+          },
+      INC: isIotBit(meta)
+        ? { menu: 'iotOutPins', defaultValue: 'P7' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 3,
+          },
+      IND: isIotBit(meta)
+        ? { menu: 'iotOutPins', defaultValue: 'P8' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 4,
+          },
     },
     mpy(block) {
-      const ina = this.valueToCode(block, 'INA', this.ORDER_NONE);
-      const inb = this.valueToCode(block, 'INB', this.ORDER_NONE);
-      const inc = this.valueToCode(block, 'INC', this.ORDER_NONE);
-      const ind = this.valueToCode(block, 'IND', this.ORDER_NONE);
+      const ina = isIotBit(meta) ? block.getFieldValue('INA') : this.valueToCode(block, 'INA', this.ORDER_NONE);
+      const inb = isIotBit(meta) ? block.getFieldValue('INB') : this.valueToCode(block, 'INB', this.ORDER_NONE);
+      const inc = isIotBit(meta) ? block.getFieldValue('INC') : this.valueToCode(block, 'INC', this.ORDER_NONE);
+      const ind = isIotBit(meta) ? block.getFieldValue('IND') : this.valueToCode(block, 'IND', this.ORDER_NONE);
       this.definitions_['stepper_motor'] = `_stepper = stepper_motor.StepperMotor(${ina}, ${inb}, ${inc}, ${ind})`;
       return '';
     },
@@ -260,3 +270,35 @@ export const blocks = [
     },
   },
 ];
+
+export const menus = {
+  iotOutPins: {
+    items: [
+      ['P0', '33'],
+      ['P1', '32'],
+      // ['P2', '35'],
+      // ['P3', '34'],
+      // ['P4', '39'],
+      ['P5', '0'],
+      ['P6', '16'],
+      ['P7', '17'],
+      ['P8', '26'],
+      ['P9', '25'],
+      // ['P10', '36'],
+      ['P11', '2'],
+      // ['P12', ''],
+      ['P13', '18'],
+      ['P14', '19'],
+      ['P15', '21'],
+      ['P16', '5'],
+      ['P19', '22'],
+      ['P20', '23'],
+      ['P23', '27'],
+      ['P24', '14'],
+      ['P25', '12'],
+      ['P26', '13'],
+      ['P27', '15'],
+      ['P28', '4'],
+    ],
+  },
+};

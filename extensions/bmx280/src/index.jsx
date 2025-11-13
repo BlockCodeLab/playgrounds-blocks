@@ -1,5 +1,5 @@
 import { addLocalesMessages, Text } from '@blockcode/core';
-import { blocks } from './blocks';
+import { blocks, menus } from './blocks';
 import bmx280PyUri from './bmx280.py';
 
 import translations from './l10n.yaml';
@@ -28,4 +28,5 @@ export default {
     return [];
   },
   blocks,
+  menus,
 };

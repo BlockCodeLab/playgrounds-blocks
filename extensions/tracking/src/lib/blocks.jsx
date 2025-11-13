@@ -3,6 +3,7 @@ import { Text } from '@blockcode/core';
 const notArduino = (meta) => meta.editor !== '@blockcode/gui-arduino';
 const isUno = (meta) => ['ArudinoUno', 'BLEUNO'].includes(meta.boardType);
 const isNano = (meta) => ['ArudinoNano', 'BLENANO'].includes(meta.boardType);
+const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
 
 const autoInitArduino = (gen) => {
   gen.definitions_['variable_5tracker'] = `FiveLineTracker _5tracker;`;
@@ -12,36 +13,36 @@ const autoInitArduino = (gen) => {
 
 export const blocks = (meta) =>
   [
-    {
-      id: 'tracking',
-      text: (
-        <Text
-          id="blocks.tracking.tracking"
-          defaultMessage="pin [PIN] sensing black line?"
-        />
-      ),
-      output: 'boolean',
-      inputs: {
-        PIN: {
-          type: 'integer',
-          defaultValue: '1',
-        },
-      },
-      ino(block) {
-        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
-        this.definitions_[`setup_${pin}`] = `pinMode(${pin}, INPUT);`;
-        const code = `(digitalRead(${pin}) == LOW)`;
-        return [code, this.ORDER_FUNCTION_CALL];
-      },
-      mpy(block) {
-        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
-        const pinName = `pin_${pin}`;
-        this.definitions_['import_pin'] = 'from machine import Pin';
-        this.definitions_[pinName] = `${pinName} = Pin(${pin}, Pin.IN)`;
-        const code = `(${pinName}.value() == 0)`;
-        return [code, this.ORDER_FUNCTION_CALL];
-      },
-    },
+    // {
+    //   id: 'tracking',
+    //   text: (
+    //     <Text
+    //       id="blocks.tracking.tracking"
+    //       defaultMessage="pin [PIN] sensing black line?"
+    //     />
+    //   ),
+    //   output: 'boolean',
+    //   inputs: {
+    //     PIN: {
+    //       type: 'integer',
+    //       defaultValue: '1',
+    //     },
+    //   },
+    //   ino(block) {
+    //     const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+    //     this.definitions_[`setup_${pin}`] = `pinMode(${pin}, INPUT);`;
+    //     const code = `(digitalRead(${pin}) == LOW)`;
+    //     return [code, this.ORDER_FUNCTION_CALL];
+    //   },
+    //   mpy(block) {
+    //     const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+    //     const pinName = `pin_${pin}`;
+    //     this.definitions_['import_pin'] = 'from machine import Pin';
+    //     this.definitions_[pinName] = `${pinName} = Pin(${pin}, Pin.IN)`;
+    //     const code = `(${pinName}.value() == 0)`;
+    //     return [code, this.ORDER_FUNCTION_CALL];
+    //   },
+    // },
     // {
     //   id: 'value',
     //   text: (
@@ -95,7 +96,7 @@ export const blocks = (meta) =>
     //     },
     //   },
     // },
-    '---',
+    // '---',
     notArduino(meta) && {
       id: 'init5',
       text: (
@@ -105,18 +106,22 @@ export const blocks = (meta) =>
         />
       ),
       inputs: {
-        SCL: {
-          type: 'integer',
-          defaultValue: '2',
-        },
-        SDA: {
-          type: 'integer',
-          defaultValue: '3',
-        },
+        SCL: isIotBit(meta)
+          ? { menu: 'iotOutPins', defaultValue: '22' }
+          : {
+              type: 'positive_integer',
+              defaultValue: 2,
+            },
+        SDA: isIotBit(meta)
+          ? { menu: 'iotOutPins', defaultValue: '23' }
+          : {
+              type: 'positive_integer',
+              defaultValue: 3,
+            },
       },
       mpy(block) {
-        const scl = this.valueToCode(block, 'SCL', this.ORDER_NONE);
-        const sda = this.valueToCode(block, 'SDA', this.ORDER_NONE);
+        const scl = isIotBit(meta) ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
+        const sda = isIotBit(meta) ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
         this.definitions_['5tracker'] = `_5tracker = five_line_tracker.FiveLineTracker(${scl}, ${sda})`;
         return '';
       },
@@ -264,6 +269,35 @@ export const menus = {
       ['A5', 'A5'],
       ['A6', 'A6'],
       ['A7', 'A7'],
+    ],
+  },
+  iotOutPins: {
+    items: [
+      ['P0', '33'],
+      ['P1', '32'],
+      // ['P2', '35'],
+      // ['P3', '34'],
+      // ['P4', '39'],
+      ['P5', '0'],
+      ['P6', '16'],
+      ['P7', '17'],
+      ['P8', '26'],
+      ['P9', '25'],
+      // ['P10', '36'],
+      ['P11', '2'],
+      // ['P12', ''],
+      ['P13', '18'],
+      ['P14', '19'],
+      ['P15', '21'],
+      ['P16', '5'],
+      ['P19', '22'],
+      ['P20', '23'],
+      ['P23', '27'],
+      ['P24', '14'],
+      ['P25', '12'],
+      ['P26', '13'],
+      ['P27', '15'],
+      ['P28', '4'],
     ],
   },
 };

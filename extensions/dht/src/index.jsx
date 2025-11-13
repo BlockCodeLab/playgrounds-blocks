@@ -3,6 +3,8 @@ import { addLocalesMessages, Text } from '@blockcode/core';
 import translations from './l10n.yaml';
 import iconImage from './icon.svg';
 
+const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
+
 addLocalesMessages(translations);
 
 export default {
@@ -13,7 +15,7 @@ export default {
       defaultMessage="DHT"
     />
   ),
-  blocks: [
+  blocks: (meta) => [
     {
       id: 'temperature11',
       text: (
@@ -24,10 +26,12 @@ export default {
       ),
       output: 'number',
       inputs: {
-        PIN: {
-          type: 'integer',
-          defaultValue: '1',
-        },
+        PIN: isIotBit(meta)
+          ? { menu: 'iotPins' }
+          : {
+              type: 'positive_integer',
+              defaultValue: 1,
+            },
       },
       ino(block) {
         const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
@@ -72,10 +76,12 @@ export default {
       ),
       output: 'number',
       inputs: {
-        PIN: {
-          type: 'integer',
-          defaultValue: '1',
-        },
+        PIN: isIotBit(meta)
+          ? { menu: 'iotPins' }
+          : {
+              type: 'positive_integer',
+              defaultValue: 1,
+            },
       },
       ino(block) {
         const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
@@ -121,10 +127,12 @@ export default {
       ),
       output: 'number',
       inputs: {
-        PIN: {
-          type: 'integer',
-          defaultValue: '1',
-        },
+        PIN: isIotBit(meta)
+          ? { menu: 'iotPins' }
+          : {
+              type: 'positive_integer',
+              defaultValue: 1,
+            },
       },
       ino(block) {
         const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
@@ -169,10 +177,12 @@ export default {
       ),
       output: 'number',
       inputs: {
-        PIN: {
-          type: 'integer',
-          defaultValue: '1',
-        },
+        PIN: isIotBit(meta)
+          ? { menu: 'iotPins' }
+          : {
+              type: 'positive_integer',
+              defaultValue: 1,
+            },
       },
       ino(block) {
         const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
@@ -208,4 +218,35 @@ export default {
       },
     },
   ],
+  menus: {
+    iotPins: {
+      items: [
+        ['P0', '33'],
+        ['P1', '32'],
+        ['P2', '35'],
+        ['P3', '34'],
+        ['P4', '39'],
+        ['P5', '0'],
+        ['P6', '16'],
+        ['P7', '17'],
+        ['P8', '26'],
+        ['P9', '25'],
+        ['P10', '36'],
+        ['P11', '2'],
+        // ['P12', ''],
+        ['P13', '18'],
+        ['P14', '19'],
+        ['P15', '21'],
+        ['P16', '5'],
+        ['P19', '22'],
+        ['P20', '23'],
+        ['P23', '27'],
+        ['P24', '14'],
+        ['P25', '12'],
+        ['P26', '13'],
+        ['P27', '15'],
+        ['P28', '4'],
+      ],
+    },
+  },
 };

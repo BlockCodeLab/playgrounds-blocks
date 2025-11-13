@@ -3,6 +3,8 @@ import { setMeta, addAsset, delAsset, openPromptModal, Text, translate } from '@
 import { createFontWithCStyle, createFontWithPythonStyle } from './font-creator';
 import styles from './font-creator.module.css';
 
+const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
+
 export const blocks = (meta) => [
   {
     button: 'FONT_CREATOR',
@@ -94,18 +96,24 @@ export const blocks = (meta) => [
       />
     ),
     inputs: {
-      CLK: {
-        type: 'integer',
-        defaultValue: '2',
-      },
-      DIN: {
-        type: 'integer',
-        defaultValue: '3',
-      },
-      CS: {
-        type: 'integer',
-        defaultValue: '4',
-      },
+      CLK: isIotBit(meta)
+        ? { menu: 'iotOutPins', defaultValue: 'P5' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 2,
+          },
+      DIN: isIotBit(meta)
+        ? { menu: 'iotOutPins', defaultValue: 'P6' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 3,
+          },
+      CS: isIotBit(meta)
+        ? { menu: 'iotOutPins', defaultValue: 'P7' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 4,
+          },
     },
     ino(block) {
       const clk = this.valueToCode(block, 'CLK', this.ORDER_NONE);
@@ -117,9 +125,9 @@ export const blocks = (meta) => [
       return '';
     },
     mpy(block) {
-      const clk = this.valueToCode(block, 'CLK', this.ORDER_NONE);
-      const din = this.valueToCode(block, 'DIN', this.ORDER_NONE);
-      const cs = this.valueToCode(block, 'CS', this.ORDER_NONE);
+      const clk = isIotBit(meta) ? block.getFieldValue('CLK') : this.valueToCode(block, 'CLK', this.ORDER_NONE);
+      const din = isIotBit(meta) ? block.getFieldValue('DIN') : this.valueToCode(block, 'DIN', this.ORDER_NONE);
+      const cs = isIotBit(meta) ? block.getFieldValue('CS') : this.valueToCode(block, 'CS', this.ORDER_NONE);
       const devices = this.definitions_['matrix7219_devices']?.replace('# MAX7219 devices: ', '') || 1;
       delete this.definitions_['matrix7219_devices'];
       this.definitions_['matrix7219'] = `_matrix7219 = matrix7219.Matrix7219(${clk}, ${din}, ${cs}, ${devices})`;
@@ -466,3 +474,35 @@ export const blocks = (meta) => [
     },
   },
 ];
+
+export const menus = {
+  iotOutPins: {
+    items: [
+      ['P0', '33'],
+      ['P1', '32'],
+      // ['P2', '35'],
+      // ['P3', '34'],
+      // ['P4', '39'],
+      ['P5', '0'],
+      ['P6', '16'],
+      ['P7', '17'],
+      ['P8', '26'],
+      ['P9', '25'],
+      // ['P10', '36'],
+      ['P11', '2'],
+      // ['P12', ''],
+      ['P13', '18'],
+      ['P14', '19'],
+      ['P15', '21'],
+      ['P16', '5'],
+      ['P19', '22'],
+      ['P20', '23'],
+      ['P23', '27'],
+      ['P24', '14'],
+      ['P25', '12'],
+      ['P26', '13'],
+      ['P27', '15'],
+      ['P28', '4'],
+    ],
+  },
+};

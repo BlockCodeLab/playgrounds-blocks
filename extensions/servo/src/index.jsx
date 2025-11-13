@@ -4,6 +4,8 @@ import translations from './l10n.yaml';
 import iconImage from './icon.png';
 import servoFile from './servo.py';
 
+const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
+
 addLocalesMessages(translations);
 
 export default {
@@ -26,7 +28,7 @@ export default {
     }
     return [];
   },
-  blocks: [
+  blocks: (meta) => [
     {
       id: 'setServo180',
       text: (
@@ -36,17 +38,19 @@ export default {
         />
       ),
       inputs: {
-        PIN: {
-          type: 'integer',
-          defaultValue: 1,
-        },
+        PIN: isIotBit(meta)
+          ? { menu: 'iotOutPins' }
+          : {
+              type: 'positive_integer',
+              defaultValue: 1,
+            },
         ANGLE: {
           shadow: 'angle180',
           defaultValue: 90,
         },
       },
       mpy(block) {
-        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
         const angleCode = this.valueToCode(block, 'ANGLE', this.ORDER_NONE);
         const code = `servo.set_angle(${pin}, ${angleCode})\n`;
         return code;
@@ -71,17 +75,19 @@ export default {
         />
       ),
       inputs: {
-        PIN: {
-          type: 'integer',
-          defaultValue: 1,
-        },
+        PIN: isIotBit(meta)
+          ? { menu: 'iotOutPins' }
+          : {
+              type: 'positive_integer',
+              defaultValue: 1,
+            },
         ANGLE: {
           shadow: 'angle270',
           defaultValue: 0,
         },
       },
       mpy(block) {
-        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE) || 0;
+        const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
         const angleCode = this.valueToCode(block, 'ANGLE', this.ORDER_NONE) || 0;
         const code = `servo.set_angle(${pin}, ${angleCode}, angle=270)\n`;
         return code;
@@ -142,10 +148,12 @@ export default {
         />
       ),
       inputs: {
-        PIN: {
-          type: 'integer',
-          defaultValue: 1,
-        },
+        PIN: isIotBit(meta)
+          ? { menu: 'iotOutPins' }
+          : {
+              type: 'positive_integer',
+              defaultValue: 1,
+            },
         ROTATE: {
           type: 'integer',
           inputMode: true,
@@ -176,7 +184,7 @@ export default {
         },
       },
       mpy(block) {
-        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE) || 0;
+        const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
         const rotate = block.getFieldValue('ROTATE') || '1';
         const code = `servo.set_motor(${pin}, ${rotate})\n`;
         return code;
@@ -257,4 +265,35 @@ export default {
       },
     },
   ],
+  menus: {
+    iotOutPins: {
+      items: [
+        ['P0', '33'],
+        ['P1', '32'],
+        // ['P2', '35'],
+        // ['P3', '34'],
+        // ['P4', '39'],
+        ['P5', '0'],
+        ['P6', '16'],
+        ['P7', '17'],
+        ['P8', '26'],
+        ['P9', '25'],
+        // ['P10', '36'],
+        ['P11', '2'],
+        // ['P12', ''],
+        ['P13', '18'],
+        ['P14', '19'],
+        ['P15', '21'],
+        ['P16', '5'],
+        ['P19', '22'],
+        ['P20', '23'],
+        ['P23', '27'],
+        ['P24', '14'],
+        ['P25', '12'],
+        ['P26', '13'],
+        ['P27', '15'],
+        ['P28', '4'],
+      ],
+    },
+  },
 };

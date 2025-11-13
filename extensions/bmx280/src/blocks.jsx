@@ -1,6 +1,7 @@
 import { Text } from '@blockcode/core';
 
 const notArduino = (meta) => meta.editor !== '@blockcode/gui-arduino';
+const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
 
 export const blocks = (meta) =>
   [
@@ -13,18 +14,22 @@ export const blocks = (meta) =>
         />
       ),
       inputs: {
-        SCL: {
-          type: 'integer',
-          defaultValue: '2',
-        },
-        SDA: {
-          type: 'integer',
-          defaultValue: '3',
-        },
+        SCL: isIotBit(meta)
+          ? { menu: 'iotOutPins', defaultValue: '22' }
+          : {
+              type: 'integer',
+              defaultValue: '2',
+            },
+        SDA: isIotBit(meta)
+          ? { menu: 'iotOutPins', defaultValue: '23' }
+          : {
+              type: 'integer',
+              defaultValue: '3',
+            },
       },
       mpy(block) {
-        const scl = this.valueToCode(block, 'SCL', this.ORDER_NONE);
-        const sda = this.valueToCode(block, 'SDA', this.ORDER_NONE);
+        const scl = isIotBit(meta) ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
+        const sda = isIotBit(meta) ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
 
         if (this.definitions_['bmx280_addr']) {
           const addr = this.definitions_['bmx280_addr'].replace('# BMx280 addr: ', '');
@@ -196,3 +201,35 @@ export const blocks = (meta) =>
       },
     },
   ].filter(Boolean);
+
+export const menus = {
+  iotOutPins: {
+    items: [
+      ['P0', '33'],
+      ['P1', '32'],
+      // ['P2', '35'],
+      // ['P3', '34'],
+      // ['P4', '39'],
+      ['P5', '0'],
+      ['P6', '16'],
+      ['P7', '17'],
+      ['P8', '26'],
+      ['P9', '25'],
+      // ['P10', '36'],
+      ['P11', '2'],
+      // ['P12', ''],
+      ['P13', '18'],
+      ['P14', '19'],
+      ['P15', '21'],
+      ['P16', '5'],
+      ['P19', '22'],
+      ['P20', '23'],
+      ['P23', '27'],
+      ['P24', '14'],
+      ['P25', '12'],
+      ['P26', '13'],
+      ['P27', '15'],
+      ['P28', '4'],
+    ],
+  },
+};

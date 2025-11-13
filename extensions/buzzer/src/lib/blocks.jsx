@@ -1,6 +1,7 @@
 import { Text } from '@blockcode/core';
 
 const isArduino = (meta) => meta.editor === '@blockcode/gui-arduino';
+const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
 
 export const blocks = (meta) => [
   {
@@ -12,10 +13,12 @@ export const blocks = (meta) => [
       />
     ),
     inputs: {
-      PIN: {
-        type: 'integer',
-        defaultValue: '1',
-      },
+      PIN: isIotBit(meta)
+        ? { menu: 'iotPwmPins' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
       STATE: {
         type: 'integer',
         inputMode: true,
@@ -46,7 +49,7 @@ export const blocks = (meta) => [
       return code;
     },
     mpy(block) {
-      const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const state = this.valueToCode(block, 'STATE', this.ORDER_NONE);
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
@@ -57,43 +60,22 @@ export const blocks = (meta) => [
   },
   '---',
   {
-    id: 'initPassiveBuzzer',
+    id: 'passiveBuzzer',
     text: (
       <Text
-        id="blocks.buzzer.initPassiveBuzzer"
-        defaultMessage="set pin [PIN] passive buzzer"
+        id="blocks.buzzer.passiveBuzzer"
+        defaultMessage="pin [PIN] passive buzzer play note [NOTE] for [BEAT] beats"
       />
     ),
     inputs: {
       PIN: isArduino(meta)
         ? { menu: 'arduinoPwmPins' }
-        : {
-            type: 'integer',
-            defaultValue: '1',
-          },
-    },
-    ino(block) {
-      const pin = block.getFieldValue('PIN');
-      this.definitions_['include_tone'] = '#include "tone.h"';
-      this.definitions_['variable_tone'] = `Tone _tone(${pin});`;
-      return '';
-    },
-    mpy(block) {
-      const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
-      this.definitions_['import_pin'] = 'import buzzer';
-      this.definitions_['variable_tone'] = `_tone = buzzer.Tone(${pin})`;
-      return '';
-    },
-  },
-  {
-    id: 'passiveBuzzer',
-    text: (
-      <Text
-        id="blocks.buzzer.passiveBuzzer"
-        defaultMessage="passive buzzer play note [NOTE] for [BEAT] beats"
-      />
-    ),
-    inputs: {
+        : isIotBit(meta)
+          ? { menu: 'iotPwmPins' }
+          : {
+              type: 'positive_integer',
+              defaultValue: 1,
+            },
       NOTE: {
         type: 'note',
         defaultValue: '60',
@@ -104,15 +86,23 @@ export const blocks = (meta) => [
       },
     },
     ino(block) {
+      const pin = block.getFieldValue('PIN');
       const note = this.valueToCode(block, 'NOTE', this.ORDER_NONE);
       const beat = this.valueToCode(block, 'BEAT', this.ORDER_NONE);
-      const code = `_tone.play(${note}":${beat}");\n`;
+      const pinName = `_tone${pin}`;
+      this.definitions_['include_tone'] = '#include "tone.h"';
+      this.definitions_['variable_tone'] = `Tone ${pinName}(${pin});`;
+      const code = `${pinName}.play(${note}":${beat}");\n`;
       return code;
     },
     mpy(block) {
+      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const note = this.valueToCode(block, 'NOTE', this.ORDER_NONE);
       const beat = this.valueToCode(block, 'BEAT', this.ORDER_NONE);
-      const code = `_tone.play(${note}":${beat}")\n`;
+      const pinName = `_tone${pin}`;
+      this.definitions_['import_pin'] = 'import buzzer';
+      this.definitions_['variable_tone'] = `${pinName} = buzzer.Tone(${pin})`;
+      const code = `${pinName}.play(${note}":${beat}")\n`;
       return code;
     },
   },
@@ -121,23 +111,39 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.buzzer.playPassiveBuzzer"
-        defaultMessage="passive buzzer play [MUSIC]"
+        defaultMessage="pin [PIN] passive buzzer play [MUSIC]"
       />
     ),
     inputs: {
+      PIN: isArduino(meta)
+        ? { menu: 'arduinoPwmPins' }
+        : isIotBit(meta)
+          ? { menu: 'iotPwmPins' }
+          : {
+              type: 'positive_integer',
+              defaultValue: 1,
+            },
       MUSIC: {
         menu: 'music',
       },
     },
     ino(block) {
+      const pin = block.getFieldValue('PIN');
       const music = block.getFieldValue('MUSIC');
+      const pinName = `_tone${pin}`;
+      this.definitions_['include_tone'] = '#include "tone.h"';
       this.definitions_['include_tone_music'] = '#include "music.h"';
-      const code = `_tone.play(${music.toUpperCase()});\n`;
+      this.definitions_['variable_tone'] = `Tone ${pinName}(${pin});`;
+      const code = `${pinName}.play(${music.toUpperCase()});\n`;
       return code;
     },
     mpy(block) {
+      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const music = block.getFieldValue('MUSIC');
-      const code = `await _tone.aplay(buzzer.${music.toUpperCase()})\n`;
+      const pinName = `_tone${pin}`;
+      this.definitions_['import_pin'] = 'import buzzer';
+      this.definitions_['variable_tone'] = `${pinName} = buzzer.Tone(${pin})`;
+      const code = `await ${pinName}.aplay(buzzer.${music.toUpperCase()})\n`;
       return code;
     },
   },
@@ -146,14 +152,32 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.buzzer.stopPassiveBuzzer"
-        defaultMessage="stop passive buzzer"
+        defaultMessage="stop pin [PIN] passive buzzer"
       />
     ),
+    inputs: {
+      PIN: isArduino(meta)
+        ? { menu: 'arduinoPwmPins' }
+        : isIotBit(meta)
+          ? { menu: 'iotPwmPins' }
+          : {
+              type: 'positive_integer',
+              defaultValue: 1,
+            },
+    },
     ino(block) {
-      return '_tone.stop();\n';
+      const pin = block.getFieldValue('PIN');
+      const pinName = `_tone${pin}`;
+      this.definitions_['include_tone'] = '#include "tone.h"';
+      this.definitions_['variable_tone'] = `Tone ${pinName}(${pin});`;
+      return `${pinName}.stop();\n`;
     },
     mpy(block) {
-      return '_tone.stop()\n';
+      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pinName = `_tone${pin}`;
+      this.definitions_['import_pin'] = 'import buzzer';
+      this.definitions_['variable_tone'] = `${pinName} = buzzer.Tone(${pin})`;
+      return `${pinName}.stop()\n`;
     },
   },
 ];
@@ -168,6 +192,35 @@ export const menus = {
       ['9', '9'],
       ['10', '10'],
       ['11', '11'],
+    ],
+  },
+  iotPwmPins: {
+    items: [
+      ['P0', '33'],
+      ['P1', '32'],
+      // ['P2', '35'],
+      // ['P3', '34'],
+      // ['P4', '39'],
+      ['P5', '0'],
+      ['P6', '16'],
+      ['P7', '17'],
+      ['P8', '26'],
+      ['P9', '25'],
+      // ['P10', '36'],
+      ['P11', '2'],
+      // ['P12', ''],
+      ['P13', '18'],
+      ['P14', '19'],
+      ['P15', '21'],
+      ['P16', '5'],
+      ['P19', '22'],
+      ['P20', '23'],
+      ['P23', '27'],
+      ['P24', '14'],
+      ['P25', '12'],
+      ['P26', '13'],
+      ['P27', '15'],
+      ['P28', '4'],
     ],
   },
   music: {

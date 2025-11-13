@@ -4,11 +4,13 @@ const isUno = (meta) => ['ArduinoUno', 'BLEUNO'].includes(meta.boardType);
 const isNano = (meta) => ['ArduinoNano', 'BLENANO'].includes(meta.boardType);
 const isESP32 = (meta) => ['ESP32', 'ESP32_IOT_BOARD'].includes(meta.boardType);
 const isESP32S3 = (meta) => ['ESP32S3'].includes(meta.boardType);
+const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
 const pinMenu = (meta) => {
   if (isUno(meta)) return 'unoAdc';
   if (isNano(meta)) return 'nanoAdc';
   if (isESP32(meta)) return 'esp32Adc';
   if (isESP32S3(meta)) return 'esp32s3Adc';
+  if (isIotBit(meta)) return 'iotAdc';
 };
 
 export const blocks = (meta) => [
@@ -82,10 +84,12 @@ export const blocks = (meta) => [
     ),
     output: 'number',
     inputs: {
-      PIN: {
-        type: 'integer',
-        defaultValue: '1',
-      },
+      PIN: isIotBit(meta)
+        ? { menu: 'iotPins' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
     },
     ino(block) {
       const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
@@ -109,7 +113,7 @@ export const blocks = (meta) => [
       return [code, this.ORDER_FUNCTION_CALL];
     },
     mpy(block) {
-      const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const pinName = `_ds${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_onewire'] = 'from onewire import OneWire';
@@ -196,6 +200,55 @@ export const menus = {
       ['18', '18'],
       ['19', '19'],
       ['20', '20'],
+    ],
+  },
+  iotAdc: {
+    items: [
+      ['P0', '33'],
+      ['P1', '32'],
+      ['P2', '35'],
+      ['P3', '34'],
+      ['P4', '39'],
+      ['P5', '0'],
+      ['P8', '26'],
+      ['P9', '25'],
+      ['P10', '36'],
+      ['P11', '2'],
+      ['P23', '27'],
+      ['P24', '14'],
+      ['P25', '12'],
+      ['P26', '13'],
+      ['P27', '15'],
+      ['P28', '4'],
+    ],
+  },
+  iotPins: {
+    items: [
+      ['P0', '33'],
+      ['P1', '32'],
+      ['P2', '35'],
+      ['P3', '34'],
+      ['P4', '39'],
+      ['P5', '0'],
+      ['P6', '16'],
+      ['P7', '17'],
+      ['P8', '26'],
+      ['P9', '25'],
+      ['P10', '36'],
+      ['P11', '2'],
+      // ['P12', ''],
+      ['P13', '18'],
+      ['P14', '19'],
+      ['P15', '21'],
+      ['P16', '5'],
+      ['P19', '22'],
+      ['P20', '23'],
+      ['P23', '27'],
+      ['P24', '14'],
+      ['P25', '12'],
+      ['P26', '13'],
+      ['P27', '15'],
+      ['P28', '4'],
     ],
   },
 };

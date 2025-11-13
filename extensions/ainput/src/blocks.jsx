@@ -1,5 +1,6 @@
 import { Text } from '@blockcode/core';
 
+const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
 const isArduino = (meta) => meta.editor === '@blockcode/gui-arduino';
 const isNano = (meta) => ['ArduinoNano', 'BLENANO'].includes(meta.boardType);
 
@@ -18,10 +19,12 @@ export const blocks = (meta) => [
         ? {
             menu: isNano(meta) ? 'NANO_ANALOG_PINS' : 'UNO_ANALOG_PINS',
           }
-        : {
-            type: 'integer',
-            defaultValue: '1',
-          },
+        : isIotBit(meta)
+          ? { menu: 'IOT_ADC_PINS' }
+          : {
+              type: 'positive_integer',
+              defaultValue: 1,
+            },
     },
     ino(block) {
       const pin = block.getFieldValue('PIN');
@@ -30,7 +33,7 @@ export const blocks = (meta) => [
       return [code, this.ORDER_FUNCTION_CALL];
     },
     mpy(block) {
-      const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_adc'] = 'from machine import ADC';
@@ -55,10 +58,12 @@ export const blocks = (meta) => [
         ? {
             menu: isNano(meta) ? 'NANO_ANALOG_PINS' : 'UNO_ANALOG_PINS',
           }
-        : {
-            type: 'integer',
-            defaultValue: '1',
-          },
+        : isIotBit(meta)
+          ? { menu: 'IOT_ADC_PINS' }
+          : {
+              type: 'positive_integer',
+              defaultValue: 1,
+            },
     },
     ino(block) {
       const pin = block.getFieldValue('PIN');
@@ -67,7 +72,7 @@ export const blocks = (meta) => [
       return [code, this.ORDER_NONE];
     },
     mpy(block) {
-      const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_adc'] = 'from machine import ADC';
@@ -92,10 +97,12 @@ export const blocks = (meta) => [
         ? {
             menu: isNano(meta) ? 'NANO_ANALOG_PINS' : 'UNO_ANALOG_PINS',
           }
-        : {
-            type: 'integer',
-            defaultValue: '1',
-          },
+        : isIotBit(meta)
+          ? { menu: 'IOT_ADC_PINS' }
+          : {
+              type: 'positive_integer',
+              defaultValue: 1,
+            },
     },
     ino(block) {
       const pin = block.getFieldValue('PIN');
@@ -104,7 +111,7 @@ export const blocks = (meta) => [
       return [code, this.ORDER_FUNCTION_CALL];
     },
     mpy(block) {
-      const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_adc'] = 'from machine import ADC';
@@ -129,10 +136,12 @@ export const blocks = (meta) => [
         ? {
             menu: isNano(meta) ? 'NANO_ANALOG_PINS' : 'UNO_ANALOG_PINS',
           }
-        : {
-            type: 'integer',
-            defaultValue: '1',
-          },
+        : isIotBit(meta)
+          ? { menu: 'IOT_ADC_PINS' }
+          : {
+              type: 'positive_integer',
+              defaultValue: 1,
+            },
       // REF: {
       //   defaultValue: isArduino(meta) ? '500' : '330',
       //   menu: [
@@ -149,7 +158,7 @@ export const blocks = (meta) => [
       return [code, this.ORDER_NONE];
     },
     mpy(block) {
-      const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       // const ref = block.getFieldValue('REF');
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
@@ -185,6 +194,26 @@ export const menus = {
       ['A5', 'A5'],
       ['A6', 'A6'],
       ['A7', 'A7'],
+    ],
+  },
+  IOT_ADC_PINS: {
+    items: [
+      ['P0', '33'],
+      ['P1', '32'],
+      ['P2', '35'],
+      ['P3', '34'],
+      ['P4', '39'],
+      ['P5', '0'],
+      ['P8', '26'],
+      ['P9', '25'],
+      ['P10', '36'],
+      ['P11', '2'],
+      ['P23', '27'],
+      ['P24', '14'],
+      ['P25', '12'],
+      ['P26', '13'],
+      ['P27', '15'],
+      ['P28', '4'],
     ],
   },
 };

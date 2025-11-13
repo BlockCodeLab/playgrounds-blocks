@@ -1,6 +1,8 @@
 import { Text } from '@blockcode/core';
 
-export const blocks = [
+const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
+
+export const blocks = (meta) => [
   {
     id: 'ledState',
     text: (
@@ -10,10 +12,12 @@ export const blocks = [
       />
     ),
     inputs: {
-      PIN: {
-        type: 'integer',
-        defaultValue: '1',
-      },
+      PIN: isIotBit(meta)
+        ? { menu: 'IotOutPins' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
       STATE: {
         menu: 'LedStates',
       },
@@ -26,7 +30,7 @@ export const blocks = [
       return code;
     },
     mpy(block) {
-      const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const state = this.valueToCode(block, 'STATE', this.ORDER_NONE);
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
@@ -45,10 +49,12 @@ export const blocks = [
       />
     ),
     inputs: {
-      PIN: {
-        type: 'integer',
-        defaultValue: '1',
-      },
+      PIN: isIotBit(meta)
+        ? { menu: 'IotOutPins' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
     },
     ino(block) {
       const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
@@ -58,7 +64,7 @@ export const blocks = [
       return code;
     },
     mpy(block) {
-      const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_pwm'] = 'from machine import PWM';
@@ -76,10 +82,12 @@ export const blocks = [
       />
     ),
     inputs: {
-      PIN: {
-        type: 'integer',
-        defaultValue: '1',
-      },
+      PIN: isIotBit(meta)
+        ? { menu: 'IotOutPins' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
       LEVEL: {
         shadow: 'brightnessLevel',
         defaultValue: '10',
@@ -93,7 +101,7 @@ export const blocks = [
       return code;
     },
     mpy(block) {
-      const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const level = this.valueToCode(block, 'LEVEL', this.ORDER_NONE);
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
@@ -130,27 +138,33 @@ export const blocks = [
     text: (
       <Text
         id="blocks.leds.trafficLeds.init"
-        defaultMessage="set traffic leds green pin [G] yellow pin [Y] red pin [R] "
+        defaultMessage="set traffic leds pins green [G] yellow [Y] red [R] "
       />
     ),
     inputs: {
-      G: {
-        type: 'integer',
-        defaultValue: '1',
-      },
-      Y: {
-        type: 'integer',
-        defaultValue: '2',
-      },
-      R: {
-        type: 'integer',
-        defaultValue: '3',
-      },
+      G: isIotBit(meta)
+        ? { menu: 'IotOutPins', defaultValue: 'P5' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
+      Y: isIotBit(meta)
+        ? { menu: 'IotOutPins', defaultValue: 'P6' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 2,
+          },
+      R: isIotBit(meta)
+        ? { menu: 'IotOutPins', defaultValue: 'P7' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 3,
+          },
     },
     ino(block) {
-      const pinR = this.valueToCode(block, 'R', this.ORDER_NONE);
-      const pinY = this.valueToCode(block, 'Y', this.ORDER_NONE);
-      const pinG = this.valueToCode(block, 'G', this.ORDER_NONE);
+      const pinR = isIotBit(meta) ? block.getFieldValue('R') : this.valueToCode(block, 'R', this.ORDER_NONE);
+      const pinY = isIotBit(meta) ? block.getFieldValue('Y') : this.valueToCode(block, 'Y', this.ORDER_NONE);
+      const pinG = isIotBit(meta) ? block.getFieldValue('G') : this.valueToCode(block, 'G', this.ORDER_NONE);
       this.definitions_[`setup_pin_${pinR}`] = `pinMode(${pinR}, OUTPUT);`;
       this.definitions_[`setup_pin_${pinY}`] = `pinMode(${pinY}, OUTPUT);`;
       this.definitions_[`setup_pin_${pinG}`] = `pinMode(${pinG}, OUTPUT);`;
@@ -237,22 +251,28 @@ export const blocks = [
     text: (
       <Text
         id="blocks.leds.rgbLed.init"
-        defaultMessage="set RGB LED red pin [R] green pin[G] blue pin [B]"
+        defaultMessage="set RGB LED pins red [R] green [G] blue [B]"
       />
     ),
     inputs: {
-      R: {
-        type: 'integer',
-        defaultValue: '1',
-      },
-      G: {
-        type: 'integer',
-        defaultValue: '2',
-      },
-      B: {
-        type: 'integer',
-        defaultValue: '3',
-      },
+      R: isIotBit(meta)
+        ? { menu: 'IotOutPins', defaultValue: 'P5' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
+      G: isIotBit(meta)
+        ? { menu: 'IotOutPins', defaultValue: 'P6' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 2,
+          },
+      B: isIotBit(meta)
+        ? { menu: 'IotOutPins', defaultValue: 'P7' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 3,
+          },
     },
     ino(block) {
       const pinR = this.valueToCode(block, 'R', this.ORDER_NONE);
@@ -276,9 +296,9 @@ export const blocks = [
       return '';
     },
     mpy(block) {
-      const pinR = this.valueToCode(block, 'R', this.ORDER_NONE);
-      const pinG = this.valueToCode(block, 'G', this.ORDER_NONE);
-      const pinB = this.valueToCode(block, 'B', this.ORDER_NONE);
+      const pinR = isIotBit(meta) ? block.getFieldValue('R') : this.valueToCode(block, 'R', this.ORDER_NONE);
+      const pinG = isIotBit(meta) ? block.getFieldValue('G') : this.valueToCode(block, 'G', this.ORDER_NONE);
+      const pinB = isIotBit(meta) ? block.getFieldValue('B') : this.valueToCode(block, 'B', this.ORDER_NONE);
       const pinRName = `pin_${pinR}`;
       const pinGName = `pin_${pinG}`;
       const pinBName = `pin_${pinB}`;
@@ -362,6 +382,35 @@ export const menus = {
         />,
         '0',
       ],
+    ],
+  },
+  IotOutPins: {
+    items: [
+      ['P0', '33'],
+      ['P1', '32'],
+      // ['P2', '35'],
+      // ['P3', '34'],
+      // ['P4', '39'],
+      ['P5', '0'],
+      ['P6', '16'],
+      ['P7', '17'],
+      ['P8', '26'],
+      ['P9', '25'],
+      // ['P10', '36'],
+      ['P11', '2'],
+      // ['P12', ''],
+      ['P13', '18'],
+      ['P14', '19'],
+      ['P15', '21'],
+      ['P16', '5'],
+      ['P19', '22'],
+      ['P20', '23'],
+      ['P23', '27'],
+      ['P24', '14'],
+      ['P25', '12'],
+      ['P26', '13'],
+      ['P27', '15'],
+      ['P28', '4'],
     ],
   },
 };
