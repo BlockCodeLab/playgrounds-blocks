@@ -38,9 +38,17 @@ export class MicroPythonGenerator extends PythonGenerator {
   }
 
   addEventTrap(branchCode, id) {
+    const defvars = this.definitions_['variables']?.split('\n') ?? [];
+    const globalVars = [];
+    for (const defvar of defvars) {
+      const varName = defvar.split('=')[0].trim();
+      globalVars.push(varName);
+    }
+
     const funcName = this.getFunctionName(id);
     let code = '';
     code += `async def ${funcName}():\n`;
+    code += `  global ${globalVars.join(', ')}\n`;
     code += branchCode;
     return code;
   }
