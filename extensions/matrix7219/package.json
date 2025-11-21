@@ -13,7 +13,7 @@
     }
   },
   "dependencies": {
-    "preact": "^10.26.9"
+    "preact": "^10.27.2"
   },
   "devDependencies": {
     "@types/bun": "latest"
