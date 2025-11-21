@@ -1,6 +1,7 @@
 import { Text } from '@blockcode/core';
 
 const isArduino = (meta) => meta.editor === '@blockcode/gui-arduino';
+const notArduino = (meta) => meta.editor !== '@blockcode/gui-arduino';
 const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
 
 export const blocks = (meta) => [
@@ -111,7 +112,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.buzzer.playPassiveBuzzer"
-        defaultMessage="pin [PIN] passive buzzer play [MUSIC]"
+        defaultMessage="pin [PIN] passive buzzer play sound [MUSIC] until done"
       />
     ),
     inputs: {
@@ -144,6 +145,37 @@ export const blocks = (meta) => [
       this.definitions_['import_pin'] = 'import buzzer';
       this.definitions_['variable_tone'] = `${pinName} = buzzer.Tone(${pin})`;
       const code = `await ${pinName}.aplay(buzzer.${music.toUpperCase()})\n`;
+      return code;
+    },
+  },
+  notArduino(meta) && {
+    id: 'startPassiveBuzzer',
+    text: (
+      <Text
+        id="blocks.buzzer.startPassiveBuzzer"
+        defaultMessage="pin [PIN] passive buzzer start sound [MUSIC]"
+      />
+    ),
+    inputs: {
+      PIN: isArduino(meta)
+        ? { menu: 'arduinoPwmPins' }
+        : isIotBit(meta)
+          ? { menu: 'iotPwmPins' }
+          : {
+              type: 'positive_integer',
+              defaultValue: 1,
+            },
+      MUSIC: {
+        menu: 'music',
+      },
+    },
+    mpy(block) {
+      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const music = block.getFieldValue('MUSIC');
+      const pinName = `_tone${pin}`;
+      this.definitions_['import_pin'] = 'import buzzer';
+      this.definitions_['variable_tone'] = `${pinName} = buzzer.Tone(${pin})`;
+      const code = `asyncio.create_task(${pinName}.aplay(buzzer.${music.toUpperCase()}))\n`;
       return code;
     },
   },

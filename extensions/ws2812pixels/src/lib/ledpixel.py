@@ -131,21 +131,21 @@ class LedPixel(NeoPixel):
             for n in leds:
                 self.set_led(n, 10, color)
             self.write()
-            await asyncio.sleep_ms(70)
+            await asyncio.sleep_ms(50)
 
             for n in leds:
                 self.set_led(n, 8, color)
             self.write()
-            await asyncio.sleep_ms(30)
+            await asyncio.sleep_ms(20)
 
             for n in leds:
                 self.set_led(n, 5, color)
             self.write()
-            await asyncio.sleep_ms(30)
+            await asyncio.sleep_ms(20)
 
             self.fill((0, 0, 0))
             self.write()
-            await asyncio.sleep_ms(20)
+            await asyncio.sleep_ms(10)
 
     async def breathing(self, color=None):
         if not color:

@@ -123,6 +123,63 @@ export const blocks = (meta) => [
   },
   '---',
   {
+    id: 'effectWait',
+    text: (
+      <Text
+        id="blocks.ws2812pixels.effectWait"
+        defaultMessage="start pin [PIN] [EFFECT] effect and wait"
+      />
+    ),
+    inputs: {
+      PIN: isIotBit(meta)
+        ? { menu: 'iotPWMPins' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
+      EFFECT: {
+        menu: 'effectOption',
+      },
+    },
+    mpy(block) {
+      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const effect = block.getFieldValue('EFFECT');
+      const code = `await _ledpixel${pin}.${effect}()\n`;
+      return code;
+    },
+  },
+  {
+    id: 'effectColorWait',
+    text: (
+      <Text
+        id="blocks.ws2812pixels.effectColorWait"
+        defaultMessage="start pin [PIN] [COLOR] [EFFECT] effect and wait"
+      />
+    ),
+    inputs: {
+      PIN: isIotBit(meta)
+        ? { menu: 'iotPWMPins' }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
+      COLOR: {
+        type: 'color',
+      },
+      EFFECT: {
+        menu: 'effectColorOption',
+      },
+    },
+    mpy(block) {
+      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const color = this.valueToCode(block, 'COLOR', this.ORDER_NONE);
+      const effect = block.getFieldValue('EFFECT');
+      const code = `await _ledpixel${pin}.${effect}(${color})\n`;
+      return code;
+    },
+  },
+  '---',
+  {
     id: 'effect',
     text: (
       <Text
@@ -144,7 +201,7 @@ export const blocks = (meta) => [
     mpy(block) {
       const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const effect = block.getFieldValue('EFFECT');
-      const code = `await _ledpixel${pin}.${effect}()\n`;
+      const code = `asyncio.create_task(_ledpixel${pin}.${effect}())\n`;
       return code;
     },
   },
@@ -174,7 +231,7 @@ export const blocks = (meta) => [
       const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const color = this.valueToCode(block, 'COLOR', this.ORDER_NONE);
       const effect = block.getFieldValue('EFFECT');
-      const code = `await _ledpixel${pin}.${effect}(${color})\n`;
+      const code = `asyncio.create_task(_ledpixel${pin}.${effect}(${color}))\n`;
       return code;
     },
   },
