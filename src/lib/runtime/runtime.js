@@ -528,7 +528,13 @@ export class Runtime extends EventEmitter {
   }
 
   setMonitorValue(label, value = 0) {
-    if (label) {
+    if (label?.visible) {
+      if (!isNaN(value)) {
+        value = +value;
+        if (!Number.isInteger(value)) {
+          value = parseFloat(value.toFixed(3));
+        }
+      }
       const monitor = label.getAttr('monitor');
       const text = label.getText();
       if (monitor.mode === Runtime.MonitorMode.Label) {

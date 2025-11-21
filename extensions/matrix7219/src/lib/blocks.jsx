@@ -47,7 +47,7 @@ export const blocks = (meta) => [
 
             const fonts = fontMap
               ? isArduino
-                ? createFontWithCStyle(fontMap)
+                ? `#pragma once\n#include <Arduino.h>\n${createFontWithCStyle(fontMap)}`
                 : createFontWithPythonStyle(fontMap)
               : {
                   map: [],

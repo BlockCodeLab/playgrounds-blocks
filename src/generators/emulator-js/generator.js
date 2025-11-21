@@ -87,7 +87,7 @@ export class EmulatorGenerator extends JavaScriptGenerator {
         code += `    ${this.RENDER_LOOP_TRAP}`;
         code += `  } else if (userscript.i++ > 500) {\n`;
       } else {
-        code += `  if (userscript.warpMode && userscript.i++ > 500) {\n`;
+        code += `  if (userscript.i++ > 500) {\n`;
       }
       // 极速模式
       code += '    userscript.i = 1;\n';

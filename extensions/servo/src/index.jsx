@@ -17,7 +17,7 @@ export default {
     />
   ),
   files(meta) {
-    if (meta.editor !== '@blockcode/arduino') {
+    if (meta.editor !== '@blockcode/gui-arduino') {
       return [
         {
           name: 'servo',

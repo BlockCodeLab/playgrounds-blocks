@@ -6,17 +6,17 @@ const fontface = new FontFace(fontname, `url(${fontUrl})`);
 document.fonts.add(fontface);
 fontface.load();
 
-const canvas = document.createElement('canvas');
-const ctx = canvas.getContext('2d', { willReadFrequently: true });
-fontface.loaded
-  .then(() => {
-    ctx.font = `${fontWidth}px ${fontname}`;
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'top';
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// const canvas = document.createElement('canvas');
+// const ctx = canvas.getContext('2d', { willReadFrequently: true });
+// fontface.loaded
+//   .then(() => {
+//     ctx.font = `${fontWidth}px ${fontname}`;
+//     ctx.textAlign = 'left';
+//     ctx.textBaseline = 'top';
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 const convert = (char) => {
   // 不是中文不进行转换
@@ -24,6 +24,11 @@ const convert = (char) => {
   //     return;
   // }
 
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  ctx.font = `${fontWidth}px ${fontname}`;
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, 10, 10);
   ctx.fillStyle = '#000000';
@@ -108,8 +113,7 @@ export const createFontWithCStyle = (all) => {
       map.push(char);
     });
 
-  let content = '#pragma once\n';
-  content += '#include <Arduino.h>\n';
+  let content = '';
   content += `static byte FONTS[${fontMap.size + 1}][${maxWidth + 1}] = {\n${result}};\n`;
   content += `static char *FONT_MAP[] = {"${map.map((c) => (c === '"' ? '\\"' : c === '\\' ? '\\\\' : c)).join('","')}"};\n`;
   content += `static int FONT_COUNT = ${fontMap.size + 1};\n`;
