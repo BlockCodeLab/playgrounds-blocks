@@ -48,7 +48,10 @@ export class MicroPythonGenerator extends PythonGenerator {
     const funcName = this.getFunctionName(id);
     let code = '';
     code += `async def ${funcName}():\n`;
-    code += `  global ${globalVars.join(', ')}\n`;
+
+    if (globalVars.length > 0) {
+      code += `  global ${globalVars.join(', ')}\n`;
+    }
     code += branchCode;
     return code;
   }
