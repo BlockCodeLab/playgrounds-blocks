@@ -72,6 +72,6 @@ blocks.colorPicker.blueLabel: 蓝
 blocks.extensionStatusMenu.bluetooth: 蓝牙连接
 blocks.extensionStatusMenu.serial: USB 连接
 
-blocks.centextMenu.exportPng: 导出脚本到图片
-blocks.centextMenu.exportBlocksPng: 导出脚本到图片
-blocks.centextMenu.exportAllBlocksPng: 导出全部脚本到图片
+blocks.centextMenu.exportPng: 导出积木到图片
+blocks.centextMenu.exportBlocksPng: 导出积木到图片
+blocks.centextMenu.exportAllBlocksPng: 导出所有积木到图片

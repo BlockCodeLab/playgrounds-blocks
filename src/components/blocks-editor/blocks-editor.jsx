@@ -226,14 +226,17 @@ export function BlocksEditor({
 
   // 更新工作区积木
   //
-  const updateWorkspace = useCallback(() => {
-    const buildinExtensions = onBuildinExtensions?.();
-    const xml = updateToolboxXml(buildinExtensions, { ...options, updateWorkspace }, meta.value);
-    if (ref.workspace?.toolbox_) {
-      updateWorkspaceToolbox(ref.workspace, wrapToolboxXml(xml));
-    }
-    return xml;
-  }, [options, onBuildinExtensions]);
+  const updateWorkspace = useCallback(
+    (xmlDom) => {
+      const buildinExtensions = onBuildinExtensions?.();
+      const toolboxXml = updateToolboxXml(buildinExtensions, { ...options, updateWorkspace }, meta.value);
+      if (ref.workspace?.toolbox_) {
+        updateWorkspaceToolbox(ref.workspace, xmlDom, wrapToolboxXml(toolboxXml));
+      }
+      return toolboxXml;
+    },
+    [options, onBuildinExtensions],
+  );
 
   // 切换积木语言
   //
@@ -244,7 +247,7 @@ export function BlocksEditor({
     }
     // 更新积木文本
     updateScratchBlocksMsgs(enableMultiTargets, !!variableTypes);
-    updateWorkspace();
+    updateWorkspace(file.value.xmlDom);
   }, [enableMultiTargets, variableTypes, updateWorkspace, language.value]);
 
   // 添加扩展XML
@@ -386,8 +389,8 @@ export function BlocksEditor({
 
       // 更新积木栏
       const buildinExtensions = onBuildinExtensions?.();
-      const xml = updateToolboxXml(buildinExtensions, options, meta.value);
-      updateWorkspaceToolbox(ref.workspace, wrapToolboxXml(xml));
+      const toolboxXml = updateToolboxXml(buildinExtensions, options, meta.value);
+      updateWorkspaceToolbox(ref.workspace, null, wrapToolboxXml(toolboxXml));
 
       // 清除撤销记录
       setTimeout(() => ref.workspace.clearUndo(), 50);
@@ -411,7 +414,7 @@ export function BlocksEditor({
   useEffect(() => {
     if (splashVisible.value) return;
     if (appState.value?.running) return;
-    updateWorkspace();
+    updateWorkspace(file.value.xmlDom);
   }, [files.value.length, updateWorkspace]);
 
   // 在其他标签修改后，更新造型等列表
@@ -420,7 +423,7 @@ export function BlocksEditor({
     if (splashVisible.value) return;
     if (appState.value?.running) return;
     if (tabIndex.value === 0) return;
-    updateWorkspace();
+    updateWorkspace(file.value.xmlDom);
   }, [modified.value, updateWorkspace]);
 
   // 首次载入项目
@@ -634,8 +637,9 @@ export function BlocksEditor({
         }
 
         // 更新 xml 和转换代码
-        if (!supportedEvents.has(e.type)) return;
-        handleChange();
+        if (supportedEvents.has(e.type)) {
+          handleChange();
+        }
       });
 
       // 缩放工作区

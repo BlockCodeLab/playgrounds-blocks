@@ -1,9 +1,10 @@
 import { ScratchBlocks } from './scratch-blocks';
 
-export function updateWorkspaceToolbox(workspace, toolboxXml) {
+export function updateWorkspaceToolbox(workspace, xmlDom, toolboxXml) {
   // 更新工作区
-  const xmlDom = ScratchBlocks.Xml.workspaceToDom(workspace);
-  ScratchBlocks.Xml.clearWorkspaceAndLoadFromXml(xmlDom, workspace);
+  if (xmlDom) {
+    ScratchBlocks.Xml.clearWorkspaceAndLoadFromXml(xmlDom, workspace);
+  }
 
   // 记录工具栏位置
   const categoryId = workspace.toolbox_.getSelectedCategoryId();
