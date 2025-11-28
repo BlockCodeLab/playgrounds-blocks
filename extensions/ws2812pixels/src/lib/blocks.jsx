@@ -31,7 +31,9 @@ export const blocks = (meta) => [
       const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
       const pinName = `_ledpixel${pin}`;
-      this.definitions_[`init_${pinName}`] = `${pinName} = ledpixel.LedPixel(${pin}, ${num})`;
+      this.definitions_['import_pin'] = 'from machine import Pin';
+      this.definitions_['import_ledpixel'] = 'from ledpixel import LedPixel';
+      this.definitions_[`init_${pinName}`] = `${pinName} = LedPixel(Pin(${pin}), ${num})`;
       return '';
     },
   },

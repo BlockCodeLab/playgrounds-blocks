@@ -7,6 +7,7 @@ export const files = (meta) => {
 
   return [
     {
+      common: true,
       name: 'ledpixel',
       type: 'text/x-python',
       uri: ledPixelPyUrl,
