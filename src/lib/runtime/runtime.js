@@ -476,8 +476,8 @@ export class Runtime extends EventEmitter {
         label.on('dragend', () => {
           const monitors = this.monitors;
           const monitor = label.getAttr('monitor');
-          monitor.x = label.x();
-          monitor.y = label.y();
+          monitor.x = Math.round(label.x());
+          monitor.y = Math.round(label.y());
           const index = monitors.findIndex((m) => m.groupId === monitor.groupId && m.id === monitor.id);
           monitors[index] = monitor;
           setMeta({ monitors });
