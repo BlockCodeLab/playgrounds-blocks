@@ -14,7 +14,6 @@ export {
   operatorsTheme,
   variablesTheme,
   myBlocksTheme,
-  monitorTheme,
 } from './lib/make-toolbox-xml';
 
 export { BlocksEditor, loadedExtensions } from './components/blocks-editor/blocks-editor';

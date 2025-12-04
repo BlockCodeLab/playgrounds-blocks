@@ -25,8 +25,6 @@ export const variablesTheme = `
   colour="${themeColors.blocks.variables.primary}" secondaryColour="${themeColors.blocks.variables.secondary}"`;
 export const myBlocksTheme = `
   colour="${themeColors.blocks.myblocks.primary}" secondaryColour="${themeColors.blocks.myblocks.secondary}"`;
-export const monitorTheme = `
-  colour="${themeColors.blocks.monitor.primary}" secondaryColour="${themeColors.blocks.monitor.secondary}"`;
 
 const events = () => `
   <category name="%{BKY_CATEGORY_EVENTS}" id="event" ${eventsTheme}>
@@ -334,47 +332,6 @@ const myBlocks = () => `
   </category>
 `;
 
-const monitor = (disableMonitor) =>
-  disableMonitor
-    ? ''
-    : `
-      <category name="${ScratchBlocks.Msg.CATEGORY_MONITOR}" id="monitor" ${monitorTheme}>
-        ${
-          DEBUG
-            ? `
-              <block type="monitor_debug">
-                <value name="VALUE">
-                  <shadow type="text">
-                    <field name="TEXT">debug</field>
-                  </shadow>
-                </value>
-              </block>
-              ${blockSeparator}`
-            : ''
-        }
-        <block type="monitor_showvalue">
-          <value name="VALUE">
-            <shadow type="text">
-            <field name="TEXT"/>
-            </shadow>
-          </value>
-        </block>
-        <block type="monitor_shownamedvalue">
-          <value name="VALUE">
-            <shadow type="text">
-            <field name="TEXT"/>
-            </shadow>
-          </value>
-          <value name="LABEL">
-            <shadow type="text">
-            <field name="TEXT"/>
-            </shadow>
-          </value>
-        </block>
-        ${categorySeparator}
-      </category>
-    `;
-
 export function makeToolboxXML(categoriesXML = [], options = {}) {
   const moveCategory = (categoryId) => {
     const index = categoriesXML.findIndex((categoryInfo) => categoryInfo.id === categoryId);
@@ -391,7 +348,6 @@ export function makeToolboxXML(categoriesXML = [], options = {}) {
   const operatorsXML = moveCategory('operator') || operators(options.enableStringBlocks);
   const variablesXML = variables();
   const myBlocksXML = myBlocks();
-  const monitorXML = monitor(!options.enableMonitor);
 
   const everything = [eventsXML, controlXML, sensingXML, operatorsXML, variablesXML, myBlocksXML].filter(
     (s) => s && s.trim(),

@@ -72,12 +72,6 @@ export default {
       tertiary: themeColors.blocks.myblocks.tertiary,
       quaternary: themeColors.blocks.myblocks.quaternary,
     },
-    monitor: {
-      primary: themeColors.blocks.monitor.primary,
-      secondary: themeColors.blocks.monitor.secondary,
-      tertiary: themeColors.blocks.monitor.tertiary,
-      quaternary: themeColors.blocks.monitor.quaternary,
-    },
     workspace: '#F9F9F9',
     flyout: '#F9F9F9',
     toolbox: '#FFFFFF',

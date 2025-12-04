@@ -1,11 +1,6 @@
 import { ScratchBlocks } from './scratch-blocks';
 
 export function updateWorkspaceToolbox(workspace, xmlDom, toolboxXml) {
-  // 更新工作区
-  if (xmlDom) {
-    ScratchBlocks.Xml.clearWorkspaceAndLoadFromXml(xmlDom, workspace);
-  }
-
   // 记录工具栏位置
   const categoryId = workspace.toolbox_.getSelectedCategoryId();
   const offset = workspace.toolbox_.getCategoryScrollOffset();
@@ -13,6 +8,11 @@ export function updateWorkspaceToolbox(workspace, xmlDom, toolboxXml) {
 
   // 更新积木栏
   workspace.updateToolbox(toolboxXml);
+
+  // 更新工作区
+  if (xmlDom) {
+    ScratchBlocks.Xml.clearWorkspaceAndLoadFromXml(xmlDom, workspace);
+  }
 
   // 滚动到之前的位置或选择的位置
   const currentCategoryPos = workspace.toolbox_.getCategoryPositionById(categoryId);

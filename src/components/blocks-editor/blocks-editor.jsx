@@ -7,6 +7,7 @@ import {
   useProjectContext,
   setAppState,
   setModified,
+  isModifyType,
   ModifyTypes,
   hideSplash,
   translate,
@@ -53,6 +54,9 @@ const supportedEvents = new Set([
   ScratchBlocks.Events.VAR_DELETE,
   ScratchBlocks.Events.VAR_RENAME,
 ]);
+
+// 全局监视的积木类型
+const globalMonitorCategories = ['data', 'sound', 'sensing'];
 
 // 已经载入的扩展
 export const loadedExtensions = new Map();
@@ -187,28 +191,27 @@ export function BlocksEditor({
 
   // 设置积木前的选项框
   useEffect(() => {
-    if (!meta.value.monitors) return;
-    if (enableMonitor && !splashVisible.value) {
-      const flyout = ScratchBlocks.getMainWorkspace().getFlyout();
-      setTimeout(() => {
-        for (const monitor of meta.value.monitors) {
-          if (['data', fileId.value].includes(monitor.groupId)) {
-            flyout.setCheckboxState(monitor.id, monitor.visible);
-          }
+    if (splashVisible.value) return;
+    if (!enableMonitor) return;
+
+    const flyout = ScratchBlocks.getMainWorkspace().getFlyout();
+    setTimeout(() => {
+      const monitors = meta.value.monitors || [];
+      for (const monitor of monitors) {
+        if (['data', fileId.value].includes(monitor.groupId)) {
+          flyout.setCheckboxState(monitor.id, monitor.visible);
         }
-      });
-    }
-  }, [enableMonitor, fileId.value, meta.value, splashVisible.value]);
+      }
+    });
+  }, [fileId.value]);
 
   // 变量设置确认
-  //
   const handleDataPromptSubmit = useCallback((input, options) => {
     dataPrompt.value.callback(input, [], options);
     dataPrompt.value = null;
   }, []);
 
   // 自制积木设置确认
-  //
   const handleMyBlockPromptSubmit = useCallback((myBlockXml) => {
     if (myBlockXml && ref.workspace) {
       myBlockPrompt.value.defCallback(myBlockXml);
@@ -225,257 +228,231 @@ export function BlocksEditor({
   }, []);
 
   // 更新工作区积木
-  //
-  const updateWorkspace = useCallback(
-    (xmlDom) => {
-      const buildinExtensions = onBuildinExtensions?.();
-      const toolboxXml = updateToolboxXml(buildinExtensions, { ...options, updateWorkspace }, meta.value);
-      if (ref.workspace?.toolbox_) {
-        updateWorkspaceToolbox(ref.workspace, xmlDom, wrapToolboxXml(toolboxXml));
-      }
-      return toolboxXml;
-    },
-    [options, onBuildinExtensions],
-  );
+  const updateWorkspace = useCallback((xmlDom) => {
+    const buildinExtensions = onBuildinExtensions?.();
+    const toolboxXml = updateToolboxXml(buildinExtensions, options, meta.value);
+    if (ref.workspace?.toolbox_) {
+      updateWorkspaceToolbox(ref.workspace, xmlDom, wrapToolboxXml(toolboxXml));
+    }
+    return toolboxXml;
+  }, []);
 
   // 切换积木语言
-  //
   useEffect(() => {
+    if (splashVisible.value) return;
     const locale = unifyLocale(language.value);
     if (ScratchBlocks.ScratchMsgs.currentLocale_ !== locale) {
       ScratchBlocks.ScratchMsgs.setLocale(locale);
     }
     // 更新积木文本
     updateScratchBlocksMsgs(enableMultiTargets, !!variableTypes);
-    updateWorkspace(file.value.xmlDom);
-  }, [enableMultiTargets, variableTypes, updateWorkspace, language.value]);
+    updateWorkspace(ScratchBlocks.Xml.workspaceToDom(ref.workspace));
+  }, [language.value]);
 
   // 添加扩展XML
-  //
-  const handleSelectExtension = useCallback(
-    async (extId) => {
-      if (loadedExtensions.has(extId)) return;
-      setAlert('importing', { id: extId });
+  const handleSelectExtension = useCallback(async (extId) => {
+    if (loadedExtensions.has(extId)) return;
+    setAlert('importing', { id: extId });
 
-      // 载入扩展
-      const extObj = await importExtension(meta.value, extId);
-      loadedExtensions.set(extObj.id, extObj);
-      updateWorkspace();
-      if (onExtensionLoad) {
-        onExtensionLoad(extObj);
-      }
+    // 载入扩展
+    const extObj = await importExtension(meta.value, extId);
+    loadedExtensions.set(extObj.id, extObj);
+    updateWorkspace();
+    if (onExtensionLoad) {
+      onExtensionLoad(extObj);
+    }
 
-      // 选中扩展的积木栏
-      if (ref.workspace) {
-        setTimeout(() => {
-          ref.workspace.toolbox_.setSelectedCategoryById(extId);
-        }, 50); // 等待积木栏更新完毕后再滚动
-      }
+    // 选中扩展的积木栏
+    if (ref.workspace) {
+      setTimeout(() => {
+        ref.workspace.toolbox_.setSelectedCategoryById(extId);
+      }, 50); // 等待积木栏更新完毕后再滚动
+    }
 
-      delAlert(extId);
-    },
-    [generator, emulator, onExtensionLoad],
-  );
+    delAlert(extId);
+  }, []);
 
   // 生成代码
-  //
-  const generateCodes = useCallback(
-    (index) => {
-      if (disableGenerateCode) return;
+  const generateCodes = useCallback((index) => {
+    if (disableGenerateCode) return;
 
-      // 查询使用的扩展
-      const extensions = Array.from(
-        new Set(
-          Object.values(ref.workspace.blockDB_)
-            .filter((block) => loadedExtensions.has(block.category_))
-            .map((block) => block.category_),
-        ),
-      );
+    // 查询使用的扩展
+    const extensions = Array.from(
+      new Set(
+        Object.values(ref.workspace.blockDB_)
+          .filter((block) => loadedExtensions.has(block.category_))
+          .map((block) => block.category_),
+      ),
+    );
 
-      // 查询扩展附带的资源
-      const resources = Object.create(null);
-      for (const extObj of loadedExtensions.values()) {
-        if (extensions.includes(extObj.id) && extObj.files) {
-          const extFiles = typeof extObj.files === 'function' ? extObj.files(meta.value) : extObj.files;
-          resources[extObj.id] = extFiles.map(({ content, data, uri, ...res }) => res);
-        }
+    // 查询扩展附带的资源
+    const resources = Object.create(null);
+    for (const extObj of loadedExtensions.values()) {
+      if (extensions.includes(extObj.id) && extObj.files) {
+        const extFiles = typeof extObj.files === 'function' ? extObj.files(meta.value) : extObj.files;
+        resources[extObj.id] = extFiles.map(({ content, data, uri, ...res }) => res);
       }
+    }
 
-      let script;
-      if (emulator) {
-        if (onDefinitions) {
-          emulator.onDefinitions = () => {
-            onDefinitions(emulator.name_, (key, val) => (emulator.definitions_[key] = val), resources, index);
-          };
-        }
-        script = emulator.workspaceToCode(ref.workspace);
+    let script;
+    if (emulator) {
+      if (onDefinitions) {
+        emulator.onDefinitions = () => {
+          onDefinitions(emulator.name_, (key, val) => (emulator.definitions_[key] = val), resources, index);
+        };
       }
+      script = emulator.workspaceToCode(ref.workspace);
+    }
 
-      let content;
-      if (generator) {
-        if (onDefinitions) {
-          generator.onDefinitions = () => {
-            onDefinitions(generator.name_, (key, val) => (generator.definitions_[key] = val), resources, index);
-          };
-        }
-        content = generator.workspaceToCode(ref.workspace);
+    let content;
+    if (generator) {
+      if (onDefinitions) {
+        generator.onDefinitions = () => {
+          onDefinitions(generator.name_, (key, val) => (generator.definitions_[key] = val), resources, index);
+        };
       }
+      content = generator.workspaceToCode(ref.workspace);
+    }
 
-      return {
-        script,
-        content,
-        extensions,
-      };
-    },
-    [emulator, generator, disableGenerateCode, onDefinitions],
-  );
+    return {
+      script,
+      content,
+      extensions,
+    };
+  }, []);
 
   // 工作区发生变化时产生新的代码
-  //
-  const handleChange = useCallback(
-    (force = false) => {
-      if (!file.value) return;
+  const handleChange = useCallback((force = false) => {
+    if (!file.value) return;
 
-      const xmlDom = ScratchBlocks.Xml.workspaceToDom(ref.workspace);
-      const xml = ScratchBlocks.Xml.domToText(xmlDom);
+    const xmlDom = ScratchBlocks.Xml.workspaceToDom(ref.workspace);
+    const xml = ScratchBlocks.Xml.domToText(xmlDom);
 
-      // 积木发生变化
-      if (force || xml !== file.value.xml) {
-        const data = { xml, xmlDom };
-        const codes = generateCodes(fileIndex.value);
+    // 积木发生变化
+    if (force || xml !== file.value.xml) {
+      const data = { xml, xmlDom };
+      const codes = generateCodes(fileIndex.value);
+      if (codes) {
+        Object.assign(data, codes);
+      }
+      setFile(data);
+    }
+  }, []);
+
+  // 切换文件时更新工具栏，加载积木
+  useEffect(() => {
+    if (splashVisible.value) return;
+    if (!ref.workspace) return;
+
+    // 共享全局变量
+    const globalVariables = ref.workspace.getAllVariables().filter((variable) => {
+      if (variable.isLocal) return false;
+
+      if (variable.type === ScratchBlocks.BROADCAST_MESSAGE_VARIABLE_TYPE) {
+        if (variable.name === ScratchBlocks.Msg.DEFAULT_BROADCAST_MESSAGE_NAME) return false;
+
+        // 过滤未使用的广播变量
+        const varId = variable.id_.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const re = new RegExp(`<field name="BROADCAST_OPTION" id="${varId}"[^>]+>[^<]+</field>`, 'g');
+        for (const res of files.value) {
+          if (re.test(res.xml)) return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
+    // 更新积木栏
+    const buildinExtensions = onBuildinExtensions?.();
+    const toolboxXml = updateToolboxXml(buildinExtensions, options, meta.value);
+    updateWorkspaceToolbox(ref.workspace, null, wrapToolboxXml(toolboxXml));
+
+    // 加载积木到工作区
+    loadXmlToWorkspace(file.value.xmlDom ?? file.value.xml, globalVariables, ref.workspace);
+
+    // 检查如果有积木没有代码则立即生成
+    if (file.value.xml && (!file.value.content || !file.value.script)) {
+      const codes = generateCodes(fileIndex.value);
+      if (codes) {
+        setFile(codes);
+      }
+    }
+
+    // 清除撤销记录
+    setTimeout(() => ref.workspace.clearUndo(), 50);
+  }, [fileId.value]);
+
+  // 增减文件后更新
+  useEffect(() => {
+    if (splashVisible.value) return;
+    if (appState.value?.running) return;
+    updateWorkspace(ScratchBlocks.Xml.workspaceToDom(ref.workspace));
+  }, [files.value.length]);
+
+  // 外部更新
+  useEffect(() => {
+    if (splashVisible.value) return;
+    if (appState.value?.running) return;
+
+    // 外部更新更新造型等列表
+    if (tabIndex.value !== 0 || isModifyType(ModifyTypes.SetMeta)) {
+      updateWorkspace(ScratchBlocks.Xml.workspaceToDom(ref.workspace));
+    }
+
+    // 重新生成代码
+    const codes = generateCodes(fileIndex.value);
+    if (codes && (file.value.content !== codes.content || file.value.script !== codes.script)) {
+      setFile(codes);
+    }
+  }, [modified.value]);
+
+  // 首次载入项目
+  useEffect(async () => {
+    if (!splashVisible.value) return;
+
+    const projData = await preloadProjectBlocks(meta.value, files.value);
+    for (const [extId, extObj] of projData.extensions) {
+      loadExtension(extObj, options, meta.value);
+      loadedExtensions.set(extId, extObj);
+    }
+
+    batch(() => {
+      let id, data, codes;
+      for (let i = 0; i < files.value.length; i++) {
+        id = files.value[i].id;
+        data = projData.xmls.get(id);
+        data.id = id;
+
+        // 加载积木到工作区并转换积木到代码
+        loadXmlToWorkspace(data.xmlDom, null, ref.workspace);
+        codes = generateCodes(i);
         if (codes) {
           Object.assign(data, codes);
         }
         setFile(data);
       }
-    },
-    [generateCodes],
-  );
 
-  // 切换文件时更新工具栏，加载积木
-  //
-  useEffect(() => {
-    if (splashVisible.value) return;
+      // 加载当前选中的文档
+      data = projData.xmls.get(fileId.value);
+      loadXmlToWorkspace(data.xmlDom, null, ref.workspace);
 
-    if (ref.workspace) {
-      // 共享全局变量
-      const globalVariables = ref.workspace.getAllVariables().filter((variable) => {
-        if (variable.isLocal) return false;
+      updateWorkspace();
+    });
 
-        if (variable.type === ScratchBlocks.BROADCAST_MESSAGE_VARIABLE_TYPE) {
-          if (variable.name === ScratchBlocks.Msg.DEFAULT_BROADCAST_MESSAGE_NAME) return false;
-
-          // 过滤未使用的广播变量
-          const varId = variable.id_.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-          const re = new RegExp(`<field name="BROADCAST_OPTION" id="${varId}"[^>]+>[^<]+</field>`, 'g');
-          for (const res of files.value) {
-            if (re.test(res.xml)) return true;
-          }
-          return false;
-        }
-        return true;
-      });
-
-      // 加载积木到工作区
-      loadXmlToWorkspace(file.value.xmlDom ?? file.value.xml, globalVariables, ref.workspace);
-
-      // 检查如果有积木没有代码则立即生成
-      if (file.value.xml && (!file.value.content || !file.value.script)) {
-        const codes = generateCodes(fileIndex.value);
-        if (codes) {
-          setFile(codes);
-        }
-      }
-
-      // 更新积木栏
-      const buildinExtensions = onBuildinExtensions?.();
-      const toolboxXml = updateToolboxXml(buildinExtensions, options, meta.value);
-      updateWorkspaceToolbox(ref.workspace, null, wrapToolboxXml(toolboxXml));
-
-      // 清除撤销记录
-      setTimeout(() => ref.workspace.clearUndo(), 50);
+    if (onLoad) {
+      await onLoad();
     }
-  }, [fileId.value, generateCodes, options, onBuildinExtensions]);
 
-  // 从外部更新后重新生成代码
-  //
-  useEffect(() => {
-    if (splashVisible.value) return;
-    if (appState.value?.running) return;
+    hideSplash();
 
-    const codes = generateCodes(fileIndex.value);
-    if (codes && (file.value.content !== codes.content || file.value.script !== codes.script)) {
-      setFile(codes);
-    }
-  }, [modified.value, generateCodes]);
-
-  // 增减文件后更新
-  //
-  useEffect(() => {
-    if (splashVisible.value) return;
-    if (appState.value?.running) return;
-    updateWorkspace(file.value.xmlDom);
-  }, [files.value.length, updateWorkspace]);
-
-  // 在其他标签修改后，更新造型等列表
-  //
-  useEffect(() => {
-    if (splashVisible.value) return;
-    if (appState.value?.running) return;
-    if (tabIndex.value === 0) return;
-    updateWorkspace(file.value.xmlDom);
-  }, [modified.value, updateWorkspace]);
-
-  // 首次载入项目
-  //
-  useEffect(async () => {
-    if (splashVisible.value) {
-      const projData = await preloadProjectBlocks(meta.value, files.value);
-
-      for (const [extId, extObj] of projData.extensions) {
-        loadExtension(extObj, options, meta.value);
-        loadedExtensions.set(extId, extObj);
-      }
-
-      batch(() => {
-        let id, data, codes;
-        for (let i = 0; i < files.value.length; i++) {
-          id = files.value[i].id;
-          data = projData.xmls.get(id);
-          data.id = id;
-
-          // 加载积木到工作区并转换积木到代码
-          loadXmlToWorkspace(data.xmlDom, null, ref.workspace);
-          codes = generateCodes(i);
-          if (codes) {
-            Object.assign(data, codes);
-          }
-          setFile(data);
-        }
-
-        // 加载当前选中的文档
-        data = projData.xmls.get(fileId.value);
-        loadXmlToWorkspace(data.xmlDom, null, ref.workspace);
-
-        updateWorkspace();
-      });
-
-      if (onLoad) {
-        await onLoad();
-      }
-
-      hideSplash();
-
-      setTimeout(() => {
-        setModified(ModifyTypes.Saved);
-        // 清空撤销记录
-        ref.workspace.clearUndo();
-      });
-    }
-  }, [splashVisible.value, generateCodes, options, updateWorkspace]);
+    setTimeout(() => {
+      setModified(ModifyTypes.Saved);
+      // 清空撤销记录
+      ref.workspace.clearUndo();
+    });
+  }, [splashVisible.value]);
 
   // 创建工作区
-  //
   useEffect(() => {
     if (ref.current) {
       // 切换积木语言
@@ -572,7 +549,7 @@ export function BlocksEditor({
             visible: e.newValue,
             color: block.colour_,
             borderColor: block.colourTertiary_,
-            name: enableMultiTargets && block.category_ !== 'sensing' ? file.value.name : false,
+            name: enableMultiTargets && !globalMonitorCategories.includes(block.category_) ? file.value.name : false,
             label: block.inputList[0].fieldRow[2]?.text_ ?? block.inputList[0].fieldRow[0]?.text_,
           };
           // 单击变量选项框区分全局和私有变量显示
@@ -586,7 +563,7 @@ export function BlocksEditor({
             }
           }
           batch(() => {
-            setMonitor(config, block.category_ === 'data' || block.category_ === 'sensing');
+            setMonitor(config, globalMonitorCategories.includes(block.category_));
             handleChange(e.oldValue !== e.newValue);
           });
           return;
