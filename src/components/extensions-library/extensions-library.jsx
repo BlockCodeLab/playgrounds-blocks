@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from 'preact/hooks';
 import { useSignal } from '@preact/signals';
 import { setAlert, delAlert, Text, Library } from '@blockcode/core';
+import { isElectron } from '@blockcode/utils';
 import styles from './extensions-library.module.css';
 import plusIcon from './icon-plus.svg';
 
@@ -60,7 +61,7 @@ export function ExtensionsLibrary({ tags, disableCustom, onSelect, onClose, onFi
     result = result.filter(handleFilter);
 
     // 离线版能显示自定义积木添加按钮
-    if (window.electron) {
+    if (isElectron) {
       result.unshift({
         eeggTag: 'custom',
         className: styles.addCustomButton,
@@ -79,7 +80,7 @@ export function ExtensionsLibrary({ tags, disableCustom, onSelect, onClose, onFi
   useEffect(updateExtensions, []);
 
   // 离线版能显示自定义积木分类
-  const enabledCustomTag = window.electron && !disableCustom;
+  const enabledCustomTag = isElectron && !disableCustom;
   const customTags = []
     .concat(
       tags,

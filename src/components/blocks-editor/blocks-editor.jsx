@@ -398,13 +398,19 @@ export function BlocksEditor({
     if (tabIndex.value !== 0 || isModifyType(ModifyTypes.SetMeta)) {
       updateWorkspace(ScratchBlocks.Xml.workspaceToDom(ref.workspace));
     }
-
-    // 重新生成代码
-    const codes = generateCodes(fileIndex.value);
-    if (codes && (file.value.content !== codes.content || file.value.script !== codes.script)) {
-      setFile(codes);
-    }
   }, [modified.value]);
+
+  // 切回积木页重新生成代码
+  useEffect(() => {
+    if (splashVisible.value) return;
+    if (appState.value?.running) return;
+    if (tabIndex.value === 0) {
+      const codes = generateCodes(fileIndex.value);
+      if (codes && (file.value.content !== codes.content || file.value.script !== codes.script)) {
+        setFile(codes);
+      }
+    }
+  }, [tabIndex.value]);
 
   // 首次载入项目
   useEffect(async () => {

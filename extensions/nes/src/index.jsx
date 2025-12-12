@@ -77,11 +77,6 @@ export default {
         }
         if (!currentDevice) return;
 
-        const checker = MPYUtils.check(currentDevice).catch(() => {
-          errorAlert();
-          removeDownloading();
-        });
-
         const fileInput = document.createElement('input');
         fileInput.type = 'file';
         fileInput.accept = '.nes';
@@ -106,8 +101,6 @@ export default {
             errorAlert(err.name);
             removeDownloading();
           }
-
-          checker.cancel();
         });
       },
     },

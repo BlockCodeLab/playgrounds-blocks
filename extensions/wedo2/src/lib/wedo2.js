@@ -625,7 +625,7 @@ class WeDo2 {
       if (!this._rateLimiter.okayToSend()) return Promise.resolve();
     }
 
-    return this._ble.write(BLEService.IO_SERVICE, uuid, Base64Util.uint8ArrayToBase64(message), 'base64');
+    return this._ble.write(BLEService.IO_SERVICE, uuid, Base64Utils.uint8ArrayToBase64(message), 'base64');
   }
 
   /**
@@ -698,7 +698,7 @@ class WeDo2 {
    * @private
    */
   _onMessage(base64) {
-    const data = Base64Util.base64ToUint8Array(base64);
+    const data = Base64Utils.base64ToUint8Array(base64);
     // log.info(data);
 
     /**

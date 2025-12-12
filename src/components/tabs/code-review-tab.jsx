@@ -1,4 +1,5 @@
 import { Text } from '@blockcode/core';
+import { CodeReview } from '../code-review/code-review';
 
 import codeReviewIcon from './icon-code.svg';
 
@@ -10,4 +11,5 @@ export const codeReviewTab = {
       defaultMessage="Code"
     />
   ),
+  Content: CodeReview,
 };

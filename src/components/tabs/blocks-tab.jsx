@@ -1,4 +1,5 @@
 import { Text } from '@blockcode/core';
+import { BlocksEditor } from '../blocks-editor/blocks-editor';
 
 import blocksIcon from './icon-blocks.svg';
 
@@ -10,4 +11,5 @@ export const blocksTab = {
       defaultMessage="Blocks"
     />
   ),
+  Content: BlocksEditor,
 };
