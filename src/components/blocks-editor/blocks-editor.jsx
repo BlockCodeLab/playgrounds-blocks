@@ -129,6 +129,21 @@ const updateScratchBlocksMsgs = (enableMultiTargets, enableVariableTypes) => {
   ).forEach(([key, value]) => (ScratchBlocks.Msg[key] = value));
 };
 
+const hideManualCodingAlert = () => delAlert('manual-coding');
+
+const showManualCodingAlert = () =>
+  setAlert({
+    id: 'manual-coding',
+    mode: 'warn',
+    message: (
+      <Text
+        id="blocks.alert.manualCoding"
+        defaultMessage="Coding is enabled; blocks changes will not update the code."
+      />
+    ),
+    onClose: hideManualCodingAlert,
+  });
+
 export function BlocksEditor({
   emulator,
   generator,
@@ -275,6 +290,7 @@ export function BlocksEditor({
   // 生成代码
   const generateCodes = useCallback((index) => {
     if (disableGenerateCode) return;
+    if (meta.value.manualCoding) return;
 
     // 查询使用的扩展
     const extensions = Array.from(
@@ -400,17 +416,22 @@ export function BlocksEditor({
     }
   }, [modified.value]);
 
+  // 显示代码编程提示
   // 切回积木页重新生成代码
   useEffect(() => {
     if (splashVisible.value) return;
     if (appState.value?.running) return;
-    if (tabIndex.value === 0) {
+    if (tabIndex.value !== 0) return;
+    if (meta.value.manualCoding) {
+      showManualCodingAlert();
+    } else {
+      hideManualCodingAlert();
       const codes = generateCodes(fileIndex.value);
       if (codes && (file.value.content !== codes.content || file.value.script !== codes.script)) {
         setFile(codes);
       }
     }
-  }, [tabIndex.value]);
+  }, [tabIndex.value, meta.value.manualCoding, splashVisible.value]);
 
   // 首次载入项目
   useEffect(async () => {

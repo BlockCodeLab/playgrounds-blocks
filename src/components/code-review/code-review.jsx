@@ -3,8 +3,6 @@ import { useSignal } from '@preact/signals';
 import { useAppContext, useProjectContext, setAlert, delAlert, Text } from '@blockcode/core';
 import { CodeEditor } from '@blockcode/code';
 
-let modifiedAlertId;
-
 const hideAlert = () => delAlert('manual-coding');
 
 const showAlert = () =>
@@ -13,8 +11,8 @@ const showAlert = () =>
     mode: 'warn',
     message: (
       <Text
-        id="blocks.alert.manualCoding"
-        defaultMessage="Warning: Manual coding will be reverted when leaving Code tab."
+        id="blocks.alert.blockCoding"
+        defaultMessage="Coding is disabled; code changes will not be saved."
       />
     ),
     onClose: hideAlert,
@@ -23,20 +21,15 @@ const showAlert = () =>
 export function CodeReview({ keyName, readOnly, onRegisterCompletionItems }) {
   const { tabIndex } = useAppContext();
 
-  const { modified } = useProjectContext();
-
-  const modifiedAlerted = useSignal(false);
+  const { meta } = useProjectContext();
 
   useEffect(() => {
-    if (!readOnly && tabIndex.value !== 0) {
-      if (!modifiedAlerted.value) {
-        modifiedAlerted.value = true;
-        showAlert();
-      }
+    if (!readOnly && tabIndex.value !== 0 && !meta.value.manualCoding) {
+      showAlert();
     } else {
-      modifiedAlerted.value = false;
+      hideAlert();
     }
-  }, [readOnly, modified.value]);
+  }, [readOnly, meta.value.manualCoding]);
 
   useEffect(() => hideAlert, []);
 
