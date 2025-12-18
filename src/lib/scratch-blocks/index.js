@@ -1,6 +1,7 @@
 export { ScratchBlocks } from './scratch-blocks';
 import './style.css';
 
+import './block-resize';
 import './centext-menu';
 import './generator';
 

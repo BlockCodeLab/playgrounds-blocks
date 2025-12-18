@@ -1,6 +1,6 @@
 import { useRef, useEffect, useCallback, useMemo } from 'preact/hooks';
-import { batch, useSignal } from '@preact/signals';
-import { classNames } from '@blockcode/utils';
+import { batch, useComputed, useSignal } from '@preact/signals';
+import { classNames, getCompactBlock } from '@blockcode/utils';
 import {
   useLocalesContext,
   useAppContext,
@@ -201,6 +201,8 @@ export function BlocksEditor({
     [generator, emulator, enableCloneBlocks, enableStringBlocks, enableMonitor, disableSensingBlocks],
   );
 
+  const isCompactBlock = useComputed(() => meta.value.compactBlock ?? getCompactBlock());
+
   // 允许变量监控，显示积木前的选择框
   ScratchBlocks.Block.visibleCheckboxInFlyout_ = enableMonitor;
 
@@ -398,20 +400,19 @@ export function BlocksEditor({
     setTimeout(() => ref.workspace.clearUndo(), 50);
   }, [fileId.value]);
 
-  // 增减文件后更新
+  // 文件增减更新工作区
   useEffect(() => {
     if (splashVisible.value) return;
-    if (appState.value?.running) return;
     updateWorkspace(ScratchBlocks.Xml.workspaceToDom(ref.workspace));
   }, [files.value.length]);
 
   // 外部更新
   useEffect(() => {
     if (splashVisible.value) return;
-    if (appState.value?.running) return;
 
     // 外部更新更新造型等列表
     if (tabIndex.value !== 0 || isModifyType(ModifyTypes.SetMeta)) {
+      ScratchBlocks.resizeBlockSvg(isCompactBlock.value ? ScratchBlocks.CompactBlockSvg : ScratchBlocks.NormalBlockSvg);
       updateWorkspace(ScratchBlocks.Xml.workspaceToDom(ref.workspace));
     }
   }, [modified.value]);
@@ -436,6 +437,8 @@ export function BlocksEditor({
   // 首次载入项目
   useEffect(async () => {
     if (!splashVisible.value) return;
+
+    ScratchBlocks.resizeBlockSvg(isCompactBlock.value ? ScratchBlocks.CompactBlockSvg : ScratchBlocks.NormalBlockSvg);
 
     const projData = await preloadProjectBlocks(meta.value, files.value);
     for (const [extId, extObj] of projData.extensions) {
@@ -950,11 +953,12 @@ export function BlocksEditor({
         )}
 
         {codePreviewVisible.value && (
-          <CodeEditor
-            readOnly
-            className={styles.codePreview}
-            options={{ fontSize: 13 }}
-          />
+          <div className={styles.codePreview}>
+            <CodeEditor
+              readOnly
+              options={{ fontSize: 13 }}
+            />
+          </div>
         )}
       </div>
 

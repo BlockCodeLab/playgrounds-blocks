@@ -1,14 +1,14 @@
-.blocks-editor-wrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  border-radius: inherit;
-}
-
 .editor-preview-wrapper {
   width: 100%;
   height: 100%;
   display: flex;
+  position: relative;
+  border-radius: inherit;
+}
+
+.blocks-editor-wrapper {
+  width: 100%;
+  height: 100%;
   position: relative;
   border-radius: inherit;
 }
@@ -23,8 +23,12 @@
 }
 
 .code-preview {
-  width: 32rem;
+  display: flex;
   border-left: 1px solid var(--ui-black-transparent);
+}
+
+.code-preview > div {
+  width: 480px;
 }
 
 .toolbox-wrapper {

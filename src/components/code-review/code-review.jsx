@@ -1,5 +1,4 @@
 import { useEffect, useCallback } from 'preact/hooks';
-import { useSignal } from '@preact/signals';
 import { useAppContext, useProjectContext, setAlert, delAlert, Text } from '@blockcode/core';
 import { CodeEditor } from '@blockcode/code';
 
