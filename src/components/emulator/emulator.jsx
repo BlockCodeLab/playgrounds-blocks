@@ -48,7 +48,7 @@ export function Emulator({ id, zoom, width, height, onRuntime }) {
       ref.stage.destroy();
       ref.stage = null;
     };
-  }, [ref]);
+  }, []);
 
   return (
     <div

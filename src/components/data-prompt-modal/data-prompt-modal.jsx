@@ -46,7 +46,7 @@ export function DataPromptModal({
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [ref]);
+  }, []);
 
   return (
     <Modal

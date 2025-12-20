@@ -14,3 +14,9 @@ proto['procedures_return'] = function (block) {
   const code = `return ${valueCode}\n`;
   return code;
 };
+
+proto['procedures_exec'] = function (block) {
+  const valueCode = block.childBlocks_[0].getFieldValue('TEXT') || '';
+  const code = valueCode ? `${valueCode}\n` : '';
+  return code;
+};

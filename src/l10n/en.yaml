@@ -58,6 +58,7 @@ blocks.myblock.addNumber: number
 blocks.myblock.addText: text
 blocks.myblock.return: return %1
 blocks.myblock.returnString: return string %1
+blocks.myblock.exec: exec %1
 
 blocks.monitor: Monitor
 blocks.monitor.showValue: show value %1

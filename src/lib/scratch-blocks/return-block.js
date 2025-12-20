@@ -24,21 +24,21 @@ ScratchBlocks.Blocks['procedures_return'] = {
 };
 
 // 返回字符串
-ScratchBlocks.Blocks['procedures_return_string'] = {
-  init() {
-    this.jsonInit({
-      message0: translate('blocks.myblock.returnString', 'return string %1'),
-      args0: [
-        {
-          type: 'input_value',
-          name: 'STR',
-        },
-      ],
-      category: ScratchBlocks.Categories.more,
-      extensions: ['colours_more', 'shape_end'],
-    });
-  },
-};
+// ScratchBlocks.Blocks['procedures_return_string'] = {
+//   init() {
+//     this.jsonInit({
+//       message0: translate('blocks.myblock.returnString', 'return string %1'),
+//       args0: [
+//         {
+//           type: 'input_value',
+//           name: 'STR',
+//         },
+//       ],
+//       category: ScratchBlocks.Categories.more,
+//       extensions: ['colours_more', 'shape_end'],
+//     });
+//   },
+// };
 
 // 调用自制积木
 //
@@ -133,22 +133,22 @@ ScratchBlocks.Procedures.flyoutCategory = function (workspace) {
 
   // 初始时启用返回值积木，如果有自制积木，显示返回值积木
   if (workspace.procedureReturnsEnabled_ && mutations.length > 0) {
-    // 返回字符串积木
-    const returnStringText =
-      '<block type="procedures_return_string">' +
-      '<value name="STR">' +
-      '<shadow type="text">' +
-      '<field name="TEXT"/>' +
-      '</shadow>' +
-      '</value>' +
-      '</block>';
-    const returnStringBlock = ScratchBlocks.Xml.textToDom(returnStringText);
-
     let shadowValue = '<shadow type="text">' + '<field name="TEXT"/>' + '</shadow>';
-    if (workspace.procedureReturnsEnabled_ === 2) {
-      xmlList.push(returnStringBlock);
-      shadowValue = '<shadow type="math_number">' + '<field name="NUM">1</field>' + '</shadow>';
-    }
+
+    // 返回字符串积木
+    // if (workspace.procedureReturnsEnabled_ === 2) {
+    //   const returnStringText =
+    //     '<block type="procedures_return_string">' +
+    //     '<value name="STR">' +
+    //     '<shadow type="text">' +
+    //     '<field name="TEXT"/>' +
+    //     '</shadow>' +
+    //     '</value>' +
+    //     '</block>';
+    //   const returnStringBlock = ScratchBlocks.Xml.textToDom(returnStringText);
+    //   xmlList.push(returnStringBlock);
+    //   shadowValue = '<shadow type="math_number">' + '<field name="NUM">1</field>' + '</shadow>';
+    // }
 
     // 返回值积木
     const returnText =

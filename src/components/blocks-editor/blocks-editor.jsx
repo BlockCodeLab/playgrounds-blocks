@@ -153,6 +153,7 @@ export function BlocksEditor({
   enableMultiTargets,
   enableLocalVariable,
   enableCloudVariables,
+  enableProcedureExecute,
   enableProcedureReturns,
   enableCodePreview,
   enableMonitor,
@@ -505,6 +506,7 @@ export function BlocksEditor({
       if (enableProcedureReturns) {
         ref.workspace.procedureReturnsEnabled_ = variableTypes ? 2 : 1;
       }
+      ref.workspace.procedureExecuteEnabled_ = !!enableProcedureExecute;
 
       // 设置可监测的积木
       const setMonitor = (config, isData = false) => {
@@ -870,7 +872,7 @@ export function BlocksEditor({
         ref.workspace = null;
       }
     };
-  }, [ref]);
+  }, []);
 
   // 变量/列表类型
   useEffect(() => {

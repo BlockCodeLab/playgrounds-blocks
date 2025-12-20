@@ -106,7 +106,7 @@ export function MyBlockPromptModal({ mutator, enableTypes, enableWarp, onClose, 
         ref.workspace = null;
       }
     };
-  }, [ref]);
+  }, []);
 
   return (
     <Modal

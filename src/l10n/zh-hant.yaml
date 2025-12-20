@@ -58,6 +58,7 @@ blocks.myblock.addNumber: 數字
 blocks.myblock.addText: 文本
 blocks.myblock.return: 返回 %1
 blocks.myblock.returnString: 返回文本 %1
+blocks.myblock.exec: 執行 %1
 
 blocks.monitor: 監視
 blocks.monitor.showValue: 顯示 %1 值
