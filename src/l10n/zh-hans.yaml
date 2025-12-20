@@ -1,6 +1,8 @@
 blocks.tabs.blocks: 脚本
 blocks.tabs.code: 代码
 
+blocks.alert.openManualCoding: 打开代码编程
+blocks.alert.closeManualCoding: 关闭代码编程
 blocks.alert.blockCoding: 已关闭代码编程，修改代码不会保存到文件。
 blocks.alert.manualCoding: 已打开代码编程，改动脚本不会更新到代码。
 

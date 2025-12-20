@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from 'preact/hooks';
-import { useAppContext, useProjectContext, setAlert, delAlert, Text } from '@blockcode/core';
+import { useAppContext, useProjectContext, setAlert, delAlert, setMeta, Text } from '@blockcode/core';
 import { CodeEditor } from '@blockcode/code';
 
 const hideAlert = () => delAlert('manual-coding');
@@ -14,6 +14,17 @@ const showAlert = () =>
         defaultMessage="Coding is disabled; code changes will not be saved."
       />
     ),
+    button: {
+      label: (
+        <Text
+          id="blocks.alert.openManualCoding"
+          defaultMessage="Turn on Coding Mode"
+        />
+      ),
+      onClick() {
+        setMeta('manualCoding', true);
+      },
+    },
     onClose: hideAlert,
   });
 

@@ -1,6 +1,8 @@
 blocks.tabs.blocks: Blocks
 blocks.tabs.code: Code
 
+blocks.alert.openManualCoding: Turn on Coding Mode
+blocks.alert.closeManualCoding: Turn off Coding Mode
 blocks.alert.blockCoding: Coding is disabled; code changes will not be saved.
 blocks.alert.manualCoding: Coding is enabled; blocks changes will not update the code.
 

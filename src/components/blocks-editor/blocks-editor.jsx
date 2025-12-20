@@ -141,6 +141,17 @@ const showManualCodingAlert = () =>
         defaultMessage="Coding is enabled; blocks changes will not update the code."
       />
     ),
+    button: {
+      label: (
+        <Text
+          id="blocks.alert.closeManualCoding"
+          defaultMessage="Turn off Coding Mode"
+        />
+      ),
+      onClick() {
+        setMeta('manualCoding', false);
+      },
+    },
     onClose: hideManualCodingAlert,
   });
 

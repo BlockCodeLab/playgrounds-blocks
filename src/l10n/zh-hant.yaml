@@ -1,6 +1,8 @@
 blocks.tabs.blocks: 積木
 blocks.tabs.code: 程式
 
+blocks.alert.openManualCoding: 打開代碼編程
+blocks.alert.closeManualCoding: 關閉代碼編程
 blocks.alert.blockCoding: 已關閉代碼編程，修改代碼不會保存到文件。
 blocks.alert.manualCoding: 已打開代碼編程，改動積木不會更新到代碼。
 
