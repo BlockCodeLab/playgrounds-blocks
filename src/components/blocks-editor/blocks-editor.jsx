@@ -427,6 +427,13 @@ export function BlocksEditor({
       ScratchBlocks.resizeBlockSvg(isCompactBlock.value ? ScratchBlocks.CompactBlockSvg : ScratchBlocks.NormalBlockSvg);
       updateWorkspace(ScratchBlocks.Xml.workspaceToDom(ref.workspace));
     }
+
+    // 检查代码如果有改动
+    // 例如模拟器中移动角色或改变造型等
+    const codes = generateCodes(fileIndex.value);
+    if (codes && (codes.content !== file.value.content || codes.script !== file.value.script)) {
+      setFile(codes);
+    }
   }, [modified.value]);
 
   // 显示代码编程提示
@@ -458,6 +465,8 @@ export function BlocksEditor({
       loadedExtensions.set(extId, extObj);
     }
 
+    updateWorkspace();
+
     batch(() => {
       let id, data, codes;
       for (let i = 0; i < files.value.length; i++) {
@@ -477,8 +486,6 @@ export function BlocksEditor({
       // 加载当前选中的文档
       data = projData.xmls.get(fileId.value);
       loadXmlToWorkspace(data.xmlDom, null, ref.workspace);
-
-      updateWorkspace();
     });
 
     if (onLoad) {
