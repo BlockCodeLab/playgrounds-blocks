@@ -167,7 +167,7 @@ export class PythonGenerator extends ScratchBlocks.Generator {
     variables.push(this.definitions_['variables']);
     // Clean up temporary data.
     delete this.definitions_;
-    delete this.functionNames_;
+    delete this.names_;
     this.variableDB_.reset();
 
     const allDefs = imports.join('\n') + '\n\n' + variables.join('\n') + '\n\n' + definitions.join('\n') + '\n\n';

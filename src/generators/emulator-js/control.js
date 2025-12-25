@@ -15,7 +15,7 @@ proto['control_repeat'] = function (block) {
   branchCode = this.addLoopTrap(branchCode, block.id);
 
   let code = '';
-  const i = this.getLoopName();
+  const i = this.createLoopName();
   code = `for (let ${i} = 0; ${i} < ${timesCode}; ${i}++) {\n`;
   code += branchCode;
   code += '}\n';

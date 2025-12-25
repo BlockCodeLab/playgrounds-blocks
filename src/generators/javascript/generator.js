@@ -141,7 +141,7 @@ export class JavaScriptGenerator extends ScratchBlocks.Generator {
     }
     // Clean up temporary data.
     delete this.definitions_;
-    delete this.functionNames_;
+    delete this.names_;
     this.variableDB_.reset();
     return definitions.join('\n') + '\n\n' + varDefinitions.join('\n') + '\n\n' + code;
   }

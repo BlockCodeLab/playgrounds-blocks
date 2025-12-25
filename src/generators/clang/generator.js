@@ -92,8 +92,9 @@ export class ClangGenerator extends ScratchBlocks.Generator {
       defvars.join('\n');
     const allFuncs = func_definitions.join('\n');
 
+    // Clean up temporary data.
     delete this.definitions_;
-    delete this.functionNames_;
+    delete this.names_;
     this.variableDB_.reset();
 
     return allDefs.replace(/\n\n+/g, '\n\n') + code + '\n' + allFuncs.replace(/\n\n+/g, '\n\n');

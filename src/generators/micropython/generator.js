@@ -45,7 +45,7 @@ export class MicroPythonGenerator extends PythonGenerator {
       globalVars.push(varName);
     }
 
-    const funcName = this.getFunctionName(id);
+    const funcName = this.createName(this.getFunctionName(id));
     let code = '';
     code += `async def ${funcName}():\n`;
 

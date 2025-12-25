@@ -18,14 +18,10 @@ class Generator extends BaseGenerator {
       }
     }
 
-    // 循环计数
-    this.loopCount_ = 0;
-
     // Create a dictionary of definitions to be printed before the code.
     this.definitions_ = Object.create(null);
-    // Create a dictionary mapping desired function names in definitions_
-    // to actual function names (to avoid collisions with user functions).
-    this.functionNames_ = Object.create(null);
+    // Create a dictionary mapping desired function or variable names.
+    this.names_ = Object.create(null);
 
     if (!this.variableDB_) {
       this.variableDB_ = new ScratchBlocks.Names(this.RESERVED_WORDS_);
@@ -63,18 +59,24 @@ class Generator extends BaseGenerator {
     return branch;
   }
 
+  createName(desiredName) {
+    const count = (this.names_[desiredName] ?? 0) + 1;
+    this.names_[desiredName] = count;
+    return `${desiredName}_${count}`;
+  }
+
+  createLoopName() {
+    return this.createName('i').replace('i_', 'i');
+  }
+
   getVariableName(desiredName) {
     const variableName = this.variableDB_.getName(desiredName, ScratchBlocks.Variables.NAME_TYPE);
-    return `_${variableName.replaceAll('_', '')}`;
+    return `_${variableName.replace(/^_/, '')}`;
   }
 
   getFunctionName(desiredName) {
     const functionName = this.variableDB_.getName(desiredName, ScratchBlocks.Procedures.NAME_TYPE);
-    return `_${functionName.replaceAll('_25', '').replaceAll('_', '')}`;
-  }
-
-  getLoopName() {
-    return 'i' + this.loopCount_++;
+    return `_${functionName.replaceAll('_25', '_').replace(/^_/, '')}`;
   }
 }
 

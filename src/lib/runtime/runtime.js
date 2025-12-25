@@ -1,5 +1,14 @@
 import { EventEmitter } from 'node:events';
-import { nanoid, sleep, sleepMs, MathUtils, Base64Utils, ScriptController, getUserLanguage } from '@blockcode/utils';
+import {
+  nanoid,
+  sleep,
+  sleepMs,
+  Konva,
+  MathUtils,
+  Base64Utils,
+  ScriptController,
+  getUserLanguage,
+} from '@blockcode/utils';
 import { setAppState, setMeta } from '@blockcode/core';
 import { Tone } from './tone';
 
