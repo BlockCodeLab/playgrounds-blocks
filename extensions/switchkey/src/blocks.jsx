@@ -10,11 +10,9 @@ export const blocks = (meta) => [
     hat: true,
     inputs: {
       PIN: meta.boardPins
-        ? {
-            menu: meta.boardPins.all,
-          }
+        ? { menu: meta.boardPins.in }
         : {
-            type: 'integer',
+            type: 'positive_integer',
             defaultValue: '1',
           },
       STATE: {
@@ -34,11 +32,9 @@ export const blocks = (meta) => [
     output: 'boolean',
     inputs: {
       PIN: meta.boardPins
-        ? {
-            menu: meta.boardPins.all,
-          }
+        ? { menu: meta.boardPins.in }
         : {
-            type: 'integer',
+            type: 'positive_integer',
             defaultValue: '1',
           },
       STATE: {
@@ -59,11 +55,9 @@ export const blocks = (meta) => [
     output: 'boolean',
     inputs: {
       PIN: meta.boardPins
-        ? {
-            menu: meta.boardPins.all,
-          }
+        ? { menu: meta.boardPins.adc }
         : {
-            type: 'integer',
+            type: 'positive_integer',
             defaultValue: '1',
           },
       KEY: {

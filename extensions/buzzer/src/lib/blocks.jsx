@@ -1,8 +1,6 @@
 import { Text } from '@blockcode/core';
 
-const isArduino = (meta) => meta.editor === '@blockcode/gui-arduino';
 const notArduino = (meta) => meta.editor !== '@blockcode/gui-arduino';
-const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
 
 export const blocks = (meta) => [
   {
@@ -14,8 +12,8 @@ export const blocks = (meta) => [
       />
     ),
     inputs: {
-      PIN: isIotBit(meta)
-        ? { menu: 'iotPwmPins' }
+      PIN: meta.boardPins
+        ? { menu: meta.boardPins.pwm }
         : {
             type: 'positive_integer',
             defaultValue: 1,
@@ -50,7 +48,7 @@ export const blocks = (meta) => [
       return code;
     },
     mpy(block) {
-      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const state = this.valueToCode(block, 'STATE', this.ORDER_NONE);
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
@@ -69,14 +67,12 @@ export const blocks = (meta) => [
       />
     ),
     inputs: {
-      PIN: isArduino(meta)
-        ? { menu: 'arduinoPwmPins' }
-        : isIotBit(meta)
-          ? { menu: 'iotPwmPins' }
-          : {
-              type: 'positive_integer',
-              defaultValue: 1,
-            },
+      PIN: meta.boardPins
+        ? { menu: meta.boardPins.pwm }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
       NOTE: {
         type: 'note',
         defaultValue: '60',
@@ -90,17 +86,17 @@ export const blocks = (meta) => [
       const pin = block.getFieldValue('PIN');
       const note = this.valueToCode(block, 'NOTE', this.ORDER_NONE);
       const beat = this.valueToCode(block, 'BEAT', this.ORDER_NONE);
-      const pinName = `_tone${pin}`;
+      const pinName = `_tone_${pin}`;
       this.definitions_['include_tone'] = '#include "tone.h"';
       this.definitions_['variable_tone'] = `Tone ${pinName}(${pin});`;
       const code = `${pinName}.play(${note}":${beat}");\n`;
       return code;
     },
     mpy(block) {
-      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const note = this.valueToCode(block, 'NOTE', this.ORDER_NONE);
       const beat = this.valueToCode(block, 'BEAT', this.ORDER_NONE);
-      const pinName = `_tone${pin}`;
+      const pinName = `_tone_${pin}`;
       this.definitions_['import_pin'] = 'import buzzer';
       this.definitions_['variable_tone'] = `${pinName} = buzzer.Tone(${pin})`;
       const code = `${pinName}.play(${note}":${beat}")\n`;
@@ -116,35 +112,33 @@ export const blocks = (meta) => [
       />
     ),
     inputs: {
-      PIN: isArduino(meta)
-        ? { menu: 'arduinoPwmPins' }
-        : isIotBit(meta)
-          ? { menu: 'iotPwmPins' }
-          : {
-              type: 'positive_integer',
-              defaultValue: 1,
-            },
+      PIN: meta.boardPins
+        ? { menu: meta.boardPins.pwm }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
       MUSIC: {
-        menu: 'music',
+        menu: 'Music',
       },
     },
     ino(block) {
       const pin = block.getFieldValue('PIN');
       const music = block.getFieldValue('MUSIC');
-      const pinName = `_tone${pin}`;
+      const pinName = `_tone_${pin}`;
       this.definitions_['include_tone'] = '#include "tone.h"';
       this.definitions_['include_tone_music'] = '#include "music.h"';
       this.definitions_['variable_tone'] = `Tone ${pinName}(${pin});`;
-      const code = `${pinName}.play(${music.toUpperCase()});\n`;
+      const code = `${pinName}.play(${music});\n`;
       return code;
     },
     mpy(block) {
-      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const music = block.getFieldValue('MUSIC');
-      const pinName = `_tone${pin}`;
+      const pinName = `_tone_${pin}`;
       this.definitions_['import_pin'] = 'import buzzer';
       this.definitions_['variable_tone'] = `${pinName} = buzzer.Tone(${pin})`;
-      const code = `await ${pinName}.aplay(buzzer.${music.toUpperCase()})\n`;
+      const code = `await ${pinName}.aplay(buzzer.${music})\n`;
       return code;
     },
   },
@@ -157,25 +151,23 @@ export const blocks = (meta) => [
       />
     ),
     inputs: {
-      PIN: isArduino(meta)
-        ? { menu: 'arduinoPwmPins' }
-        : isIotBit(meta)
-          ? { menu: 'iotPwmPins' }
-          : {
-              type: 'positive_integer',
-              defaultValue: 1,
-            },
+      PIN: meta.boardPins
+        ? { menu: meta.boardPins.pwm }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
       MUSIC: {
-        menu: 'music',
+        menu: 'Music',
       },
     },
     mpy(block) {
-      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const music = block.getFieldValue('MUSIC');
-      const pinName = `_tone${pin}`;
+      const pinName = `_tone_${pin}`;
       this.definitions_['import_pin'] = 'import buzzer';
       this.definitions_['variable_tone'] = `${pinName} = buzzer.Tone(${pin})`;
-      const code = `asyncio.create_task(${pinName}.aplay(buzzer.${music.toUpperCase()}))\n`;
+      const code = `asyncio.create_task(${pinName}.aplay(buzzer.${music}))\n`;
       return code;
     },
   },
@@ -188,25 +180,23 @@ export const blocks = (meta) => [
       />
     ),
     inputs: {
-      PIN: isArduino(meta)
-        ? { menu: 'arduinoPwmPins' }
-        : isIotBit(meta)
-          ? { menu: 'iotPwmPins' }
-          : {
-              type: 'positive_integer',
-              defaultValue: 1,
-            },
+      PIN: meta.boardPins
+        ? { menu: meta.boardPins.pwm }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
     },
     ino(block) {
       const pin = block.getFieldValue('PIN');
-      const pinName = `_tone${pin}`;
+      const pinName = `_tone_${pin}`;
       this.definitions_['include_tone'] = '#include "tone.h"';
       this.definitions_['variable_tone'] = `Tone ${pinName}(${pin});`;
       return `${pinName}.stop();\n`;
     },
     mpy(block) {
-      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
-      const pinName = `_tone${pin}`;
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pinName = `_tone_${pin}`;
       this.definitions_['import_pin'] = 'import buzzer';
       this.definitions_['variable_tone'] = `${pinName} = buzzer.Tone(${pin})`;
       return `${pinName}.stop()\n`;
@@ -215,196 +205,156 @@ export const blocks = (meta) => [
 ];
 
 export const menus = {
-  arduinoPwmPins: {
-    // Arduino UNO/Nano PWM 写引脚
-    items: [
-      ['3', '3'],
-      ['5', '5'],
-      ['6', '6'],
-      ['9', '9'],
-      ['10', '10'],
-      ['11', '11'],
-    ],
-  },
-  iotPwmPins: {
-    items: [
-      ['P0', '33'],
-      ['P1', '32'],
-      // ['P2', '35'],
-      // ['P3', '34'],
-      // ['P4', '39'],
-      ['P5', '0'],
-      ['P6', '16'],
-      ['P7', '17'],
-      ['P8', '26'],
-      ['P9', '25'],
-      // ['P10', '36'],
-      ['P11', '2'],
-      // ['P12', ''],
-      ['P13', '18'],
-      ['P14', '19'],
-      ['P15', '21'],
-      ['P16', '5'],
-      ['P19', '22'],
-      ['P20', '23'],
-      ['P23', '27'],
-      ['P24', '14'],
-      ['P25', '12'],
-      ['P26', '13'],
-      ['P27', '15'],
-      ['P28', '4'],
-    ],
-  },
-  music: {
+  Music: {
     type: 'string',
-    defaultValue: 'dadadadum',
+    defaultValue: 'DADADADUM',
     items: [
       [
         <Text
           id="blocks.buzzer.music.dadadadum"
           defaultMessage="dadadadum"
         />,
-        'dadadadum',
+        'DADADADUM',
       ],
       [
         <Text
           id="blocks.buzzer.music.entertainer"
           defaultMessage="entertainer"
         />,
-        'entertainer',
+        'ENTERTAINER',
       ],
       [
         <Text
           id="blocks.buzzer.music.prelude"
           defaultMessage="prelude"
         />,
-        'prelude',
+        'PRELUDE',
       ],
       [
         <Text
           id="blocks.buzzer.music.ode"
           defaultMessage="ode"
         />,
-        'ode',
+        'ODE',
       ],
       [
         <Text
           id="blocks.buzzer.music.nyan"
           defaultMessage="nyan"
         />,
-        'nyan',
+        'NYAN',
       ],
       [
         <Text
           id="blocks.buzzer.music.ringtone"
           defaultMessage="ringtone"
         />,
-        'ringtone',
+        'RINGTONE',
       ],
       [
         <Text
           id="blocks.buzzer.music.funk"
           defaultMessage="funk"
         />,
-        'funk',
+        'FUNK',
       ],
       [
         <Text
           id="blocks.buzzer.music.blues"
           defaultMessage="blues"
         />,
-        'blues',
+        'BLUES',
       ],
       [
         <Text
           id="blocks.buzzer.music.birthday"
           defaultMessage="birthday"
         />,
-        'birthday',
+        'BIRTHDAY',
       ],
       [
         <Text
           id="blocks.buzzer.music.wedding"
           defaultMessage="wedding"
         />,
-        'wedding',
+        'WEDDING',
       ],
       [
         <Text
           id="blocks.buzzer.music.funeral"
           defaultMessage="funeral"
         />,
-        'funeral',
+        'FUNERAL',
       ],
       [
         <Text
           id="blocks.buzzer.music.punchline"
           defaultMessage="punchline"
         />,
-        'punchline',
+        'PUNCHLINE',
       ],
       [
         <Text
           id="blocks.buzzer.music.python"
           defaultMessage="python"
         />,
-        'python',
+        'PYTHON',
       ],
       [
         <Text
           id="blocks.buzzer.music.baddy"
           defaultMessage="baddy"
         />,
-        'baddy',
+        'BADDY',
       ],
       [
         <Text
           id="blocks.buzzer.music.chase"
           defaultMessage="chase"
         />,
-        'chase',
+        'CHASE',
       ],
       [
         <Text
           id="blocks.buzzer.music.baDing"
           defaultMessage="ba ding"
         />,
-        'ba ding',
+        'BA_DING',
       ],
       [
         <Text
           id="blocks.buzzer.music.wawawawaa"
           defaultMessage="wawawawaa"
         />,
-        'wawawawaa',
+        'WAWAWAWAA',
       ],
       [
         <Text
           id="blocks.buzzer.music.jumpUp"
           defaultMessage="jump up"
         />,
-        'jump up',
+        'JUMP_UP',
       ],
       [
         <Text
           id="blocks.buzzer.music.jumpDown"
           defaultMessage="jump down"
         />,
-        'jump down',
+        'JUMP_DOWN',
       ],
       [
         <Text
           id="blocks.buzzer.music.powerUp"
           defaultMessage="power up"
         />,
-        'power up',
+        'POWER_UP',
       ],
       [
         <Text
           id="blocks.buzzer.music.powerDown"
           defaultMessage="power down"
         />,
-        'power down',
+        'POWER_DOWN',
       ],
     ],
   },

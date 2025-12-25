@@ -11,40 +11,52 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.stepmotor.init"
-        defaultMessage="set pins INA[INA] INB[INB] INC[INC] IND[IND]"
+        defaultMessage="set pins INA:[INA] INB:[INB] INC:[INC] IND:[IND]"
       />
     ),
     inputs: {
-      INA: isIotBit(meta)
-        ? { menu: 'iotOutPins', defaultValue: 'P5' }
+      INA: meta.boardPins
+        ? {
+            menu: meta.boardPins.out,
+            defaultValue: isIotBit(meta) ? '18' : '1',
+          }
         : {
             type: 'positive_integer',
             defaultValue: 1,
           },
-      INB: isIotBit(meta)
-        ? { menu: 'iotOutPins', defaultValue: 'P6' }
+      INB: meta.boardPins
+        ? {
+            menu: meta.boardPins.out,
+            defaultValue: isIotBit(meta) ? '19' : '2',
+          }
         : {
             type: 'positive_integer',
             defaultValue: 2,
           },
-      INC: isIotBit(meta)
-        ? { menu: 'iotOutPins', defaultValue: 'P7' }
+      INC: meta.boardPins
+        ? {
+            menu: meta.boardPins.out,
+            defaultValue: isIotBit(meta) ? '21' : '3',
+          }
         : {
             type: 'positive_integer',
             defaultValue: 3,
           },
-      IND: isIotBit(meta)
-        ? { menu: 'iotOutPins', defaultValue: 'P8' }
+      IND: meta.boardPins
+        ? {
+            menu: meta.boardPins.out,
+            defaultValue: isIotBit(meta) ? '5' : '4',
+          }
         : {
             type: 'positive_integer',
             defaultValue: 4,
           },
     },
     mpy(block) {
-      const ina = isIotBit(meta) ? block.getFieldValue('INA') : this.valueToCode(block, 'INA', this.ORDER_NONE);
-      const inb = isIotBit(meta) ? block.getFieldValue('INB') : this.valueToCode(block, 'INB', this.ORDER_NONE);
-      const inc = isIotBit(meta) ? block.getFieldValue('INC') : this.valueToCode(block, 'INC', this.ORDER_NONE);
-      const ind = isIotBit(meta) ? block.getFieldValue('IND') : this.valueToCode(block, 'IND', this.ORDER_NONE);
+      const ina = meta.boardPins ? block.getFieldValue('INA') : this.valueToCode(block, 'INA', this.ORDER_NONE);
+      const inb = meta.boardPins ? block.getFieldValue('INB') : this.valueToCode(block, 'INB', this.ORDER_NONE);
+      const inc = meta.boardPins ? block.getFieldValue('INC') : this.valueToCode(block, 'INC', this.ORDER_NONE);
+      const ind = meta.boardPins ? block.getFieldValue('IND') : this.valueToCode(block, 'IND', this.ORDER_NONE);
       this.definitions_['stepper_motor'] = `_stepper = stepper_motor.StepperMotor(${ina}, ${inb}, ${inc}, ${ind})`;
       return '';
     },

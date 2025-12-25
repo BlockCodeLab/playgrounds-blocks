@@ -1,17 +1,6 @@
 import { Text } from '@blockcode/core';
 
-const isUno = (meta) => ['ArduinoUno', 'BLEUNO'].includes(meta.boardType);
-const isNano = (meta) => ['ArduinoNano', 'BLENANO'].includes(meta.boardType);
-const isESP32 = (meta) => ['ESP32', 'ESP32_IOT_BOARD'].includes(meta.boardType);
-const isESP32S3 = (meta) => ['ESP32S3'].includes(meta.boardType);
 const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
-const pinMenu = (meta) => {
-  if (isUno(meta)) return 'unoAdc';
-  if (isNano(meta)) return 'nanoAdc';
-  if (isESP32(meta)) return 'esp32Adc';
-  if (isESP32S3(meta)) return 'esp32s3Adc';
-  if (isIotBit(meta)) return 'iotAdc';
-};
 
 export const blocks = (meta) => [
   {
@@ -24,9 +13,12 @@ export const blocks = (meta) => [
     ),
     output: 'number',
     inputs: {
-      PIN: {
-        menu: pinMenu(meta),
-      },
+      PIN: meta.boardPins
+        ? { menu: meta.boardPins.adc }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
     },
     ino(block) {
       const pin = block.getFieldValue('PIN');
@@ -54,9 +46,12 @@ export const blocks = (meta) => [
     ),
     output: 'number',
     inputs: {
-      PIN: {
-        menu: pinMenu(meta),
-      },
+      PIN: meta.boardPins
+        ? { menu: meta.boardPins.adc }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
     },
     ino(block) {
       const pin = block.getFieldValue('PIN');
@@ -84,8 +79,8 @@ export const blocks = (meta) => [
     ),
     output: 'number',
     inputs: {
-      PIN: isIotBit(meta)
-        ? { menu: 'iotPins' }
+      PIN: meta.boardPins
+        ? { menu: meta.boardPins.out }
         : {
             type: 'positive_integer',
             defaultValue: 1,
@@ -132,123 +127,3 @@ export const blocks = (meta) => [
     },
   },
 ];
-
-export const menus = {
-  unoAdc: {
-    items: [
-      ['A0', 'A0'],
-      ['A1', 'A1'],
-      ['A2', 'A2'],
-      ['A3', 'A3'],
-      ['A4', 'A4'],
-      ['A5', 'A5'],
-    ],
-  },
-  nanoAdc: {
-    items: [
-      ['A0', 'A0'],
-      ['A1', 'A1'],
-      ['A2', 'A2'],
-      ['A3', 'A3'],
-      ['A4', 'A4'],
-      ['A5', 'A5'],
-      ['A6', 'A6'],
-      ['A7', 'A7'],
-    ],
-  },
-  esp32Adc: {
-    items: [
-      ['0', '0'],
-      ['2', '2'],
-      ['4', '4'],
-      ['12', '12'],
-      ['13', '13'],
-      ['14', '14'],
-      ['15', '15'],
-      ['25', '25'],
-      ['26', '26'],
-      ['27', '27'],
-      ['32', '32'],
-      ['33', '33'],
-      ['34', '34'],
-      ['35', '35'],
-      ['36', '36'],
-      ['37', '37'],
-      ['38', '38'],
-      ['39', '39'],
-    ],
-  },
-  esp32s3Adc: {
-    items: [
-      ['1', '1'],
-      ['2', '2'],
-      ['3', '3'],
-      ['4', '4'],
-      ['5', '5'],
-      ['6', '6'],
-      ['7', '7'],
-      ['8', '8'],
-      ['9', '9'],
-      ['10', '10'],
-      ['11', '11'],
-      ['12', '12'],
-      ['13', '13'],
-      ['14', '14'],
-      ['15', '15'],
-      ['16', '16'],
-      ['17', '17'],
-      ['18', '18'],
-      ['19', '19'],
-      ['20', '20'],
-    ],
-  },
-  iotAdc: {
-    items: [
-      ['P0', '33'],
-      ['P1', '32'],
-      ['P2', '35'],
-      ['P3', '34'],
-      ['P4', '39'],
-      ['P5', '0'],
-      ['P8', '26'],
-      ['P9', '25'],
-      ['P10', '36'],
-      ['P11', '2'],
-      ['P23', '27'],
-      ['P24', '14'],
-      ['P25', '12'],
-      ['P26', '13'],
-      ['P27', '15'],
-      ['P28', '4'],
-    ],
-  },
-  iotPins: {
-    items: [
-      ['P0', '33'],
-      ['P1', '32'],
-      ['P2', '35'],
-      ['P3', '34'],
-      ['P4', '39'],
-      ['P5', '0'],
-      ['P6', '16'],
-      ['P7', '17'],
-      ['P8', '26'],
-      ['P9', '25'],
-      ['P10', '36'],
-      ['P11', '2'],
-      // ['P12', ''],
-      ['P13', '18'],
-      ['P14', '19'],
-      ['P15', '21'],
-      ['P16', '5'],
-      ['P19', '22'],
-      ['P20', '23'],
-      ['P23', '27'],
-      ['P24', '14'],
-      ['P25', '12'],
-      ['P26', '13'],
-      ['P27', '15'],
-      ['P28', '4'],
-    ],
-  },
-};

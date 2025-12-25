@@ -14,22 +14,22 @@ export const blocks = (meta) =>
         />
       ),
       inputs: {
-        SCL: isIotBit(meta)
-          ? { menu: 'iotOutPins', defaultValue: '22' }
+        SCL: meta.boardPins
+          ? { menu: meta.boardPins.all, defaultValue: isIotBit(meta) ? '22' : 2 }
           : {
               type: 'integer',
               defaultValue: '2',
             },
-        SDA: isIotBit(meta)
-          ? { menu: 'iotOutPins', defaultValue: '23' }
+        SDA: meta.boardPins
+          ? { menu: meta.boardPins.all, defaultValue: isIotBit(meta) ? '23' : '3' }
           : {
               type: 'integer',
               defaultValue: '3',
             },
       },
       mpy(block) {
-        const scl = isIotBit(meta) ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
-        const sda = isIotBit(meta) ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
+        const scl = meta.boardPins ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
+        const sda = meta.boardPins ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
 
         if (this.definitions_['bmx280_addr']) {
           const addr = this.definitions_['bmx280_addr'].replace('# BMx280 addr: ', '');
@@ -201,35 +201,3 @@ export const blocks = (meta) =>
       },
     },
   ].filter(Boolean);
-
-export const menus = {
-  iotOutPins: {
-    items: [
-      ['P0', '33'],
-      ['P1', '32'],
-      // ['P2', '35'],
-      // ['P3', '34'],
-      // ['P4', '39'],
-      ['P5', '0'],
-      ['P6', '16'],
-      ['P7', '17'],
-      ['P8', '26'],
-      ['P9', '25'],
-      // ['P10', '36'],
-      ['P11', '2'],
-      // ['P12', ''],
-      ['P13', '18'],
-      ['P14', '19'],
-      ['P15', '21'],
-      ['P16', '5'],
-      ['P19', '22'],
-      ['P20', '23'],
-      ['P23', '27'],
-      ['P24', '14'],
-      ['P25', '12'],
-      ['P26', '13'],
-      ['P27', '15'],
-      ['P28', '4'],
-    ],
-  },
-};

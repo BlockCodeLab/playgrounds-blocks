@@ -3,8 +3,6 @@ import { addLocalesMessages, Text } from '@blockcode/core';
 import translations from './l10n.yaml';
 import iconImage from './icon.svg';
 
-const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
-
 addLocalesMessages(translations);
 
 export default {
@@ -26,8 +24,8 @@ export default {
       ),
       output: 'number',
       inputs: {
-        PIN: isIotBit(meta)
-          ? { menu: 'iotPins' }
+        PIN: meta.boardPins
+          ? { menu: meta.boardPins.in }
           : {
               type: 'positive_integer',
               defaultValue: 1,
@@ -76,8 +74,8 @@ export default {
       ),
       output: 'number',
       inputs: {
-        PIN: isIotBit(meta)
-          ? { menu: 'iotPins' }
+        PIN: meta.boardPins
+          ? { menu: meta.boardPins.in }
           : {
               type: 'positive_integer',
               defaultValue: 1,
@@ -127,8 +125,8 @@ export default {
       ),
       output: 'number',
       inputs: {
-        PIN: isIotBit(meta)
-          ? { menu: 'iotPins' }
+        PIN: meta.boardPins
+          ? { menu: meta.boardPins.in }
           : {
               type: 'positive_integer',
               defaultValue: 1,
@@ -177,8 +175,8 @@ export default {
       ),
       output: 'number',
       inputs: {
-        PIN: isIotBit(meta)
-          ? { menu: 'iotPins' }
+        PIN: meta.boardPins
+          ? { menu: meta.boardPins.in }
           : {
               type: 'positive_integer',
               defaultValue: 1,

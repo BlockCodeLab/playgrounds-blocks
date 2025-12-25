@@ -92,24 +92,33 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.matrix7219.init"
-        defaultMessage="set pins CLK[CLK] DIN[DIN] CS[CS]"
+        defaultMessage="set pins CLK:[CLK] DIN:[DIN] CS:[CS]"
       />
     ),
     inputs: {
-      CLK: isIotBit(meta)
-        ? { menu: 'iotOutPins', defaultValue: 'P5' }
+      CLK: meta.boardPins
+        ? {
+            menu: meta.boardPins.out,
+            defaultValue: isIotBit(meta) ? '33' : '2',
+          }
         : {
             type: 'positive_integer',
             defaultValue: 2,
           },
-      DIN: isIotBit(meta)
-        ? { menu: 'iotOutPins', defaultValue: 'P6' }
+      DIN: meta.boardPins
+        ? {
+            menu: meta.boardPins.out,
+            defaultValue: isIotBit(meta) ? '35' : '3',
+          }
         : {
             type: 'positive_integer',
             defaultValue: 3,
           },
-      CS: isIotBit(meta)
-        ? { menu: 'iotOutPins', defaultValue: 'P7' }
+      CS: meta.boardPins
+        ? {
+            menu: meta.boardPins.out,
+            defaultValue: isIotBit(meta) ? '32' : '4',
+          }
         : {
             type: 'positive_integer',
             defaultValue: 4,
@@ -125,9 +134,9 @@ export const blocks = (meta) => [
       return '';
     },
     mpy(block) {
-      const clk = isIotBit(meta) ? block.getFieldValue('CLK') : this.valueToCode(block, 'CLK', this.ORDER_NONE);
-      const din = isIotBit(meta) ? block.getFieldValue('DIN') : this.valueToCode(block, 'DIN', this.ORDER_NONE);
-      const cs = isIotBit(meta) ? block.getFieldValue('CS') : this.valueToCode(block, 'CS', this.ORDER_NONE);
+      const clk = meta.boardPins ? block.getFieldValue('CLK') : this.valueToCode(block, 'CLK', this.ORDER_NONE);
+      const din = meta.boardPins ? block.getFieldValue('DIN') : this.valueToCode(block, 'DIN', this.ORDER_NONE);
+      const cs = meta.boardPins ? block.getFieldValue('CS') : this.valueToCode(block, 'CS', this.ORDER_NONE);
       const devices = this.definitions_['matrix7219_devices']?.replace('# MAX7219 devices: ', '') || 1;
       delete this.definitions_['matrix7219_devices'];
       this.definitions_['matrix7219'] = `_matrix7219 = matrix7219.Matrix7219(${clk}, ${din}, ${cs}, ${devices})`;

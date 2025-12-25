@@ -8,18 +8,24 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.tm1637.init"
-        defaultMessage="set pins CLK[CLK] DIO[DIO]"
+        defaultMessage="set pins CLK:[CLK] DIO:[DIO]"
       />
     ),
     inputs: {
-      CLK: isIotBit(meta)
-        ? { menu: 'iotOutPins', defaultValue: '22' }
+      CLK: meta.boardPins
+        ? {
+            menu: meta.boardPins.out,
+            defaultValue: isIotBit(meta) ? '22' : '2',
+          }
         : {
             type: 'positive_integer',
             defaultValue: 2,
           },
-      DIO: isIotBit(meta)
-        ? { menu: 'iotOutPins', defaultValue: '23' }
+      DIO: meta.boardPins
+        ? {
+            menu: meta.boardPins.out,
+            defaultValue: isIotBit(meta) ? '23' : '3',
+          }
         : {
             type: 'positive_integer',
             defaultValue: 3,
@@ -35,8 +41,8 @@ export const blocks = (meta) => [
       return '';
     },
     mpy(block) {
-      const clk = isIotBit(meta) ? block.getFieldValue('CLK') : this.valueToCode(block, 'CLK', this.ORDER_NONE);
-      const dio = isIotBit(meta) ? block.getFieldValue('DIO') : this.valueToCode(block, 'DIO', this.ORDER_NONE);
+      const clk = meta.boardPins ? block.getFieldValue('CLK') : this.valueToCode(block, 'CLK', this.ORDER_NONE);
+      const dio = meta.boardPins ? block.getFieldValue('DIO') : this.valueToCode(block, 'DIO', this.ORDER_NONE);
       this.definitions_['digit1637'] = `_digit1637 = tm1637.TM1637(${clk}, ${dio})`;
       return '';
     },
@@ -239,35 +245,3 @@ export const blocks = (meta) => [
     },
   },
 ];
-
-export const menus = {
-  iotOutPins: {
-    items: [
-      ['P0', '33'],
-      ['P1', '32'],
-      // ['P2', '35'],
-      // ['P3', '34'],
-      // ['P4', '39'],
-      ['P5', '0'],
-      ['P6', '16'],
-      ['P7', '17'],
-      ['P8', '26'],
-      ['P9', '25'],
-      // ['P10', '36'],
-      ['P11', '2'],
-      // ['P12', ''],
-      ['P13', '18'],
-      ['P14', '19'],
-      ['P15', '21'],
-      ['P16', '5'],
-      ['P19', '22'],
-      ['P20', '23'],
-      ['P23', '27'],
-      ['P24', '14'],
-      ['P25', '12'],
-      ['P26', '13'],
-      ['P27', '15'],
-      ['P28', '4'],
-    ],
-  },
-};

@@ -1,8 +1,6 @@
 import { Text } from '@blockcode/core';
 
 const notArduino = (meta) => meta.editor !== '@blockcode/gui-arduino';
-const isUno = (meta) => ['ArudinoUno', 'BLEUNO'].includes(meta.boardType);
-const isNano = (meta) => ['ArudinoNano', 'BLENANO'].includes(meta.boardType);
 const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
 
 const autoInitArduino = (gen) => {
@@ -102,26 +100,32 @@ export const blocks = (meta) =>
       text: (
         <Text
           id="blocks.tracking.init5"
-          defaultMessage="set 5-channel tracker pins SCL [SCL] SDA [SDA]"
+          defaultMessage="set 5-channel tracker pins SCL:[SCL] SDA:[SDA]"
         />
       ),
       inputs: {
-        SCL: isIotBit(meta)
-          ? { menu: 'iotOutPins', defaultValue: '22' }
+        SCL: meta.boardPins
+          ? {
+              menu: meta.boardPins.out,
+              defaultValue: isIotBit(meta) ? '22' : '2',
+            }
           : {
               type: 'positive_integer',
               defaultValue: 2,
             },
-        SDA: isIotBit(meta)
-          ? { menu: 'iotOutPins', defaultValue: '23' }
+        SDA: meta.boardPins
+          ? {
+              menu: meta.boardPins.out,
+              defaultValue: isIotBit(meta) ? '23' : '3',
+            }
           : {
               type: 'positive_integer',
               defaultValue: 3,
             },
       },
       mpy(block) {
-        const scl = isIotBit(meta) ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
-        const sda = isIotBit(meta) ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
+        const scl = meta.boardPins ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
+        const sda = meta.boardPins ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
         this.definitions_['5tracker'] = `_5tracker = five_line_tracker.FiveLineTracker(${scl}, ${sda})`;
         return '';
       },
@@ -247,57 +251,6 @@ export const menus = {
       ['3', '2'],
       ['4', '3'],
       ['5', '4'],
-    ],
-  },
-  unoAnalogPins: {
-    items: [
-      ['A0', 'A0'],
-      ['A1', 'A1'],
-      ['A2', 'A2'],
-      ['A3', 'A3'],
-      ['A4', 'A4'],
-      ['A5', 'A5'],
-    ],
-  },
-  nanoAnalogPins: {
-    items: [
-      ['A0', 'A0'],
-      ['A1', 'A1'],
-      ['A2', 'A2'],
-      ['A3', 'A3'],
-      ['A4', 'A4'],
-      ['A5', 'A5'],
-      ['A6', 'A6'],
-      ['A7', 'A7'],
-    ],
-  },
-  iotOutPins: {
-    items: [
-      ['P0', '33'],
-      ['P1', '32'],
-      // ['P2', '35'],
-      // ['P3', '34'],
-      // ['P4', '39'],
-      ['P5', '0'],
-      ['P6', '16'],
-      ['P7', '17'],
-      ['P8', '26'],
-      ['P9', '25'],
-      // ['P10', '36'],
-      ['P11', '2'],
-      // ['P12', ''],
-      ['P13', '18'],
-      ['P14', '19'],
-      ['P15', '21'],
-      ['P16', '5'],
-      ['P19', '22'],
-      ['P20', '23'],
-      ['P23', '27'],
-      ['P24', '14'],
-      ['P25', '12'],
-      ['P26', '13'],
-      ['P27', '15'],
-      ['P28', '4'],
     ],
   },
 };

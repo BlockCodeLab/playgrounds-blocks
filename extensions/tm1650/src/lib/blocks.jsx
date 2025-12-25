@@ -12,234 +12,206 @@ const autoInitArduino = (gen) => {
 };
 
 export const blocks = (meta) =>
-  []
-    .concat(
-      notArduino(meta) && {
-        id: 'init',
-        text: (
-          <Text
-            id="blocks.tm1650.init"
-            defaultMessage="set pins SCL[SCL] SDA[SDA]"
-          />
-        ),
-        inputs: {
-          SCL: isIotBit(meta)
-            ? { menu: 'iotOutPins', defaultValue: '22' }
-            : {
-                type: 'positive_integer',
-                defaultValue: 2,
-              },
-          SDA: isIotBit(meta)
-            ? { menu: 'iotOutPins', defaultValue: '23' }
-            : {
-                type: 'positive_integer',
-                defaultValue: 3,
-              },
-        },
-        mpy(block) {
-          const scl = isIotBit(meta) ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
-          const sda = isIotBit(meta) ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
-          this.definitions_['digit1650'] = `_digit1650 = decimal1650.Decimal(${scl}, ${sda})`;
-          return '';
+  [
+    notArduino(meta) && {
+      id: 'init',
+      text: (
+        <Text
+          id="blocks.tm1650.init"
+          defaultMessage="set pins SCL:[SCL] SDA:[SDA]"
+        />
+      ),
+      inputs: {
+        SCL: meta.boardPins
+          ? {
+              menu: meta.boardPins.out,
+              defaultValue: isIotBit(meta) ? '22' : '2',
+            }
+          : {
+              type: 'positive_integer',
+              defaultValue: 2,
+            },
+        SDA: meta.boardPins
+          ? {
+              menu: meta.boardPins.out,
+              defaultValue: isIotBit(meta) ? '23' : '3',
+            }
+          : {
+              type: 'positive_integer',
+              defaultValue: 3,
+            },
+      },
+      mpy(block) {
+        const scl = meta.boardPins ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
+        const sda = meta.boardPins ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
+        this.definitions_['digit1650'] = `_digit1650 = decimal1650.Decimal(${scl}, ${sda})`;
+        return '';
+      },
+    },
+    // {
+    //   id: 'addr',
+    //   text: (
+    //     <Text
+    //       id="blocks.tm1650.addr"
+    //       defaultMessage="set I2C address [ADDR]"
+    //     />
+    //   ),
+    //   inputs: {
+    //     ADDR: {
+    //       menu: [
+    //         ['0×70', '0x70'],
+    //         ['0×77', '0x77'],
+    //       ],
+    //     },
+    //   },
+    // },
+    '---',
+    {
+      id: 'display',
+      text: (
+        <Text
+          id="blocks.tm1650.display"
+          defaultMessage="display number [NUM]"
+        />
+      ),
+      inputs: {
+        NUM: {
+          type: 'number',
+          defaultValue: 100,
         },
       },
-      // {
-      //   id: 'addr',
-      //   text: (
-      //     <Text
-      //       id="blocks.tm1650.addr"
-      //       defaultMessage="set I2C address [ADDR]"
-      //     />
-      //   ),
-      //   inputs: {
-      //     ADDR: {
-      //       menu: [
-      //         ['0×70', '0x70'],
-      //         ['0×77', '0x77'],
-      //       ],
-      //     },
-      //   },
-      // },
-      '---',
-      {
-        id: 'display',
-        text: (
-          <Text
-            id="blocks.tm1650.display"
-            defaultMessage="display number [NUM]"
-          />
-        ),
-        inputs: {
-          NUM: {
-            type: 'number',
-            defaultValue: 100,
-          },
-        },
-        ino(block) {
-          autoInitArduino(this);
-          const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
+      ino(block) {
+        autoInitArduino(this);
+        const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
 
-          let numCode = '';
-          numCode += 'void tm1650DisplayNumber(float num) {\n';
-          numCode += '  if (num < -999.5) num = -999.0;\n';
-          numCode += '  if (num > 9999.5) num = 9999.0;\n';
-          numCode += '  char buffer[15];\n';
-          numCode += '  dtostrf(num, 0, 3, buffer);\n';
-          numCode += '  int len = 0;\n';
-          numCode += '  int total = strlen(buffer);\n';
-          numCode += "  char *dot = strchr(buffer, '.');\n";
-          numCode += '  if (dot != NULL) {\n';
-          numCode += '    char *frac = dot + 1;\n';
-          numCode += '    len = strlen(frac);\n';
-          numCode += '    total--;\n';
-          numCode += "    while (len > 0 && frac[len - 1] == '0') {\n";
-          numCode += '      len--; total--;\n';
-          numCode += '    }\n';
-          numCode += '    if (total > 4) len = 4 - (total - len);\n';
-          numCode += '  }\n';
-          numCode += '  sprintf(buffer, "%4d", round(num * pow(10, len)));\n';
-          numCode += '  _digit1650.displayString(&buffer[0]);\n';
-          numCode += '  _digit1650.setDot(3 - len, len > 0);\n';
-          numCode += '}\n';
-          this.definitions_['declare_tm1650DisplayNumber'] = 'void tm1650DisplayNumber(float number);';
-          this.definitions_['tm1650DisplayNumber'] = numCode;
+        let numCode = '';
+        numCode += 'void tm1650DisplayNumber(float num) {\n';
+        numCode += '  if (num < -999.5) num = -999.0;\n';
+        numCode += '  if (num > 9999.5) num = 9999.0;\n';
+        numCode += '  char buffer[15];\n';
+        numCode += '  dtostrf(num, 0, 3, buffer);\n';
+        numCode += '  int len = 0;\n';
+        numCode += '  int total = strlen(buffer);\n';
+        numCode += "  char *dot = strchr(buffer, '.');\n";
+        numCode += '  if (dot != NULL) {\n';
+        numCode += '    char *frac = dot + 1;\n';
+        numCode += '    len = strlen(frac);\n';
+        numCode += '    total--;\n';
+        numCode += "    while (len > 0 && frac[len - 1] == '0') {\n";
+        numCode += '      len--; total--;\n';
+        numCode += '    }\n';
+        numCode += '    if (total > 4) len = 4 - (total - len);\n';
+        numCode += '  }\n';
+        numCode += '  sprintf(buffer, "%4d", round(num * pow(10, len)));\n';
+        numCode += '  _digit1650.displayString(&buffer[0]);\n';
+        numCode += '  _digit1650.setDot(3 - len, len > 0);\n';
+        numCode += '}\n';
+        this.definitions_['declare_tm1650DisplayNumber'] = 'void tm1650DisplayNumber(float number);';
+        this.definitions_['tm1650DisplayNumber'] = numCode;
 
-          const code = `tm1650DisplayNumber(${num});\n`;
-          return code;
-        },
-        mpy(block) {
-          const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
-          const code = `_digit1650.show_number(${num})\n`;
-          return code;
+        const code = `tm1650DisplayNumber(${num});\n`;
+        return code;
+      },
+      mpy(block) {
+        const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
+        const code = `_digit1650.show_number(${num})\n`;
+        return code;
+      },
+    },
+    // {
+    //   id: 'digit',
+    //   text: (
+    //     <Text
+    //       id="blocks.tm1650.digit"
+    //       defaultMessage="set digit [DIGIT] at [POS]"
+    //     />
+    //   ),
+    //   inputs: {
+    //     DIGIT: {
+    //       type: 'integer',
+    //       defaultValue: '1',
+    //     },
+    //     POS: {
+    //       type: 'integer',
+    //       inputMode: true,
+    //       defaultValue: '1',
+    //       menu: ['1', '2', '3', '4'],
+    //     },
+    //   },
+    //   ino(block) {
+    //     const digit = this.valueToCode(block, 'DIGIT', this.ORDER_NONE);
+    //     const pos = this.valueToCode(block, 'POS', this.ORDER_NONE);
+    //     return '';
+    //   },
+    //   mpy(block) {
+    //     const digit = this.valueToCode(block, 'DIGIT', this.ORDER_NONE);
+    //     const pos = this.valueToCode(block, 'POS', this.ORDER_NONE);
+    //     const code = `_digit1650.show_digit_number(${pos}, ${digit})\n`;
+    //     return code;
+    //   },
+    // },
+    {
+      id: 'clear',
+      text: (
+        <Text
+          id="blocks.tm1650.clear"
+          defaultMessage="clear display"
+        />
+      ),
+      ino(block) {
+        autoInitArduino(this);
+        return '_digit1650.clear();\n';
+      },
+      mpy(block) {
+        return '_digit1650.clear()\n';
+      },
+    },
+    '---',
+    {
+      id: 'brightness',
+      text: (
+        <Text
+          id="blocks.tm1650.brightness"
+          defaultMessage="set brightness [LEVEL]"
+        />
+      ),
+      inputs: {
+        LEVEL: {
+          shadow: 'brightnessLevel',
+          defaultValue: '7',
         },
       },
-      // {
-      //   id: 'digit',
-      //   text: (
-      //     <Text
-      //       id="blocks.tm1650.digit"
-      //       defaultMessage="set digit [DIGIT] at [POS]"
-      //     />
-      //   ),
-      //   inputs: {
-      //     DIGIT: {
-      //       type: 'integer',
-      //       defaultValue: '1',
-      //     },
-      //     POS: {
-      //       type: 'integer',
-      //       inputMode: true,
-      //       defaultValue: '1',
-      //       menu: ['1', '2', '3', '4'],
-      //     },
-      //   },
-      //   ino(block) {
-      //     const digit = this.valueToCode(block, 'DIGIT', this.ORDER_NONE);
-      //     const pos = this.valueToCode(block, 'POS', this.ORDER_NONE);
-      //     return '';
-      //   },
-      //   mpy(block) {
-      //     const digit = this.valueToCode(block, 'DIGIT', this.ORDER_NONE);
-      //     const pos = this.valueToCode(block, 'POS', this.ORDER_NONE);
-      //     const code = `_digit1650.show_digit_number(${pos}, ${digit})\n`;
-      //     return code;
-      //   },
-      // },
-      {
-        id: 'clear',
-        text: (
-          <Text
-            id="blocks.tm1650.clear"
-            defaultMessage="clear display"
-          />
-        ),
-        ino(block) {
-          autoInitArduino(this);
-          return '_digit1650.clear();\n';
-        },
-        mpy(block) {
-          return '_digit1650.clear()\n';
+      ino(block) {
+        autoInitArduino(this);
+        const level = this.valueToCode(block, 'LEVEL', this.ORDER_NONE);
+        const code = `_digit1650.setBrightness(${level});\n`;
+        return code;
+      },
+      mpy(block) {
+        const level = this.valueToCode(block, 'LEVEL', this.ORDER_NONE);
+        const code = `_digit1650.brightness(${level})\n`;
+        return code;
+      },
+    },
+    {
+      id: 'brightnessLevel',
+      shadow: true,
+      output: 'number',
+      inputs: {
+        LEVEL: {
+          type: 'slider',
+          defaultValue: 0,
+          min: 0,
+          max: 7,
         },
       },
-      '---',
-      {
-        id: 'brightness',
-        text: (
-          <Text
-            id="blocks.tm1650.brightness"
-            defaultMessage="set brightness [LEVEL]"
-          />
-        ),
-        inputs: {
-          LEVEL: {
-            shadow: 'brightnessLevel',
-            defaultValue: '7',
-          },
-        },
-        ino(block) {
-          autoInitArduino(this);
-          const level = this.valueToCode(block, 'LEVEL', this.ORDER_NONE);
-          const code = `_digit1650.setBrightness(${level});\n`;
-          return code;
-        },
-        mpy(block) {
-          const level = this.valueToCode(block, 'LEVEL', this.ORDER_NONE);
-          const code = `_digit1650.brightness(${level})\n`;
-          return code;
-        },
+      mpy(block) {
+        const code = block.getFieldValue('LEVEL') || 0;
+        return [code, this.ORDER_NONE];
       },
-      {
-        id: 'brightnessLevel',
-        shadow: true,
-        output: 'number',
-        inputs: {
-          LEVEL: {
-            type: 'slider',
-            defaultValue: 0,
-            min: 0,
-            max: 7,
-          },
-        },
-        mpy(block) {
-          const code = block.getFieldValue('LEVEL') || 0;
-          return [code, this.ORDER_NONE];
-        },
-        ino(block) {
-          const code = block.getFieldValue('LEVEL') || 0;
-          return [code, this.ORDER_NONE];
-        },
+      ino(block) {
+        const code = block.getFieldValue('LEVEL') || 0;
+        return [code, this.ORDER_NONE];
       },
-    )
-    .filter(Boolean);
-
-export const menus = {
-  iotOutPins: {
-    items: [
-      ['P0', '33'],
-      ['P1', '32'],
-      // ['P2', '35'],
-      // ['P3', '34'],
-      // ['P4', '39'],
-      ['P5', '0'],
-      ['P6', '16'],
-      ['P7', '17'],
-      ['P8', '26'],
-      ['P9', '25'],
-      // ['P10', '36'],
-      ['P11', '2'],
-      // ['P12', ''],
-      ['P13', '18'],
-      ['P14', '19'],
-      ['P15', '21'],
-      ['P16', '5'],
-      ['P19', '22'],
-      ['P20', '23'],
-      ['P23', '27'],
-      ['P24', '14'],
-      ['P25', '12'],
-      ['P26', '13'],
-      ['P27', '15'],
-      ['P28', '4'],
-    ],
-  },
-};
+    },
+  ].filter(Boolean);

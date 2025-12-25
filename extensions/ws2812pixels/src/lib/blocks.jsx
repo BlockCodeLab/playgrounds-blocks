@@ -16,8 +16,8 @@ export const blocks = (meta) => [
       />
     ),
     inputs: {
-      PIN: isIotBit(meta)
-        ? { menu: 'iotPWMPins' }
+      PIN: meta.boardPins
+        ? { menu: meta.boardPins.pwm }
         : {
             type: 'positive_integer',
             defaultValue: 1,
@@ -28,7 +28,7 @@ export const blocks = (meta) => [
       },
     },
     mpy(block) {
-      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
       const pinName = `_ledpixel${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
@@ -47,8 +47,8 @@ export const blocks = (meta) => [
       />
     ),
     inputs: {
-      PIN: isIotBit(meta)
-        ? { menu: 'iotPWMPins' }
+      PIN: meta.boardPins
+        ? { menu: meta.boardPins.pwm }
         : {
             type: 'positive_integer',
             defaultValue: 1,
@@ -66,7 +66,7 @@ export const blocks = (meta) => [
       },
     },
     mpy(block) {
-      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const color = this.valueToCode(block, 'COLOR', this.ORDER_NONE);
       const brightness = this.valueToCode(block, 'BRIGHTNESS', this.ORDER_NONE);
       const pos = this.getAdjusted(block, 'POS');
@@ -110,15 +110,15 @@ export const blocks = (meta) => [
       />
     ),
     inputs: {
-      PIN: isIotBit(meta)
-        ? { menu: 'iotPWMPins' }
+      PIN: meta.boardPins
+        ? { menu: meta.boardPins.pwm }
         : {
             type: 'positive_integer',
             defaultValue: 1,
           },
     },
     mpy(block) {
-      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const code = `_ledpixel${pin}.clear()\n`;
       return code;
     },
@@ -133,8 +133,8 @@ export const blocks = (meta) => [
       />
     ),
     inputs: {
-      PIN: isIotBit(meta)
-        ? { menu: 'iotPWMPins' }
+      PIN: meta.boardPins
+        ? { menu: meta.boardPins.pwm }
         : {
             type: 'positive_integer',
             defaultValue: 1,
@@ -144,7 +144,7 @@ export const blocks = (meta) => [
       },
     },
     mpy(block) {
-      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const effect = block.getFieldValue('EFFECT');
       const code = `await _ledpixel${pin}.${effect}()\n`;
       return code;
@@ -159,8 +159,8 @@ export const blocks = (meta) => [
       />
     ),
     inputs: {
-      PIN: isIotBit(meta)
-        ? { menu: 'iotPWMPins' }
+      PIN: meta.boardPins
+        ? { menu: meta.boardPins.pwm }
         : {
             type: 'positive_integer',
             defaultValue: 1,
@@ -173,7 +173,7 @@ export const blocks = (meta) => [
       },
     },
     mpy(block) {
-      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const color = this.valueToCode(block, 'COLOR', this.ORDER_NONE);
       const effect = block.getFieldValue('EFFECT');
       const code = `await _ledpixel${pin}.${effect}(${color})\n`;
@@ -190,8 +190,8 @@ export const blocks = (meta) => [
       />
     ),
     inputs: {
-      PIN: isIotBit(meta)
-        ? { menu: 'iotPWMPins' }
+      PIN: meta.boardPins
+        ? { menu: meta.boardPins.pwm }
         : {
             type: 'positive_integer',
             defaultValue: 1,
@@ -201,7 +201,7 @@ export const blocks = (meta) => [
       },
     },
     mpy(block) {
-      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const effect = block.getFieldValue('EFFECT');
       const code = `asyncio.create_task(_ledpixel${pin}.${effect}())\n`;
       return code;
@@ -216,8 +216,8 @@ export const blocks = (meta) => [
       />
     ),
     inputs: {
-      PIN: isIotBit(meta)
-        ? { menu: 'iotPWMPins' }
+      PIN: meta.boardPins
+        ? { menu: meta.boardPins.pwm }
         : {
             type: 'positive_integer',
             defaultValue: 1,
@@ -230,7 +230,7 @@ export const blocks = (meta) => [
       },
     },
     mpy(block) {
-      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const color = this.valueToCode(block, 'COLOR', this.ORDER_NONE);
       const effect = block.getFieldValue('EFFECT');
       const code = `asyncio.create_task(_ledpixel${pin}.${effect}(${color}))\n`;
@@ -320,34 +320,5 @@ export const menus = {
   },
   effectColorOption: {
     items: effects,
-  },
-  iotPWMPins: {
-    items: [
-      ['P0', '33'],
-      ['P1', '32'],
-      // ['P2', '35'],
-      // ['P3', '34'],
-      // ['P4', '39'],
-      ['P5', '0'],
-      ['P6', '16'],
-      ['P7', '17'],
-      ['P8', '26'],
-      ['P9', '25'],
-      // ['P10', '36'],
-      ['P11', '2'],
-      // ['P12', ''],
-      ['P13', '18'],
-      ['P14', '19'],
-      ['P15', '21'],
-      ['P16', '5'],
-      ['P19', '22'],
-      ['P20', '23'],
-      ['P23', '27'],
-      ['P24', '14'],
-      ['P25', '12'],
-      ['P26', '13'],
-      ['P27', '15'],
-      ['P28', '4'],
-    ],
   },
 };

@@ -38,8 +38,8 @@ export default {
         />
       ),
       inputs: {
-        PIN: isIotBit(meta)
-          ? { menu: 'iotOutPins' }
+        PIN: meta.boardPins
+          ? { menu: meta.boardPins.out }
           : {
               type: 'positive_integer',
               defaultValue: 1,
@@ -50,7 +50,7 @@ export default {
         },
       },
       mpy(block) {
-        const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
         const angleCode = this.valueToCode(block, 'ANGLE', this.ORDER_NONE);
         const code = `servo.set_angle(${pin}, ${angleCode})\n`;
         return code;
@@ -75,8 +75,8 @@ export default {
         />
       ),
       inputs: {
-        PIN: isIotBit(meta)
-          ? { menu: 'iotOutPins' }
+        PIN: meta.boardPins
+          ? { menu: meta.boardPins.out }
           : {
               type: 'positive_integer',
               defaultValue: 1,
@@ -87,7 +87,7 @@ export default {
         },
       },
       mpy(block) {
-        const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
         const angleCode = this.valueToCode(block, 'ANGLE', this.ORDER_NONE) || 0;
         const code = `servo.set_angle(${pin}, ${angleCode}, angle=270)\n`;
         return code;
@@ -148,8 +148,8 @@ export default {
         />
       ),
       inputs: {
-        PIN: isIotBit(meta)
-          ? { menu: 'iotOutPins' }
+        PIN: meta.boardPins
+          ? { menu: meta.boardPins.out }
           : {
               type: 'positive_integer',
               defaultValue: 1,
@@ -184,7 +184,7 @@ export default {
         },
       },
       mpy(block) {
-        const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
         const rotate = block.getFieldValue('ROTATE') || '1';
         const code = `servo.set_motor(${pin}, ${rotate})\n`;
         return code;
