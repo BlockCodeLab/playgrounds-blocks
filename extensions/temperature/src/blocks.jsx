@@ -21,13 +21,13 @@ export const blocks = (meta) => [
           },
     },
     ino(block) {
-      const pin = block.getFieldValue('PIN');
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, INPUT);`;
       const code = `(analogRead(${pin}) * 500.0 / 1023.0)`;
       return [code, this.ORDER_FUNCTION_CALL];
     },
     mpy(block) {
-      const pin = block.getFieldValue('PIN');
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const pinName = `_lm${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_adc'] = 'from machine import ADC';
@@ -54,13 +54,13 @@ export const blocks = (meta) => [
           },
     },
     ino(block) {
-      const pin = block.getFieldValue('PIN');
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, INPUT);`;
       const code = `(analogRead(${pin}) * 500.0 / 1023.0 - 50.0)`;
       return [code, this.ORDER_FUNCTION_CALL];
     },
     mpy(block) {
-      const pin = block.getFieldValue('PIN');
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const pinName = `_nl${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_adc'] = 'from machine import ADC';

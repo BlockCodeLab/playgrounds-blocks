@@ -125,9 +125,9 @@ export const blocks = (meta) => [
           },
     },
     ino(block) {
-      const clk = this.valueToCode(block, 'CLK', this.ORDER_NONE);
-      const din = this.valueToCode(block, 'DIN', this.ORDER_NONE);
-      const cs = this.valueToCode(block, 'CS', this.ORDER_NONE);
+      const clk = meta.boardPins ? block.getFieldValue('CLK') : this.valueToCode(block, 'CLK', this.ORDER_NONE);
+      const din = meta.boardPins ? block.getFieldValue('DIN') : this.valueToCode(block, 'DIN', this.ORDER_NONE);
+      const cs = meta.boardPins ? block.getFieldValue('CS') : this.valueToCode(block, 'CS', this.ORDER_NONE);
       const devices = this.definitions_['variable_matrix7219_devices']?.replace('// MAX7219 devices: ', '') || 1;
       delete this.definitions_['variable_matrix7219_devices'];
       this.definitions_['variable_matrix7219'] = `Matrix7219 _matrix7219(${clk}, ${din}, ${cs}, ${devices});`;

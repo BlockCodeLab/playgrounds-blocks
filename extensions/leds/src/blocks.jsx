@@ -22,7 +22,7 @@ export const blocks = (meta) => [
       },
     },
     ino(block) {
-      const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const state = this.valueToCode(block, 'STATE', this.ORDER_NONE);
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, OUTPUT);`;
       const code = `digitalWrite(${pin}, ${state == 1 ? 'HIGH' : 'LOW'});\n`;
@@ -34,7 +34,7 @@ export const blocks = (meta) => [
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_pwm'] = 'from machine import PWM';
-      this.definitions_[pinName] = `${pinName} = PWM(Pin(${pin}), freq=1000)`;
+      this.definitions_[pinName] = `${pinName} = PWM(Pin(${pin}), freq=1000, duty_u16=0)`;
       const code = `${pinName}.duty(${state == 1 ? 1023 : 0})\n`;
       return code;
     },
@@ -56,7 +56,7 @@ export const blocks = (meta) => [
           },
     },
     ino(block) {
-      const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const state = this.valueToCode(block, 'STATE', this.ORDER_NONE);
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, OUTPUT);`;
       const code = `digitalWrite(${pin}, digitalRead(${pin}) ? LOW : HIGH);\n`;
@@ -67,7 +67,7 @@ export const blocks = (meta) => [
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_pwm'] = 'from machine import PWM';
-      this.definitions_[pinName] = `${pinName} = PWM(Pin(${pin}), freq=1000)`;
+      this.definitions_[pinName] = `${pinName} = PWM(Pin(${pin}), freq=1000, duty_u16=0)`;
       const code = `${pinName}.duty(0 if ${pinName}.duty() else 1023)\n`;
       return code;
     },
@@ -93,7 +93,7 @@ export const blocks = (meta) => [
       },
     },
     ino(block) {
-      const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const level = this.valueToCode(block, 'LEVEL', this.ORDER_NONE);
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, OUTPUT);`;
       const code = `analogWrite(${pin}, round(${level} * 12.75f));\n`;
@@ -105,7 +105,7 @@ export const blocks = (meta) => [
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_pwm'] = 'from machine import PWM';
-      this.definitions_[pinName] = `${pinName} = PWM(Pin(${pin}), freq=1000)`;
+      this.definitions_[pinName] = `${pinName} = PWM(Pin(${pin}), freq=1000, duty_u16=0)`;
       const code = `${pinName}.duty(round(${level} * 51.15))\n`;
       return code;
     },

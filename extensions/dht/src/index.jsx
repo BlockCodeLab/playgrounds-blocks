@@ -32,7 +32,7 @@ export default {
             },
       },
       ino(block) {
-        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
         this.definitions_[`include_dht`] = '#include "dht.h"';
         this.definitions_[`variable_dht`] = `dht _dht;`;
 
@@ -48,7 +48,7 @@ export default {
         return [code, this.ORDER_FUNCTION_CALL];
       },
       mpy(block) {
-        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
         const pinName = `pin_${pin}`;
         this.definitions_['import_pin'] = 'from machine import Pin';
         this.definitions_['import_dht11'] = 'from dht import DHT11';
@@ -82,7 +82,7 @@ export default {
             },
       },
       ino(block) {
-        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
         this.definitions_[`include_dht`] = '#include "dht.h"';
         this.definitions_[`variable_dht`] = `dht _dht;`;
 
@@ -98,7 +98,7 @@ export default {
         return [code, this.ORDER_FUNCTION_CALL];
       },
       mpy(block) {
-        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
         const pinName = `pin_${pin}`;
         this.definitions_['import_pin'] = 'from machine import Pin';
         this.definitions_['import_dht11'] = 'from dht import DHT11';
@@ -133,7 +133,7 @@ export default {
             },
       },
       ino(block) {
-        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
         this.definitions_[`include_dht`] = '#include "dht.h"';
         this.definitions_[`variable_dht`] = `dht _dht;`;
 
@@ -149,7 +149,7 @@ export default {
         return [code, this.ORDER_FUNCTION_CALL];
       },
       mpy(block) {
-        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
         const pinName = `pin_${pin}`;
         this.definitions_['import_pin'] = 'from machine import Pin';
         this.definitions_['import_dht22'] = 'from dht import DHT22';
@@ -183,7 +183,7 @@ export default {
             },
       },
       ino(block) {
-        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
         this.definitions_[`include_dht`] = '#include "dht.h"';
         this.definitions_[`variable_dht`] = `dht _dht;`;
 
@@ -199,7 +199,7 @@ export default {
         return [code, this.ORDER_FUNCTION_CALL];
       },
       mpy(block) {
-        const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
         const pinName = `pin_${pin}`;
         this.definitions_['import_pin'] = 'from machine import Pin';
         this.definitions_['import_dht22'] = 'from dht import DHT22';

@@ -32,8 +32,8 @@ export const blocks = (meta) => [
           },
     },
     ino(block) {
-      const clk = this.valueToCode(block, 'CLK', this.ORDER_NONE);
-      const dio = this.valueToCode(block, 'DIO', this.ORDER_NONE);
+      const clk = meta.boardPins ? block.getFieldValue('CLK') : this.valueToCode(block, 'CLK', this.ORDER_NONE);
+      const dio = meta.boardPins ? block.getFieldValue('DIO') : this.valueToCode(block, 'DIO', this.ORDER_NONE);
       this.definitions_['include_tm1637'] = '#include <GyverTM1637.h>';
       this.definitions_['variable_digit1637'] = `GyverTM1637 _digit1637(${clk}, ${dio});`;
       this.definitions_['setup_digit1637_1'] = '_digit1637.clear();';

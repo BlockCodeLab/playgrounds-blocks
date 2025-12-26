@@ -23,7 +23,7 @@ export const blocks = (meta) => [
           },
     },
     ino(block) {
-      const pin = block.getFieldValue('PIN');
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, INPUT);`;
       const code = `analogRead(${pin})`;
       return [code, this.ORDER_FUNCTION_CALL];
@@ -60,7 +60,7 @@ export const blocks = (meta) => [
           },
     },
     ino(block) {
-      const pin = block.getFieldValue('PIN');
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, INPUT);`;
       const code = `round((analogRead(${pin}) / 1023.0f) * 100)`;
       return [code, this.ORDER_NONE];
@@ -97,7 +97,7 @@ export const blocks = (meta) => [
           },
     },
     ino(block) {
-      const pin = block.getFieldValue('PIN');
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, INPUT);`;
       const code = `round(((analogRead(${pin}) - 511) / 511.0f) * 100)`;
       return [code, this.ORDER_FUNCTION_CALL];
@@ -141,7 +141,7 @@ export const blocks = (meta) => [
       // },
     },
     ino(block) {
-      const pin = block.getFieldValue('PIN');
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       // const ref = block.getFieldValue('REF');
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, INPUT);`;
       const code = `round((analogRead(${pin}) / 1023.0f) * 500) / 100.0f`; // 精度，小数点后两位
