@@ -1,3 +1,4 @@
+import { changeCase } from '@blockcode/utils';
 import { Text } from '@blockcode/core';
 
 export const blocks = (meta) => [
@@ -51,10 +52,7 @@ export const blocks = (meta) => [
     },
     mpy(block) {
       const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
-      const state = block
-        .getFieldValue('STATE')
-        .replace(/([a-z])([A-Z])/g, '$1_$2')
-        .toLowerCase();
+      const state = changeCase.snakeCase(block.getFieldValue('STATE'));
 
       const buttonName = `_1button_${pin}`;
       this.definitions_['import_onebutton'] = 'from onebutton import OneButton';

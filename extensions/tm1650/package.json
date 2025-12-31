@@ -16,7 +16,6 @@
     "preact": "^10.27.2"
   },
   "devDependencies": {
-    "@types/bun": "latest",
-    "playground-build": "git+https://github.com/BlockCodeLab/playground-build.git"
+    "@types/bun": "latest"
   }
 }
