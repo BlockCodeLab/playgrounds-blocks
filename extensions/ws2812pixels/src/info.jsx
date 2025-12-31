@@ -18,7 +18,7 @@ export default {
       defaultMessage="WS2812 LEDs controller."
     />
   ),
-  tags: ['device', 'display'],
+  tags: ['device', 'arduino', 'display'],
 };
 
 addLocalesMessages({
