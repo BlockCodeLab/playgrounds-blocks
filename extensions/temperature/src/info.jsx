@@ -24,14 +24,14 @@ export default {
 addLocalesMessages({
   en: {
     'blocks.temperature.name': 'Temperature',
-    'blocks.temperature.description': 'Kinds temperature sensors.',
+    'blocks.temperature.description': 'LM35/NL50/SD8B20 temperature sensors.',
   },
   'zh-Hans': {
     'blocks.temperature.name': '温度模块',
-    'blocks.temperature.description': '各种侦测温度的传感器。',
+    'blocks.temperature.description': '使用 LM35/NL50/SD8B20 温度传感器。',
   },
   'zh-Hant': {
     'blocks.temperature.name': '溫度模組',
-    'blocks.temperature.description': '各種偵測溫度的傳感器。',
+    'blocks.temperature.description': '使用 LM35/NL50/SD8B20 溫度傳感器。',
   },
 });

@@ -39,7 +39,8 @@ export default {
       uri: aiohttpWsFile,
     },
     {
-      name: '_sparkai',
+      common: true,
+      name: 'sparkai',
       type: 'text/x-python',
       uri: sparkaiFile,
     },

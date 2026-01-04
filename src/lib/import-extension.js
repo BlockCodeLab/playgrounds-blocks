@@ -1,4 +1,5 @@
 import { batch } from '@preact/signals';
+import { nullObject } from '@blockcode/utils';
 import { addAsset } from '@blockcode/core';
 
 const escape = (name) => name.replaceAll(/[^a-z0-9]/gi, '_').replace(/^_/, '');
@@ -19,7 +20,7 @@ export async function importExtension(meta, extId) {
     const assets = [];
     const files = typeof extObj.files === 'function' ? extObj.files(meta) : extObj.files;
     for (const file of files) {
-      const asset = Object.assign(file, {
+      const asset = nullObject(file, {
         id: file.name,
         content: await fetch(file.uri).then((res) => res.arrayBuffer()),
       });
