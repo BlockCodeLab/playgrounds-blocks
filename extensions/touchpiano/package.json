@@ -1,0 +1,22 @@
+{
+  "name": "@emakefun/blocks-touchpiano",
+  "private": "true",
+  "version": "1.0.0",
+  "readme": "///docs.emakefun.com/#/zh-cn/ph2.0_sensors/base_input_module/touch_piano/touch_piano",
+  "type": "module",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./info": {
+      "import": "./dist/info.js"
+    }
+  },
+  "dependencies": {
+    "preact": "^10.27.2"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}

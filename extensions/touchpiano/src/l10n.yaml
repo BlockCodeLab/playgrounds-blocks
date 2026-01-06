@@ -1,0 +1,20 @@
+en:
+  blocks.touchpiano.name: Touch Piano
+  blocks.touchpiano.init: set pins CLK:[CLK] DIO:[DIO]
+  blocks.touchpiano.keyPressed: key [KEY] is pressed?
+  blocks.touchpiano.pressedKey: pressed key
+  blocks.touchpiano.pressedKeyName: pressed note
+
+zh-Hans:
+  blocks.touchpiano.name: 触摸钢琴
+  blocks.touchpiano.init: 初始引脚 CLK:[CLK] DIO:[DIO]
+  blocks.touchpiano.keyPressed: 按下琴键[KEY]？
+  blocks.touchpiano.pressedKey: 被按下的琴键
+  blocks.touchpiano.pressedKeyName: 被按下的音符
+
+zh-Hant:
+  blocks.touchpiano.name: 觸摸鋼琴
+  blocks.touchpiano.init: 初始引腳 CLK:[CLK] DIO:[DIO]
+  blocks.touchpiano.keyPressed: 按下琴鍵[KEY]？
+  blocks.touchpiano.pressedKey: 被按下的琴鍵
+  blocks.touchpiano.pressedKeyName: 被按下的音符
