@@ -7,26 +7,21 @@ en:
   blocks.switchkey.keyDoubleClick: doubel click
   blocks.switchkey.keyLongPressed: long pressed
   blocks.switchkey.keyDuringLongPressed: long pressed (during)
-  blocks.switchkey.adcKeyPressed: pin [PIN] adc keyboard [KEY] key is pressed?
 
 zh-Hans:
   blocks.switchkey.name: 按键输入
   blocks.switchkey.whenKey: 当引脚 [PIN] 被 [STATE]
-  blocks.switchkey.keyState: 引脚 [PIN] 被按下？
-  blocks.switchkey.keyPressed: 按下
+  blocks.switchkey.keyState: 按下引脚 [PIN]？
   blocks.switchkey.keyClick: 单击
   blocks.switchkey.keyDoubleClick: 双击
   blocks.switchkey.keyLongPressed: 长按
   blocks.switchkey.keyDuringLongPressed: 长按（持续）
-  blocks.switchkey.adcKeyPressed: 按下引脚 [PIN] ADC 按键的 [KEY] 键？
 
 zh-Hant:
   blocks.switchkey.name: 按鍵輸入
   blocks.switchkey.whenKey: 當引腳 [PIN] 被 [STATE]
-  blocks.switchkey.keyState: 引腳 [PIN] 被按下？
-  blocks.switchkey.keyPressed: 按下
+  blocks.switchkey.keyState: 按下引腳 [PIN]？
   blocks.switchkey.keyClick: 單擊
   blocks.switchkey.keyDoubleClick: 雙擊
   blocks.switchkey.keyLongPressed: 長按
   blocks.switchkey.keyDuringLongPressed: 長按（持續）
-  blocks.switchkey.adcKeyPressed: 按下引腳 [PIN] ADC 按鍵的 [KEY] 鍵？
