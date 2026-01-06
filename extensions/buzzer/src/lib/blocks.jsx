@@ -86,17 +86,17 @@ export const blocks = (meta) => [
       const pin = block.getFieldValue('PIN');
       const note = this.valueToCode(block, 'NOTE', this.ORDER_NONE);
       const beat = this.valueToCode(block, 'BEAT', this.ORDER_NONE);
-      const pinName = `_tone_${pin}`;
+      const pinName = `tone_${pin}`;
       this.definitions_['include_tone'] = '#include "tone.h"';
       this.definitions_['variable_tone'] = `Tone ${pinName}(${pin});`;
-      const code = `${pinName}.play(${note}":${beat}");\n`;
+      const code = `${pinName}.play(String(String(${note})+":${beat}").c_str());\n`;
       return code;
     },
     mpy(block) {
       const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const note = this.valueToCode(block, 'NOTE', this.ORDER_NONE);
       const beat = this.valueToCode(block, 'BEAT', this.ORDER_NONE);
-      const pinName = `_tone_${pin}`;
+      const pinName = `tone_${pin}`;
       this.definitions_['import_pin'] = 'import buzzer';
       this.definitions_['variable_tone'] = `${pinName} = buzzer.Tone(${pin})`;
       const code = `${pinName}.play(${note}":${beat}")\n`;
@@ -125,9 +125,9 @@ export const blocks = (meta) => [
     ino(block) {
       const pin = block.getFieldValue('PIN');
       const music = block.getFieldValue('MUSIC');
-      const pinName = `_tone_${pin}`;
+      const pinName = `tone_${pin}`;
       this.definitions_['include_tone'] = '#include "tone.h"';
-      this.definitions_['include_tone_music'] = '#include "music.h"';
+      this.definitions_['includetone_music'] = '#include "music.h"';
       this.definitions_['variable_tone'] = `Tone ${pinName}(${pin});`;
       const code = `${pinName}.play(${music});\n`;
       return code;
@@ -135,7 +135,7 @@ export const blocks = (meta) => [
     mpy(block) {
       const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const music = block.getFieldValue('MUSIC');
-      const pinName = `_tone_${pin}`;
+      const pinName = `tone_${pin}`;
       this.definitions_['import_pin'] = 'import buzzer';
       this.definitions_['variable_tone'] = `${pinName} = buzzer.Tone(${pin})`;
       const code = `await ${pinName}.aplay(buzzer.${music})\n`;
@@ -164,7 +164,7 @@ export const blocks = (meta) => [
     mpy(block) {
       const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const music = block.getFieldValue('MUSIC');
-      const pinName = `_tone_${pin}`;
+      const pinName = `tone_${pin}`;
       this.definitions_['import_pin'] = 'import buzzer';
       this.definitions_['variable_tone'] = `${pinName} = buzzer.Tone(${pin})`;
       const code = `asyncio.create_task(${pinName}.aplay(buzzer.${music}))\n`;
@@ -189,14 +189,14 @@ export const blocks = (meta) => [
     },
     ino(block) {
       const pin = block.getFieldValue('PIN');
-      const pinName = `_tone_${pin}`;
+      const pinName = `tone_${pin}`;
       this.definitions_['include_tone'] = '#include "tone.h"';
       this.definitions_['variable_tone'] = `Tone ${pinName}(${pin});`;
       return `${pinName}.stop();\n`;
     },
     mpy(block) {
       const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
-      const pinName = `_tone_${pin}`;
+      const pinName = `tone_${pin}`;
       this.definitions_['import_pin'] = 'import buzzer';
       this.definitions_['variable_tone'] = `${pinName} = buzzer.Tone(${pin})`;
       return `${pinName}.stop()\n`;
