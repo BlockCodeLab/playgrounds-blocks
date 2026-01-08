@@ -1,5 +1,5 @@
 import { addLocalesMessages, Text } from '@blockcode/core';
-import { blocks } from './blocks';
+import { blocks, menus } from './blocks';
 
 import translations from './l10n.yaml';
 import iconImage from './icon.svg';
@@ -15,4 +15,5 @@ export default {
     />
   ),
   blocks,
+  menus,
 };
