@@ -1,25 +1,19 @@
-import matrixKeypadCppUri from './ino/matrix_keypad.cpp';
-import matrixKeypadHUri from './ino/matrix_keypad.h';
-import debouncerHUri from './ino/debouncer.h';
+import matrixKeypadCppUri from './ino/matrixkeypad.cpp';
+import matrixKeypadHUri from './ino/matrixkeypad.h';
 
 export const files = (meta) => {
   if (meta.editor === '@blockcode/gui-arduino') {
     return [
       {
         header: true,
-        name: 'matrix_keypad.h',
+        name: 'matrixkeypad.h',
         type: 'text/x-c',
         uri: matrixKeypadHUri,
       },
       {
-        name: 'matrix_keypad.cpp',
+        name: 'matrixkeypad.cpp',
         type: 'text/x-c',
         uri: matrixKeypadCppUri,
-      },
-      {
-        name: 'debouncer.h',
-        type: 'text/x-c',
-        uri: debouncerHUri,
       },
     ];
   }
