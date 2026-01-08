@@ -447,7 +447,12 @@ export function BlocksEditor({
     } else {
       hideManualCodingAlert();
       const codes = generateCodes(fileIndex.value);
-      if (codes && (file.value.content !== codes.content || file.value.script !== codes.script)) {
+      if (
+        codes &&
+        (file.value.content !== codes.content ||
+          file.value.script !== codes.script ||
+          file.value.extensions !== codes.extensions)
+      ) {
         setFile(codes);
       }
     }

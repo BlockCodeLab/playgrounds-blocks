@@ -39,12 +39,12 @@
 .extension-button {
   height: 3.25rem;
   position: absolute;
-  bottom: -1;
-  left: -1;
+  bottom: 0;
+  /*left: -1;*/
   z-index: var(--z-index-extension-button);
   background: var(--theme-primary);
-  border: 1px solid var(--theme-primary);
-  border-top: 0;
+  /*border: 1px solid var(--theme-primary);*/
+  /*border-top: 0;*/
   box-sizing: content-box;
   border-bottom-left-radius: inherit;
 }
