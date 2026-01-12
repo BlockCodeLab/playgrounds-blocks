@@ -68,3 +68,10 @@ proto['math_angle'] = function (block) {
   }
   return [code, order];
 };
+
+proto['math_hex'] = function (block) {
+  const value = block.getFieldValue('HEX');
+  return [value, this.ORDER_ATOMIC];
+};
+
+proto['math_hex8'] = proto['math_hex16'] = proto['math_hex32'] = proto['math_hex64'] = proto['math_hex'];

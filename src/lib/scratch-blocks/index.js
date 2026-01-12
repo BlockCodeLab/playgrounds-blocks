@@ -16,3 +16,4 @@ import './field-color-picker';
 import './field-note';
 import './field-angle';
 import './field-image';
+import './field-hex-number';
