@@ -20,7 +20,7 @@ export const blocks = (meta) =>
       ),
       inputs: {
         PIN: meta.boardPins
-          ? { menu: meta.boardPins.pwm }
+          ? { menu: meta.boardPins.out }
           : {
               type: 'positive_integer',
               defaultValue: 1,
@@ -59,7 +59,7 @@ export const blocks = (meta) =>
       ),
       inputs: {
         PIN: meta.boardPins
-          ? { menu: meta.boardPins.pwm }
+          ? { menu: meta.boardPins.out }
           : {
               type: 'positive_integer',
               defaultValue: 1,
@@ -144,7 +144,7 @@ export const blocks = (meta) =>
       ),
       inputs: {
         PIN: meta.boardPins
-          ? { menu: meta.boardPins.pwm }
+          ? { menu: meta.boardPins.out }
           : {
               type: 'positive_integer',
               defaultValue: 1,
@@ -155,7 +155,7 @@ export const blocks = (meta) =>
         const code = `ledpixel_${pin}.clear()\n`;
         return code;
       },
-      mpy(block) {
+      ino(block) {
         const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
         const code = `ledpixel_${pin}.clear();\n`;
         return code;
@@ -172,7 +172,7 @@ export const blocks = (meta) =>
       ),
       inputs: {
         PIN: meta.boardPins
-          ? { menu: meta.boardPins.pwm }
+          ? { menu: meta.boardPins.out }
           : {
               type: 'positive_integer',
               defaultValue: 1,
@@ -198,7 +198,7 @@ export const blocks = (meta) =>
       ),
       inputs: {
         PIN: meta.boardPins
-          ? { menu: meta.boardPins.pwm }
+          ? { menu: meta.boardPins.out }
           : {
               type: 'positive_integer',
               defaultValue: 1,
@@ -229,7 +229,7 @@ export const blocks = (meta) =>
       ),
       inputs: {
         PIN: meta.boardPins
-          ? { menu: meta.boardPins.pwm }
+          ? { menu: meta.boardPins.out }
           : {
               type: 'positive_integer',
               defaultValue: 1,
@@ -255,7 +255,7 @@ export const blocks = (meta) =>
       ),
       inputs: {
         PIN: meta.boardPins
-          ? { menu: meta.boardPins.pwm }
+          ? { menu: meta.boardPins.out }
           : {
               type: 'positive_integer',
               defaultValue: 1,
@@ -285,7 +285,7 @@ export const blocks = (meta) =>
       ),
       inputs: {
         PIN: meta.boardPins
-          ? { menu: meta.boardPins.pwm }
+          ? { menu: meta.boardPins.out }
           : {
               type: 'positive_integer',
               defaultValue: 1,
@@ -311,7 +311,7 @@ export const blocks = (meta) =>
       ),
       inputs: {
         PIN: meta.boardPins
-          ? { menu: meta.boardPins.pwm }
+          ? { menu: meta.boardPins.out }
           : {
               type: 'positive_integer',
               defaultValue: 1,

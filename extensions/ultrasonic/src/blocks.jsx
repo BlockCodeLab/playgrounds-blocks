@@ -1,11 +1,11 @@
 import { Text } from '@blockcode/core';
 
 const DefineGetUltrasonicDistance =
-  'float getUltrasonicDistance(EasyUltrasonic ultra, bool inche = false, float temp = 0.0, float hum = -1.0);';
-const GetUltrasonicDistance = `float getUltrasonicDistance(EasyUltrasonic ultra, bool inche, float temp, float hum) {
+  'float getUltrasonicDistance(EasyUltrasonic *ultra, bool inches = false, float temp = 0.0, float hum = -1.0);';
+const GetUltrasonicDistance = `float getUltrasonicDistance(EasyUltrasonic *ultra, bool inches, float temp, float hum) {
   delay(5);
-  if (hum < 0) return inche ? ultra.getDistanceIN() : ultra.getDistanceCM();
-  return inche ? ultra.getPreciseDistanceIN(temp, hum) : ultra.getPreciseDistanceCM(temp, hum);
+  if (hum < 0) return inches ? ultra->getDistanceIN() : ultra->getDistanceCM();
+  return inches ? ultra->getPreciseDistanceIN(temp, hum) : ultra->getPreciseDistanceCM(temp, hum);
 }`;
 
 export const blocks = (meta) => [
@@ -47,9 +47,9 @@ export const blocks = (meta) => [
       if (this.definitions_['loop_ultrasonic_compensation']) {
         const compensation = this.definitions_['loop_ultrasonic_compensation'];
         const [temp, hum] = compensation.replace('// ULTRASONIC_COMPENSATION:', '').split(',');
-        code = `getUltrasonicDistance(${ultrasonic}, ${unit}, ${temp.trim()}, ${hum.trim()})`;
+        code = `getUltrasonicDistance(&${ultrasonic}, ${unit}, ${temp.trim()}, ${hum.trim()})`;
       } else {
-        code = `getUltrasonicDistance(${ultrasonic}, ${unit})`;
+        code = `getUltrasonicDistance(&${ultrasonic}, ${unit})`;
       }
       return [code, this.ORDER_FUNCTION_CALL];
     },
@@ -85,9 +85,9 @@ export const blocks = (meta) => [
       if (this.definitions_['loop_ultrasonic_compensation']) {
         const compensation = this.definitions_['loop_ultrasonic_compensation'];
         const [temp, hum] = compensation.replace('// ULTRASONIC_COMPENSATION:', '').split(',');
-        code = `getUltrasonicDistance(${ultrasonic}, ${unit}, ${temp.trim()}, ${hum.trim()})`;
+        code = `getUltrasonicDistance(&${ultrasonic}, ${unit}, ${temp.trim()}, ${hum.trim()})`;
       } else {
-        code = `getUltrasonicDistance(${ultrasonic}, ${unit})`;
+        code = `getUltrasonicDistance(&${ultrasonic}, ${unit})`;
       }
       return [code, this.ORDER_FUNCTION_CALL];
     },
