@@ -4,7 +4,7 @@ export default {
   zoom: {
     controls: true,
     wheel: true,
-    startScale: 0.7,
+    startScale: 0.8,
   },
   grid: {
     spacing: 40,

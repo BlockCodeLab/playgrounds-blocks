@@ -1,6 +1,6 @@
 import { useRef, useEffect, useCallback, useMemo } from 'preact/hooks';
 import { batch, useComputed, useSignal } from '@preact/signals';
-import { classNames, getCompactBlock } from '@blockcode/utils';
+import { classNames, getCompactBlock, getBlockSize } from '@blockcode/utils';
 import {
   useLocalesContext,
   useAppContext,
@@ -215,6 +215,8 @@ export function BlocksEditor({
 
   const isCompactBlock = useComputed(() => meta.value.compactBlock ?? getCompactBlock());
 
+  const blockSize = useComputed(() => appState.value?.blockSize ?? getBlockSize() ?? blocksConfig.zoom.startScale);
+
   // 允许变量监控，显示积木前的选择框
   ScratchBlocks.Block.visibleCheckboxInFlyout_ = enableMonitor;
 
@@ -424,7 +426,9 @@ export function BlocksEditor({
 
     // 外部更新更新造型等列表
     if (tabIndex.value !== 0 || isModifyType(ModifyTypes.SetMeta)) {
-      ScratchBlocks.resizeBlockSvg(isCompactBlock.value ? ScratchBlocks.CompactBlockSvg : ScratchBlocks.NormalBlockSvg);
+      ScratchBlocks.resizeBlockSvg(
+        isCompactBlock.value !== false ? ScratchBlocks.CompactBlockSvg : ScratchBlocks.NormalBlockSvg,
+      );
       updateWorkspace(ScratchBlocks.Xml.workspaceToDom(ref.workspace));
     }
 
@@ -458,11 +462,26 @@ export function BlocksEditor({
     }
   }, [tabIndex.value, meta.value.manualCoding, splashVisible.value]);
 
+  // 改变积木尺寸
+  useEffect(() => {
+    if (ref.workspace) {
+      ref.workspace.setScale(blockSize.value);
+      ref.workspace.options.zoomOptions.startScale = blockSize.value;
+      const flyoutWorkspace = ref.workspace.getFlyout()?.getWorkspace();
+      if (flyoutWorkspace) {
+        flyoutWorkspace.scale = blockSize.value;
+        updateWorkspace();
+      }
+    }
+  }, [blockSize.value]);
+
   // 首次载入项目
   useEffect(async () => {
     if (!splashVisible.value) return;
 
-    ScratchBlocks.resizeBlockSvg(isCompactBlock.value ? ScratchBlocks.CompactBlockSvg : ScratchBlocks.NormalBlockSvg);
+    ScratchBlocks.resizeBlockSvg(
+      isCompactBlock.value !== false ? ScratchBlocks.CompactBlockSvg : ScratchBlocks.NormalBlockSvg,
+    );
 
     const projData = await preloadProjectBlocks(meta.value, files.value);
     for (const [extId, extObj] of projData.extensions) {
@@ -519,13 +538,15 @@ export function BlocksEditor({
       // 生成积木栏
       const toolboxXml = updateWorkspace();
       // 创建工作区
-      ref.workspace = ScratchBlocks.inject(
-        ref.current,
-        Object.assign(blocksConfig, {
-          toolbox: wrapToolboxXml(toolboxXml),
-          media: './assets/blocks-media/',
-        }),
-      );
+      ref.workspace = ScratchBlocks.inject(ref.current, {
+        ...blocksConfig,
+        toolbox: wrapToolboxXml(toolboxXml),
+        media: './assets/blocks-media/',
+        zoom: {
+          ...blocksConfig.zoom,
+          startScale: blockSize.value,
+        },
+      });
       if (enableProcedureReturns) {
         ref.workspace.procedureReturnsEnabled_ = variableTypes ? 2 : 1;
       }

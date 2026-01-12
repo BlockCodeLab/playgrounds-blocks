@@ -16,6 +16,8 @@ export {
   myBlocksTheme,
 } from './lib/make-toolbox-xml';
 
+export { default as BlocksDefaultOptions } from './components/blocks-editor/blocks-config';
+
 export { BlocksEditor, loadedExtensions } from './components/blocks-editor/blocks-editor';
 
 export { CodeReview } from './components/code-review/code-review';
