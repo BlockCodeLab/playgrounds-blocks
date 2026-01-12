@@ -722,10 +722,10 @@ export function BlocksEditor({
         toolboxWorkspace.registerButtonCallback('OPEN_DOCUMENTATION', (block) => {
           const CLASS_PREFIX = 'readme-';
           const docsURIClass = Array.from(block.svgGroup_.classList).find((i) => i.startsWith(CLASS_PREFIX));
-          if (!docsURIClass) return;
-          const docsURI = docsURIClass.substr(CLASS_PREFIX.length);
-          const url = new URL(docsURI);
-          window.open(docsURI, '_blank');
+          if (docsURIClass) {
+            const docsURI = docsURIClass.substr(CLASS_PREFIX.length);
+            window.open(docsURI, '_blank');
+          }
         });
       }
 
