@@ -1,0 +1,26 @@
+en:
+  blocks.dm11motor.name: DM11 Motor
+  blocks.dm11motor.addr: set I2C address [ADDR]
+  blocks.dm11motor.run: set [MOTOR] motor [DIR] speed to [SPEED]%
+  blocks.dm11motor.all: all
+  blocks.dm11motor.forward: forward
+  blocks.dm11motor.reverse: reverse
+  blocks.dm11motor.stop: stop [MOTOR] motor
+
+zh-Hans:
+  blocks.dm11motor.name: DM11 电机驱动
+  blocks.dm11motor.addr: 初始 I2C 地址 [ADDR]
+  blocks.dm11motor.run: 将 [MOTOR] 电机 [DIR] 速度设为 [SPEED]%
+  blocks.dm11motor.all: 全部
+  blocks.dm11motor.forward: 正转
+  blocks.dm11motor.reverse: 反转
+  blocks.dm11motor.stop: 停止 [MOTOR] 电机
+
+zh-Hant:
+  blocks.dm11motor.name: DM11 電機驅動
+  blocks.dm11motor.addr: 初始 I2C 地址 [ADDR]
+  blocks.dm11motor.run: 將 [MOTOR] 電機 [DIR] 速度設為 [SPEED]%
+  blocks.dm11motor.all: 全部
+  blocks.dm11motor.forward: 正轉
+  blocks.dm11motor.reverse: 反轉
+  blocks.dm11motor.stop: 停止 [MOTOR] 電機
