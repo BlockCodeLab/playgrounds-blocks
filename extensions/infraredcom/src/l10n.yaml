@@ -1,0 +1,35 @@
+en:
+  blocks.infraredcom.name: Infrared Communication
+  blocks.infraredcom.initReceive: set pin [PIN] to ir receiver
+  blocks.infraredcom.isReceived: received?
+  blocks.infraredcom.receive: received command
+  blocks.infraredcom.receiveAddr: received address
+  blocks.infraredcom.receiveText: received String
+  blocks.infraredcom.initSend: set pin [PIN] to ir sender
+  blocks.infraredcom.send: send command [CMD] encode [PROTO]
+  blocks.infraredcom.sendAddr: send command:[CMD] address:[ADDR] encode [PROTO]
+  blocks.infraredcom.sendText: send String [TEXT]
+
+zh-Hans:
+  blocks.infraredcom.name: 红外线通讯
+  blocks.infraredcom.initReceive: 初始红外接收引脚[PIN]
+  blocks.infraredcom.isReceived: 收到新信号?
+  blocks.infraredcom.receive: 收到的信号
+  blocks.infraredcom.receiveAddr: 收到的信号地址
+  blocks.infraredcom.receiveText: 收到 String
+  blocks.infraredcom.initSend: 初始红外发送引脚[PIN]
+  blocks.infraredcom.send: 发送[PROTO]协议信号[CMD]
+  blocks.infraredcom.sendAddr: 发送[PROTO]协议信号:[CMD]地址:[ADDR]
+  blocks.infraredcom.sendText: 发送 String [TEXT]
+
+zh-Hant:
+  blocks.infraredcom.name: 紅外線通訊
+  blocks.infraredcom.initReceive: 初始紅外接收引腳[PIN]
+  blocks.infraredcom.isReceived: 收到新信號?
+  blocks.infraredcom.receive: 收到的信號
+  blocks.infraredcom.receiveAddr: 收到的信號地址
+  blocks.infraredcom.receiveText: 收到 String
+  blocks.infraredcom.initSend: 初始紅外發送引腳[PIN]
+  blocks.infraredcom.send: 發送[PROTO]協議信號[CMD]
+  blocks.infraredcom.sendAddr: 發送[PROTO]協議信號:[CMD]地址:[ADDR]
+  blocks.infraredcom.sendText: 發送 String [TEXT]
