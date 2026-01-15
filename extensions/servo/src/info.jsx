@@ -9,7 +9,7 @@ export default {
   name: (
     <Text
       id="blocks.servo.name"
-      defaultMessage="9g Servo"
+      defaultMessage="Servo"
     />
   ),
   description: (
@@ -23,15 +23,15 @@ export default {
 
 addLocalesMessages({
   en: {
-    'blocks.servo.name': '9g Servo',
-    'blocks.servo.description': 'Standard 9g servo module.',
+    'blocks.servo.name': 'Servo',
+    'blocks.servo.description': 'Standard servo module.',
   },
   'zh-Hans': {
-    'blocks.servo.name': '9g 舵机',
-    'blocks.servo.description': '通用 9g 舵机模块。',
+    'blocks.servo.name': '舵机',
+    'blocks.servo.description': '通用舵机模块。',
   },
   'zh-Hant': {
-    'blocks.servo.name': '9g 舵機',
-    'blocks.servo.description': '通用 9g 舵機模組。',
+    'blocks.servo.name': '舵機',
+    'blocks.servo.description': '通用舵機模組。',
   },
 });

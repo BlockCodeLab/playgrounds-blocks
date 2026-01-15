@@ -12,7 +12,7 @@ export default {
   name: (
     <Text
       id="blocks.servo.name"
-      defaultMessage="9g Servo"
+      defaultMessage="Servo"
     />
   ),
   files(meta) {
