@@ -1,5 +1,5 @@
 {
-  "name": "@blockcode/blocks-dm11motor",
+  "name": "@emakefun/blocks-dm11motor",
   "private": "true",
   "version": "1.0.0",
   "readme": "///docs.emakefun.com/#/zh-cn/ph2.0_sensors/actuators/dm11/dm11",

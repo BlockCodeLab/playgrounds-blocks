@@ -31,14 +31,26 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.dm11motor.run"
-        defaultMessage="set [MOTOR] motor [DIR] speed to [SPEED]%"
+        defaultMessage="set [MOTOR] motor to [SPEED]% [DIR] speed"
       />
     ),
     inputs: {
       MOTOR: {
-        menu: 'Motors',
+        menu: [
+          ['M0', 'm0'],
+          ['M1', 'm1'],
+          [
+            <Text
+              id="blocks.dm11motor.all"
+              defaultMessage="all"
+            />,
+            'all',
+          ],
+        ],
       },
       DIR: {
+        inputMode: true,
+        defaultValue: '1',
         menu: [
           [
             <Text
@@ -63,7 +75,7 @@ export const blocks = (meta) => [
     },
     ino(block) {
       const motor = block.getFieldValue('MOTOR');
-      const dir = block.getFieldValue('DIR');
+      const dir = this.valueToCode(block, 'DIR', this.ORDER_NONE);
       const speed = this.valueToCode(block, 'SPEED', this.ORDER_NONE);
       this.definitions_['variable_dm11motor'] = 'Dm11 dm11Motor;';
       if (!this.definitions_['setup_dm11motor']) {
@@ -93,7 +105,17 @@ export const blocks = (meta) => [
     ),
     inputs: {
       MOTOR: {
-        menu: 'Motors',
+        menu: [
+          [
+            <Text
+              id="blocks.dm11motor.all"
+              defaultMessage="all"
+            />,
+            'all',
+          ],
+          ['M0', 'm0'],
+          ['M1', 'm1'],
+        ],
       },
     },
     ino(block) {
@@ -139,7 +161,7 @@ export const blocks = (meta) => [
 
 export const menus = {
   Motors: {
-    items: [
+    menu: [
       ['M0', 'm0'],
       ['M1', 'm1'],
       [

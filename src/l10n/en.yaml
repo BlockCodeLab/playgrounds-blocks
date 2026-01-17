@@ -73,8 +73,8 @@ blocks.colorPicker.redLabel: Red
 blocks.colorPicker.greenLabel: Green
 blocks.colorPicker.blueLabel: Blue
 
-blocks.extensionStatusMenu.bluetooth: Connect via Bluetooth
-blocks.extensionStatusMenu.serial: Connect via USB
+blocks.extensionStatusMenu.bluetooth: Connect device with Bluetooth (BLE)...
+blocks.extensionStatusMenu.serial: Connect device with USB...
 
 blocks.centextMenu.exportPng: Export Block to PNG
 blocks.centextMenu.exportBlocksPng: Export Blocks to PNG

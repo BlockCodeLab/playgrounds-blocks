@@ -150,7 +150,7 @@ export const blocks = (meta) =>
       text: (
         <Text
           id="blocks.tracking.threshold5"
-          defaultMessage="set channel [CHAN] sensing value min [NUM1] max [NUM2]"
+          defaultMessage="set channel [CHAN] to sensing value [NUM1] to [NUM2]"
         />
       ),
       inputs: {

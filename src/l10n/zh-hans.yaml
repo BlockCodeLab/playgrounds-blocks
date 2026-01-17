@@ -73,8 +73,8 @@ blocks.colorPicker.redLabel: 红
 blocks.colorPicker.greenLabel: 绿
 blocks.colorPicker.blueLabel: 蓝
 
-blocks.extensionStatusMenu.bluetooth: 蓝牙连接
-blocks.extensionStatusMenu.serial: USB 连接
+blocks.extensionStatusMenu.bluetooth: 通过蓝牙（BLE）连接…
+blocks.extensionStatusMenu.serial: 通过 USB 连接…
 
 blocks.centextMenu.exportPng: 导出积木到图片
 blocks.centextMenu.exportBlocksPng: 导出积木到图片
