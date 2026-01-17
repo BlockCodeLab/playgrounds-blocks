@@ -11,7 +11,7 @@ export default {
   icon: iconImage,
   name: (
     <Text
-      id="blocks.stepmotor.name"
+      id="blocks.motor28byj48.name"
       defaultMessage="28BYJ-48 Stepper"
     />
   ),

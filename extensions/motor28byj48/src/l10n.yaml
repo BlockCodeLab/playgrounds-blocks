@@ -1,38 +1,38 @@
 en:
-  blocks.stepmotor.name: 28BYJ-48 Stepper
-  blocks.stepmotor.init: set pins INA[INA] INB[INB] INC[INC] IND[IND]
-  blocks.stepmotor.rpm: set rpm [RPM]
-  blocks.stepmotor.right: turn [IMAGE] around
-  blocks.stepmotor.left: turn [IMAGE] around
-  blocks.stepmotor.stop: stop
-  blocks.stepmotor.turnRightSteps: turn [IMAGE][STEPS] steps
-  blocks.stepmotor.turnLeftSteps: turn [IMAGE][STEPS] steps
-  blocks.stepmotor.turnRight: turn [IMAGE][DEGREES] degrees
-  blocks.stepmotor.turnLeft: trun [IMAGE][DEGREES] degrees
-  blocks.stepmotor.turn: turn to [ANGLE] degrees
+  blocks.motor28byj48.name: 28BYJ-48 Stepper
+  blocks.motor28byj48.init: set pins INA:[INA] INB:[INB] INC:[INC] IND:[IND]
+  blocks.motor28byj48.rpm: set rpm [RPM]
+  blocks.motor28byj48.right: turn [IMAGE] around
+  blocks.motor28byj48.left: turn [IMAGE] around
+  blocks.motor28byj48.stop: stop
+  blocks.motor28byj48.turnRightSteps: turn [IMAGE][STEPS] steps
+  blocks.motor28byj48.turnLeftSteps: turn [IMAGE][STEPS] steps
+  blocks.motor28byj48.turnRight: turn [IMAGE][DEGREES] degrees
+  blocks.motor28byj48.turnLeft: trun [IMAGE][DEGREES] degrees
+  blocks.motor28byj48.turn: turn to [ANGLE] degrees
 
 zh-Hans:
-  blocks.stepmotor.name: 28BYJ-48 步进电机
-  blocks.stepmotor.init: 初始引腳引脚 INA[INA] INB[INB] INC[INC] IND[IND]
-  blocks.stepmotor.rpm: 将转速设为[RPM]RPM
-  blocks.stepmotor.right: 连续右转[IMAGE]
-  blocks.stepmotor.left: 连续左转[IMAGE]
-  blocks.stepmotor.stop: 停止
-  blocks.stepmotor.turnRightSteps: 右转[IMAGE][STEPS]步
-  blocks.stepmotor.turnLeftSteps: 左转[IMAGE][STEPS]步
-  blocks.stepmotor.turnRight: 右转[IMAGE][DEGREES]度
-  blocks.stepmotor.turnLeft: 左转[IMAGE][DEGREES]度
-  blocks.stepmotor.turn: 转到[ANGLE]度
+  blocks.motor28byj48.name: 28BYJ-48 步进电机
+  blocks.motor28byj48.init: 初始引腳引脚 INA:[INA] INB:[INB] INC:[INC] IND:[IND]
+  blocks.motor28byj48.rpm: 将转速设为[RPM]RPM
+  blocks.motor28byj48.right: 连续右转[IMAGE]
+  blocks.motor28byj48.left: 连续左转[IMAGE]
+  blocks.motor28byj48.stop: 停止
+  blocks.motor28byj48.turnRightSteps: 右转[IMAGE][STEPS]步
+  blocks.motor28byj48.turnLeftSteps: 左转[IMAGE][STEPS]步
+  blocks.motor28byj48.turnRight: 右转[IMAGE][DEGREES]度
+  blocks.motor28byj48.turnLeft: 左转[IMAGE][DEGREES]度
+  blocks.motor28byj48.turn: 转到[ANGLE]度
 
 zh-Hant:
-  blocks.stepmotor.name: 28BYJ-48 步進電機
-  blocks.stepmotor.init: 初始引腳引腳 INA[INA] INB[INB] INC[INC] IND[IND]
-  blocks.stepmotor.rpm: 將轉速設為[RPM]RPM
-  blocks.stepmotor.right: 連續右轉[IMAGE]
-  blocks.stepmotor.left: 連續左轉[IMAGE]
-  blocks.stepmotor.stop: 停止
-  blocks.stepmotor.turnRightSteps: 右轉[IMAGE][STEPS]步
-  blocks.stepmotor.turnLeftSteps: 左轉[IMAGE][STEPS]步
-  blocks.stepmotor.turnRight: 右轉[IMAGE][DEGREES]度
-  blocks.stepmotor.turnLeft: 左轉[IMAGE][DEGREES]度
-  blocks.stepmotor.turn: 轉到[ANGLE]度
+  blocks.motor28byj48.name: 28BYJ-48 步進電機
+  blocks.motor28byj48.init: 初始引腳引腳 INA:[INA] INB:[INB] INC:[INC] IND:[IND]
+  blocks.motor28byj48.rpm: 將轉速設為[RPM]RPM
+  blocks.motor28byj48.right: 連續右轉[IMAGE]
+  blocks.motor28byj48.left: 連續左轉[IMAGE]
+  blocks.motor28byj48.stop: 停止
+  blocks.motor28byj48.turnRightSteps: 右轉[IMAGE][STEPS]步
+  blocks.motor28byj48.turnLeftSteps: 左轉[IMAGE][STEPS]步
+  blocks.motor28byj48.turnRight: 右轉[IMAGE][DEGREES]度
+  blocks.motor28byj48.turnLeft: 左轉[IMAGE][DEGREES]度
+  blocks.motor28byj48.turn: 轉到[ANGLE]度

@@ -18,7 +18,7 @@ export default {
       defaultMessage="28BYJ-48 stepper motor driver."
     />
   ),
-  tags: ['device', 'actuator'],
+  tags: ['device', 'arduino', 'actuator'],
 };
 
 addLocalesMessages({

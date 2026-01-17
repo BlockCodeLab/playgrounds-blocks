@@ -10,7 +10,7 @@ export const blocks = (meta) => [
     id: 'init',
     text: (
       <Text
-        id="blocks.stepmotor.init"
+        id="blocks.motor28byj48.init"
         defaultMessage="set pins INA:[INA] INB:[INB] INC:[INC] IND:[IND]"
       />
     ),
@@ -60,12 +60,20 @@ export const blocks = (meta) => [
       this.definitions_['stepper_motor'] = `_stepper = stepper_motor.StepperMotor(${ina}, ${inb}, ${inc}, ${ind})`;
       return '';
     },
+    ino(block) {
+      const ina = meta.boardPins ? block.getFieldValue('INA') : this.valueToCode(block, 'INA', this.ORDER_NONE);
+      const inb = meta.boardPins ? block.getFieldValue('INB') : this.valueToCode(block, 'INB', this.ORDER_NONE);
+      const inc = meta.boardPins ? block.getFieldValue('INC') : this.valueToCode(block, 'INC', this.ORDER_NONE);
+      const ind = meta.boardPins ? block.getFieldValue('IND') : this.valueToCode(block, 'IND', this.ORDER_NONE);
+      this.definitions_['variable_stepper_motor'] = `StepperMotor _stepper(${ina}, ${inb}, ${inc}, ${ind});`;
+      return '';
+    },
   },
   {
     id: 'rpm',
     text: (
       <Text
-        id="blocks.stepmotor.rpm"
+        id="blocks.motor28byj48.rpm"
         defaultMessage="set rpm [RPM]"
       />
     ),
@@ -78,6 +86,11 @@ export const blocks = (meta) => [
     mpy(block) {
       const rpm = this.valueToCode(block, 'RPM', this.ORDER_NONE);
       const code = `_stepper.rpm = ${rpm}\n`;
+      return code;
+    },
+    ino(block) {
+      const rpm = this.valueToCode(block, 'RPM', this.ORDER_NONE);
+      const code = `_stepper.setRpm(${rpm});\n`;
       return code;
     },
   },
@@ -97,12 +110,16 @@ export const blocks = (meta) => [
       const code = block.getFieldValue('RPM') || 0;
       return [code, this.ORDER_NONE];
     },
+    ino(block) {
+      const code = block.getFieldValue('RPM') || 0;
+      return [code, this.ORDER_NONE];
+    },
   },
   {
     id: 'right',
     text: (
       <Text
-        id="blocks.stepmotor.right"
+        id="blocks.motor28byj48.right"
         defaultMessage="turn [IMAGE] around"
       />
     ),
@@ -118,12 +135,17 @@ export const blocks = (meta) => [
       code += '_stepper.run()\n';
       return code;
     },
+    ino(block) {
+      this.definitions_['loop_stepper_tick'] = '_stepper.tick();';
+      const code = `_stepper.forward();\n`;
+      return code;
+    },
   },
   {
     id: 'left',
     text: (
       <Text
-        id="blocks.stepmotor.left"
+        id="blocks.motor28byj48.left"
         defaultMessage="turn [IMAGE] around"
       />
     ),
@@ -139,17 +161,26 @@ export const blocks = (meta) => [
       code += '_stepper.run()\n';
       return code;
     },
+    ino(block) {
+      this.definitions_['loop_stepper_tick'] = '_stepper.tick();';
+      const code = `_stepper.backward();\n`;
+      return code;
+    },
   },
   {
     id: 'stop',
     text: (
       <Text
-        id="blocks.stepmotor.stop"
+        id="blocks.motor28byj48.stop"
         defaultMessage="stop"
       />
     ),
     mpy(block) {
       const code = '_stepper.stop()\n';
+      return code;
+    },
+    ino(block) {
+      const code = '_stepper.stop();\n';
       return code;
     },
   },
@@ -158,7 +189,7 @@ export const blocks = (meta) => [
     id: 'turnRightSteps',
     text: (
       <Text
-        id="blocks.stepmotor.turnRightSteps"
+        id="blocks.motor28byj48.turnRightSteps"
         defaultMessage="turn [IMAGE][STEPS] steps"
       />
     ),
@@ -169,7 +200,7 @@ export const blocks = (meta) => [
       },
       STEPS: {
         type: 'integer',
-        defaultValue: 10,
+        defaultValue: 100,
       },
     },
     mpy(block) {
@@ -179,12 +210,19 @@ export const blocks = (meta) => [
       code += 'await _stepper.run_wait()\n';
       return code;
     },
+    ino(block) {
+      const steps = this.valueToCode(block, 'STEPS', this.ORDER_NONE);
+      let code = '';
+      code += `_stepper.move(${steps});\n`;
+      code += '_stepper.runBlocking();\n';
+      return code;
+    },
   },
   {
     id: 'turnLeftSteps',
     text: (
       <Text
-        id="blocks.stepmotor.turnLeftSteps"
+        id="blocks.motor28byj48.turnLeftSteps"
         defaultMessage="turn [IMAGE][STEPS] steps"
       />
     ),
@@ -195,7 +233,7 @@ export const blocks = (meta) => [
       },
       STEPS: {
         type: 'integer',
-        defaultValue: 10,
+        defaultValue: 100,
       },
     },
     mpy(block) {
@@ -205,13 +243,20 @@ export const blocks = (meta) => [
       code += 'await _stepper.run_wait()\n';
       return code;
     },
+    ino(block) {
+      const steps = this.valueToCode(block, 'STEPS', this.ORDER_NONE);
+      let code = '';
+      code += `_stepper.move(-${steps});\n`;
+      code += '_stepper.runBlocking();\n';
+      return code;
+    },
   },
   '---',
   {
     id: 'turnRight',
     text: (
       <Text
-        id="blocks.stepmotor.turnRight"
+        id="blocks.motor28byj48.turnRight"
         defaultMessage="turn [IMAGE][DEGREES] degrees"
       />
     ),
@@ -232,12 +277,19 @@ export const blocks = (meta) => [
       code += 'await _stepper.run_wait()\n';
       return code;
     },
+    ino(block) {
+      const degrees = this.valueToCode(block, 'DEGREES', this.ORDER_NONE);
+      let code = '';
+      code += `_stepper.rotate(${degrees});\n`;
+      code += '_stepper.runBlocking();\n';
+      return code;
+    },
   },
   {
     id: 'turnLeft',
     text: (
       <Text
-        id="blocks.stepmotor.turnLeft"
+        id="blocks.motor28byj48.turnLeft"
         defaultMessage="trun [IMAGE][DEGREES] degrees"
       />
     ),
@@ -258,18 +310,25 @@ export const blocks = (meta) => [
       code += 'await _stepper.run_wait()\n';
       return code;
     },
+    ino(block) {
+      const degrees = this.valueToCode(block, 'DEGREES', this.ORDER_NONE);
+      let code = '';
+      code += `_stepper.rotate(-${degrees});\n`;
+      code += '_stepper.runBlocking();\n';
+      return code;
+    },
   },
   {
     id: 'turn',
     text: (
       <Text
-        id="blocks.stepmotor.turn"
+        id="blocks.motor28byj48.turn"
         defaultMessage="turn to [ANGLE] degrees"
       />
     ),
     inputs: {
       ANGLE: {
-        type: 'angle',
+        type: 'integer',
         defaultValue: 0,
       },
     },
@@ -278,6 +337,13 @@ export const blocks = (meta) => [
       let code = '';
       code += `_stepper.target_angle = ${angle}\n`;
       code += 'await _stepper.run_wait()\n';
+      return code;
+    },
+    ino(block) {
+      const angle = this.valueToCode(block, 'ANGLE', this.ORDER_NONE);
+      let code = '';
+      code += `_stepper.setTargetAngle(${angle});\n`;
+      code += '_stepper.runBlocking();\n';
       return code;
     },
   },
