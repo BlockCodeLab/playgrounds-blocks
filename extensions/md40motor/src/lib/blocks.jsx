@@ -110,7 +110,7 @@ export const blocks = (meta) => [
               `md40Motor[${id}].SetEncoderMode(12, 90, Md40::Motor::PhaseRelation::kAPhaseLeads);`;
           }
         }
-        code += `md40Motor[${id}].RunPwmDuty(${Math.round((1023 * (speed * dir)) / 100)});\n`;
+        code += `md40Motor[${id}].RunPwmDuty(round((float)${speed} * ${(1023 * dir) / 100}));\n`;
       }
       return code;
     },
@@ -701,7 +701,7 @@ export const blocks = (meta) => [
       let code = '';
       for (const id of motors) {
         this.definitions_[`setup_md40motor_${id}`] = `md40Motor[${id}].SetDcMode();`;
-        code += `md40Motor[${id}].RunPwmDuty(${Math.round((1023 * (speed * dir)) / 100)});\n`;
+        code += `md40Motor[${id}].RunPwmDuty(round((float)${speed} * ${(1023 * dir) / 100}));\n`;
       }
       return code;
     },
