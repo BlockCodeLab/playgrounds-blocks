@@ -13,7 +13,7 @@ en:
 
 zh-Hans:
   blocks.motor28byj48.name: 28BYJ-48 步进电机
-  blocks.motor28byj48.init: 初始引腳引脚 INA:[INA] INB:[INB] INC:[INC] IND:[IND]
+  blocks.motor28byj48.init: 初始引脚 INA:[INA] INB:[INB] INC:[INC] IND:[IND]
   blocks.motor28byj48.rpm: 将转速设为[RPM]RPM
   blocks.motor28byj48.right: 连续右转[IMAGE]
   blocks.motor28byj48.left: 连续左转[IMAGE]
@@ -26,7 +26,7 @@ zh-Hans:
 
 zh-Hant:
   blocks.motor28byj48.name: 28BYJ-48 步進電機
-  blocks.motor28byj48.init: 初始引腳引腳 INA:[INA] INB:[INB] INC:[INC] IND:[IND]
+  blocks.motor28byj48.init: 初始引腳 INA:[INA] INB:[INB] INC:[INC] IND:[IND]
   blocks.motor28byj48.rpm: 將轉速設為[RPM]RPM
   blocks.motor28byj48.right: 連續右轉[IMAGE]
   blocks.motor28byj48.left: 連續左轉[IMAGE]
