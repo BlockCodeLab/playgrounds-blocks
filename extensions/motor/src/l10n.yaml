@@ -1,0 +1,23 @@
+en:
+  blocks.motor.name: Motor
+  blocks.motor.init: set [MOTOR] pins IN1:[IN1] IN2:[IN2]
+  blocks.motor.run: set [MOTOR] to [SPEED] % [DIR] speed
+  blocks.motor.forward: forward
+  blocks.motor.reverse: reverse
+  blocks.motor.stop: stop [MOTOR]
+
+zh-Hans:
+  blocks.motor.name: 电机
+  blocks.motor.init: 初始 [MOTOR] 引脚 IN1:[IN1] IN2:[IN2]
+  blocks.motor.run: 将 [MOTOR] [DIR] 速度设为 [SPEED] %
+  blocks.motor.forward: 正转
+  blocks.motor.reverse: 反转
+  blocks.motor.stop: 停止 [MOTOR]
+
+zh-Hant:
+  blocks.motor.name: 電機
+  blocks.motor.init: 初始 [MOTOR] 引腳 IN1:[IN1] IN2:[IN2]
+  blocks.motor.run: 將 [MOTOR] [DIR] 速度設為 [SPEED] %
+  blocks.motor.forward: 正轉
+  blocks.motor.reverse: 反轉
+  blocks.motor.stop: 停止 [MOTOR]
