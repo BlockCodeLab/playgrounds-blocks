@@ -522,7 +522,7 @@ export function BlocksEditor({
       setModified(ModifyTypes.Saved);
       // 清空撤销记录
       ref.workspace.clearUndo();
-    });
+    }, 500);
   }, [splashVisible.value]);
 
   // 创建工作区
