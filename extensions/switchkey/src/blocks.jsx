@@ -25,8 +25,18 @@ export const blocks = (meta) => [
     ino(block) {
       const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const state = block.getFieldValue('STATE');
-
       const buttonName = `_1button_${pin}`;
+
+      // 定时器
+      const timerName = 'buttonTick';
+      this.definitions_['include_timerone'] = '#include <TimerOne.h>';
+      this.definitions_[`declare_${timerName}`] = `void ${timerName}();`;
+      if (!this.definitions_[timerName]) {
+        this.definitions_[timerName] = `void ${timerName}() {\n}`;
+      }
+      this.definitions_[timerName] = this.definitions_[timerName].replace('\n}', `\n  ${buttonName}.tick();\n}`);
+
+      // 绑定按键
       this.definitions_['include_onebutton'] = '#include <OneButton.h>';
       this.definitions_[`variable_${buttonName}`] = `OneButton ${buttonName}(${pin});`;
 
@@ -36,19 +46,13 @@ export const blocks = (meta) => [
       this.definitions_[funcName] = `void ${funcName}() {\n${branchCode}}`;
       this.definitions_[`setup_${funcName}`] = `${buttonName}.attach${state}(${funcName});`;
 
-      // 定时器
-      const timerName = 'msTimer_10';
-      this.definitions_['include_mstimer2'] = '#include <MsTimer2.h>';
-      this.definitions_[`declare_${timerName}`] = `void ${timerName}();`;
-      this.definitions_[timerName] = `void ${timerName}() {\n  ${buttonName}.tick();\n}`;
-
       // 保证定时器在按键回调设置之后启动
-      if (this.definitions_[`setup_${timerName}`]) {
-        delete this.definitions_[`setup_${timerName}`];
-        delete this.definitions_[`setup_${timerName}_start`];
+      if (this.definitions_['setup_timerone']) {
+        delete this.definitions_['setup_timerone'];
+        delete this.definitions_['setup_buttonTick'];
       }
-      this.definitions_[`setup_${timerName}`] = `MsTimer2::set(10, ${timerName});`;
-      this.definitions_[`setup_${timerName}_start`] = 'MsTimer2::start();';
+      this.definitions_['setup_timerone'] = 'Timer1.initialize(10000);';
+      this.definitions_['setup_buttonTick'] = `Timer1.attachInterrupt(${timerName});`;
     },
     mpy(block) {
       const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
