@@ -79,5 +79,3 @@ blocks.extensionStatusMenu.serial: 通過 USB 連接…
 blocks.centextMenu.exportPng: 匯出積木到 PNG
 blocks.centextMenu.exportBlocksPng: 匯出積木到 PNG
 blocks.centextMenu.exportAllBlocksPng: 匯出所有積木到 PNG
-blocks.centextMenu.exportPngDone: 圖片已匯出。
-blocks.centextMenu.exportPngFailed: 匯出圖片失敗。

@@ -79,5 +79,3 @@ blocks.extensionStatusMenu.serial: Connect device with USB...
 blocks.centextMenu.exportPng: Export Block to PNG
 blocks.centextMenu.exportBlocksPng: Export Blocks to PNG
 blocks.centextMenu.exportAllBlocksPng: Export all Blocks to PNG
-blocks.centextMenu.exportPngDone: PNG exported.
-blocks.centextMenu.exportPngFailed: Failed to export PNG.

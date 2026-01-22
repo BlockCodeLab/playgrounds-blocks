@@ -2,27 +2,16 @@ import { svgAsPngUri, dataURItoBlob, exportFile, nanoid } from '@blockcode/utils
 import { translate, setAlert } from '@blockcode/core';
 import { ScratchBlocks } from './scratch-blocks';
 
-const saveDataUri = (uri) => {
+const saveDataUri = async (id, uri) => {
   const data = dataURItoBlob(uri);
-  return exportFile(data, `${nanoid()}.png`)
-    .then(() =>
-      setAlert(
-        {
-          type: 'success',
-          message: translate('blocks.centextMenu.exportPngDone', 'PNG exported.'),
-        },
-        2000,
-      ),
-    )
-    .catch(() =>
-      setAlert(
-        {
-          type: 'warn',
-          message: translate('blocks.centextMenu.exportPngFailed', 'Failed to export image.'),
-        },
-        2000,
-      ),
-    );
+  const result = await exportFile(data, `${nanoid()}.png`);
+  if (result.success) {
+    setAlert('exportCompleted', { id }, 1000);
+  } else if (result.error === 'AbortError') {
+    setAlert('exportAbortError', { id }, 1000);
+  } else {
+    setAlert('exportError', { id }, 1000);
+  }
 };
 
 // 给工作区添加导出积木图片菜单项
@@ -43,17 +32,10 @@ ScratchBlocks.ContextMenu.show = function (e, options, rtl) {
       const workspace = ScratchBlocks.getMainWorkspace();
       const canvas = workspace.getCanvas();
       if (canvas) {
+        const id = setAlert('exporting');
         svgAsPngUri(canvas)
-          .then(saveDataUri)
-          .catch(() => {
-            setAlert(
-              {
-                type: 'warn',
-                message: translate('blocks.centextMenu.exportPngFailed', 'Failed to export image.'),
-              },
-              2000,
-            );
-          });
+          .then((uri) => saveDataUri(id, uri))
+          .catch(() => setAlert('exportError', { id }, 1000));
       }
     };
   } else {
@@ -73,20 +55,12 @@ ScratchBlocks.ContextMenu.show = function (e, options, rtl) {
         bbox.height += 5;
       }
       block.svgGroup_.getBBox = () => bbox;
+
+      const id = setAlert('exporting');
       svgAsPngUri(block.svgGroup_, options)
-        .then((uri) => {
-          block.svgGroup_.getBBox = getBBox;
-          saveDataUri(uri);
-        })
-        .catch(() => {
-          setAlert(
-            {
-              type: 'warn',
-              message: translate('blocks.centextMenu.exportPngFailed', 'Failed to export image.'),
-            },
-            2000,
-          );
-        });
+        .then((uri) => saveDataUri(id, uri))
+        .catch(() => setAlert('exportError', { id }, 1000))
+        .finally(() => (block.svgGroup_.getBBox = getBBox));
     };
   }
 
