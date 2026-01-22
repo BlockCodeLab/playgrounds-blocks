@@ -1,32 +1,32 @@
 en:
   blocks.geekservo.name: Geekservo
-  blocks.geekservo.90servo: set PIN [PIN] 90° Geekservo angle to [ANGLE]°
-  blocks.geekservo.180servo: set PIN [PIN] 180° Geekservo angle to [ANGLE]°
-  blocks.geekservo.270servo: set PIN [PIN] 270° Geekservo angle to [ANGLE]°
-  blocks.geekservo.360servo: set PIN [PIN] 360° Geekservo angle to [ANGLE]°
-  blocks.geekservo.motor: set PIN [PIN] 360° Geekservo motor rotate [ROTATE]
+  blocks.geekservo.90servo: set PIN [PIN] 90° servo angle to [ANGLE]°
+  blocks.geekservo.180servo: set PIN [PIN] 180° servo angle to [ANGLE]°
+  blocks.geekservo.270servo: set PIN [PIN] 270° servo angle to [ANGLE]°
+  blocks.geekservo.360servo: set PIN [PIN] 360° servo angle to [ANGLE]°
+  blocks.geekservo.motor: set PIN [PIN] 360° motor rotate [ROTATE]
   blocks.servo.motorForward: forward
   blocks.servo.motorReverse: reverse
   blocks.servo.motorStop: stop
 
 zh-Hans:
   blocks.geekservo.name: Geekservo 舵机
-  blocks.geekservo.90servo: 将引脚 [PIN] 90° Geekservo 角度设为 [ANGLE]°
-  blocks.geekservo.180servo: 将引脚 [PIN] 180° Geekservo 角度设为 [ANGLE]°
-  blocks.geekservo.270servo: 将引脚 [PIN] 270° Geekservo 角度设为 [ANGLE]°
-  blocks.geekservo.360servo: 将引脚 [PIN] 360° Geekservo 角度设为 [ANGLE]°
-  blocks.geekservo.motor: 将引脚 [PIN] 360° Geekservo 电机转向设为 [ROTATE]
+  blocks.geekservo.90servo: 将引脚 [PIN] 90° 舵机角度设为 [ANGLE]°
+  blocks.geekservo.180servo: 将引脚 [PIN] 180° 舵机角度设为 [ANGLE]°
+  blocks.geekservo.270servo: 将引脚 [PIN] 270° 舵机角度设为 [ANGLE]°
+  blocks.geekservo.360servo: 将引脚 [PIN] 360° 舵机角度设为 [ANGLE]°
+  blocks.geekservo.motor: 将引脚 [PIN] 360° 电机转向设为 [ROTATE]
   blocks.servo.motorForward: 正转
   blocks.servo.motorReverse: 反转
   blocks.servo.motorStop: 停止
 
 zh-Hant:
   blocks.geekservo.name: Geekservo 舵機
-  blocks.geekservo.90servo: 將引腳 [PIN] 90° Geekservo 角度設為 [ANGLE]°
-  blocks.geekservo.180servo: 將引腳 [PIN] 180° Geekservo 角度設為 [ANGLE]°
-  blocks.geekservo.270servo: 將引腳 [PIN] 270° Geekservo 角度設為 [ANGLE]°
-  blocks.geekservo.360servo: 將引腳 [PIN] 360° Geekservo 角度設為 [ANGLE]°
-  blocks.geekservo.motor: 將引腳 [PIN] 360° Geekservo 電機轉向設為 [ROTATE]
+  blocks.geekservo.90servo: 將引腳 [PIN] 90° 舵機角度設為 [ANGLE]°
+  blocks.geekservo.180servo: 將引腳 [PIN] 180° 舵機角度設為 [ANGLE]°
+  blocks.geekservo.270servo: 將引腳 [PIN] 270° 舵機角度設為 [ANGLE]°
+  blocks.geekservo.360servo: 將引腳 [PIN] 360° 舵機角度設為 [ANGLE]°
+  blocks.geekservo.motor: 將引腳 [PIN] 360° 電機轉向設為 [ROTATE]
   blocks.servo.motorForward: 正轉
   blocks.servo.motorReverse: 反轉
   blocks.servo.motorStop: 停止

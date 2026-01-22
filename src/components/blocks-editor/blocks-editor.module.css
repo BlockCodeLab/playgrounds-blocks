@@ -105,4 +105,6 @@
 
 .blocks-editor :global(.blocklyToolboxDiv) {
   padding-bottom: 100px;
+  overflow-x: hidden;
+  scrollbar-width: thin;
 }
