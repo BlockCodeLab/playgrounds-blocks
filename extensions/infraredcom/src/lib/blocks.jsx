@@ -27,20 +27,32 @@ export const blocks = (meta) => [
     },
   },
   {
-    id: 'isReceived',
+    id: 'whenReceived',
     text: (
       <Text
-        id="blocks.infraredcom.isReceived"
-        defaultMessage="received?"
+        id="blocks.infraredcom.whenReceived"
+        defaultMessage="when ir received"
       />
     ),
-    output: 'boolean',
+    hat: true,
     ino(block) {
       this.definitions_['include_irremote'] = '#include <IRremote.h>';
-      this.definitions_['variable_irreceiver'] = 'bool _IrReceivedNewData = false;';
-      this.definitions_['loop_irreceiver'] = '_IrReceivedNewData = IrReceiver.decode(); IrReceiver.resume();';
-      const code = '(_IrReceivedNewData && IrReceiver.decodedIRData.protocol != UNKNOWN)';
-      return [code, this.ORDER_ATOMIC];
+
+      // 加入事件定时器
+      const funcName = `irreceiver_whenreceived`;
+      this.definitions_['tick_irreceiver'] = `${funcName}();`;
+      this.definitions_['declare_irreceiver'] = `void ${funcName}();`;
+
+      const branchCode = this.statementToCode(block) || '';
+      let code = '';
+      code += `void ${funcName}() {\n`;
+      code += '  bool received = IrReceiver.decode();\n';
+      code += '  IrReceiver.resume();\n';
+      code += '  if (!received || IrReceiver.decodedIRData.protocol == UNKNOWN) return;\n';
+      code += `${branchCode}}\n`;
+      this.definitions_[funcName] = code;
+
+      return '';
     },
   },
   {

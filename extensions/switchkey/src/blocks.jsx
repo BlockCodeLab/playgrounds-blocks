@@ -27,14 +27,8 @@ export const blocks = (meta) => [
       const state = block.getFieldValue('STATE');
       const buttonName = `_1button_${pin}`;
 
-      // 定时器
-      const timerName = 'buttonTick';
-      this.definitions_['include_timerone'] = '#include <TimerOne.h>';
-      this.definitions_[`declare_${timerName}`] = `void ${timerName}();`;
-      if (!this.definitions_[timerName]) {
-        this.definitions_[timerName] = `void ${timerName}() {\n}`;
-      }
-      this.definitions_[timerName] = this.definitions_[timerName].replace('\n}', `\n  ${buttonName}.tick();\n}`);
+      // 加入事件定时器
+      this.definitions_[`tick_${buttonName}`] = `${buttonName}.tick();`;
 
       // 绑定按键
       this.definitions_['include_onebutton'] = '#include <OneButton.h>';
@@ -45,14 +39,6 @@ export const blocks = (meta) => [
       this.definitions_[`declare_${funcName}`] = `void ${funcName}();`;
       this.definitions_[funcName] = `void ${funcName}() {\n${branchCode}}`;
       this.definitions_[`setup_${funcName}`] = `${buttonName}.attach${state}(${funcName});`;
-
-      // 保证定时器在按键回调设置之后启动
-      if (this.definitions_['setup_timerone']) {
-        delete this.definitions_['setup_timerone'];
-        delete this.definitions_['setup_buttonTick'];
-      }
-      this.definitions_['setup_timerone'] = 'Timer1.initialize(10000);';
-      this.definitions_['setup_buttonTick'] = `Timer1.attachInterrupt(${timerName});`;
     },
     mpy(block) {
       const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);

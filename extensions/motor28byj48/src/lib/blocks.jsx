@@ -103,7 +103,7 @@ export const blocks = (meta) => [
         type: 'slider',
         defaultValue: 0,
         min: 0,
-        max: 20,
+        max: 15,
       },
     },
     mpy(block) {
