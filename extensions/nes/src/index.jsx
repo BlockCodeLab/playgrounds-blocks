@@ -26,17 +26,7 @@ const downloadingAlert = (progress) => {
     downloadingAlertId = nanoid();
   }
   if (progress < 100) {
-    setAlert({
-      id: downloadingAlertId,
-      icon: <Spinner level="success" />,
-      message: (
-        <Text
-          id="gui.alert.downloadingProgress"
-          defaultMessage="Downloading...{progress}%"
-          progress={progress}
-        />
-      ),
-    });
+    setAlert('downloading', { id: downloadingAlertId, progress });
   } else {
     setAlert('downloadCompleted', { id: downloadingAlertId });
     setTimeout(removeDownloading, 2000);
@@ -87,7 +77,7 @@ export default {
           let gameKey = '';
           for (const file of target.files) {
             files.push({
-              id: `nes/${file.name}`,
+              filename: `nes/${file.name}`,
               content: await file.arrayBuffer(),
             });
             gameKey = file.name;
