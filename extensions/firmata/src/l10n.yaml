@@ -1,7 +1,7 @@
 en:
   blocks.firmata.name: Arduino Firmata
-  blocks.firmata.checking: Checking firmware...
-  blocks.firmata.firmware: Updating firmware...{progress}%
+  blocks.firmata.checking: "Checking firmware..."
+  blocks.firmata.firmware: "Updating firmware...{progress}%"
   blocks.firmata.completed: Updating firmware completed.
   blocks.firmata.readAnalog: read analog [PIN] value
   blocks.firmata.readDigital: read digital [PIN] value

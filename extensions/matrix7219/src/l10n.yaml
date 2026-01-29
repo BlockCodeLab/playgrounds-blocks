@@ -2,7 +2,7 @@ en:
   blocks.matrix7219.name: MAX7219 Matrix
   blocks.matrix7219.fontCreator: Font Creator
   blocks.matrix7219.fontCreatorLabel: "Enter the non-English characters(max {count}) to add to the font:"
-  blocks.matrix7219.fontCreatorPlaceholder: Enter characters...
+  blocks.matrix7219.fontCreatorPlaceholder: "Enter characters..."
   blocks.matrix7219.init: set pins CLK:[CLK] DIN:[DIN] CS:[CS]
   blocks.matrix7219.devices: set matrix devices [NUM]
   blocks.matrix7219.display: display [MATRIX] on device [IDX]
