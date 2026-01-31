@@ -51,6 +51,7 @@ export const blocks = (meta) => [
       DIR: {
         inputMode: true,
         defaultValue: '1',
+        type: 'number',
         menu: [
           [
             <Text
@@ -81,8 +82,8 @@ export const blocks = (meta) => [
       if (!this.definitions_['setup_dm11motor']) {
         this.definitions_['setup_dm11motor'] = 'dm11Motor.Init();';
       }
-      const speed0 = dir > 0 ? 0 : Math.round((speed * 4095) / 100);
-      const speed1 = dir > 0 ? Math.round((speed * 4095) / 100) : 0;
+      const speed0 = dir > 0 ? 0 : `(int)(((float)${speed} * 4095) / 100)`;
+      const speed1 = dir > 0 ? `(int)(((float)${speed} * 4095) / 100)` : 0;
       let code = '';
       if (motor === 'm0' || motor === 'all') {
         code += `dm11Motor.PwmDuty(Dm11::kPwmChannel0, ${speed0});\n`;
