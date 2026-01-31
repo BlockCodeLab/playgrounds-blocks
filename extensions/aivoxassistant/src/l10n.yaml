@@ -1,0 +1,17 @@
+en:
+  blocks.aivoxassistant.name: AI Vox Assistant
+  blocks.aivoxassistant.init: set pins RX:[RX] TX:[TX]
+  blocks.aivoxassistant.whenCommand: when receive [CMD] command
+  blocks.aivoxassistant.argument: argument [ARG] of command
+
+zh-Hans:
+  blocks.aivoxassistant.name: AI 语音助手
+  blocks.aivoxassistant.init: 初始引脚 RX:[RX] TX:[TX]
+  blocks.aivoxassistant.whenCommand: 当收到 [CMD] 指令时
+  blocks.aivoxassistant.argument: 指令参数 [ARG]
+
+zh-Hant:
+  blocks.aivoxassistant.name: AI 語音助手
+  blocks.aivoxassistant.init: 初始引腳 RX:[RX] TX:[TX]
+  blocks.aivoxassistant.whenCommand: 當收到 [CMD] 指令時
+  blocks.aivoxassistant.argument: 指令參數 [ARG]
