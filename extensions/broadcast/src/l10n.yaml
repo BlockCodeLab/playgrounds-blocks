@@ -3,8 +3,8 @@ en:
   blocks.broadcast.setGroup: set broadcast group [ID]
   blocks.broadcast.send: broadcast message [MESSAGE]
   blocks.broadcast.sendName: broadcast label [NAME] message [MESSAGE]
-  blocks.broadcast.whenReceived: when I receive message
-  blocks.broadcast.whenReceivedNamed: when I receive label [NAME] message
+  blocks.broadcast.whenReceived: when receive message
+  blocks.broadcast.whenReceivedNamed: when receive label [NAME] message
   blocks.broadcast.message: hello
   blocks.broadcast.messageName: say
   blocks.broadcast.received: received message

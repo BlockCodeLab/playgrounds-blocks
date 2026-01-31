@@ -6,7 +6,7 @@ export const blocks = [
     text: (
       <Text
         id="blocks.broadcast.whenReceived"
-        defaultMessage="when I receive message"
+        defaultMessage="when receive message"
       />
     ),
     hat: true,
@@ -66,7 +66,7 @@ export const blocks = [
     text: (
       <Text
         id="blocks.broadcast.whenReceivedNamed"
-        defaultMessage="when I receive named [NAME] message"
+        defaultMessage="when receive named [NAME] message"
       />
     ),
     hat: true,

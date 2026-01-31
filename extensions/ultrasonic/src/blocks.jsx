@@ -54,12 +54,13 @@ export const blocks = (meta) => [
       return [code, this.ORDER_FUNCTION_CALL];
     },
   },
+  '---',
   {
     id: 'read3pins',
     text: (
       <Text
         id="blocks.ultrasonic.read3pins"
-        defaultMessage="pin [PIN] distance [UNIT]"
+        defaultMessage="pin SIGNAL [PIN] distance [UNIT]"
       />
     ),
     output: 'number',
