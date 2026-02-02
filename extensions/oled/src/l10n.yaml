@@ -1,0 +1,35 @@
+en:
+  blocks.oled.name: OLED
+  blocks.oled.initDisplay: set oled [DRIVER] display [SIZE]
+  blocks.oled.drawText: display text [TEXT] at x:[X] y:[Y]
+  blocks.oled.drawTextLine: display text [TEXT] at line [LINE]
+  blocks.oled.clearDisplay: clear display
+  blocks.oled.drawPixel: draw pixel x:[X] y:[Y]
+  blocks.oled.drawLine: draw line from x1:[X1] y1:[Y1] to x2:[X2] y2:[Y2]
+  blocks.oled.drawEllipse: draw ellipse with x-radius:[RX] and y-radius:[RY] at x:[X] y:[Y]
+  blocks.oled.drawRect: draw rect with width:[WIDTH] height:[HEIGHT] at x:[X] y:[Y]
+  blocks.oled.fillRect: fill rect with width:[WIDTH] height:[HEIGHT] at x:[X] y:[Y]
+
+zh-Hans:
+  blocks.oled.name: OLED
+  blocks.oled.initDisplay: 初始 [DRIVER] [SIZE] OLED 显示屏
+  blocks.oled.drawText: 在 x:[X] y:[Y] 显示 [TEXT]
+  blocks.oled.drawTextLine: 在第 [LINE] 行显示 [TEXT]
+  blocks.oled.clearDisplay: 清除屏幕
+  blocks.oled.drawPixel: 在 x:[X] y:[Y] 画点
+  blocks.oled.drawLine: 从 x1:[X1] y1:[Y1] 到 x2:[X2] y2:[Y2] 的画线
+  blocks.oled.drawEllipse: 在 x:[X] y:[Y] 画横半径:[RX] 纵半径:[RY] 的椭圆
+  blocks.oled.drawRect: 在 x:[X] y:[Y] 画宽:[WIDTH] 高:[HEIGHT] 的矩形
+  blocks.oled.fillRect: 在 x:[X] y:[Y] 填充宽:[WIDTH] 高:[HEIGHT] 的矩形
+
+zh-Hant:
+  blocks.oled.name: OLED
+  blocks.oled.initDisplay: 初始 [DRIVER] [SIZE] OLED 顯示屏
+  blocks.oled.drawText: 在 x:[X] y:[Y] 顯示 [TEXT]
+  blocks.oled.drawTextLine: 在第 [LINE] 行顯示 [TEXT]
+  blocks.oled.clearDisplay: 清除屏幕
+  blocks.oled.drawPixel: 在 x:[X] y:[Y] 畫點
+  blocks.oled.drawLine: 從 x1:[X1] y1:[Y1] 到 x2:[X2] y2:[Y2] 的畫線
+  blocks.oled.drawEllipse: 在 x:[X] y:[Y] 畫橫半徑:[RX] 縱半徑:[RY] 的橢圓
+  blocks.oled.drawRect: 在 x:[X] y:[Y] 畫寬:[WIDTH] 高:[HEIGHT] 的矩形
+  blocks.oled.fillRect: 在 x:[X] y:[Y] 填充寬:[WIDTH] 高:[HEIGHT] 的矩形
