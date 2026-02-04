@@ -1,0 +1,32 @@
+en:
+  blocks.lcd.name: LCD
+  blocks.lcd.init: set lcd display [SIZE] i2c address [ADDR]
+  blocks.lcd.backlight: set backlight [STATE]
+  blocks.lcd.stateOn: on
+  blocks.lcd.stateOff: off
+  blocks.lcd.text: display [TEXT] delay [SEC] second
+  blocks.lcd.textLine: display [TEXT] at line [LINE]
+  blocks.lcd.textXY: display [TEXT] at row:[ROW] col:[COL]
+  blocks.lcd.clear: clear
+
+zh-Hans:
+  blocks.lcd.name: LCD 显示屏
+  blocks.lcd.init: 初始 LCD 显示屏 [SIZE] I2C 地址 [ADDR]
+  blocks.lcd.backlight: "[STATE] 背光"
+  blocks.lcd.stateOn: 开
+  blocks.lcd.stateOff: 关
+  blocks.lcd.text: 显示 [TEXT] 延迟 [SEC] 秒
+  blocks.lcd.textLine: 在第 [LINE] 行显示 [TEXT]
+  blocks.lcd.textXY: 在第 [ROW] 行第 [COL] 行列显示 [TEXT]
+  blocks.lcd.clear: 清除
+
+zh-Hant:
+  blocks.lcd.name: LCD 顯示屏
+  blocks.lcd.init: 初始 LCD 顯示屏 [SIZE] I2C 地址 [ADDR]
+  blocks.lcd.backlight: "[STATE] 背光"
+  blocks.lcd.stateOn: 開
+  blocks.lcd.stateOff: 關
+  blocks.lcd.text: 顯示 [TEXT] 延遲 [SEC] 秒
+  blocks.lcd.textLine: 在第 [LINE] 行顯示 [TEXT]
+  blocks.lcd.textXY: 在第 [ROW] 行第 [COL] 行列顯示 [TEXT]
+  blocks.lcd.clear: 清除
