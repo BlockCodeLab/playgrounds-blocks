@@ -1,5 +1,5 @@
 en:
-  blocks.oled.name: OLED
+  blocks.oled.name: OLED Display
   blocks.oled.initDisplay: set oled [DRIVER] display [SIZE]
   blocks.oled.drawText: display text [TEXT] at x:[X] y:[Y]
   blocks.oled.drawTextLine: display text [TEXT] at line [LINE]
@@ -11,7 +11,7 @@ en:
   blocks.oled.fillRect: fill rect with width:[WIDTH] height:[HEIGHT] at x:[X] y:[Y]
 
 zh-Hans:
-  blocks.oled.name: OLED
+  blocks.oled.name: OLED 显示屏
   blocks.oled.initDisplay: 初始 [DRIVER] [SIZE] OLED 显示屏
   blocks.oled.drawText: 在 x:[X] y:[Y] 显示 [TEXT]
   blocks.oled.drawTextLine: 在第 [LINE] 行显示 [TEXT]
@@ -23,7 +23,7 @@ zh-Hans:
   blocks.oled.fillRect: 在 x:[X] y:[Y] 填充宽:[WIDTH] 高:[HEIGHT] 的矩形
 
 zh-Hant:
-  blocks.oled.name: OLED
+  blocks.oled.name: OLED 顯示屏
   blocks.oled.initDisplay: 初始 [DRIVER] [SIZE] OLED 顯示屏
   blocks.oled.drawText: 在 x:[X] y:[Y] 顯示 [TEXT]
   blocks.oled.drawTextLine: 在第 [LINE] 行顯示 [TEXT]

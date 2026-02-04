@@ -14,6 +14,7 @@ export const blocks = (meta) => [
         menu: ['SSD1306', 'SSD1315'],
       },
       SIZE: {
+        defaultValue: '128X64',
         menu: [
           ['128×32', '128X32'],
           ['128×64', '128X64'],
@@ -29,9 +30,11 @@ export const blocks = (meta) => [
         driver = 'SSD1306';
       }
 
-      this.definitions_['include_regexp'] = '#include <U8g2lib.h>';
+      this.definitions_['include_u8g2lib'] = '#include <U8g2lib.h>';
       this.definitions_['variable_oled'] = `U8G2_${driver}_${size}_NONAME_F_HW_I2C oled(U8G2_R0);`;
       this.definitions_['setup_oled'] = 'oled.begin();';
+
+      return '';
     },
   },
   '---',

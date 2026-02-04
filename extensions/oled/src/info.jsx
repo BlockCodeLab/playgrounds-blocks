@@ -10,13 +10,13 @@ export default {
   name: (
     <Text
       id="blocks.oled.name"
-      defaultMessage="OLED"
+      defaultMessage="OLED Display"
     />
   ),
   description: (
     <Text
       id="blocks.oled.description"
-      defaultMessage="OLED"
+      defaultMessage="SSD1306/SSD1315 I2C monochrome OLED."
     />
   ),
   tags: ['arduino', 'display'],
@@ -24,15 +24,15 @@ export default {
 
 addLocalesMessages({
   en: {
-    'blocks.oled.name': 'OLED',
-    'blocks.oled.description': 'SSD1306/SSD1315 I2C Monochrome OLED.',
+    'blocks.oled.name': 'OLED Display',
+    'blocks.oled.description': 'SSD1306/SSD1315 I2C monochrome OLED display.',
   },
   'zh-Hans': {
-    'blocks.oled.name': 'OLED',
-    'blocks.oled.description': 'SSD1306/SSD1315 I2C 单色 OLED 屏幕。',
+    'blocks.oled.name': 'OLED 显示屏',
+    'blocks.oled.description': 'SSD1306/SSD1315 I2C 单色 OLED 显示屏。',
   },
   'zh-Hant': {
-    'blocks.oled.name': 'OLED',
-    'blocks.oled.description': 'SSD1306/SSD1315 I2C 單色 OLED 屏幕。',
+    'blocks.oled.name': 'OLED 顯示屏',
+    'blocks.oled.description': 'SSD1306/SSD1315 I2C 單色 OLED 顯示屏。',
   },
 });
