@@ -98,7 +98,7 @@ export function loadExtension(extObj, options, meta) {
   // 说明文档
   if (extObj.readme) {
     categoryXML +=
-      `<button text="${translate('blocks.extensions.documentation', 'open documentation')}" ` +
+      `<button text="${translate('blocks.extensions.documentation', 'Open Documentation')}" ` +
       `web-class="readme-${xmlEscape(extObj.readme)}" ` +
       'callbackKey="OPEN_DOCUMENTATION"/>';
   }

@@ -10,7 +10,7 @@ blocks.panes.monitor: Monitor
 
 blocks.extensions.addExtension: Add Extension
 blocks.extensions.empty: No extension!
-blocks.extensions.documentation: open documentation
+blocks.extensions.documentation: Open Documentation
 blocks.extensions.custom: Custom
 
 blocks.prompt.ok: OK

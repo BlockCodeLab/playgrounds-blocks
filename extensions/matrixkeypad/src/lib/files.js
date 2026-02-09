@@ -1,5 +1,5 @@
-import matrixKeypadCppUri from './ino/matrixkeypad.cpp';
-import matrixKeypadHUri from './ino/matrixkeypad.h';
+import matrixKeypadCppUri from './files/matrixkeypad.cpp';
+import matrixKeypadHUri from './files/matrixkeypad.h';
 
 export const files = (meta) => {
   if (meta.editor === '@blockcode/gui-arduino') {

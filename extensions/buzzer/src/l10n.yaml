@@ -1,12 +1,14 @@
 en:
   blocks.buzzer.name: Buzzer
-  blocks.buzzer.activeBuzzer: '[STATE] pin [PIN] active buzzer'
+  blocks.buzzer.activeBuzzer: '[STATE] pin [PIN] buzzer'
   blocks.buzzer.state.on: on
   blocks.buzzer.state.off: off
-  blocks.buzzer.passiveBuzzer: pin [PIN] passive buzzer play note [NOTE] for [BEAT] beats
-  blocks.buzzer.playPassiveBuzzer: pin [PIN] passive buzzer play sound [MUSIC] until done
-  blocks.buzzer.startPassiveBuzzer: pin [PIN] passive buzzer start sound [MUSIC]
-  blocks.buzzer.stopPassiveBuzzer: stop pin [PIN] passive buzzer sound
+  blocks.buzzer.passiveBuzzer.label: Passive Buzzer
+  blocks.buzzer.restPassiveBuzzer: pin [PIN] rest for [BEAT]/4 beats
+  blocks.buzzer.passiveBuzzer: pin [PIN] play note [NOTE] for [BEAT]/4 beats
+  blocks.buzzer.playPassiveBuzzer: pin [PIN] play sound [MUSIC] until done
+  blocks.buzzer.startPassiveBuzzer: pin [PIN] start sound [MUSIC]
+  blocks.buzzer.stopPassiveBuzzer: stop pin [PIN] sound
   blocks.buzzer.music.dadadadum: dadadadum
   blocks.buzzer.music.entertainer: entertainer
   blocks.buzzer.music.prelude: prelude
@@ -31,13 +33,15 @@ en:
 
 zh-Hans:
   blocks.buzzer.name: 蜂鸣器
-  blocks.buzzer.activeBuzzer: '[STATE]引脚[PIN]有源蜂鸣器'
+  blocks.buzzer.activeBuzzer: '[STATE] 引脚 [PIN] 蜂鸣器'
   blocks.buzzer.state.on: 开启
   blocks.buzzer.state.off: 关闭
-  blocks.buzzer.passiveBuzzer: 引脚[PIN]无源蜂鸣器演奏音符[NOTE][BEAT]拍
-  blocks.buzzer.playPassiveBuzzer: 引脚[PIN]无源蜂鸣器播放声音[MUSIC]等待播完
-  blocks.buzzer.startPassiveBuzzer: 引脚[PIN]无源蜂鸣器播放声音[MUSIC]
-  blocks.buzzer.stopPassiveBuzzer: 停止引脚[PIN]无源蜂鸣器声音
+  blocks.buzzer.passiveBuzzer.label: 无源蜂鸣器
+  blocks.buzzer.restPassiveBuzzer: 引脚 [PIN] 休止 [BEAT]/4 拍
+  blocks.buzzer.passiveBuzzer: 引脚 [PIN] 演奏音符 [NOTE][BEAT]/4 拍
+  blocks.buzzer.playPassiveBuzzer: 引脚 [PIN] 播放声音 [MUSIC] 等待播完
+  blocks.buzzer.startPassiveBuzzer: 引脚 [PIN] 播放声音 [MUSIC]
+  blocks.buzzer.stopPassiveBuzzer: 停止引脚 [PIN] 声音
   blocks.buzzer.music.dadadadum: 开场
   blocks.buzzer.music.entertainer: 娱乐
   blocks.buzzer.music.prelude: 前奏
@@ -63,13 +67,15 @@ zh-Hans:
 
 zh-Hant:
   blocks.buzzer.name: 蜂鳴器
-  blocks.buzzer.activeBuzzer: '[STATE]引腳[PIN]有源蜂鳴器'
+  blocks.buzzer.activeBuzzer: '[STATE] 引腳 [PIN] 蜂鳴器'
   blocks.buzzer.state.on: 開啟
   blocks.buzzer.state.off: 關閉
-  blocks.buzzer.passiveBuzzer: 引腳[PIN]無源蜂鳴器演奏音符[NOTE][BEAT]拍
-  blocks.buzzer.playPassiveBuzzer: 引腳[PIN]無源蜂鳴器播放聲音[MUSIC]直到結束
-  blocks.buzzer.startPassiveBuzzer: 引腳[PIN]無源蜂鳴器播放聲音[MUSIC]
-  blocks.buzzer.stopPassiveBuzzer: 停止引腳[PIN]無源蜂鳴器聲音
+  blocks.buzzer.passiveBuzzer.label: 無源蜂鳴器
+  blocks.buzzer.restPassiveBuzzer: 引腳 [PIN] 休止 [BEAT]/4 拍
+  blocks.buzzer.passiveBuzzer: 引腳 [PIN] 演奏音符 [NOTE][BEAT]/4 拍
+  blocks.buzzer.playPassiveBuzzer: 引腳 [PIN] 播放聲音 [MUSIC] 直到結束
+  blocks.buzzer.startPassiveBuzzer: 引腳 [PIN] 播放聲音 [MUSIC]
+  blocks.buzzer.stopPassiveBuzzer: 停止引腳 [PIN] 聲音
   blocks.buzzer.music.dadadadum: 開場
   blocks.buzzer.music.entertainer: 娛樂
   blocks.buzzer.music.prelude: 前奏

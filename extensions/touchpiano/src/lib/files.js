@@ -1,5 +1,5 @@
-import touchpianoCppUri from './touchpiano.cpp';
-import touchpianoHUri from './touchpiano.h';
+import touchpianoCppUri from './files/touchpiano.cpp';
+import touchpianoHUri from './files/touchpiano.h';
 
 export const files = (meta) => {
   if (meta.editor === '@blockcode/gui-arduino') {

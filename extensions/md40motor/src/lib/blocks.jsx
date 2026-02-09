@@ -26,7 +26,7 @@ export const blocks = (meta) => [
     },
     ino(block) {
       const addr = block.getFieldValue('ADDR');
-      this.definitions_['variable_md40motor'] = `Md40 md40Motor(${addr});`;
+      this.definitions_['variable_md40motor'] = `em::Md40 md40Motor(${addr});`;
       this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       return '';
     },
@@ -64,13 +64,13 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       for (const id of motors) {
         this.definitions_[`setup_md40motor_${id}`] =
-          `md40Motor[${id}].SetEncoderMode(${pulse}, ${ratio}, Md40::Motor::PhaseRelation::k${phase}PhaseLeads);`;
+          `md40Motor[${id}].SetEncoderMode(${pulse}, ${ratio}, em::Md40::Motor::PhaseRelation::k${phase}PhaseLeads);`;
       }
       return '';
     },
@@ -102,7 +102,7 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
@@ -111,7 +111,7 @@ export const blocks = (meta) => [
         if (!this.definitions_[`setup_md40motor_${id}`]) {
           if (!this.definitions_[`setup_md40motor_${id}`]) {
             this.definitions_[`setup_md40motor_${id}`] =
-              `md40Motor[${id}].SetEncoderMode(12, 90, Md40::Motor::PhaseRelation::kAPhaseLeads);`;
+              `md40Motor[${id}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
           }
         }
         code += `md40Motor[${id}].RunPwmDuty(round((float)${speed} * ${(1023 * dir) / 100}));\n`;
@@ -146,7 +146,7 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
@@ -154,7 +154,7 @@ export const blocks = (meta) => [
       for (const id of motors) {
         if (!this.definitions_[`setup_md40motor_${id}`]) {
           this.definitions_[`setup_md40motor_${id}`] =
-            `md40Motor[${id}].SetEncoderMode(12, 90, Md40::Motor::PhaseRelation::kAPhaseLeads);`;
+            `md40Motor[${id}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
         }
         code += `md40Motor[${id}].RunSpeed(${rpm * dir});\n`;
       }
@@ -189,7 +189,7 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
@@ -197,7 +197,7 @@ export const blocks = (meta) => [
       for (const id of motors) {
         if (!this.definitions_[`setup_md40motor_${id}`]) {
           this.definitions_[`setup_md40motor_${id}`] =
-            `md40Motor[${id}].SetEncoderMode(12, 90, Md40::Motor::PhaseRelation::kAPhaseLeads);`;
+            `md40Motor[${id}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
         }
         code += `md40Motor[${id}].Move(${degree}, ${rpm});\n`;
       }
@@ -232,7 +232,7 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
@@ -240,7 +240,7 @@ export const blocks = (meta) => [
       for (const id of motors) {
         if (!this.definitions_[`setup_md40motor_${id}`]) {
           this.definitions_[`setup_md40motor_${id}`] =
-            `md40Motor[${id}].SetEncoderMode(12, 90, Md40::Motor::PhaseRelation::kAPhaseLeads);`;
+            `md40Motor[${id}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
         }
         code += `md40Motor[${id}].MoveTo(${angle}, ${rpm});\n`;
       }
@@ -265,7 +265,7 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
@@ -273,7 +273,7 @@ export const blocks = (meta) => [
       for (const id of motors) {
         if (!this.definitions_[`setup_md40motor_${id}`]) {
           this.definitions_[`setup_md40motor_${id}`] =
-            `md40Motor[${id}].SetEncoderMode(12, 90, Md40::Motor::PhaseRelation::kAPhaseLeads);`;
+            `md40Motor[${id}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
         }
         code += `md40Motor[${id}].Reset();\n`;
       }
@@ -298,7 +298,7 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
@@ -306,7 +306,7 @@ export const blocks = (meta) => [
       for (const id of motors) {
         if (!this.definitions_[`setup_md40motor_${id}`]) {
           this.definitions_[`setup_md40motor_${id}`] =
-            `md40Motor[${id}].SetEncoderMode(12, 90, Md40::Motor::PhaseRelation::kAPhaseLeads);`;
+            `md40Motor[${id}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
         }
         code += `md40Motor[${id}].Stop();\n`;
       }
@@ -347,7 +347,7 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
@@ -355,7 +355,7 @@ export const blocks = (meta) => [
       for (const id of motors) {
         if (!this.definitions_[`setup_md40motor_${id}`]) {
           this.definitions_[`setup_md40motor_${id}`] =
-            `md40Motor[${id}].SetEncoderMode(12, 90, Md40::Motor::PhaseRelation::kAPhaseLeads);`;
+            `md40Motor[${id}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
         }
         code += `md40Motor[${id}].set_position_pid_p(${MathUtils.float(pValue)});\n`;
         code += `md40Motor[${id}].set_position_pid_i(${MathUtils.float(iValue)});\n`;
@@ -397,7 +397,7 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
@@ -405,7 +405,7 @@ export const blocks = (meta) => [
       for (const id of motors) {
         if (!this.definitions_[`setup_md40motor_${id}`]) {
           this.definitions_[`setup_md40motor_${id}`] =
-            `md40Motor[${id}].SetEncoderMode(12, 90, Md40::Motor::PhaseRelation::kAPhaseLeads);`;
+            `md40Motor[${id}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
         }
         code += `md40Motor[${id}].set_speed_pid_p(${MathUtils.float(pValue)});\n`;
         code += `md40Motor[${id}].set_speed_pid_i(${MathUtils.float(iValue)});\n`;
@@ -435,13 +435,13 @@ export const blocks = (meta) => [
       const motor = block.getFieldValue('MOTOR');
       const pid = block.getFieldValue('PID');
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       if (!this.definitions_[`setup_md40motor_${motor}`]) {
         this.definitions_[`setup_md40motor_${motor}`] =
-          `md40Motor[${motor}].SetEncoderMode(12, 90, Md40::Motor::PhaseRelation::kAPhaseLeads);`;
+          `md40Motor[${motor}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
       }
       const code = `md40Motor[${motor}].position_pid_${pid.toLowerCase()}()`;
       return [code];
@@ -468,13 +468,13 @@ export const blocks = (meta) => [
       const motor = block.getFieldValue('MOTOR');
       const pid = block.getFieldValue('PID');
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       if (!this.definitions_[`setup_md40motor_${motor}`]) {
         this.definitions_[`setup_md40motor_${motor}`] =
-          `md40Motor[${motor}].SetEncoderMode(12, 90, Md40::Motor::PhaseRelation::kAPhaseLeads);`;
+          `md40Motor[${motor}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
       }
       const code = `md40Motor[${motor}].speed_pid_${pid.toLowerCase()}()`;
       return [code];
@@ -497,13 +497,13 @@ export const blocks = (meta) => [
     ino(block) {
       const motor = block.getFieldValue('MOTOR');
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       if (!this.definitions_[`setup_md40motor_${motor}`]) {
         this.definitions_[`setup_md40motor_${motor}`] =
-          `md40Motor[${motor}].SetEncoderMode(12, 90, Md40::Motor::PhaseRelation::kAPhaseLeads);`;
+          `md40Motor[${motor}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
       }
       const code = `(md40Motor[${motor}].pwm_duty() / 1023)`;
       return [code];
@@ -526,13 +526,13 @@ export const blocks = (meta) => [
     ino(block) {
       const motor = block.getFieldValue('MOTOR');
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       if (!this.definitions_[`setup_md40motor_${motor}`]) {
         this.definitions_[`setup_md40motor_${motor}`] =
-          `md40Motor[${motor}].SetEncoderMode(12, 90, Md40::Motor::PhaseRelation::kAPhaseLeads);`;
+          `md40Motor[${motor}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
       }
       const code = `md40Motor[${motor}].speed()`;
       return [code];
@@ -555,13 +555,13 @@ export const blocks = (meta) => [
     ino(block) {
       const motor = block.getFieldValue('MOTOR');
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       if (!this.definitions_[`setup_md40motor_${motor}`]) {
         this.definitions_[`setup_md40motor_${motor}`] =
-          `md40Motor[${motor}].SetEncoderMode(12, 90, Md40::Motor::PhaseRelation::kAPhaseLeads);`;
+          `md40Motor[${motor}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
       }
       const code = `md40Motor[${motor}].position()`;
       return [code];
@@ -584,13 +584,13 @@ export const blocks = (meta) => [
     ino(block) {
       const motor = block.getFieldValue('MOTOR');
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       if (!this.definitions_[`setup_md40motor_${motor}`]) {
         this.definitions_[`setup_md40motor_${motor}`] =
-          `md40Motor[${motor}].SetEncoderMode(12, 90, Md40::Motor::PhaseRelation::kAPhaseLeads);`;
+          `md40Motor[${motor}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
       }
       const code = `md40Motor[${motor}].pulse_count()`;
       return [code];
@@ -640,13 +640,13 @@ export const blocks = (meta) => [
       const state = block.getFieldValue('STATE');
 
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       if (!this.definitions_[`setup_md40motor_${motor}`]) {
         this.definitions_[`setup_md40motor_${motor}`] =
-          `md40Motor[${motor}].SetEncoderMode(12, 90, Md40::Motor::PhaseRelation::kAPhaseLeads);`;
+          `md40Motor[${motor}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
       }
       let code = `(uint8_t)md40Motor[${motor}].state()`;
       if (state === '123') {
@@ -698,7 +698,7 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
@@ -740,7 +740,7 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
-        this.definitions_['variable_md40motor'] = 'Md40 md40Motor(Md40::kDefaultI2cAddress);';
+        this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
       }
       this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 

@@ -59,11 +59,58 @@ export const blocks = (meta) => [
   },
   '---',
   {
+    label: (
+      <Text
+        id="blocks.buzzer.passiveBuzzer.label"
+        defaultMessage="Passive Buzzer"
+      />
+    ),
+  },
+  {
+    id: 'restPassiveBuzzer',
+    text: (
+      <Text
+        id="blocks.buzzer.restPassiveBuzzer"
+        defaultMessage="pin [PIN] rest for [BEAT]/4 beats"
+      />
+    ),
+    inputs: {
+      PIN: meta.boardPins
+        ? { menu: meta.boardPins.pwm }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
+      BEAT: {
+        type: 'integer',
+        defaultValue: '1',
+      },
+    },
+    ino(block) {
+      const pin = block.getFieldValue('PIN');
+      const beat = this.valueToCode(block, 'BEAT', this.ORDER_NONE);
+      const pinName = `tone_${pin}`;
+      this.definitions_['include_tone'] = '#include "tone.h"';
+      this.definitions_['variable_tone'] = `Tone ${pinName}(${pin});`;
+      const code = `${pinName}.play(String("r:"+String(${beat})).c_str());\n`;
+      return code;
+    },
+    mpy(block) {
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const beat = this.valueToCode(block, 'BEAT', this.ORDER_NONE);
+      const pinName = `tone_${pin}`;
+      this.definitions_['import_pin'] = 'import buzzer';
+      this.definitions_['variable_tone'] = `${pinName} = buzzer.Tone(${pin})`;
+      const code = `${pinName}.play("r:"+str(${beat}))\n`;
+      return code;
+    },
+  },
+  {
     id: 'passiveBuzzer',
     text: (
       <Text
         id="blocks.buzzer.passiveBuzzer"
-        defaultMessage="pin [PIN] passive buzzer play note [NOTE] for [BEAT] beats"
+        defaultMessage="pin [PIN] play note [NOTE] for [BEAT]/4 beats"
       />
     ),
     inputs: {
@@ -75,7 +122,6 @@ export const blocks = (meta) => [
           },
       NOTE: {
         type: 'note',
-        defaultValue: '60',
       },
       BEAT: {
         type: 'integer',
@@ -89,7 +135,7 @@ export const blocks = (meta) => [
       const pinName = `tone_${pin}`;
       this.definitions_['include_tone'] = '#include "tone.h"';
       this.definitions_['variable_tone'] = `Tone ${pinName}(${pin});`;
-      const code = `${pinName}.play(String(String(${note})+":${beat}").c_str());\n`;
+      const code = `${pinName}.play(String(String(${note})+":"+String(${beat})).c_str());\n`;
       return code;
     },
     mpy(block) {
@@ -99,7 +145,7 @@ export const blocks = (meta) => [
       const pinName = `tone_${pin}`;
       this.definitions_['import_pin'] = 'import buzzer';
       this.definitions_['variable_tone'] = `${pinName} = buzzer.Tone(${pin})`;
-      const code = `${pinName}.play(${note}":${beat}")\n`;
+      const code = `${pinName}.play(${note}+":"+str(${beat}))\n`;
       return code;
     },
   },
