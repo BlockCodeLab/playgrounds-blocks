@@ -8,7 +8,7 @@ ScratchBlocks.Blocks['note'] = {
         {
           type: 'field_note',
           name: 'NOTE',
-          value: 60,
+          note: 60,
         },
       ],
       outputShape: ScratchBlocks.OUTPUT_SHAPE_ROUND,

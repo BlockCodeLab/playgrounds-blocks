@@ -8,8 +8,17 @@ const proto = ClangGenerator.prototype;
 // octave = Math.floor(m / 12) - 1
 const NOTES = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
 
+const getNoteNum = (noteStr) => {
+  const note = noteStr[1] === '#' ? noteStr.slice(0, 2) : noteStr.slice(0, 1);
+  const octave = isNaN(noteStr.slice(-1)) ? 0 : parseInt(noteStr.slice(note.length));
+  return NOTES.indexOf(note) + 12 * (octave + 1);
+};
+
 proto['note'] = function (block) {
-  const noteNum = block.getFieldValue('NOTE');
+  let noteNum = block.getFieldValue('NOTE');
+  if (isNaN(noteNum)) {
+    noteNum = getNoteNum(noteNum);
+  }
   const note = NOTES[noteNum % 12];
   const octave = MathUtils.clamp(Math.floor(noteNum / 12) - 1, 0, 9);
   const code = this.quote_(note + octave);
