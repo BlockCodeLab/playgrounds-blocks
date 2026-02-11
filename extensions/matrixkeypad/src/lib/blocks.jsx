@@ -39,6 +39,7 @@ export const blocks = [
     ino(block) {
       let key = block.getFieldValue('KEY') || '1';
       this.definitions_['variable_matrixkeypad'] = `MatrixKeypad matrixKeypad;`;
+      this.definitions_['setup_wire'] = 'Wire.begin();';
       this.definitions_['setup_matrixkeypad'] = `matrixKeypad.Init();`;
       const code = `matrixKeypad.PressedKey("${key}")`;
       return [code, this.ORDER_FUNCTION_CALL];
@@ -55,6 +56,7 @@ export const blocks = [
     output: 'string',
     ino(block) {
       this.definitions_['variable_matrixkeypad'] = `MatrixKeypad matrixKeypad;`;
+      this.definitions_['setup_wire'] = 'Wire.begin();';
       this.definitions_['setup_matrixkeypad'] = `matrixKeypad.Init();`;
       const code = `matrixKeypad.GetKey()`;
       return [code, this.ORDER_FUNCTION_CALL];
