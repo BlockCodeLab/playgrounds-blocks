@@ -6,7 +6,7 @@ en:
   blocks.aivoxassistant.argumentInt: integer
   blocks.aivoxassistant.argumentFloat: float
   blocks.aivoxassistant.argumentString: string
-  blocks.aivoxassistant.lessonTitle: AI-Vox Assistant Help
+  blocks.aivoxassistant.lessonTitle: AI Vox Assistant Help
   blocks.aivoxassistant.lessonPage1.title: Peripheral Control Commands
   blocks.aivoxassistant.lessonPage1.text: Create a new Excel file, enter the peripheral control commands for this example in the format shown above, and then save it.
   blocks.aivoxassistant.lessonPage2.title: Import to Xiaozhi Knowledge Base
