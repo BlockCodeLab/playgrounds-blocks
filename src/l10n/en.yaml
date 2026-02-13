@@ -10,6 +10,7 @@ blocks.panes.monitor: Monitor
 
 blocks.extensions.addExtension: Add Extension
 blocks.extensions.empty: No extension!
+blocks.extensions.loading: "Loading..."
 blocks.extensions.documentation: Open Documentation
 blocks.extensions.custom: Custom
 

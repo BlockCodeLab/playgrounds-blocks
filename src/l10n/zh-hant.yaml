@@ -10,6 +10,7 @@ blocks.panes.monitor: 監視器
 
 blocks.extensions.addExtension: 添加擴展
 blocks.extensions.empty: 沒有擴展！
+blocks.extensions.loading: 正在加載…
 blocks.extensions.documentation: 打開檔案
 blocks.extensions.custom: 自製擴展
 

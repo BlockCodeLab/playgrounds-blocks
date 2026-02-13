@@ -16,6 +16,7 @@ import {
   setFile,
   setMeta,
   themeColors,
+  addLessons,
 } from '@blockcode/core';
 
 import { ScratchBlocks } from '../../lib/scratch-blocks';
@@ -300,6 +301,11 @@ export function BlocksEditor({
       }, 50); // 等待积木栏更新完毕后再滚动
     }
 
+    // 合并教程
+    if (extObj.lessons) {
+      addLessons(extObj.lessons);
+    }
+
     delAlert(extId);
   }, []);
 
@@ -487,6 +493,11 @@ export function BlocksEditor({
     for (const [extId, extObj] of projData.extensions) {
       loadExtension(extObj, options, meta.value);
       loadedExtensions.set(extId, extObj);
+
+      // 合并教程
+      if (extObj.lessons) {
+        addLessons(extObj.lessons);
+      }
     }
 
     updateWorkspace();

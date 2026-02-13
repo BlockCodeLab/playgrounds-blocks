@@ -8,7 +8,7 @@ import plusIcon from './icon-plus.svg';
 import getExtensions from '../../lib/get-extensions';
 
 export function ExtensionsLibrary({ tags, disableCustom, onSelect, onClose, onFilter }) {
-  const data = useSignal([]);
+  const data = useSignal(null);
 
   const handleFilter = useCallback(
     (info) => {
@@ -102,6 +102,7 @@ export function ExtensionsLibrary({ tags, disableCustom, onSelect, onClose, onFi
       filterable
       tags={customTags}
       items={data.value}
+      loading={data.value === null}
       filterPlaceholder={
         <Text
           id="gui.library.search"
@@ -118,6 +119,12 @@ export function ExtensionsLibrary({ tags, disableCustom, onSelect, onClose, onFi
         <Text
           id="blocks.extensions.empty"
           defaultMessage="No extension!"
+        />
+      }
+      loadingMessage={
+        <Text
+          id="blocks.extensions.loading"
+          defaultMessage="Loading..."
         />
       }
       onClose={onClose}
