@@ -1,5 +1,6 @@
 import { addLocalesMessages, Text } from '@blockcode/core';
 import { blocks, menus } from './blocks';
+import { lessons } from './lessons';
 import { readme } from '../package.json';
 
 import translations from './l10n.yaml';
@@ -18,4 +19,5 @@ export default {
   blocks,
   menus,
   readme,
+  lessons,
 };

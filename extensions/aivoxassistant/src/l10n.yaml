@@ -6,6 +6,11 @@ en:
   blocks.aivoxassistant.argumentInt: integer
   blocks.aivoxassistant.argumentFloat: float
   blocks.aivoxassistant.argumentString: string
+  blocks.aivoxassistant.lessonTitle: AI-Vox Assistant Help
+  blocks.aivoxassistant.lessonPage1.title: Peripheral Control Commands
+  blocks.aivoxassistant.lessonPage1.text: Create a new Excel file, enter the peripheral control commands for this example in the format shown above, and then save it.
+  blocks.aivoxassistant.lessonPage2.title: Import to Xiaozhi Knowledge Base
+  blocks.aivoxassistant.lessonPage2.text: Import the "Peripheral Control Commands" into the knowledge base of the Xiaozhi backend at xiaozhi.me.
 
 zh-Hans:
   blocks.aivoxassistant.name: AI 语音助手
@@ -15,6 +20,11 @@ zh-Hans:
   blocks.aivoxassistant.argumentInt: 整数
   blocks.aivoxassistant.argumentFloat: 浮点数
   blocks.aivoxassistant.argumentString: 字符串
+  blocks.aivoxassistant.lessonTitle: AI 语音助手帮助
+  blocks.aivoxassistant.lessonPage1.title: 外设控制指令表
+  blocks.aivoxassistant.lessonPage1.text: 新建 Excel 文件，按上面格式输入本示例的外设控制指令，然后保存。
+  blocks.aivoxassistant.lessonPage2.title: 导入小智知识库
+  blocks.aivoxassistant.lessonPage2.text: 将“外设控制指令表”导入到小智后台 xiaozhi.me 的知识库中。
 
 zh-Hant:
   blocks.aivoxassistant.name: AI 語音助手
@@ -24,3 +34,8 @@ zh-Hant:
   blocks.aivoxassistant.argumentInt: 整数
   blocks.aivoxassistant.argumentFloat: 浮点数
   blocks.aivoxassistant.argumentString: 字符串
+  blocks.aivoxassistant.lessonTitle: AI 語音助手幫助
+  blocks.aivoxassistant.lessonPage1.title: 外設控制指令表
+  blocks.aivoxassistant.lessonPage1.text: 新建 Excel 文件，按上面格式輸入本示例的外設控制指令，然後保存。
+  blocks.aivoxassistant.lessonPage2.title: 導入小智知識庫
+  blocks.aivoxassistant.lessonPage2.text: 將「外設控制指令表」導入到小智後台 xiaozhi.me 的知識庫中。
