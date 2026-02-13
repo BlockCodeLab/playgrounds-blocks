@@ -155,19 +155,14 @@ export const blocks = (meta) => [
       this.definitions_['include_regexp'] = '#include <Regexp.h>';
       this.definitions_['variable_commandReg'] = 'MatchState cmdRe;';
 
-      let toType = '';
-      if (type !== 'String') {
-        toType = `.to${type.charAt(0).toUpperCase()}${type.slice(1)}()`;
-      }
-
       let code = '';
-      code += 'String getCommandArgument(uint8_t idx) {\n';
+      code += `String getCommandArgument(uint8_t idx) {\n`;
       code += '  char arg[100];\n';
       code += '  cmdRe.GetCapture(arg, idx);\n';
-      code += `  return String(arg)${toType};\n`;
+      code += '  return String(arg);\n';
       code += '}';
       this.definitions_['getCommandArgument'] = code;
-      this.definitions_['declare_getCommandArgument'] = 'String getCommandArgument(uint8_t idx);';
+      this.definitions_['declare_getCommandArgument'] = `String getCommandArgument(uint8_t idx);`;
 
       let argIndex = 0;
       const matches = [...cmd.matchAll(/\{(\w+)\}/g)];
@@ -178,7 +173,11 @@ export const blocks = (meta) => [
         }
       }
 
-      code = `getCommandArgument(${argIndex})`;
+      let toType = '';
+      if (type !== 'String') {
+        toType = `.to${type.charAt(0).toUpperCase()}${type.slice(1)}()`;
+      }
+      code = `getCommandArgument(${argIndex})${toType}`;
       return [code];
     },
     mpy(block) {
