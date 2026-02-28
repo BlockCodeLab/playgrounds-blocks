@@ -1,6 +1,6 @@
 import ledPixelPyUrl from './files/ledpixel.py';
 import ledPixelHUrl from './files/ledpixel.h';
-import ledPixelTppUrl from './files/ledpixel.tpp';
+import ledPixelCppUrl from './files/ledpixel.cpp';
 
 export const files = (meta) => {
   if (meta.editor === '@blockcode/gui-arduino') {
@@ -12,9 +12,9 @@ export const files = (meta) => {
         uri: ledPixelHUrl,
       },
       {
-        name: 'ledpixel.tpp',
+        name: 'ledpixel.cpp',
         type: 'text/x-c',
-        uri: ledPixelTppUrl,
+        uri: ledPixelCppUrl,
       },
     ];
   }

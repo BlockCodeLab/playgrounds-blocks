@@ -43,7 +43,7 @@ export const blocks = (meta) =>
         const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
         const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
         const pinName = `ledpixel_${pin}`;
-        this.definitions_[`variable_${pinName}`] = `LedPixel<${pin}, ${num}> ${pinName};`;
+        this.definitions_[`variable_${pinName}`] = `LedPixel ${pinName}(${pin}, ${num});`;
         this.definitions_[`setup_${pinName}`] = `${pinName}.begin();`;
         return '';
       },
