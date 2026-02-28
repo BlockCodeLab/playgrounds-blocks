@@ -25,6 +25,7 @@ ScratchBlocks.ContextMenu.show = function (e, options, rtl) {
     }
   }
 
+  // 导出积木图片菜单项
   const exportPngOption = { enabled: true };
   if (isWorkspace) {
     exportPngOption.text = translate('blocks.centextMenu.exportAllBlocksPng', 'Export all Blocks to PNG');
@@ -64,6 +65,20 @@ ScratchBlocks.ContextMenu.show = function (e, options, rtl) {
     };
   }
 
-  options.splice(-1, 0, exportPngOption);
+  // 优化菜单顺序
+  if (options.length > 2) {
+    let commentItem, deleteItem;
+    const commentIndex = options.findIndex((item) => item.text === ScratchBlocks.Msg.ADD_COMMENT);
+    if (commentIndex !== -1) {
+      commentItem = options.splice(commentIndex, 1)[0];
+    }
+    const deleteIndex = options.findIndex((item) => item.text === ScratchBlocks.Msg.DELETE);
+    deleteItem = options.splice(deleteIndex, 1)[0];
+
+    options.push(commentItem);
+    options.push(exportPngOption);
+    options.push(deleteItem);
+  }
+
   showContextMenu(e, options, rtl);
 };

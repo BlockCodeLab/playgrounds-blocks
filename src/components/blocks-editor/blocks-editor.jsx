@@ -435,7 +435,10 @@ export function BlocksEditor({
       ScratchBlocks.resizeBlockSvg(
         isCompactBlock.value !== false ? ScratchBlocks.CompactBlockSvg : ScratchBlocks.NormalBlockSvg,
       );
-      updateWorkspace(ScratchBlocks.Xml.workspaceToDom(ref.workspace));
+      clearTimeout(updateWorkspace.timeout);
+      updateWorkspace.timeout = setTimeout(() => {
+        updateWorkspace(ScratchBlocks.Xml.workspaceToDom(ref.workspace));
+      });
     }
 
     // 检查代码如果有改动
