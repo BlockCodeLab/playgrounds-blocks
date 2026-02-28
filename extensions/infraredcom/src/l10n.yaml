@@ -1,6 +1,7 @@
 en:
   blocks.infraredcom.name: Infrared Communication
   blocks.infraredcom.initReceive: set pin [PIN] to ir receiver
+  blocks.infraredcom.eventPolling: receiver event polling
   blocks.infraredcom.whenReceived: when ir received
   blocks.infraredcom.receive: command
   blocks.infraredcom.receiveAddr: address
@@ -13,6 +14,7 @@ en:
 zh-Hans:
   blocks.infraredcom.name: 红外线通讯
   blocks.infraredcom.initReceive: 初始红外接收引脚[PIN]
+  blocks.infraredcom.eventPolling: 红外接收事件轮询
   blocks.infraredcom.whenReceived: 当收到信号时
   blocks.infraredcom.receive: 信号
   blocks.infraredcom.receiveAddr: 信号地址
@@ -25,6 +27,7 @@ zh-Hans:
 zh-Hant:
   blocks.infraredcom.name: 紅外線通訊
   blocks.infraredcom.initReceive: 初始紅外接收引腳[PIN]
+  blocks.infraredcom.eventPolling: 紅外接收事件輪詢
   blocks.infraredcom.whenReceived: 當收到信號時
   blocks.infraredcom.receive: 信號
   blocks.infraredcom.receiveAddr: 信號地址

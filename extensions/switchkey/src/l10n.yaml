@@ -1,5 +1,6 @@
 en:
   blocks.switchkey.name: Key Input
+  blocks.switchkey.eventPolling: manual button event polling
   blocks.switchkey.whenKey: when pin [PIN] [STATE]
   blocks.switchkey.keyState: pin [PIN] is pressed?
   blocks.switchkey.keyPressed: pressed
@@ -10,6 +11,7 @@ en:
 
 zh-Hans:
   blocks.switchkey.name: 按键输入
+  blocks.switchkey.eventPolling: 手动按键事件轮询
   blocks.switchkey.whenKey: 当引脚 [PIN] 被 [STATE]
   blocks.switchkey.keyState: 按下引脚 [PIN]？
   blocks.switchkey.keyClick: 单击
@@ -19,6 +21,7 @@ zh-Hans:
 
 zh-Hant:
   blocks.switchkey.name: 按鍵輸入
+  blocks.switchkey.eventPolling: 手動按鍵事件輪詢
   blocks.switchkey.whenKey: 當引腳 [PIN] 被 [STATE]
   blocks.switchkey.keyState: 按下引腳 [PIN]？
   blocks.switchkey.keyClick: 單擊
