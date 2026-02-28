@@ -13,7 +13,7 @@ export const blocks = (meta) => [
     ),
     inputs: {
       PIN: meta.boardPins
-        ? { menu: meta.boardPins.pwm }
+        ? { menu: meta.boardPins.out }
         : {
             type: 'positive_integer',
             defaultValue: 1,

@@ -82,7 +82,7 @@ export const blocks = (meta) => [
     ),
     inputs: {
       PIN: meta.boardPins
-        ? { menu: meta.boardPins.out }
+        ? { menu: meta.boardPins.pwm }
         : {
             type: 'positive_integer',
             defaultValue: 1,
@@ -142,28 +142,19 @@ export const blocks = (meta) => [
     ),
     inputs: {
       G: meta.boardPins
-        ? {
-            menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? '18' : '1',
-          }
+        ? { menu: meta.boardPins.pwm }
         : {
             type: 'positive_integer',
             defaultValue: 1,
           },
       Y: meta.boardPins
-        ? {
-            menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? '19' : '2',
-          }
+        ? { menu: meta.boardPins.pwm }
         : {
             type: 'positive_integer',
             defaultValue: 2,
           },
       R: meta.boardPins
-        ? {
-            menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? '21' : '3',
-          }
+        ? { menu: meta.boardPins.pwm }
         : {
             type: 'positive_integer',
             defaultValue: 3,

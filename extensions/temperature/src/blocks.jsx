@@ -31,7 +31,7 @@ export const blocks = (meta) => [
       const pinName = `_lm${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_adc'] = 'from machine import ADC';
-      this.definitions_[pinName] = `${pinName} = ADC(Pin(${pin}), atten=ADC.ATTN_11DB)`;
+      this.definitions_[pinName] = `${pinName} = ADC(Pin(${pin}), atten=ADC.ATTN_6DB)`;
       const code = `(${pinName}.read_uv() / 10_000)`;
       return [code, this.ORDER_FUNCTION_CALL];
     },
@@ -64,7 +64,7 @@ export const blocks = (meta) => [
       const pinName = `_nl${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_adc'] = 'from machine import ADC';
-      this.definitions_[pinName] = `${pinName} = ADC(Pin(${pin}), atten=ADC.ATTN_11DB)`;
+      this.definitions_[pinName] = `${pinName} = ADC(Pin(${pin}), atten=ADC.ATTN_6DB)`;
       const code = `(${pinName}.read_uv() / 10_000 - 50)`;
       return [code, this.ORDER_FUNCTION_CALL];
     },
@@ -74,7 +74,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.temperature.ds8b20"
-        defaultMessage="pin [PIN] DS8B20 temperature"
+        defaultMessage="pin [PIN] DS18B20 temperature"
       />
     ),
     output: 'number',
