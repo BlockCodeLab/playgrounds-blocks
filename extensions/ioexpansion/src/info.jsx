@@ -5,7 +5,6 @@ import featureImage from './feature.svg';
 import iconImage from './icon.png';
 
 export default {
-  preview: true,
   image: featureImage,
   icon: iconImage,
   name: (

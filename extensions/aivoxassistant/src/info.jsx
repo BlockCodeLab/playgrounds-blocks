@@ -1,8 +1,8 @@
 import { addLocalesMessages, Text } from '@blockcode/core';
 import { readme } from '../package.json';
 
-import featureImage from './feature.svg';
-import iconImage from './icon.svg';
+import featureImage from './feature.png';
+import iconImage from './icon.png';
 
 export default {
   image: featureImage,

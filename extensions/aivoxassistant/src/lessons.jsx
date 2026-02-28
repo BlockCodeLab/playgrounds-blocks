@@ -1,5 +1,5 @@
 import { Text } from '@blockcode/core';
-import feature from './feature.svg';
+import feature from './feature.png';
 
 import exmpleArduino from './assets/aivoxassistant-arduino.bcp';
 import exmpleEsp32 from './assets/aivoxassistant-esp32.bcp';

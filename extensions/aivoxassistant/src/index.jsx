@@ -4,7 +4,7 @@ import { lessons } from './lessons';
 import { readme } from '../package.json';
 
 import translations from './l10n.yaml';
-import iconImage from './icon.svg';
+import iconImage from './icon.png';
 
 addLocalesMessages(translations);
 
