@@ -4,7 +4,7 @@ const proto = EmulatorGenerator.prototype;
 
 proto['procedures_definition'] = function (block) {
   const myBlock = block.childBlocks_[0];
-  const funcName = this.getFunctionName(myBlock.getProcCode());
+  const funcName = this.getDistinctName(myBlock.getProcCode());
   const args = myBlock.childBlocks_.map((argBlock) => this.getVariableName(argBlock.getFieldValue('VALUE')));
   const argsCode = args.length > 0 ? `${args.join(', ')}, done` : 'done';
 
@@ -18,7 +18,7 @@ proto['procedures_definition'] = function (block) {
 };
 
 proto['procedures_call'] = function (block) {
-  const funcName = this.getFunctionName(block.getProcCode());
+  const funcName = this.getDistinctName(block.getProcCode());
   const args = block.argumentIds_.map((arg) => this.valueToCode(block, arg, this.ORDER_NONE) || 'false');
   const argsCode = args.length > 0 ? `, ${args.join(', ')}` : '';
   const code = `await runtime.emitEvent('procedure:${funcName}'${argsCode});\n`;

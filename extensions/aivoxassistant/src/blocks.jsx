@@ -110,7 +110,7 @@ export const blocks = (meta) => [
       code += branchCode;
 
       const cmd = this.valueToCode(block, 'CMD', this.ORDER_NONE);
-      const funcName = this.getFunctionName(cmd);
+      const funcName = this.getDistinctName(cmd);
       branchCode = this.prefixLines(code, this.INDENT);
       branchCode = this.addEventTrap(branchCode, 'assistant_callback');
       code = '@_tasks__.append\n';

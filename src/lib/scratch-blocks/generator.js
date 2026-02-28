@@ -1,4 +1,8 @@
+import { pinyin, addTraditionalDict } from 'pinyin-pro';
 import { ScratchBlocks } from './scratch-blocks';
+import TraditionalDict from '@pinyin-pro/data/traditional';
+
+addTraditionalDict(TraditionalDict);
 
 const BaseGenerator = ScratchBlocks.Generator;
 
@@ -69,14 +73,21 @@ class Generator extends BaseGenerator {
     return this.createName('i').replace('i_', 'i');
   }
 
-  getVariableName(desiredName) {
-    const variableName = this.variableDB_.getName(desiredName, ScratchBlocks.Variables.NAME_TYPE);
-    return `_${variableName.replaceAll('_', '')}`;
+  getVariableName(name) {
+    const varName = this.variableDB_.getNameForUserVariable_(name);
+    if (varName) {
+      name = varName;
+    }
+    return this.getDistinctName(name);
   }
 
-  getFunctionName(desiredName) {
-    const functionName = this.variableDB_.getName(desiredName, ScratchBlocks.Procedures.NAME_TYPE);
-    return `_${functionName.replaceAll('_25', '_').replaceAll('_', '')}`;
+  getDistinctName(name) {
+    const safeName = pinyin(name.replace(/%\w/g, '_'), {
+      type: 'array',
+      toneType: 'num',
+      traditional: true,
+    });
+    return `_${safeName.join('').replace(/[^_a-zA-Z0-9]/g, '')}`;
   }
 }
 
