@@ -32,9 +32,60 @@ export const blocks = (meta) => [
 
       this.definitions_['include_u8g2lib'] = '#include <U8g2lib.h>';
       this.definitions_['variable_oled'] = `U8G2_${driver}_${size}_NONAME_F_HW_I2C oled(U8G2_R0);`;
-      this.definitions_['setup_oled'] = 'oled.begin();';
+      this.definitions_['setup_oled'] = 'oled.setBusClock(400000); oled.begin();';
 
       return '';
+    },
+  },
+  {
+    id: 'pageBuffer',
+    text: (
+      <Text
+        id="blocks.oled.pageBuffer"
+        defaultMessage="page buffer display"
+      />
+    ),
+    substack: true,
+    ino(block) {
+      if (this.definitions_['variable_oled']) {
+        this.definitions_['variable_oled'] = this.definitions_['variable_oled'].replace('_F_', '_1_');
+      }
+
+      const branchCode = this.statementToCode(block, 'SUBSTACK') || '';
+      let code = '';
+      code += 'oled.firstPage();\n';
+      code += 'do {\n';
+      code += branchCode;
+      code += '} while (oled.nextPage());\n';
+
+      return code;
+    },
+  },
+  '---',
+  {
+    id: 'clearDisplay',
+    text: (
+      <Text
+        id="blocks.oled.clearDisplay"
+        defaultMessage="clear display"
+      />
+    ),
+    ino(block) {
+      const code = 'oled.clearBuffer();\n';
+      return code;
+    },
+  },
+  {
+    id: 'updateDisplay',
+    text: (
+      <Text
+        id="blocks.oled.updateDisplay"
+        defaultMessage="update display"
+      />
+    ),
+    ino(block) {
+      const code = 'oled.sendBuffer();\n';
+      return code;
     },
   },
   '---',
@@ -66,13 +117,7 @@ export const blocks = (meta) => [
       const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
 
       this.definitions_['setup_oledFont'] = 'oled.setFont(u8g2_font_crox1h_tf);';
-      let code = `oled.drawUTF8(${x}, ${y} + 12, ${text});\n`;
-
-      const nextBlock = block.getNextBlock();
-      if (nextBlock && nextBlock.type.startsWith('@blockcode/blocks-oled')) {
-        return code;
-      }
-      code += 'oled.sendBuffer();\n';
+      const code = `oled.drawUTF8(${x}, ${y} + 12, String(${text}).c_str());\n`;
       return code;
     },
   },
@@ -98,32 +143,7 @@ export const blocks = (meta) => [
       const line = parseInt(block.getFieldValue('LINE'));
 
       this.definitions_['setup_oledFont'] = 'oled.setFont(u8g2_font_crox1h_tf);';
-      let code = `oled.drawUTF8(2, ${line * 12 + (line - 1) - 2}, ${text});\n`;
-
-      const nextBlock = block.getNextBlock();
-      if (nextBlock && nextBlock.type.startsWith('@blockcode/blocks-oled')) {
-        return code;
-      }
-      code += 'oled.sendBuffer();\n';
-      return code;
-    },
-  },
-  {
-    id: 'clearDisplay',
-    text: (
-      <Text
-        id="blocks.oled.clearDisplay"
-        defaultMessage="clear display"
-      />
-    ),
-    ino(block) {
-      let code = 'oled.clearBuffer();\n';
-
-      const nextBlock = block.getNextBlock();
-      if (nextBlock && nextBlock.type.startsWith('@blockcode/blocks-oled')) {
-        return code;
-      }
-      code += 'oled.sendBuffer();\n';
+      const code = `oled.drawUTF8(2, ${line * 12 + (line - 1) - 2}, String(${text}).c_str());\n`;
       return code;
     },
   },
@@ -150,13 +170,7 @@ export const blocks = (meta) => [
       const x = this.valueToCode(block, 'X', this.ORDER_NONE);
       const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
 
-      let code = `oled.drawPixel(${x}, ${y});\n`;
-
-      const nextBlock = block.getNextBlock();
-      if (nextBlock && nextBlock.type.startsWith('@blockcode/blocks-oled')) {
-        return code;
-      }
-      code += 'oled.sendBuffer();\n';
+      const code = `oled.drawPixel(${x}, ${y});\n`;
       return code;
     },
   },
@@ -192,13 +206,7 @@ export const blocks = (meta) => [
       const x2 = this.valueToCode(block, 'X2', this.ORDER_NONE);
       const y2 = this.valueToCode(block, 'Y2', this.ORDER_NONE);
 
-      let code = `oled.drawLine(${x1}, ${y1}, ${x2}, ${y2});\n`;
-
-      const nextBlock = block.getNextBlock();
-      if (nextBlock && nextBlock.type.startsWith('@blockcode/blocks-oled')) {
-        return code;
-      }
-      code += 'oled.sendBuffer();\n';
+      const code = `oled.drawLine(${x1}, ${y1}, ${x2}, ${y2});\n`;
       return code;
     },
   },
@@ -234,13 +242,7 @@ export const blocks = (meta) => [
       const x = this.valueToCode(block, 'X', this.ORDER_NONE);
       const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
 
-      let code = `oled.drawEllipse(${x}, ${y}, ${rx}, ${ry});\n`;
-
-      const nextBlock = block.getNextBlock();
-      if (nextBlock && nextBlock.type.startsWith('@blockcode/blocks-oled')) {
-        return code;
-      }
-      code += 'oled.sendBuffer();\n';
+      const code = `oled.drawEllipse(${x}, ${y}, ${rx}, ${ry});\n`;
       return code;
     },
   },
@@ -276,13 +278,7 @@ export const blocks = (meta) => [
       const x = this.valueToCode(block, 'X', this.ORDER_NONE);
       const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
 
-      let code = `oled.drawFrame(${x}, ${y}, ${width}, ${height});\n`;
-
-      const nextBlock = block.getNextBlock();
-      if (nextBlock && nextBlock.type.startsWith('@blockcode/blocks-oled')) {
-        return code;
-      }
-      code += 'oled.sendBuffer();\n';
+      const code = `oled.drawFrame(${x}, ${y}, ${width}, ${height});\n`;
       return code;
     },
   },
@@ -318,13 +314,7 @@ export const blocks = (meta) => [
       const x = this.valueToCode(block, 'X', this.ORDER_NONE);
       const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
 
-      let code = `oled.drawBox(${x}, ${y}, ${width}, ${height});\n`;
-
-      const nextBlock = block.getNextBlock();
-      if (nextBlock && nextBlock.type.startsWith('@blockcode/blocks-oled')) {
-        return code;
-      }
-      code += 'oled.sendBuffer();\n';
+      const code = `oled.drawBox(${x}, ${y}, ${width}, ${height});\n`;
       return code;
     },
   },
