@@ -1,7 +1,7 @@
 en:
   blocks.infraredcom.name: Infrared Communication
   blocks.infraredcom.initReceive: set pin [PIN] to ir receiver
-  blocks.infraredcom.eventPolling: receiver event polling
+  blocks.infraredcom.eventPolling: receiver events polling
   blocks.infraredcom.whenReceived: when ir received
   blocks.infraredcom.receive: command
   blocks.infraredcom.receiveAddr: address

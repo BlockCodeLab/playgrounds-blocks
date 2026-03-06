@@ -3,24 +3,6 @@ import { Text } from '@blockcode/core';
 
 export const blocks = (meta) =>
   [
-    meta.editor === '@blockcode/gui-arduino' && {
-      id: 'eventPolling',
-      text: (
-        <Text
-          id="blocks.switchkey.eventPolling"
-          defaultMessage="manual event polling"
-        />
-      ),
-      ino(block) {
-        const funcName = '_1buttonTicks';
-        this.definitions_[`declare_${funcName}`] = `void ${funcName}();`;
-        this.definitions_[funcName] = `void ${funcName}() {\n}`;
-
-        const code = '_1buttonTicks();\n';
-        return code;
-      },
-    },
-    '---',
     {
       id: 'whenKey',
       text: (
@@ -124,30 +106,24 @@ export const blocks = (meta) =>
         return [code, this.ORDER_FUNCTION_CALL];
       },
     },
-    // '---',
-    // {
-    //   id: 'adcKeyPressed',
-    //   text: (
-    //     <Text
-    //       id="blocks.switchkey.adcKeyPressed"
-    //       defaultMessage="pin [PIN] adc keyboard [KEY] key is pressed?"
-    //     />
-    //   ),
-    //   output: 'boolean',
-    //   inputs: {
-    //     PIN: meta.boardPins
-    //       ? { menu: meta.boardPins.adc }
-    //       : {
-    //           type: 'positive_integer',
-    //           defaultValue: '1',
-    //         },
-    //     KEY: {
-    //       type: 'string',
-    //       defaultValue: 'a',
-    //       menu: ['a', 'b', 'c', 'd', 'e'],
-    //     },
-    //   },
-    // },
+    '---',
+    meta.editor === '@blockcode/gui-arduino' && {
+      id: 'eventPolling',
+      text: (
+        <Text
+          id="blocks.switchkey.eventPolling"
+          defaultMessage="manual event polling"
+        />
+      ),
+      ino(block) {
+        const funcName = '_1buttonTicks';
+        this.definitions_[`declare_${funcName}`] = `void ${funcName}();`;
+        this.definitions_[funcName] = `void ${funcName}() {\n}`;
+
+        const code = '_1buttonTicks();\n';
+        return code;
+      },
+    },
   ].filter(Boolean);
 
 export const menus = {

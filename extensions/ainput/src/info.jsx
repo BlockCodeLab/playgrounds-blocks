@@ -8,7 +8,7 @@ export default {
   name: (
     <Text
       id="blocks.ainput.name"
-      defaultMessage="Analog Input"
+      defaultMessage="Analog Values"
     />
   ),
   description: (
@@ -22,15 +22,15 @@ export default {
 
 addLocalesMessages({
   en: {
-    'blocks.ainput.name': 'Analog Input',
-    'blocks.ainput.description': 'Device input analog value.',
+    'blocks.ainput.name': 'Analog Values',
+    'blocks.ainput.description': 'Device input analog values.',
   },
   'zh-Hans': {
-    'blocks.ainput.name': '模拟输入',
-    'blocks.ainput.description': '输入模拟值的设备。',
+    'blocks.ainput.name': '模拟值转换',
+    'blocks.ainput.description': '设备输入的模拟值。',
   },
   'zh-Hant': {
-    'blocks.ainput.name': '模擬輸入',
-    'blocks.ainput.description': '輸入模擬值的設備。',
+    'blocks.ainput.name': '模擬值轉換',
+    'blocks.ainput.description': '設備輸入的模擬值。',
   },
 });

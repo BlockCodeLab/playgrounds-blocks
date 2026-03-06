@@ -77,7 +77,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.leds.brightness"
-        defaultMessage="set pin [PIN] LED brightness [LEVEL]"
+        defaultMessage="set pin [PIN] LED brightness [LEVEL]%"
       />
     ),
     inputs: {
@@ -89,14 +89,14 @@ export const blocks = (meta) => [
           },
       LEVEL: {
         shadow: 'brightnessLevel',
-        defaultValue: '10',
+        defaultValue: '100',
       },
     },
     ino(block) {
       const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const level = this.valueToCode(block, 'LEVEL', this.ORDER_NONE);
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, OUTPUT);`;
-      const code = `analogWrite(${pin}, round(${level} * 12.75f));\n`;
+      const code = `analogWrite(${pin}, round(${level} * 2.55f));\n`;
       return code;
     },
     mpy(block) {
@@ -106,7 +106,7 @@ export const blocks = (meta) => [
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_pwm'] = 'from machine import PWM';
       this.definitions_[pinName] = `${pinName} = PWM(Pin(${pin}), freq=1000, duty_u16=0)`;
-      const code = `${pinName}.duty(round(${level} * 51.15))\n`;
+      const code = `${pinName}.duty(round(${level} * 10.23))\n`;
       return code;
     },
   },
@@ -119,7 +119,7 @@ export const blocks = (meta) => [
         type: 'slider',
         defaultValue: 0,
         min: 0,
-        max: 20,
+        max: 100,
       },
     },
     ino(block) {

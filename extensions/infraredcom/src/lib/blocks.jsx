@@ -32,7 +32,7 @@ export const blocks = (meta) =>
       text: (
         <Text
           id="blocks.infraredcom.eventPolling"
-          defaultMessage="event polling"
+          defaultMessage="receiver events polling"
         />
       ),
       ino(block) {

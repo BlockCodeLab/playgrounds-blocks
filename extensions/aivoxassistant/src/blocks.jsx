@@ -41,6 +41,19 @@ export const blocks = (meta) => [
       return '';
     },
   },
+  meta.editor === '@blockcode/gui-arduino' && {
+    id: 'eventPolling',
+    text: (
+      <Text
+        id="blocks.aivoxassistant.eventPolling"
+        defaultMessage="assistant events polling"
+      />
+    ),
+    ino(block) {
+      const code = 'processAssistant();\n';
+      return code;
+    },
+  },
   '---',
   {
     id: 'whenCommand',
@@ -69,7 +82,7 @@ export const blocks = (meta) => [
         code += '}';
         this.definitions_['processAssistant'] = code;
         this.definitions_['declare_processAssistant'] = 'void processAssistant();';
-        this.definitions_['loop_processAssistant'] = 'processAssistant();';
+        // this.definitions_['loop_processAssistant'] = 'processAssistant();';
       }
 
       const funcName = this.createName('assistantCommand');
