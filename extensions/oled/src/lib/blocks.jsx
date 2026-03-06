@@ -38,6 +38,48 @@ export const blocks = (meta) => [
     },
   },
   {
+    id: 'brightness',
+    text: (
+      <Text
+        id="blocks.oled.brightness"
+        defaultMessage="set display brightness to [BRIGHTNESS] %"
+      />
+    ),
+    inputs: {
+      BRIGHTNESS: {
+        shadow: 'brightnessSlider',
+        defaultValue: 80,
+      },
+    },
+    ino(block) {
+      const brightness = this.valueToCode(block, 'BRIGHTNESS', this.ORDER_NONE);
+      const code = `oled.setContrast(map(${brightness}, 0, 100, 0, 255));\n`;
+      return code;
+    },
+  },
+  {
+    id: 'brightnessSlider',
+    shadow: true,
+    output: 'number',
+    inputs: {
+      BRIGHTNESS: {
+        type: 'slider',
+        defaultValue: 0,
+        min: 0,
+        max: 100,
+      },
+    },
+    mpy(block) {
+      const code = block.getFieldValue('BRIGHTNESS') || 0;
+      return [code, this.ORDER_NONE];
+    },
+    ino(block) {
+      const code = block.getFieldValue('BRIGHTNESS') || 0;
+      return [code, this.ORDER_NONE];
+    },
+  },
+  '---',
+  {
     id: 'pageBuffer',
     text: (
       <Text
@@ -61,7 +103,6 @@ export const blocks = (meta) => [
       return code;
     },
   },
-  '---',
   {
     id: 'clearDisplay',
     text: (
@@ -283,6 +324,84 @@ export const blocks = (meta) => [
     },
   },
   {
+    id: 'drawRoundRect',
+    text: (
+      <Text
+        id="blocks.oled.drawRoundRect"
+        defaultMessage="draw round rect with width:[WIDTH] height:[HEIGHT] radius:[R] at x:[X] y:[Y]"
+      />
+    ),
+    inputs: {
+      WIDTH: {
+        type: 'positive_integer',
+        defaultValue: 20,
+      },
+      HEIGHT: {
+        type: 'positive_integer',
+        defaultValue: 10,
+      },
+      R: {
+        type: 'positive_integer',
+        defaultValue: 5,
+      },
+      X: {
+        type: 'integer',
+        defaultValue: 0,
+      },
+      Y: {
+        type: 'integer',
+        defaultValue: 0,
+      },
+    },
+    ino(block) {
+      const width = this.valueToCode(block, 'WIDTH', this.ORDER_NONE);
+      const height = this.valueToCode(block, 'HEIGHT', this.ORDER_NONE);
+      const r = this.valueToCode(block, 'R', this.ORDER_NONE);
+      const x = this.valueToCode(block, 'X', this.ORDER_NONE);
+      const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
+
+      const code = `oled.drawRFrame(${x}, ${y}, ${width}, ${height}, ${r});\n`;
+      return code;
+    },
+  },
+  '---',
+  {
+    id: 'fillEllipse',
+    text: (
+      <Text
+        id="blocks.oled.fillEllipse"
+        defaultMessage="fill ellipse with x-radius:[RX] and y-radius:[RY] at x:[X] y:[Y]"
+      />
+    ),
+    inputs: {
+      RX: {
+        type: 'positive_integer',
+        defaultValue: 20,
+      },
+      RY: {
+        type: 'positive_integer',
+        defaultValue: 10,
+      },
+      X: {
+        type: 'integer',
+        defaultValue: 0,
+      },
+      Y: {
+        type: 'integer',
+        defaultValue: 0,
+      },
+    },
+    ino(block) {
+      const rx = this.valueToCode(block, 'RX', this.ORDER_NONE);
+      const ry = this.valueToCode(block, 'RY', this.ORDER_NONE);
+      const x = this.valueToCode(block, 'X', this.ORDER_NONE);
+      const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
+
+      const code = `oled.drawFilledEllipse(${x}, ${y}, ${rx}, ${ry});\n`;
+      return code;
+    },
+  },
+  {
     id: 'fillRect',
     text: (
       <Text
@@ -315,6 +434,47 @@ export const blocks = (meta) => [
       const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
 
       const code = `oled.drawBox(${x}, ${y}, ${width}, ${height});\n`;
+      return code;
+    },
+  },
+  {
+    id: 'fillRoundRect',
+    text: (
+      <Text
+        id="blocks.oled.fillRoundRect"
+        defaultMessage="fill round rect with width:[WIDTH] height:[HEIGHT] radius:[R] at x:[X] y:[Y]"
+      />
+    ),
+    inputs: {
+      WIDTH: {
+        type: 'positive_integer',
+        defaultValue: 20,
+      },
+      HEIGHT: {
+        type: 'positive_integer',
+        defaultValue: 10,
+      },
+      R: {
+        type: 'positive_integer',
+        defaultValue: 5,
+      },
+      X: {
+        type: 'integer',
+        defaultValue: 0,
+      },
+      Y: {
+        type: 'integer',
+        defaultValue: 0,
+      },
+    },
+    ino(block) {
+      const width = this.valueToCode(block, 'WIDTH', this.ORDER_NONE);
+      const height = this.valueToCode(block, 'HEIGHT', this.ORDER_NONE);
+      const r = this.valueToCode(block, 'R', this.ORDER_NONE);
+      const x = this.valueToCode(block, 'X', this.ORDER_NONE);
+      const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
+
+      const code = `oled.drawRBox(${x}, ${y}, ${width}, ${height}, ${r});\n`;
       return code;
     },
   },
