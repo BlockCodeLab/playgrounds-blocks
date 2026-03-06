@@ -54,7 +54,7 @@ export const blocks = (meta) =>
       text: (
         <Text
           id="blocks.ws2812pixels.led"
-          defaultMessage="set pin [PIN] led [POS] color [COLOR] brightness[BRIGHTNESS]"
+          defaultMessage="set pin [PIN] led [POS] color [COLOR] brightness [BRIGHTNESS]%"
         />
       ),
       inputs: {
@@ -73,7 +73,7 @@ export const blocks = (meta) =>
         },
         BRIGHTNESS: {
           shadow: 'brightnessSlider',
-          defaultValue: 10,
+          defaultValue: 80,
         },
       },
       mpy(block) {
@@ -114,6 +114,76 @@ export const blocks = (meta) =>
       },
     },
     {
+      id: 'colors',
+      text: (
+        <Text
+          id="blocks.ws2812pixels.leds"
+          defaultMessage="set pin [PIN] led from [START] to [END] color [COLOR] brightness [BRIGHTNESS]%"
+        />
+      ),
+      inputs: {
+        PIN: meta.boardPins
+          ? { menu: meta.boardPins.out }
+          : {
+              type: 'positive_integer',
+              defaultValue: 1,
+            },
+        START: {
+          type: 'positive_integer',
+          defaultValue: 1,
+        },
+        END: {
+          type: 'positive_integer',
+          defaultValue: 10,
+        },
+        COLOR: {
+          type: 'color',
+        },
+        BRIGHTNESS: {
+          shadow: 'brightnessSlider',
+          defaultValue: 80,
+        },
+      },
+      mpy(block) {
+        const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const color = this.valueToCode(block, 'COLOR', this.ORDER_NONE);
+        const brightness = this.valueToCode(block, 'BRIGHTNESS', this.ORDER_NONE);
+        const start = this.getAdjusted(block, 'START');
+        const end = this.getAdjusted(block, 'END');
+
+        const pinName = `ledpixel_${pin}`;
+        let code = '';
+        code += `${pinName}.set_leds(${start}, ${end}, ${brightness}, ${color})\n`;
+
+        const nextBlock = block.getNextBlock();
+        if (nextBlock?.type.endsWith('-ws2812pixels_color')) {
+          return code;
+        }
+
+        code += `${pinName}.write()\n`;
+        return code;
+      },
+      ino(block) {
+        const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const color = this.valueToCode(block, 'COLOR', this.ORDER_NONE);
+        const brightness = this.valueToCode(block, 'BRIGHTNESS', this.ORDER_NONE);
+        const start = this.getAdjusted(block, 'START');
+        const end = this.getAdjusted(block, 'END');
+
+        const pinName = `ledpixel_${pin}`;
+        let code = '';
+        code += `${pinName}.setPixels(${start}, ${end}, ${brightness}, ${color});\n`;
+
+        const nextBlock = block.getNextBlock();
+        if (nextBlock?.type.endsWith('-ws2812pixels_color')) {
+          return code;
+        }
+
+        code += `${pinName}.show();\n`;
+        return code;
+      },
+    },
+    {
       id: 'brightnessSlider',
       shadow: true,
       output: 'number',
@@ -122,7 +192,7 @@ export const blocks = (meta) =>
           type: 'slider',
           defaultValue: 0,
           min: 0,
-          max: 10,
+          max: 100,
         },
       },
       mpy(block) {
@@ -135,11 +205,50 @@ export const blocks = (meta) =>
       },
     },
     {
+      id: 'closeLeds',
+      text: (
+        <Text
+          id="blocks.ws2812pixels.closeLeds"
+          defaultMessage="close pin [PIN] leds from [START] to [END]"
+        />
+      ),
+      inputs: {
+        PIN: meta.boardPins
+          ? { menu: meta.boardPins.out }
+          : {
+              type: 'positive_integer',
+              defaultValue: 1,
+            },
+        START: {
+          type: 'positive_integer',
+          defaultValue: 1,
+        },
+        END: {
+          type: 'positive_integer',
+          defaultValue: 10,
+        },
+      },
+      mpy(block) {
+        const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const start = this.getAdjusted(block, 'START');
+        const end = this.getAdjusted(block, 'END');
+        const code = `ledpixel_${pin}.clear_leds(${start}, ${end})\n`;
+        return code;
+      },
+      ino(block) {
+        const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+        const start = this.getAdjusted(block, 'START');
+        const end = this.getAdjusted(block, 'END');
+        const code = `ledpixel_${pin}.clearPixels(${start}, ${end});\n`;
+        return code;
+      },
+    },
+    {
       id: 'close',
       text: (
         <Text
           id="blocks.ws2812pixels.close"
-          defaultMessage="close pin [PIN] leds"
+          defaultMessage="close pin [PIN] all leds"
         />
       ),
       inputs: {
