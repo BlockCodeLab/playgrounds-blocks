@@ -153,12 +153,15 @@ export const blocks = (meta) => [
       },
     },
     ino(block) {
-      const text = this.valueToCode(block, 'TEXT', this.ORDER_NONE);
+      this.definitions_['setup_oledFont'] = 'oled.setFont(u8g2_font_crox1h_tf);';
       const x = this.valueToCode(block, 'X', this.ORDER_NONE);
       const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
 
-      this.definitions_['setup_oledFont'] = 'oled.setFont(u8g2_font_crox1h_tf);';
-      const code = `oled.drawUTF8(${x}, ${y} + 12, String(${text}).c_str());\n`;
+      let text = this.valueToCode(block, 'TEXT', this.ORDER_NONE);
+      if (!/^".*"$/.test(text)) {
+        text = `String(${text}).c_str()`;
+      }
+      const code = `oled.drawUTF8(${x}, ${y} + 12, ${text});\n`;
       return code;
     },
   },
@@ -180,11 +183,14 @@ export const blocks = (meta) => [
       },
     },
     ino(block) {
-      const text = this.valueToCode(block, 'TEXT', this.ORDER_NONE);
+      this.definitions_['setup_oledFont'] = 'oled.setFont(u8g2_font_crox1h_tf);';
       const line = parseInt(block.getFieldValue('LINE'));
 
-      this.definitions_['setup_oledFont'] = 'oled.setFont(u8g2_font_crox1h_tf);';
-      const code = `oled.drawUTF8(2, ${line * 12 + (line - 1) - 2}, String(${text}).c_str());\n`;
+      let text = this.valueToCode(block, 'TEXT', this.ORDER_NONE);
+      if (!/^".*"$/.test(text)) {
+        text = `String(${text}).c_str()`;
+      }
+      const code = `oled.drawUTF8(2, ${line * 12 + (line - 1) - 2}, ${text});\n`;
       return code;
     },
   },
