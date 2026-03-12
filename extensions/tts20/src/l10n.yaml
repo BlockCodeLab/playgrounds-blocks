@@ -1,0 +1,68 @@
+en:
+  blocks.tts20.name: TTS20
+  blocks.tts20.addr: set I2C address [ADDR]
+  blocks.tts20.speech: speech text [STR]
+  blocks.tts20.done: speech done?
+  blocks.tts20.pause: pause
+  blocks.tts20.resume: resume
+  blocks.tts20.stop: stop
+  blocks.tts20.control: "[STR] speech [CTRL] of [NUM]"
+  blocks.tts20.controlVolume: volume
+  blocks.tts20.controlSpeed: speed
+  blocks.tts20.controlTone: tone
+  blocks.tts20.number: "[NUM] speech as [CTRL]"
+  blocks.tts20.numberNumber: numbers
+  blocks.tts20.numberValue: a value
+  blocks.tts20.numberPhone: a phone
+  blocks.tts20.pinyin: pinyin for [CHAR] is [PINYIN]
+  blocks.tts20.break: break
+  blocks.tts20.effect: "[RING] effect [NUM]"
+  blocks.tts20.effectRing: ring
+  blocks.tts20.effectMessage: message
+  blocks.tts20.effectAlert: alert
+
+zh-Hans:
+  blocks.tts20.name: TTS20 语音合成
+  blocks.tts20.addr: 初始 I2C 地址 [ADDR]
+  blocks.tts20.speech: 播报文本 [STR]
+  blocks.tts20.done: 播报结束？
+  blocks.tts20.pause: 暂停播报
+  blocks.tts20.resume: 继续播报
+  blocks.tts20.stop: 停止播报
+  blocks.tts20.control: "[STR] 播报 [CTRL] 为 [NUM]"
+  blocks.tts20.controlVolume: 音量
+  blocks.tts20.controlSpeed: 语速
+  blocks.tts20.controlTone: 语调
+  blocks.tts20.number: "[NUM] 按 [CTRL] 播报"
+  blocks.tts20.numberNumber: 数字
+  blocks.tts20.numberValue: 数值
+  blocks.tts20.numberPhone: 电话号码
+  blocks.tts20.pinyin: "[CHAR] 拼音为 [PINYIN]"
+  blocks.tts20.break: 停顿
+  blocks.tts20.effect: "[RING] 音效 [NUM]"
+  blocks.tts20.effectRing: 铃声
+  blocks.tts20.effectMessage: 信息提示
+  blocks.tts20.effectAlert: 警告
+
+zh-Hant:
+  blocks.tts20.name: TTS20 語音合成
+  blocks.tts20.addr: 初始 I2C 地址 [ADDR]
+  blocks.tts20.speech: 播報文本 [STR]
+  blocks.tts20.done: 播報結束？
+  blocks.tts20.pause: 暫停播報
+  blocks.tts20.resume: 繼續播報
+  blocks.tts20.stop: 停止播報
+  blocks.tts20.control: "[STR] 播報 [CTRL] 為 [NUM]"
+  blocks.tts20.controlVolume: 音量
+  blocks.tts20.controlSpeed: 語速
+  blocks.tts20.controlTone: 語調
+  blocks.tts20.number: "[NUM] 按 [CTRL] 播報"
+  blocks.tts20.numberNumber: 數字
+  blocks.tts20.numberValue: 數值
+  blocks.tts20.numberPhone: 電話號碼
+  blocks.tts20.pinyin: "[CHAR] 拼音為 [PINYIN]"
+  blocks.tts20.break: 停頓
+  blocks.tts20.effect: "[RING] 音效 [NUM]"
+  blocks.tts20.effectRing: 鈴聲
+  blocks.tts20.effectMessage: 信息提示
+  blocks.tts20.effectAlert: 警告
