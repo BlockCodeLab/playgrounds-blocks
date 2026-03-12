@@ -1,21 +1,26 @@
 en:
-  blocks.ainput.name: Analog Values
+  blocks.ainput.name: Simple Sensors
   blocks.ainput.rawValue: pin [PIN] raw value
   blocks.ainput.percentage: pin [PIN] percentage (0~100)
   blocks.ainput.joystick: pin [PIN] joystick (-100~100)
   blocks.ainput.voltage: pin [PIN] voltage #, reference [REF]
-
+  blocks.ainput.high: pin [PIN] is high?
+  blocks.ainput.low: pin [PIN] is low?
 
 zh-Hans:
-  blocks.ainput.name: 模拟值转换
+  blocks.ainput.name: 简单传感器
   blocks.ainput.rawValue: 引脚[PIN]原始模拟值
   blocks.ainput.percentage: 引脚[PIN]百分比（0~100）
   blocks.ainput.joystick: 引脚[PIN]摇杆值（-100~100）
   blocks.ainput.voltage: 引脚[PIN]电压 #，参考电压[REF]
+  blocks.ainput.high: 引脚[PIN]是高电平？
+  blocks.ainput.low: 引脚[PIN]是低电平？
 
 zh-Hant:
-  blocks.ainput.name: 模擬值轉換
+  blocks.ainput.name: 簡單傳感器
   blocks.ainput.rawValue: 引腳[PIN]原始模擬值
   blocks.ainput.percentage: 引腳[PIN]百分比（0~100）
   blocks.ainput.joystick: 引腳[PIN]搖杆值（-100~100）
   blocks.ainput.voltage: 引腳[PIN]電壓 #，參考電壓[REF]
+  blocks.ainput.high: 引腳[PIN]是高電平？
+  blocks.ainput.low: 引腳[PIN]是低電平？

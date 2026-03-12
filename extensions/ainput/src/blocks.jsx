@@ -159,4 +159,73 @@ export const blocks = (meta) => [
       return [code, this.ORDER_FUNCTION_CALL];
     },
   },
+  '---',
+  {
+    id: 'high',
+    text: (
+      <Text
+        id="blocks.ainput.high"
+        defaultMessage="pin [PIN] is hight?"
+      />
+    ),
+    output: 'boolean',
+    inputs: {
+      PIN: meta.boardPins
+        ? {
+            menu: meta.boardPins.in,
+          }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
+    },
+    ino(block) {
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, INPUT);`;
+      const code = `(digitalRead(${pin}) == HIGH)`;
+      return [code, this.ORDER_NONE];
+    },
+    mpy(block) {
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pinName = `pin_${pin}`;
+      this.definitions_['import_pin'] = 'from machine import Pin';
+      this.definitions_[pinName] = `${pinName} = Pin(${pin}, Pin.IN)`;
+      const code = `(${pinName}.value() == 1)`;
+      return [code, this.ORDER_FUNCTION_CALL];
+    },
+  },
+  {
+    id: 'low',
+    text: (
+      <Text
+        id="blocks.ainput.low"
+        defaultMessage="pin [PIN] is low?"
+      />
+    ),
+    output: 'boolean',
+    inputs: {
+      PIN: meta.boardPins
+        ? {
+            menu: meta.boardPins.in,
+          }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
+    },
+    ino(block) {
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, INPUT);`;
+      const code = `(digitalRead(${pin}) == LOW)`;
+      return [code, this.ORDER_NONE];
+    },
+    mpy(block) {
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pinName = `pin_${pin}`;
+      this.definitions_['import_pin'] = 'from machine import Pin';
+      this.definitions_[pinName] = `${pinName} = Pin(${pin}, Pin.IN)`;
+      const code = `(${pinName}.value() == 0)`;
+      return [code, this.ORDER_FUNCTION_CALL];
+    },
+  },
 ];
