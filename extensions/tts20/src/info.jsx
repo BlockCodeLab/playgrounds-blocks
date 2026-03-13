@@ -4,7 +4,6 @@ import iconImage from './icon.png';
 import { readme } from '../package.json';
 
 export default {
-  disabled: true,
   image: featureImage,
   icon: iconImage,
   name: (
@@ -25,7 +24,7 @@ export default {
       defaultMessage="Emakefun"
     />
   ),
-  tags: ['decive', 'arduino', 'module'],
+  tags: ['device', 'arduino', 'module'],
   readme,
 };
 

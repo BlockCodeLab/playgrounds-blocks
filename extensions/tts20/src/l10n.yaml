@@ -1,5 +1,6 @@
 en:
   blocks.tts20.name: TTS20
+  blocks.tts20.init: set pins SCL:[SCL] SDA:[SDA]
   blocks.tts20.addr: set I2C address [ADDR]
   blocks.tts20.speech: speech text [STR]
   blocks.tts20.done: speech done?
@@ -23,17 +24,18 @@ en:
 
 zh-Hans:
   blocks.tts20.name: TTS20 语音合成
+  blocks.tts20.init: 初始引脚 SCL:[SCL] SDA:[SDA]
   blocks.tts20.addr: 初始 I2C 地址 [ADDR]
   blocks.tts20.speech: 播报文本 [STR]
   blocks.tts20.done: 播报结束？
   blocks.tts20.pause: 暂停播报
   blocks.tts20.resume: 继续播报
   blocks.tts20.stop: 停止播报
-  blocks.tts20.control: "[STR] 播报 [CTRL] 为 [NUM]"
+  blocks.tts20.control: 用 [CTRL] 为 [NUM] 播报 [STR]
   blocks.tts20.controlVolume: 音量
   blocks.tts20.controlSpeed: 语速
   blocks.tts20.controlTone: 语调
-  blocks.tts20.number: "[NUM] 按 [CTRL] 播报"
+  blocks.tts20.number: 按 [CTRL] 播报 [NUM]
   blocks.tts20.numberNumber: 数字
   blocks.tts20.numberValue: 数值
   blocks.tts20.numberPhone: 电话号码
@@ -46,17 +48,18 @@ zh-Hans:
 
 zh-Hant:
   blocks.tts20.name: TTS20 語音合成
+  blocks.tts20.init: 初始引腳 SCL:[SCL] SDA:[SDA]
   blocks.tts20.addr: 初始 I2C 地址 [ADDR]
   blocks.tts20.speech: 播報文本 [STR]
   blocks.tts20.done: 播報結束？
   blocks.tts20.pause: 暫停播報
   blocks.tts20.resume: 繼續播報
   blocks.tts20.stop: 停止播報
-  blocks.tts20.control: "[STR] 播報 [CTRL] 為 [NUM]"
+  blocks.tts20.control: 用 [CTRL] 為 [NUM] 播報 [STR]
   blocks.tts20.controlVolume: 音量
   blocks.tts20.controlSpeed: 語速
   blocks.tts20.controlTone: 語調
-  blocks.tts20.number: "[NUM] 按 [CTRL] 播報"
+  blocks.tts20.number: 按 [CTRL] 播報 [NUM]
   blocks.tts20.numberNumber: 數字
   blocks.tts20.numberValue: 數值
   blocks.tts20.numberPhone: 電話號碼
