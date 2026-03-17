@@ -11,7 +11,8 @@ export const blocks = (meta) => [
     ),
     inputs: {
       DRIVER: {
-        menu: ['SSD1306', 'SSD1315'],
+        defaultValue: 'SSD1306',
+        menu: ['SSD1305', 'SSD1306', 'SSD1315', 'SH1106'],
       },
       SIZE: {
         defaultValue: '128X64',
