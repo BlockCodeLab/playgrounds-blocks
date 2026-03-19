@@ -2,7 +2,7 @@ en:
   blocks.aivoxassistant.name: AI Vox Assistant
   blocks.aivoxassistant.init: set pins RX:[RX] TX:[TX]
   blocks.aivoxassistant.eventPolling: assistant events polling
-  blocks.aivoxassistant.whenCommand: when receive [CMD] command
+  blocks.aivoxassistant.whenCommand: when received [CMD] command
   blocks.aivoxassistant.argument: "[TYPE] argument [ARG] of command"
   blocks.aivoxassistant.argumentInt: integer
   blocks.aivoxassistant.argumentFloat: float

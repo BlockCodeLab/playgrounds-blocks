@@ -2,6 +2,12 @@ import { Text } from '@blockcode/core';
 
 const isArduino = (meta) => meta.editor === '@blockcode/gui-arduino';
 
+const ProcessAssistantCode = `void processAssistant() {
+  if (aivoxAssistant.available() == 0) return;
+  String cmd = aivoxAssistant.readStringUntil('\\n');
+  cmdRe.Target(cmd.c_str());
+}`;
+
 export const blocks = (meta) => [
   {
     id: 'init',
@@ -50,6 +56,8 @@ export const blocks = (meta) => [
       />
     ),
     ino(block) {
+      this.definitions_['processAssistant'] = ProcessAssistantCode;
+      this.definitions_['declare_processAssistant'] = 'void processAssistant();';
       const code = 'processAssistant();\n';
       return code;
     },
@@ -60,7 +68,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.aivoxassistant.whenCommand"
-        defaultMessage="when receive [CMD] command"
+        defaultMessage="when received [CMD] command"
       />
     ),
     hat: true,
@@ -74,15 +82,8 @@ export const blocks = (meta) => [
       this.definitions_['include_regexp'] = '#include <Regexp.h>';
       this.definitions_['variable_commandReg'] = 'MatchState cmdRe;';
       if (!this.definitions_['processAssistant']) {
-        let code = '';
-        code += 'void processAssistant() {\n';
-        code += '  if (aivoxAssistant.available() == 0) return;\n';
-        code += "  String cmd = aivoxAssistant.readStringUntil('\\n');\n";
-        code += '  cmdRe.Target(cmd.c_str());\n';
-        code += '}';
-        this.definitions_['processAssistant'] = code;
+        this.definitions_['processAssistant'] = ProcessAssistantCode;
         this.definitions_['declare_processAssistant'] = 'void processAssistant();';
-        // this.definitions_['loop_processAssistant'] = 'processAssistant();';
       }
 
       const funcName = this.createName('assistantCommand');
