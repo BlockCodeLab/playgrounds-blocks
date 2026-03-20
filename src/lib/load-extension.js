@@ -112,7 +112,7 @@ export function loadExtension(extObj, options, meta) {
         return index < blocks.length - 1;
       }
       // block.hidden 不用于过滤，只用于是否需要显示在积木栏
-      return true;
+      return block;
     })
     .reduce((blocksXML, block) => {
       // 空白分割线

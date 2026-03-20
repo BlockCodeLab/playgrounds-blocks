@@ -25,12 +25,26 @@ const DefaultInitRFID = (gen, block) => {
     code += '  mfrc522.PICC_HaltA();\n';
     code += '}\n';
     gen.definitions_['declare_rfidrc522_whennewcard'] = 'void rfidrc522_whennewcard();';
-    gen.definitions_['loop_rfidrc522_whennewcard'] = 'rfidrc522_whennewcard();';
     gen.definitions_['rfidrc522_whennewcard'] = code;
   }
 };
 
 export const blocks = (meta) => [
+  meta.editor === '@blockcode/gui-arduino' && {
+    id: 'eventPolling',
+    text: (
+      <Text
+        id="blocks.rfidrc522.eventPolling"
+        defaultMessage="RFID events polling"
+      />
+    ),
+    ino(block) {
+      DefaultInitRFID(this);
+      const code = 'rfidrc522_whennewcard();\n';
+      return code;
+    },
+  },
+  '---',
   {
     id: 'whennewcard',
     text: (
@@ -55,13 +69,11 @@ export const blocks = (meta) => [
     ),
     output: 'string',
     ino(block) {
-      DefaultInitRFID(this);
-
       let funcCode = '';
       funcCode += 'String getRFIDCardId(bool checked) {\n';
       funcCode += '  String rfid_str = "";\n';
       funcCode += '  if (checked && mfrc522.uid.size > 0) {\n';
-      funcCode += '    rfid_str += "0x";\n';
+      // funcCode += '    rfid_str += "0x";\n';
       funcCode += '    for (byte i = 0; i < mfrc522.uid.size; i++)\n';
       funcCode += '      rfid_str += String(mfrc522.uid.uidByte[i], HEX);\n';
       funcCode += '  }\n';
