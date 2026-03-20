@@ -17,7 +17,7 @@ export default {
       defaultMessage="Ultrasound to measure distance."
     />
   ),
-  tags: ['arduino', 'sensor'],
+  tags: ['device', 'arduino', 'sensor'],
 };
 
 addLocalesMessages({

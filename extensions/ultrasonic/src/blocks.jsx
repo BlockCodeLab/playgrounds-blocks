@@ -36,7 +36,7 @@ export const blocks = (meta) => [
     ino(block) {
       const echo = meta.boardPins ? block.getFieldValue('ECHO') : this.valueToCode(block, 'ECHO', this.ORDER_NONE);
       const trig = meta.boardPins ? block.getFieldValue('TRIG') : this.valueToCode(block, 'TRIG', this.ORDER_NONE);
-      const unit = block.getFieldValue('UNIT');
+      const unit = block.getFieldValue('UNIT') === 'inch';
       const ultrasonic = `ultrasonic_${echo}_${trig}`;
       this.definitions_['include_ultrasonic'] = '#include <EasyUltrasonic.h>';
       this.definitions_[`variable_${ultrasonic}`] = `EasyUltrasonic ${ultrasonic};`;
@@ -44,8 +44,8 @@ export const blocks = (meta) => [
       this.definitions_['declare_getUltrasonicDistance'] = DefineGetUltrasonicDistance;
       this.definitions_['getUltrasonicDistance'] = GetUltrasonicDistance;
       let code = '';
-      if (this.definitions_['loop_ultrasonic_compensation']) {
-        const compensation = this.definitions_['loop_ultrasonic_compensation'];
+      if (this.definitions_['ultrasonic_compensation']) {
+        const compensation = this.definitions_['ultrasonic_compensation'];
         const [temp, hum] = compensation.replace('// ULTRASONIC_COMPENSATION:', '').split(',');
         code = `getUltrasonicDistance(&${ultrasonic}, ${unit}, ${temp.trim()}, ${hum.trim()})`;
       } else {
@@ -53,8 +53,24 @@ export const blocks = (meta) => [
       }
       return [code, this.ORDER_FUNCTION_CALL];
     },
+    mpy(block) {
+      const echo = meta.boardPins ? block.getFieldValue('ECHO') : this.valueToCode(block, 'ECHO', this.ORDER_NONE);
+      const trig = meta.boardPins ? block.getFieldValue('TRIG') : this.valueToCode(block, 'TRIG', this.ORDER_NONE);
+      const unit = block.getFieldValue('UNIT');
+      const ultrasonic = `ultrasonic_${echo}_${trig}`;
+      this.definitions_['import_ultrasonic'] = 'from ultrasonic import Ultrasonic';
+      this.definitions_[ultrasonic] = `${ultrasonic} = Ultrasonic(${trig}, ${echo})`;
+      let code = '';
+      if (this.definitions_['ultrasonic_compensation']) {
+        const compensation = this.definitions_['ultrasonic_compensation'];
+        const [temp, hum] = compensation.replace('// ULTRASONIC_COMPENSATION:', '').split(',');
+        code = `${ultrasonic}.precise_distance_${unit}(${temp.trim()}, ${hum.trim()})`;
+      } else {
+        code = `${ultrasonic}.distance_${unit}()`;
+      }
+      return [code, this.ORDER_FUNCTION_CALL];
+    },
   },
-  '---',
   {
     id: 'read3pins',
     text: (
@@ -75,7 +91,7 @@ export const blocks = (meta) => [
     },
     ino(block) {
       const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
-      const unit = block.getFieldValue('UNIT');
+      const unit = block.getFieldValue('UNIT') === 'inch';
       const ultrasonic = `ultrasonic_${pin}`;
       this.definitions_['include_ultrasonic'] = '#include <EasyUltrasonic.h>';
       this.definitions_[`variable_${ultrasonic}`] = `EasyUltrasonic ${ultrasonic};`;
@@ -83,12 +99,28 @@ export const blocks = (meta) => [
       this.definitions_['declare_getUltrasonicDistance'] = DefineGetUltrasonicDistance;
       this.definitions_['getUltrasonicDistance'] = GetUltrasonicDistance;
       let code = '';
-      if (this.definitions_['loop_ultrasonic_compensation']) {
-        const compensation = this.definitions_['loop_ultrasonic_compensation'];
+      if (this.definitions_['ultrasonic_compensation']) {
+        const compensation = this.definitions_['ultrasonic_compensation'];
         const [temp, hum] = compensation.replace('// ULTRASONIC_COMPENSATION:', '').split(',');
         code = `getUltrasonicDistance(&${ultrasonic}, ${unit}, ${temp.trim()}, ${hum.trim()})`;
       } else {
         code = `getUltrasonicDistance(&${ultrasonic}, ${unit})`;
+      }
+      return [code, this.ORDER_FUNCTION_CALL];
+    },
+    mpy(block) {
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const unit = block.getFieldValue('UNIT');
+      const ultrasonic = `ultrasonic_${pin}`;
+      this.definitions_['import_ultrasonic'] = 'from ultrasonic import Ultrasonic';
+      this.definitions_[ultrasonic] = `${ultrasonic} = Ultrasonic(${pin})`;
+      let code = '';
+      if (this.definitions_['ultrasonic_compensation']) {
+        const compensation = this.definitions_['ultrasonic_compensation'];
+        const [temp, hum] = compensation.replace('// ULTRASONIC_COMPENSATION:', '').split(',');
+        code = `${ultrasonic}.precise_distance_${unit}(${temp.trim()}, ${hum.trim()})`;
+      } else {
+        code = `${ultrasonic}.distance_${unit}()`;
       }
       return [code, this.ORDER_FUNCTION_CALL];
     },
@@ -115,7 +147,13 @@ export const blocks = (meta) => [
     ino(block) {
       const temp = this.valueToCode(block, 'TEMP', this.ORDER_NONE);
       const hum = this.valueToCode(block, 'HUM', this.ORDER_NONE);
-      this.definitions_['loop_ultrasonic_compensation'] = `// ULTRASONIC_COMPENSATION: ${temp}, ${hum}`;
+      this.definitions_['ultrasonic_compensation'] = `// ULTRASONIC_COMPENSATION: ${temp}, ${hum}`;
+      return '';
+    },
+    mpy(block) {
+      const temp = this.valueToCode(block, 'TEMP', this.ORDER_NONE);
+      const hum = this.valueToCode(block, 'HUM', this.ORDER_NONE);
+      this.definitions_['ultrasonic_compensation'] = `# ULTRASONIC_COMPENSATION: ${temp}, ${hum}`;
       return '';
     },
   },
@@ -129,14 +167,14 @@ export const menus = {
           id="blocks.ultrasonic.unitCm"
           defaultMessage="cm"
         />,
-        'false',
+        'cm',
       ],
       [
         <Text
           id="blocks.ultrasonic.unitIn"
           defaultMessage="inches"
         />,
-        'true',
+        'inch',
       ],
     ],
   },
