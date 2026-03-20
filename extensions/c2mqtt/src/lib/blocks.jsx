@@ -56,7 +56,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.c2mqtt.userConfig"
-        defaultMessage="config MQTT username:[USER] password:[PWD] client id:[ID] connection:[SCHEME]"
+        defaultMessage="config MQTT client id:[ID] username:[USER] password:[PWD]"
       />
     ),
     inputs: {
@@ -72,19 +72,21 @@ export const blocks = (meta) => [
         type: 'string',
         defaultValue: 'id',
       },
-      SCHEME: {
-        menu: [
-          ['TCP', 'em::EspAtMqtt::ConnectionScheme::kMqttOverTcp'],
-          ['WebSocket (TCP)', 'em::EspAtMqtt::ConnectionScheme::kMqttOverWebSocket'],
-        ],
-      },
+      // SCHEME: {
+      //   menu: [
+      //     ['TCP', 'em::EspAtMqtt::ConnectionScheme::kMqttOverTcp'],
+      //     ['WebSocket', 'em::EspAtMqtt::ConnectionScheme::kMqttOverWebSocket'],
+      //     ['WSS', 'em::EspAtMqtt::ConnectionScheme::kMqttOverWebSocketSecureNoVerify'],
+      //   ],
+      // },
     },
     ino(block) {
       const user = this.valueToCode(block, 'USER', this.ORDER_NONE);
       const pwd = this.valueToCode(block, 'PWD', this.ORDER_NONE);
       const id = this.valueToCode(block, 'ID', this.ORDER_NONE);
-      const scheme = block.getFieldValue('SCHEME');
-      this.definitions_['setup_mqtt_userconfig'] = `espAtManager.Mqtt().UserConfig(${scheme}, ${id}, ${user}, ${pwd});`;
+      // const scheme = block.getFieldValue('SCHEME');
+      this.definitions_['setup_mqtt_userconfig'] =
+        `espAtManager.Mqtt().UserConfig(em::EspAtMqtt::ConnectionScheme::kMqttOverTcp, ${id}, ${user}, ${pwd});`;
       return '';
     },
   },

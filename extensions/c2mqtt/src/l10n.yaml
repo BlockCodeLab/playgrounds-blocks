@@ -2,7 +2,7 @@ en:
   blocks.c2mqtt.name: ESP32C2 MQTT
   blocks.c2mqtt.lessonTitle: ESP32C2 MQTT Exmple
   blocks.c2mqtt.wifi: connect to wifi ssid:[SSID] password:[PWD]
-  blocks.c2mqtt.userConfig: config MQTT username:[USER] password:[PWD] client id:[ID] connection:[SCHEME]
+  blocks.c2mqtt.userConfig: config MQTT client id:[ID] username:[USER] password:[PWD]
   blocks.c2mqtt.connect: connect to MQTT server:[SERVER] port:[PORT]
   blocks.c2mqtt.publish: publish message [MSG] to the topic [TOPIC] QoS [QOS]
   blocks.c2mqtt.subscribe: subscribes to topic [TOPIC] QoS [QOS]
@@ -19,7 +19,7 @@ zh-Hans:
   blocks.c2mqtt.name: ESP32C2 MQTT
   blocks.c2mqtt.lessonTitle: ESP32C2 MQTT 案例
   blocks.c2mqtt.wifi: 连接到 WiFi SSID:[SSID] 密码:[PWD]
-  blocks.c2mqtt.userConfig: 配置 MQTT 服务用户名:[USER] 密码:[PWD] 客户端ID:[ID] 连接方式:[SCHEME]
+  blocks.c2mqtt.userConfig: 配置 MQTT 客户端 ID:[ID] 用户名:[USER] 密码:[PWD]
   blocks.c2mqtt.connect: 连接到 MQTT 服务器:[SERVER] 端口号:[PORT]
   blocks.c2mqtt.publish: 发布消息 [MSG] 给主题 [TOPIC] QoS [QOS]
   blocks.c2mqtt.subscribe: 订阅主题 [TOPIC] QoS [QOS]
@@ -36,7 +36,7 @@ zh-Hant:
   blocks.c2mqtt.name: ESP32C2 MQTT
   blocks.c2mqtt.lessonTitle: ESP32C2 MQTT 案例
   blocks.c2mqtt.wifi: 連接到 WiFi SSID:[SSID] 密碼:[PWD]
-  blocks.c2mqtt.userConfig: 配置 MQTT 服務用戶名:[USER] 密碼:[PWD] 客戶端ID:[ID] 連接方式:[SCHEME]
+  blocks.c2mqtt.userConfig: 配置 MQTT 客戶端ID:[ID] 用戶名:[USER] 密碼:[PWD]
   blocks.c2mqtt.connect: 連接到 MQTT 服務器:[SERVER] 端口號:[PORT]
   blocks.c2mqtt.publish: 發布消息 [MSG] 給主題 [TOPIC] QoS [QOS]
   blocks.c2mqtt.subscribe: 訂閱主題 [TOPIC] QoS [QOS]
