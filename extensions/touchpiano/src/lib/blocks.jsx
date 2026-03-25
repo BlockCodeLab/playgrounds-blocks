@@ -26,7 +26,13 @@ export const blocks = (meta) => [
     ino(block) {
       const clk = meta.boardPins ? block.getFieldValue('CLK') : this.valueToCode(block, 'CLK', this.ORDER_NONE);
       const dio = meta.boardPins ? block.getFieldValue('DIO') : this.valueToCode(block, 'DIO', this.ORDER_NONE);
-      this.definitions_['variable_touchpiano'] = `TouchPiano touchPiano(${clk}, ${dio});`;
+      this.definitions_[`variable_touchpiano`] = `TouchPiano touchPiano(${clk}, ${dio});`;
+      return '';
+    },
+    mpy(block) {
+      const clk = meta.boardPins ? block.getFieldValue('CLK') : this.valueToCode(block, 'CLK', this.ORDER_NONE);
+      const dio = meta.boardPins ? block.getFieldValue('DIO') : this.valueToCode(block, 'DIO', this.ORDER_NONE);
+      this.definitions_['touchpiano'] = `touchPiano = touchpiano.TouchPiano(${clk}, ${dio})`;
       return '';
     },
   },
@@ -50,10 +56,12 @@ export const blocks = (meta) => [
     },
     ino(block) {
       const key = this.valueToCode(block, 'KEY', this.ORDER_NONE);
-      if (!this.definitions_['variable_touchpiano']) {
-        this.definitions_['variable_touchpiano'] = `TouchPiano touchPiano;`;
-      }
       const code = `touchPiano.PressedKey(${key})`;
+      return [code, this.ORDER_FUNCTION_CALL];
+    },
+    mpy(block) {
+      const key = this.valueToCode(block, 'KEY', this.ORDER_NONE);
+      const code = `touchPiano.pressed_key(${key})`;
       return [code, this.ORDER_FUNCTION_CALL];
     },
   },
@@ -73,6 +81,10 @@ export const blocks = (meta) => [
       const code = 'touchPiano.GetKey()';
       return [code, this.ORDER_FUNCTION_CALL];
     },
+    mpy(block) {
+      const code = 'touchPiano.get_key()';
+      return [code, this.ORDER_FUNCTION_CALL];
+    },
   },
   {
     id: 'pressedKeyName',
@@ -84,10 +96,11 @@ export const blocks = (meta) => [
     ),
     output: 'number',
     ino(block) {
-      if (!this.definitions_['variable_touchpiano']) {
-        this.definitions_['variable_touchpiano'] = `TouchPiano touchPiano;`;
-      }
       const code = 'touchPiano.GetKeyName()';
+      return [code, this.ORDER_FUNCTION_CALL];
+    },
+    mpy(block) {
+      const code = 'touchPiano.get_key_name()';
       return [code, this.ORDER_FUNCTION_CALL];
     },
   },
