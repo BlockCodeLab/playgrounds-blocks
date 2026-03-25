@@ -1,5 +1,6 @@
 import matrixKeypadCppUri from './files/matrixkeypad.cpp';
 import matrixKeypadHUri from './files/matrixkeypad.h';
+import matrixKeypadPyUri from './files/matrixkeypad.py';
 
 export const files = (meta) => {
   if (meta.editor === '@blockcode/gui-arduino') {
@@ -18,5 +19,11 @@ export const files = (meta) => {
     ];
   }
 
-  return [];
+  return [
+    {
+      name: 'matrixkeypad.py',
+      type: 'text/x-python',
+      uri: matrixKeypadPyUri,
+    },
+  ];
 };
