@@ -1,12 +1,12 @@
 en:
   blocks.midimusic.name: MIDI Music
   blocks.midimusic.init: set MIDI pin [PIN]
-  blocks.midimusic.playDrum: play drum [DRUM] for [BEAT]/4 beats
-  blocks.midimusic.playNote: channel [CHAN]play note [NOTE] for [BEAT]/4 beats
-  blocks.midimusic.rest: rest for [BEAT]/4 beats
+  blocks.midimusic.playDrum: play drum [DRUM] force [VELO]%
+  blocks.midimusic.playNote: channel [CHAN]play note [NOTE] for [BEAT] beats
+  blocks.midimusic.rest: rest for [BEAT] beats
   blocks.midimusic.setInstrument: set channel [CHAN] instrument to [TIMBRE]
   blocks.midimusic.setTimbre: "set channel [CHAN] instrument to expanding timbre # [TIMBRE]"
-  blocks.midimusic.setDrum: "set drum timbre type to [TYPE]"
+  blocks.midimusic.setDrum: set drum timbre type to [TYPE]
   blocks.midimusic.setVolume: set channel [CHAN] volume to [VOLUME]%
   blocks.midimusic.setAllVolume: set all volume to [VOLUME]%
   blocks.midimusic.setTempo: set tempo to [TEMPO]
@@ -82,9 +82,9 @@ en:
 zh-Hans:
   blocks.midimusic.name: MIDI 音乐
   blocks.midimusic.init: 初始 MIDI 引脚 [PIN]
-  blocks.midimusic.playDrum: 击打 [DRUM] [BEAT]/4 拍
-  blocks.midimusic.playNote: 通道 [CHAN] 演奏音符 [NOTE] [BEAT]/4 拍
-  blocks.midimusic.rest: 休止 [BEAT]/4 拍
+  blocks.midimusic.playDrum: 击打 [DRUM] 力度 [VELO]%
+  blocks.midimusic.playNote: 通道 [CHAN] 演奏音符 [NOTE] [BEAT] 拍
+  blocks.midimusic.rest: 休止 [BEAT] 拍
   blocks.midimusic.setInstrument: 将通道 [CHAN] 的乐器设为 [TIMBRE]
   blocks.midimusic.setTimbre: "将通道 [CHAN] 的乐器设为扩展音色 # [TIMBRE]"
   blocks.midimusic.setDrum: 将打击乐音色类型设为 [TYPE]
@@ -163,9 +163,9 @@ zh-Hans:
 zh-Hant:
   blocks.midimusic.name: MIDI 音樂
   blocks.midimusic.init: 初始 MIDI 引腳 [PIN]
-  blocks.midimusic.playDrum: 演奏節拍 [DRUM] [BEAT]/4 拍
-  blocks.midimusic.playNote: 通道 [CHAN] 演奏音階 [NOTE] [BEAT]/4 拍
-  blocks.midimusic.rest: 演奏休息 [BEAT]/4 拍
+  blocks.midimusic.playDrum: 演奏節拍 [DRUM] 力度 [VELO]%
+  blocks.midimusic.playNote: 通道 [CHAN] 演奏音階 [NOTE] [BEAT] 拍
+  blocks.midimusic.rest: 演奏休息 [BEAT] 拍
   blocks.midimusic.setInstrument: 通道 [CHAN] 的樂器設為 [TIMBRE]
   blocks.midimusic.setTimbre: "通道 [CHAN] 的樂器設為擴展音色 # [TIMBRE]"
   blocks.midimusic.setDrum: 打擊樂音色類型設為 [TYPE]

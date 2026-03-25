@@ -82,8 +82,8 @@ export const blocks = (meta) => [
             defaultValue: 1,
           },
       BEAT: {
-        type: 'integer',
-        defaultValue: '1',
+        type: 'positive_integer',
+        defaultValue: '4',
       },
     },
     ino(block) {
@@ -124,8 +124,8 @@ export const blocks = (meta) => [
         type: 'note',
       },
       BEAT: {
-        type: 'integer',
-        defaultValue: '1',
+        type: 'positive_integer',
+        defaultValue: '4',
       },
     },
     ino(block) {

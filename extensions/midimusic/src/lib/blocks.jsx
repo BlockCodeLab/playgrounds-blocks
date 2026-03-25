@@ -1,8 +1,8 @@
 import { Text } from '@blockcode/core';
 
 const PlayNote =
-  'void playNote(const uint8_t channel, const String& noteStr, const uint16_t duration, const uint8_t velocity = 90);';
-const PlayNoteFunc = `void playNote(const uint8_t channel, const String& noteStr, const uint16_t duration, const uint8_t velocity) {
+  'void playNote(const uint8_t channel, const String& noteStr, const float duration, const uint8_t velocity = 127);';
+const PlayNoteFunc = `void playNote(const uint8_t channel, const String& noteStr, const float duration, const uint8_t velocity) {
   if (noteStr.length() == 0) return;
   String lowerStr = noteStr;
   lowerStr.toLowerCase();
@@ -42,7 +42,7 @@ const PlayNoteFunc = `void playNote(const uint8_t channel, const String& noteStr
   int noteNum = baseNote + 12 * (octave + 1);
 
   midi.NoteOn(channel, noteNum, velocity);
-  delay(duration);
+  delay(round(duration)-10);
   midi.NoteOff(channel, noteNum);
 }`;
 
@@ -68,7 +68,7 @@ export const blocks = (meta) => [
       this.definitions_['include_softwareserial'] = '#include <SoftwareSerial.h>';
       this.definitions_['variable_midi_serial'] = `SoftwareSerial midiSerial(-1, ${pin});`;
       this.definitions_['variable_midi_init'] = 'em::Midi midi(midiSerial);';
-      this.definitions_['variable_midi_sixteenthNoteDuration'] = 'uint16_t kSixteenthNoteDuration = 125;';
+      this.definitions_['variable_midi_sixteenthNoteDuration'] = 'float kNoteDuration = 500;'; // 60000/120
       this.definitions_['setup_midi_serial'] = 'midiSerial.begin(31250);';
       this.definitions_['setup_midi_reset'] = 'midi.MidiReset();';
       this.definitions_['setup_midi_volume'] = 'midi.SetAllChannelVolume(100);';
@@ -81,7 +81,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.midimusic.playDrum"
-        defaultMessage="play drum [DRUM] for [BEAT]/4 beats"
+        defaultMessage="play drum [DRUM] force [VELO]%"
       />
     ),
     inputs: {
@@ -89,22 +89,42 @@ export const blocks = (meta) => [
         menu: 'Drums',
         defaultValue: 'd2',
       },
-      BEAT: {
-        type: 'positive_integer',
-        defaultValue: '1',
+      VELO: {
+        shadow: 'velocity',
+        defaultValue: '80',
       },
     },
     ino(block) {
       const drum = this.valueToCode(block, 'DRUM', this.ORDER_NONE);
-      const beat = this.valueToCode(block, 'BEAT', this.ORDER_NONE);
-      const duration = `kSixteenthNoteDuration * ${beat}`;
+      const velocity = this.valueToCode(block, 'VELO', this.ORDER_NONE);
 
       this.definitions_['declare_playNote'] = PlayNote;
       this.definitions_['playNote'] = PlayNoteFunc;
       this.definitions_['setup_drumChannel'] = 'midi.SetChannelTimbre(9, EM_MIDI_TIMBRE_BANK_0, 0);';
 
-      const code = `playNote(9, ${drum}, ${duration});\n`;
+      const code = `playNote(9, ${drum}, kNoteDuration, map(${velocity}, 0, 100, 0, 127));\n`;
       return code;
+    },
+  },
+  {
+    id: 'velocity',
+    shadow: true,
+    output: 'number',
+    inputs: {
+      VELO: {
+        type: 'slider',
+        defaultValue: 100,
+        min: 0,
+        max: 100,
+      },
+    },
+    mpy(block) {
+      const code = block.getFieldValue('VELO') || 0;
+      return [code, this.ORDER_NONE];
+    },
+    ino(block) {
+      const code = block.getFieldValue('VELO') || 0;
+      return [code, this.ORDER_NONE];
     },
   },
   {
@@ -112,7 +132,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.midimusic.playNote"
-        defaultMessage="channel [CHAN] play note [NOTE] for [BEAT]/4 beats"
+        defaultMessage="channel [CHAN] play note [NOTE] for [BEAT] beats"
       />
     ),
     inputs: {
@@ -124,7 +144,7 @@ export const blocks = (meta) => [
         type: 'note',
       },
       BEAT: {
-        type: 'positive_integer',
+        type: 'positive',
         defaultValue: '1',
       },
     },
@@ -132,7 +152,7 @@ export const blocks = (meta) => [
       const channel = this.valueToCode(block, 'CHAN', this.ORDER_NONE);
       const note = this.valueToCode(block, 'NOTE', this.ORDER_NONE);
       const beat = this.valueToCode(block, 'BEAT', this.ORDER_NONE);
-      const duration = `kSixteenthNoteDuration * ${beat}`;
+      const duration = `kNoteDuration * ${beat}`;
 
       this.definitions_['declare_playNote'] = PlayNote;
       this.definitions_['playNote'] = PlayNoteFunc;
@@ -147,19 +167,19 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.midimusic.rest"
-        defaultMessage="channel [CHAN] rest for [BEAT]/4 beats"
+        defaultMessage="channel [CHAN] rest for [BEAT] beats"
       />
     ),
     inputs: {
       BEAT: {
-        type: 'positive_integer',
+        type: 'positive',
         defaultValue: '1',
       },
     },
     ino(block) {
       const beat = this.valueToCode(block, 'BEAT', this.ORDER_NONE);
-      const duration = `kSixteenthNoteDuration * ${beat}`;
-      const code = `delay(${duration});\n`;
+      const duration = `kNoteDuration * ${beat}`;
+      const code = `delay(round(${duration})-10);\n`;
       return code;
     },
   },
@@ -300,10 +320,9 @@ export const blocks = (meta) => [
     },
     ino(block) {
       const bpm = this.valueToCode(block, 'TEMPO', this.ORDER_NONE);
-      delete this.definitions_['variable_midi_sixteenthNoteDuration'];
-      this.definitions_['variable_midi_sixteenthNoteDuration'] =
-        `uint16_t kSixteenthNoteDuration = (int)(60000.0 / (float)${bpm} / 4.0);`;
-      return '';
+      this.definitions_['variable_midi_sixteenthNoteDuration'] = 'float kNoteDuration = 500;';
+      const code = `kNoteDuration = 60000.0 / (float)${bpm};\n`;
+      return code;
     },
   },
   '---',
