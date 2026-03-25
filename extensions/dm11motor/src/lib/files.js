@@ -1,5 +1,6 @@
 import dm11CppUri from './files/dm11.cpp';
 import dm11HUri from './files/dm11.h';
+import dm11PyUri from './files/dm11.py';
 
 export const files = (meta) => {
   if (meta.editor === '@blockcode/gui-arduino') {
@@ -18,5 +19,11 @@ export const files = (meta) => {
     ];
   }
 
-  return [];
+  return [
+    {
+      name: 'dm11.py',
+      type: 'text/x-python',
+      uri: dm11PyUri,
+    },
+  ];
 };

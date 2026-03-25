@@ -1,5 +1,6 @@
 en:
   blocks.dm11motor.name: DM11 Motor Board
+  blocks.dm11motor.i2c: set pins SCL:[SCL] SDA:[SDA]
   blocks.dm11motor.addr: set I2C address [ADDR]
   blocks.dm11motor.run: set [MOTOR] motor to [SPEED]% [DIR] speed
   blocks.dm11motor.all: all
@@ -9,6 +10,7 @@ en:
 
 zh-Hans:
   blocks.dm11motor.name: DM11 电机驱动板
+  blocks.dm11motor.i2c: 初始引脚 SCL:[SCL] SDA:[SDA]
   blocks.dm11motor.addr: 初始 I2C 地址 [ADDR]
   blocks.dm11motor.run: 将 [MOTOR] 电机 [DIR] 速度设为 [SPEED]%
   blocks.dm11motor.all: 全部
@@ -18,6 +20,7 @@ zh-Hans:
 
 zh-Hant:
   blocks.dm11motor.name: DM11 電機驅動板
+  blocks.dm11motor.i2c: 初始引腳 SCL:[SCL] SDA:[SDA]
   blocks.dm11motor.addr: 初始 I2C 地址 [ADDR]
   blocks.dm11motor.run: 將 [MOTOR] 電機 [DIR] 速度設為 [SPEED]%
   blocks.dm11motor.all: 全部

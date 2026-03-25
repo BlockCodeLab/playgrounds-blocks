@@ -1,6 +1,42 @@
 import { Text } from '@blockcode/core';
 
 export const blocks = (meta) => [
+  meta.editor !== '@blockcode/gui-arduino' && {
+    id: 'i2c',
+    text: (
+      <Text
+        id="blocks.dm11motor.i2c"
+        defaultMessage="set pins SCL:[SCL] SDA:[SDA]"
+      />
+    ),
+    inputs: {
+      SCL: meta.boardPins
+        ? { menu: meta.boardPins.out }
+        : {
+            type: 'positive_integer',
+            defaultValue: 2,
+          },
+      SDA: meta.boardPins
+        ? { menu: meta.boardPins.out }
+        : {
+            type: 'positive_integer',
+            defaultValue: 3,
+          },
+    },
+
+    mpy(block) {
+      const scl = meta.boardPins ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
+      const sda = meta.boardPins ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
+      if (this.definitions_['dm11motor_addr']) {
+        const addr = this.definitions_['dm11motor_addr'].replace('# DM11 addr: ', '');
+        this.definitions_['dm11motor'] = `dm11Motor = dm11.DM11(${scl}, ${sda}, ${addr})`;
+        delete this.definitions_['dm11motor_addr'];
+      } else {
+        this.definitions_['dm11motor'] = `dm11Motor = dm11.DM11(${scl}, ${sda})`;
+      }
+      return '';
+    },
+  },
   {
     id: 'addr',
     text: (
@@ -15,7 +51,11 @@ export const blocks = (meta) => [
           ['0×15', '0x15'],
           ['0×16', '0x16'],
           ['0×17', '0x17'],
+          ['0×18', '0x18'],
           ['0×19', '0x19'],
+          ['0×1a', '0x1a'],
+          ['0×1b', '0x1b'],
+          ['0×1c', '0x1c'],
         ],
       },
     },
@@ -23,6 +63,15 @@ export const blocks = (meta) => [
       const addr = block.getFieldValue('ADDR');
       this.definitions_['variable_dm11motor'] = 'em::Dm11 dm11Motor;';
       this.definitions_['setup_dm11motor'] = `dm11Motor.Init(${addr});`;
+      return '';
+    },
+    mpy(block) {
+      const addr = block.getFieldValue('ADDR');
+      if (this.definitions_['dm11motor']) {
+        this.definitions_['dm11motor'] = this.definitions_['dm11motor'].replace(/(\d+)\)$/, `$1, ${addr})`);
+      } else {
+        this.definitions_['dm11motor_addr'] = `# DM11 addr: ${addr}`;
+      }
       return '';
     },
   },
@@ -95,6 +144,23 @@ export const blocks = (meta) => [
       }
       return code;
     },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const dir = this.valueToCode(block, 'DIR', this.ORDER_NONE);
+      const speed = this.valueToCode(block, 'SPEED', this.ORDER_NONE);
+      const speed0 = dir > 0 ? 0 : `round(${speed} * 4095 / 100)`;
+      const speed1 = dir > 0 ? `round(${speed} * 4095 / 100)` : 0;
+      let code = '';
+      if (motor === 'm0' || motor === 'all') {
+        code += `dm11Motor.set_pwm_duty(0, ${speed0});\n`;
+        code += `dm11Motor.set_pwm_duty(1, ${speed1});\n`;
+      }
+      if (motor === 'm1' || motor === 'all') {
+        code += `dm11Motor.set_pwm_duty(2, ${speed0});\n`;
+        code += `dm11Motor.set_pwm_duty(3, ${speed1});\n`;
+      }
+      return code;
+    },
   },
   {
     id: 'stop',
@@ -133,6 +199,19 @@ export const blocks = (meta) => [
       if (motor === 'm1' || motor === 'all') {
         code += `dm11Motor.PwmDuty(em::Dm11::kPwmChannel2, 4095);\n`;
         code += `dm11Motor.PwmDuty(em::Dm11::kPwmChannel3, 4095);\n`;
+      }
+      return code;
+    },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      let code = '';
+      if (motor === 'm0' || motor === 'all') {
+        code += `dm11Motor.set_pwm_duty(0, 4095);\n`;
+        code += `dm11Motor.set_pwm_duty(1, 4095);\n`;
+      }
+      if (motor === 'm1' || motor === 'all') {
+        code += `dm11Motor.set_pwm_duty(2, 4095);\n`;
+        code += `dm11Motor.set_pwm_duty(3, 4095);\n`;
       }
       return code;
     },

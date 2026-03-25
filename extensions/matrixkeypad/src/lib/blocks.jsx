@@ -30,7 +30,6 @@ export const blocks = (meta) => [
       return '';
     },
   },
-  '---',
   {
     id: 'keyPressed',
     text: (
