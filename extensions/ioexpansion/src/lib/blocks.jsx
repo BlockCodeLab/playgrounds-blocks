@@ -1,6 +1,42 @@
 import { Text } from '@blockcode/core';
+import { changeCase } from '@blockcode/utils';
 
 export const blocks = (meta) => [
+  meta.editor !== '@blockcode/gui-arduino' && {
+    id: 'i2c',
+    text: (
+      <Text
+        id="blocks.ioexpansion.i2c"
+        defaultMessage="set pins SCL:[SCL] SDA:[SDA]"
+      />
+    ),
+    inputs: {
+      SCL: meta.boardPins
+        ? { menu: meta.boardPins.out }
+        : {
+            type: 'positive_integer',
+            defaultValue: 2,
+          },
+      SDA: meta.boardPins
+        ? { menu: meta.boardPins.out }
+        : {
+            type: 'positive_integer',
+            defaultValue: 3,
+          },
+    },
+    mpy(block) {
+      const scl = meta.boardPins ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
+      const sda = meta.boardPins ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
+      if (this.definitions_['ioexpansion_addr']) {
+        const addr = this.definitions_['ioexpansion_addr'].replace('# IOExpansion addr: ', '');
+        this.definitions_['ioexpansion'] = `io_exp = ioexpansion.IOExpansion(${scl}, ${sda}, ${addr})`;
+        delete this.definitions_['ioexpansion_addr'];
+      } else {
+        this.definitions_['ioexpansion'] = `io_exp = ioexpansion.IOExpansion(${scl}, ${sda})`;
+      }
+      return '';
+    },
+  },
   {
     id: 'setaddr',
     text: (
@@ -27,6 +63,15 @@ export const blocks = (meta) => [
       const addr = block.getFieldValue('ADDR');
       this.definitions_['variable_ioexpansion'] = `IOExpansion ioExpansion(${addr});`;
       this.definitions_['setup_wire'] = 'Wire.begin();';
+      return '';
+    },
+    mpy(block) {
+      const addr = block.getFieldValue('ADDR');
+      if (this.definitions_['ioexpansion']) {
+        this.definitions_['ioexpansion'] = this.definitions_['ioexpansion'].replace(/(\d+)\)$/, `$1, ${addr})`);
+      } else {
+        this.definitions_['ioexpansion_addr'] = `# IOExpansion addr: ${addr}`;
+      }
       return '';
     },
   },
@@ -92,7 +137,16 @@ export const blocks = (meta) => [
       }
       this.definitions_['setup_wire'] = 'Wire.begin();';
 
-      const code = `ioExpansion.SetGpioMode(IOExpansion::kGpioPin${pin}, IOExpansion::k${mode});\n`;
+      const code = `ioExpansion.SetGpioMode(IOExpansion::kGpioPinE${pin}, IOExpansion::k${mode});\n`;
+      return code;
+    },
+    mpy(block) {
+      const pin = block.getFieldValue('PIN') || 'E0';
+      let mode = block.getFieldValue('MODE') || 'InputPullDown';
+      if (mode === 'Output') {
+        mode += 'Digital';
+      }
+      const code = `io_exp[${pin}].mode = ioexpansion.IOExpansion.${changeCase.snakeCase(mode).toUpperCase()}_MODE\n`;
       return code;
     },
   },
@@ -140,7 +194,13 @@ export const blocks = (meta) => [
       }
       this.definitions_['setup_wire'] = 'Wire.begin();';
 
-      const code = `ioExpansion.SetGpioLevel(IOExpansion::kGpioPin${pin}, ${value});\n`;
+      const code = `ioExpansion.SetGpioLevel(IOExpansion::kGpioPinE${pin}, ${value});\n`;
+      return code;
+    },
+    mpy(block) {
+      const pin = block.getFieldValue('PIN') || 'E0';
+      const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
+      const code = `io_exp[${pin}].value = ${value}\n`;
       return code;
     },
   },
@@ -166,7 +226,12 @@ export const blocks = (meta) => [
       }
       this.definitions_['setup_wire'] = 'Wire.begin();';
 
-      const code = `(ioExpansion.GetGpioLevel(IOExpansion::kGpioPin${pin}) != 0)`;
+      const code = `(ioExpansion.GetGpioLevel(IOExpansion::kGpioPinE${pin}) != 0)`;
+      return [code];
+    },
+    mpy(block) {
+      const pin = block.getFieldValue('PIN') || 'E0';
+      const code = `(io_exp[${pin}].value == 1)`;
       return [code];
     },
   },
@@ -192,7 +257,12 @@ export const blocks = (meta) => [
       }
       this.definitions_['setup_wire'] = 'Wire.begin();';
 
-      const code = `ioExpansion.GetGpioAdcValue(IOExpansion::kGpioPin${pin})`;
+      const code = `ioExpansion.GetGpioAdcValue(IOExpansion::kGpioPinE${pin})`;
+      return [code];
+    },
+    mpy(block) {
+      const pin = block.getFieldValue('PIN') || 'E0';
+      const code = `io_exp[${pin}].adc_value`;
       return [code];
     },
   },
@@ -218,7 +288,7 @@ export const blocks = (meta) => [
   //     }
   //     this.definitions_['setup_wire'] = 'Wire.begin();';;
 
-  //     const code = `(ioExpansion.GetGpioAdcValue(IOExpansion::kGpioPin${pin}) / 1023)`;
+  //     const code = `(ioExpansion.GetGpioAdcValue(IOExpansion::kGpioPinE${pin}) / 1023)`;
   //     return [code];
   //   },
   // },
@@ -248,6 +318,11 @@ export const blocks = (meta) => [
       const code = `ioExpansion.SetPwmFrequency(${freq});\n`;
       return code;
     },
+    mpy(block) {
+      const freq = this.valueToCode(block, 'FREQ', this.ORDER_NONE);
+      const code = `io_exp.pwm_frequency == ${freq}\n`;
+      return code;
+    },
   },
   {
     id: 'setpwm',
@@ -274,7 +349,13 @@ export const blocks = (meta) => [
       }
       this.definitions_['setup_wire'] = 'Wire.begin();';
 
-      const code = `ioExpansion.SetPwmDuty(IOExpansion::kGpioPin${pin}, ${value});\n`;
+      const code = `ioExpansion.SetPwmDuty(IOExpansion::kGpioPinE${pin}, ${value});\n`;
+      return code;
+    },
+    mpy(block) {
+      const pin = block.getFieldValue('PIN') || 'E0';
+      const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
+      const code = `io_exp[${pin}].pwm_duty = ${value}\n`;
       return code;
     },
   },
@@ -303,7 +384,13 @@ export const blocks = (meta) => [
       }
       this.definitions_['setup_wire'] = 'Wire.begin();';
 
-      const code = `ioExpansion.SetServoAngle(IOExpansion::kGpioPin${pin}, ${angle});\n`;
+      const code = `ioExpansion.SetServoAngle(IOExpansion::kGpioPinE${pin}, ${angle});\n`;
+      return code;
+    },
+    mpy(block) {
+      const pin = block.getFieldValue('PIN') || 'E0';
+      const value = this.valueToCode(block, 'ANGLE', this.ORDER_NONE);
+      const code = `io_exp[${pin}].servo_angle = ${value}\n`;
       return code;
     },
   },
@@ -322,6 +409,10 @@ export const blocks = (meta) => [
       },
     },
     ino(block) {
+      const value = block.getFieldValue('VALUE') || 0;
+      return [value];
+    },
+    mpy(block) {
       const value = block.getFieldValue('VALUE') || 0;
       return [value];
     },
@@ -344,14 +435,30 @@ export const blocks = (meta) => [
       const value = block.getFieldValue('ANGLE') || 0;
       return [value];
     },
+    mpy(block) {
+      const value = block.getFieldValue('ANGLE') || 0;
+      return [value];
+    },
   },
 ];
 
 export const menus = {
   IOPins: {
-    items: ['E0', 'E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7'],
+    items: [
+      ['E0', '0'],
+      ['E1', '1'],
+      ['E2', '2'],
+      ['E3', '3'],
+      ['E4', '4'],
+      ['E5', '5'],
+      ['E6', '6'],
+      ['E7', '7'],
+    ],
   },
   PWMPins: {
-    items: ['E1', 'E2'],
+    items: [
+      ['E1', '1'],
+      ['E2', '2'],
+    ],
   },
 };

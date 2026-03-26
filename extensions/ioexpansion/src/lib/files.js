@@ -1,5 +1,6 @@
-import ioExpansionCppUri from './files/io_expansion.cpp';
-import ioExpansionHUri from './files/io_expansion.h';
+import ioExpansionCppUri from './files/ioexpansion.cpp';
+import ioExpansionHUri from './files/ioexpansion.h';
+import ioExpansionPyUri from './files/ioexpansion.py';
 
 export const files = (meta) => {
   if (meta.editor === '@blockcode/gui-arduino') {
@@ -18,5 +19,11 @@ export const files = (meta) => {
     ];
   }
 
-  return [];
+  return [
+    {
+      name: 'ioexpansion.py',
+      type: 'text/x-python',
+      uri: ioExpansionPyUri,
+    },
+  ];
 };
