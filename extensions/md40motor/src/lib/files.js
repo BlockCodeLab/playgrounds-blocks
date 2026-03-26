@@ -1,6 +1,7 @@
 import md40CppUri from './files/md40.cpp';
 import md40HUri from './files/md40.h';
 import emCheckHUri from './files/em_check.h';
+import md40PyUri from './files/md40.py';
 
 export const files = (meta) => {
   if (meta.editor === '@blockcode/gui-arduino') {
@@ -24,5 +25,11 @@ export const files = (meta) => {
     ];
   }
 
-  return [];
+  return [
+    {
+      name: 'md40.py',
+      type: 'text/x-python',
+      uri: md40PyUri,
+    },
+  ];
 };

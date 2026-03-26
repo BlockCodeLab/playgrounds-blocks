@@ -23,7 +23,6 @@ export const blocks = (meta) => [
             defaultValue: 3,
           },
     },
-
     mpy(block) {
       const scl = meta.boardPins ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
       const sda = meta.boardPins ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
@@ -53,9 +52,9 @@ export const blocks = (meta) => [
           ['0×17', '0x17'],
           ['0×18', '0x18'],
           ['0×19', '0x19'],
-          ['0×1a', '0x1a'],
-          ['0×1b', '0x1b'],
-          ['0×1c', '0x1c'],
+          ['0×1A', '0x1A'],
+          ['0×1B', '0x1B'],
+          ['0×1C', '0x1C'],
         ],
       },
     },

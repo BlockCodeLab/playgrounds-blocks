@@ -1,5 +1,6 @@
 en:
   blocks.md40motor.name: MD40 Encoder Motor Board
+  blocks.md40motor.i2c: set pins SCL:[SCL] SDA:[SDA]
   blocks.md40motor.addr: set I2C address [ADDR]
   blocks.md40motor.init: set [MOTOR] encoder motor to ratio [RATIO] [PULSE] ppr and [PHASE] phase leads
   blocks.md40motor.all: all
@@ -28,6 +29,7 @@ en:
 
 zh-Hans:
   blocks.md40motor.name: MD40 编码电机驱动板
+  blocks.md40motor.i2c: 初始引脚 SCL:[SCL] SDA:[SDA]
   blocks.md40motor.addr: 初始 I2C 地址 [ADDR]
   blocks.md40motor.init: 初始 [MOTOR] 编码电机减速比 [RATIO] [PULSE] 脉冲/转 [PHASE] 相领先
   blocks.md40motor.all: 全部
@@ -56,6 +58,7 @@ zh-Hans:
 
 zh-Hant:
   blocks.md40motor.name: MD40 編碼電機驅動板
+  blocks.md40motor.i2c: 初始引腳 SCL:[SCL] SDA:[SDA]
   blocks.md40motor.addr: 初始 I2C 地址 [ADDR]
   blocks.md40motor.init: 初始 [MOTOR] 編碼電機減速比 [RATIO] [PULSE] 脈衝/轉 [PHASE] 相領先
   blocks.md40motor.all: 全部

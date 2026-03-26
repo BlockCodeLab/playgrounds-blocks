@@ -2,6 +2,41 @@ import { MathUtils } from '@blockcode/utils';
 import { Text } from '@blockcode/core';
 
 export const blocks = (meta) => [
+  meta.editor !== '@blockcode/gui-arduino' && {
+    id: 'i2c',
+    text: (
+      <Text
+        id="blocks.md40motor.i2c"
+        defaultMessage="set pins SCL:[SCL] SDA:[SDA]"
+      />
+    ),
+    inputs: {
+      SCL: meta.boardPins
+        ? { menu: meta.boardPins.out }
+        : {
+            type: 'positive_integer',
+            defaultValue: 2,
+          },
+      SDA: meta.boardPins
+        ? { menu: meta.boardPins.out }
+        : {
+            type: 'positive_integer',
+            defaultValue: 3,
+          },
+    },
+    mpy(block) {
+      const scl = meta.boardPins ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
+      const sda = meta.boardPins ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
+      if (this.definitions_['md40motor_addr']) {
+        const addr = this.definitions_['md40motor_addr'].replace('# MD40 addr: ', '');
+        this.definitions_['md40motor'] = `md40Motor = md40.MD40(${scl}, ${sda}, ${addr})`;
+        delete this.definitions_['md40motor_addr'];
+      } else {
+        this.definitions_['md40motor'] = `md40Motor = md40.MD40(${scl}, ${sda})`;
+      }
+      return '';
+    },
+  },
   {
     id: 'addr',
     text: (
@@ -28,6 +63,15 @@ export const blocks = (meta) => [
       const addr = block.getFieldValue('ADDR');
       this.definitions_['variable_md40motor'] = `em::Md40 md40Motor(${addr});`;
       this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
+      return '';
+    },
+    mpy(block) {
+      const addr = block.getFieldValue('ADDR');
+      if (this.definitions_['md40motor']) {
+        this.definitions_['md40motor'] = this.definitions_['md40motor'].replace(/(\d+)\)$/, `$1, ${addr})`);
+      } else {
+        this.definitions_['md40motor_addr'] = `# MD40 addr: ${addr}`;
+      }
       return '';
     },
   },
@@ -74,6 +118,19 @@ export const blocks = (meta) => [
       }
       return '';
     },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const ratio = this.valueToCode(block, 'RATIO');
+      const pulse = this.valueToCode(block, 'PULSE');
+      const phase = block.getFieldValue('PHASE');
+      const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
+
+      for (const id of motors) {
+        this.definitions_[`md40motor_${id}`] =
+          `md40Motor[${id}].setup_encoder_mode(${pulse}, ${ratio}, md40.PHASE_RELATION_${phase}_PHASE_LEADS)\n`;
+      }
+      return '';
+    },
   },
   {
     id: 'setspeed',
@@ -109,12 +166,26 @@ export const blocks = (meta) => [
       let code = '';
       for (const id of motors) {
         if (!this.definitions_[`setup_md40motor_${id}`]) {
-          if (!this.definitions_[`setup_md40motor_${id}`]) {
-            this.definitions_[`setup_md40motor_${id}`] =
-              `md40Motor[${id}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
-          }
+          this.definitions_[`setup_md40motor_${id}`] =
+            `md40Motor[${id}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
         }
         code += `md40Motor[${id}].RunPwmDuty(round((float)${speed} * ${(1023 * dir) / 100}));\n`;
+      }
+      return code;
+    },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const dir = this.valueToCode(block, 'DIR');
+      const speed = this.valueToCode(block, 'SPEED');
+      const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
+
+      let code = '';
+      for (const id of motors) {
+        if (!this.definitions_[`md40motor_${id}`]) {
+          this.definitions_[`md40motor_${id}`] =
+            `md40Motor[${id}].setup_encoder_mode(12, 90, md40.PHASE_RELATION_A_PHASE_LEADS)`;
+        }
+        code += `md40Motor[${id}].run_pwm_duty(round(${speed} * ${(1023 * dir) / 100}))\n`;
       }
       return code;
     },
@@ -157,6 +228,22 @@ export const blocks = (meta) => [
             `md40Motor[${id}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
         }
         code += `md40Motor[${id}].RunSpeed(${rpm * dir});\n`;
+      }
+      return code;
+    },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const dir = this.valueToCode(block, 'DIR');
+      const rpm = this.valueToCode(block, 'RPM');
+      const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
+
+      let code = '';
+      for (const id of motors) {
+        if (!this.definitions_[`md40motor_${id}`]) {
+          this.definitions_[`md40motor_${id}`] =
+            `md40Motor[${id}].setup_encoder_mode(12, 90, md40.PHASE_RELATION_A_PHASE_LEADS)`;
+        }
+        code += `md40Motor[${id}].run_speed(${rpm * dir})\n`;
       }
       return code;
     },
@@ -203,6 +290,22 @@ export const blocks = (meta) => [
       }
       return code;
     },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const degree = this.valueToCode(block, 'DEGREE');
+      const rpm = this.valueToCode(block, 'RPM');
+      const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
+
+      let code = '';
+      for (const id of motors) {
+        if (!this.definitions_[`md40motor_${id}`]) {
+          this.definitions_[`md40motor_${id}`] =
+            `md40Motor[${id}].setup_encoder_mode(12, 90, md40.PHASE_RELATION_A_PHASE_LEADS)`;
+        }
+        code += `md40Motor[${id}].move(${degree}, ${rpm})\n`;
+      }
+      return code;
+    },
   },
   {
     id: 'setangle',
@@ -246,6 +349,22 @@ export const blocks = (meta) => [
       }
       return code;
     },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const angle = this.valueToCode(block, 'ANGLE');
+      const rpm = this.valueToCode(block, 'RPM');
+      const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
+
+      let code = '';
+      for (const id of motors) {
+        if (!this.definitions_[`md40motor_${id}`]) {
+          this.definitions_[`md40motor_${id}`] =
+            `md40Motor[${id}].setup_encoder_mode(12, 90, md40.PHASE_RELATION_A_PHASE_LEADS)`;
+        }
+        code += `md40Motor[${id}].move_to(${angle}, ${rpm})\n`;
+      }
+      return code;
+    },
   },
   {
     id: 'reset',
@@ -279,6 +398,20 @@ export const blocks = (meta) => [
       }
       return code;
     },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
+
+      let code = '';
+      for (const id of motors) {
+        if (!this.definitions_[`md40motor_${id}`]) {
+          this.definitions_[`md40motor_${id}`] =
+            `md40Motor[${id}].setup_encoder_mode(12, 90, md40.PHASE_RELATION_A_PHASE_LEADS)`;
+        }
+        code += `md40Motor[${id}].reset()\n`;
+      }
+      return code;
+    },
   },
   {
     id: 'shutdown',
@@ -309,6 +442,20 @@ export const blocks = (meta) => [
             `md40Motor[${id}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
         }
         code += `md40Motor[${id}].Stop();\n`;
+      }
+      return code;
+    },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
+
+      let code = '';
+      for (const id of motors) {
+        if (!this.definitions_[`md40motor_${id}`]) {
+          this.definitions_[`md40motor_${id}`] =
+            `md40Motor[${id}].setup_encoder_mode(12, 90, md40.PHASE_RELATION_A_PHASE_LEADS)`;
+        }
+        code += `md40Motor[${id}].stop()\n`;
       }
       return code;
     },
@@ -363,6 +510,25 @@ export const blocks = (meta) => [
       }
       return code;
     },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const pValue = this.valueToCode(block, 'P');
+      const iValue = this.valueToCode(block, 'I');
+      const dValue = this.valueToCode(block, 'D');
+      const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
+
+      let code = '';
+      for (const id of motors) {
+        if (!this.definitions_[`md40motor_${id}`]) {
+          this.definitions_[`md40motor_${id}`] =
+            `md40Motor[${id}].setup_encoder_mode(12, 90, md40.PHASE_RELATION_A_PHASE_LEADS)`;
+        }
+        code += `md40Motor[${id}].position_pid_p = ${MathUtils.float(pValue)}\n`;
+        code += `md40Motor[${id}].position_pid_i = ${MathUtils.float(iValue)}\n`;
+        code += `md40Motor[${id}].position_pid_d = ${MathUtils.float(dValue)}\n`;
+      }
+      return code;
+    },
   },
   {
     id: 'setpidspeed',
@@ -413,6 +579,25 @@ export const blocks = (meta) => [
       }
       return code;
     },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const pValue = this.valueToCode(block, 'P');
+      const iValue = this.valueToCode(block, 'I');
+      const dValue = this.valueToCode(block, 'D');
+      const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
+
+      let code = '';
+      for (const id of motors) {
+        if (!this.definitions_[`md40motor_${id}`]) {
+          this.definitions_[`md40motor_${id}`] =
+            `md40Motor[${id}].setup_encoder_mode(12, 90, md40.PHASE_RELATION_A_PHASE_LEADS)`;
+        }
+        code += `md40Motor[${id}].speed_pid_p = ${MathUtils.float(pValue)}\n`;
+        code += `md40Motor[${id}].speed_pid_i = ${MathUtils.float(iValue)}\n`;
+        code += `md40Motor[${id}].speed_pid_d = ${MathUtils.float(dValue)}\n`;
+      }
+      return code;
+    },
   },
   {
     id: 'pidangle',
@@ -444,6 +629,17 @@ export const blocks = (meta) => [
           `md40Motor[${motor}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
       }
       const code = `md40Motor[${motor}].position_pid_${pid.toLowerCase()}()`;
+      return [code];
+    },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const pid = block.getFieldValue('PID');
+
+      if (!this.definitions_[`md40motor_${motor}`]) {
+        this.definitions_[`md40motor_${motor}`] =
+          `md40Motor[${motor}].setup_encoder_mode(12, 90, md40.PHASE_RELATION_A_PHASE_LEADS)`;
+      }
+      const code = `md40Motor[${motor}].position_pid_${pid.toLowerCase()}`;
       return [code];
     },
   },
@@ -479,6 +675,17 @@ export const blocks = (meta) => [
       const code = `md40Motor[${motor}].speed_pid_${pid.toLowerCase()}()`;
       return [code];
     },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const pid = block.getFieldValue('PID');
+
+      if (!this.definitions_[`md40motor_${motor}`]) {
+        this.definitions_[`md40motor_${motor}`] =
+          `md40Motor[${motor}].setup_encoder_mode(12, 90, md40.PHASE_RELATION_A_PHASE_LEADS)`;
+      }
+      const code = `md40Motor[${motor}].speed_pid_${pid.toLowerCase()}`;
+      return [code];
+    },
   },
   {
     id: 'speed',
@@ -506,6 +713,16 @@ export const blocks = (meta) => [
           `md40Motor[${motor}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
       }
       const code = `(md40Motor[${motor}].pwm_duty() / 1023)`;
+      return [code];
+    },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+
+      if (!this.definitions_[`md40motor_${motor}`]) {
+        this.definitions_[`md40motor_${motor}`] =
+          `md40Motor[${motor}].setup_encoder_mode(12, 90, md40.PHASE_RELATION_A_PHASE_LEADS)`;
+      }
+      const code = `(md40Motor[${motor}].pwm_duty / 1023)`;
       return [code];
     },
   },
@@ -537,6 +754,16 @@ export const blocks = (meta) => [
       const code = `md40Motor[${motor}].speed()`;
       return [code];
     },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+
+      if (!this.definitions_[`md40motor_${motor}`]) {
+        this.definitions_[`md40motor_${motor}`] =
+          `md40Motor[${motor}].setup_encoder_mode(12, 90, md40.PHASE_RELATION_A_PHASE_LEADS)`;
+      }
+      const code = `md40Motor[${motor}].speed`;
+      return [code];
+    },
   },
   {
     id: 'angle',
@@ -566,6 +793,16 @@ export const blocks = (meta) => [
       const code = `md40Motor[${motor}].position()`;
       return [code];
     },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+
+      if (!this.definitions_[`md40motor_${motor}`]) {
+        this.definitions_[`md40motor_${motor}`] =
+          `md40Motor[${motor}].setup_encoder_mode(12, 90, md40.PHASE_RELATION_A_PHASE_LEADS)`;
+      }
+      const code = `md40Motor[${motor}].position`;
+      return [code];
+    },
   },
   {
     id: 'pulse',
@@ -593,6 +830,15 @@ export const blocks = (meta) => [
           `md40Motor[${motor}].SetEncoderMode(12, 90, em::Md40::Motor::PhaseRelation::kAPhaseLeads);`;
       }
       const code = `md40Motor[${motor}].pulse_count()`;
+      return [code];
+    },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      if (!this.definitions_[`md40motor_${motor}`]) {
+        this.definitions_[`md40motor_${motor}`] =
+          `md40Motor[${motor}].setup_encoder_mode(12, 90, md40.PHASE_RELATION_A_PHASE_LEADS)`;
+      }
+      const code = `md40Motor[${motor}].pulse_count`;
       return [code];
     },
   },
@@ -656,6 +902,22 @@ export const blocks = (meta) => [
       }
       return [code];
     },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const state = block.getFieldValue('STATE');
+
+      if (!this.definitions_[`md40motor_${motor}`]) {
+        this.definitions_[`md40motor_${motor}`] =
+          `md40Motor[${motor}].setup_encoder_mode(12, 90, md40.PHASE_RELATION_A_PHASE_LEADS)`;
+      }
+      let code = `md40Motor[${motor}].state`;
+      if (state === '123') {
+        code = `(0 < ${code} < 4)`;
+      } else {
+        code = `(${code} == ${state})`;
+      }
+      return [code];
+    },
   },
   '---',
   // DC电机
@@ -709,6 +971,19 @@ export const blocks = (meta) => [
       }
       return code;
     },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const dir = this.valueToCode(block, 'DIR');
+      const speed = this.valueToCode(block, 'SPEED');
+      const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
+
+      let code = '';
+      for (const id of motors) {
+        this.definitions_[`md40motor_${id}`] = `md40Motor[${id}].setup_dc_mode()`;
+        code += `md40Motor[${id}].run_pwm_duty(round(${speed} * ${(1023 * dir) / 100}))\n`;
+      }
+      return code;
+    },
   },
   {
     id: 'stop',
@@ -747,6 +1022,16 @@ export const blocks = (meta) => [
       let code = '';
       for (const id of motors) {
         code += `md40Motor[${id}].Stop();\n`;
+      }
+      return code;
+    },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
+
+      let code = '';
+      for (const id of motors) {
+        code += `md40Motor[${id}].stop()\n`;
       }
       return code;
     },
