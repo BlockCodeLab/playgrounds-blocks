@@ -1,6 +1,7 @@
 import midiHUri from './ino/midi.h';
 import midiCppUri from './ino/midi.cpp';
 import midiTimbreHUri from './ino/midi_timbre.h';
+import midiPyUri from './mpy/midi.py';
 
 export const files = (meta) => {
   if (meta.editor === '@blockcode/gui-arduino') {
@@ -24,5 +25,11 @@ export const files = (meta) => {
     ];
   }
 
-  return [];
+  return [
+    {
+      name: 'midi.py',
+      type: 'text/x-python',
+      uri: midiPyUri,
+    },
+  ];
 };

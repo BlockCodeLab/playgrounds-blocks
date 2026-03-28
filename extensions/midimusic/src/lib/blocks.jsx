@@ -44,7 +44,47 @@ const PlayNoteFunc = `void playNote(const uint8_t channel, const String& noteStr
   midi.NoteOn(channel, noteNum, velocity);
   delay(round(duration)-10);
   midi.NoteOff(channel, noteNum);
+  delay(10);
 }`;
+
+const PlayNoteMpy = `async def play_note(channel, note_str, duration, note_velocity = 127):
+  if not note_str: return
+
+  lower_str = note_str.lower()
+  note_char = lower_str[0]
+  if note_char == 'c': base_note = 0
+  elif note_char == 'd': base_note = 2
+  elif note_char == 'e': base_note = 4
+  elif note_char == 'f': base_note = 5
+  elif note_char == 'g': base_note = 7
+  elif note_char == 'a': base_note = 9
+  elif note_char == 'b': base_note = 11
+  else: return
+
+  idx = 1
+  if idx < len(lower_str) and lower_str[idx] == '#':
+      base_note += 1
+      idx += 1
+
+  octave = 0
+  if idx < len(lower_str):
+      negative = False
+      if lower_str[idx] == '-':
+          negative = True
+          idx += 1
+      if idx < len(lower_str) and lower_str[idx].isdigit():
+          start = idx
+          while idx < len(lower_str) and lower_str[idx].isdigit():
+              idx += 1
+          octave = int(lower_str[start:idx])
+          if negative:
+              octave = -octave
+  note_num = base_note + 12 * (octave + 1)
+
+  _midi.note_on(channel, note_num, note_velocity)
+  await asyncio.sleep_ms(round(duration)-10)
+  _midi.note_off(channel, note_num)
+  await asyncio.sleep_ms(10)`;
 
 export const blocks = (meta) => [
   {
@@ -68,10 +108,19 @@ export const blocks = (meta) => [
       this.definitions_['include_softwareserial'] = '#include <SoftwareSerial.h>';
       this.definitions_['variable_midi_serial'] = `SoftwareSerial midiSerial(-1, ${pin});`;
       this.definitions_['variable_midi_init'] = 'em::Midi midi(midiSerial);';
-      this.definitions_['variable_midi_sixteenthNoteDuration'] = 'float kNoteDuration = 500;'; // 60000/120
+      this.definitions_['variable_midi_noteDuration'] = 'float kNoteDuration = 500;'; // 60000/120
       this.definitions_['setup_midi_serial'] = 'midiSerial.begin(31250);';
       this.definitions_['setup_midi_reset'] = 'midi.MidiReset();';
       this.definitions_['setup_midi_volume'] = 'midi.SetAllChannelVolume(100);';
+      return '';
+    },
+    mpy(block) {
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      this.definitions_['import_uart'] = 'from machine import UART';
+      this.definitions_['midi_noteDuration'] = 'note_duration = 500';
+      this.definitions_['midi'] = `_midi = midi.Midi(UART(2, baudrate=31250, tx=${pin}))`;
+      this.definitions_['midi_reset'] = `_midi.midi_reset()`;
+      this.definitions_['midi_volume'] = `_midi.set_all_channel_volume(100)`;
       return '';
     },
   },
@@ -103,6 +152,16 @@ export const blocks = (meta) => [
       this.definitions_['setup_drumChannel'] = 'midi.SetChannelTimbre(9, EM_MIDI_TIMBRE_BANK_0, 0);';
 
       const code = `playNote(9, ${drum}, kNoteDuration, map(${velocity}, 0, 100, 0, 127));\n`;
+      return code;
+    },
+    mpy(block) {
+      const drum = this.valueToCode(block, 'DRUM', this.ORDER_NONE);
+      const velocity = this.valueToCode(block, 'VELO', this.ORDER_NONE);
+
+      this.definitions_['playNote'] = PlayNoteMpy;
+      this.definitions_['midi_drumChannel'] = '_midi.set_channel_timbre(9, midi.MIDI_TIMBRE_BANK_0, 0);';
+
+      const code = `await play_note(9, ${drum}, note_duration, round(${velocity} / 100 * 127))\n`;
       return code;
     },
   },
@@ -161,6 +220,18 @@ export const blocks = (meta) => [
       const code = `playNote(${channel}, ${note}, ${duration});\n`;
       return code;
     },
+    mpy(block) {
+      const channel = this.valueToCode(block, 'CHAN', this.ORDER_NONE);
+      const note = this.valueToCode(block, 'NOTE', this.ORDER_NONE);
+      const beat = this.valueToCode(block, 'BEAT', this.ORDER_NONE);
+      const duration = `note_duration * ${beat}`;
+
+      this.definitions_['playNote'] = PlayNoteMpy;
+      this.definitions_[`midi_${channel}Channel`] = `_midi.set_channel_timbre(${channel}, midi.MIDI_TIMBRE_BANK_0, 0);`;
+
+      const code = `await play_note(${channel}, ${note}, ${duration});\n`;
+      return code;
+    },
   },
   {
     id: 'rest',
@@ -179,7 +250,13 @@ export const blocks = (meta) => [
     ino(block) {
       const beat = this.valueToCode(block, 'BEAT', this.ORDER_NONE);
       const duration = `kNoteDuration * ${beat}`;
-      const code = `delay(round(${duration})-10);\n`;
+      const code = `delay(round(${duration}));\n`;
+      return code;
+    },
+    mpy(block) {
+      const beat = this.valueToCode(block, 'BEAT', this.ORDER_NONE);
+      const duration = `note_duration * ${beat}`;
+      const code = `await asyncio.sleep_ms(round(${duration}))\n`;
       return code;
     },
   },
@@ -208,6 +285,12 @@ export const blocks = (meta) => [
       const code = `midi.SetChannelTimbre(${channel}, EM_MIDI_TIMBRE_BANK_0, ${timbre});\n`;
       return code;
     },
+    mpy(block) {
+      const channel = this.valueToCode(block, 'CHAN', this.ORDER_NONE);
+      const timbre = this.valueToCode(block, 'TIMBRE', this.ORDER_NONE);
+      const code = `_midi.set_channel_timbre(${channel}, midi.MIDI_TIMBRE_BANK_0, ${timbre})\n`;
+      return code;
+    },
   },
   {
     id: 'setTimbre',
@@ -231,6 +314,12 @@ export const blocks = (meta) => [
       const channel = this.valueToCode(block, 'CHAN', this.ORDER_NONE);
       const timbre = this.valueToCode(block, 'TIMBRE', this.ORDER_NONE);
       const code = `midi.SetChannelTimbre(${channel}, EM_MIDI_TIMBRE_BANK_127, ${timbre});\n`;
+      return code;
+    },
+    mpy(block) {
+      const channel = this.valueToCode(block, 'CHAN', this.ORDER_NONE);
+      const timbre = this.valueToCode(block, 'TIMBRE', this.ORDER_NONE);
+      const code = `_midi.set_channel_timbre(${channel}, midi.MIDI_TIMBRE_BANK_127, ${timbre})\n`;
       return code;
     },
   },
@@ -258,6 +347,11 @@ export const blocks = (meta) => [
       const code = `midi.SetChannelTimbre(9, EM_MIDI_TIMBRE_BANK_0, ${type});\n`;
       return code;
     },
+    mpy(block) {
+      const type = block.getFieldValue('TYPE');
+      const code = `_midi.set_channel_timbre(9, midi.MIDI_TIMBRE_BANK_0, ${type})\n`;
+      return code;
+    },
   },
   {
     id: 'setVolume',
@@ -283,6 +377,13 @@ export const blocks = (meta) => [
       const code = `midi.SetChannelVolume(${channel}, ${volumeValue});\n`;
       return code;
     },
+    mpy(block) {
+      const channel = this.valueToCode(block, 'CHAN', this.ORDER_NONE);
+      const volume = this.valueToCode(block, 'VOLUME', this.ORDER_NONE);
+      const volumeValue = `round(${volume} / 100 * 127)`;
+      const code = `_midi.set_channel_volume(${channel}, ${volumeValue})\n`;
+      return code;
+    },
   },
   {
     id: 'setAllVolume',
@@ -303,6 +404,12 @@ export const blocks = (meta) => [
       const code = `midi.SetAllChannelVolume(${volumeValue});\n`;
       return code;
     },
+    mpy(block) {
+      const volume = this.valueToCode(block, 'VOLUME', this.ORDER_NONE);
+      const volumeValue = `round(${volume} / 100 * 127)`;
+      const code = `_midi.set_all_channel_volume(${volumeValue})\n`;
+      return code;
+    },
   },
   {
     id: 'setTempo',
@@ -320,8 +427,12 @@ export const blocks = (meta) => [
     },
     ino(block) {
       const bpm = this.valueToCode(block, 'TEMPO', this.ORDER_NONE);
-      this.definitions_['variable_midi_sixteenthNoteDuration'] = 'float kNoteDuration = 500;';
-      const code = `kNoteDuration = 60000.0 / (float)${bpm};\n`;
+      const code = `float kNoteDuration = 60000.0 / (float)${bpm};\n`;
+      return code;
+    },
+    mpy(block) {
+      const bpm = this.valueToCode(block, 'TEMPO', this.ORDER_NONE);
+      const code = `note_duration = 60000 / ${bpm}\n`;
       return code;
     },
   },
@@ -380,6 +491,16 @@ export const blocks = (meta) => [
       const code = `midi.SetReverberation(${channel}, ${type}, ${volumeValue}, ${feedbackValue});\n`;
       return code;
     },
+    mpy(block) {
+      const channel = this.valueToCode(block, 'CHAN', this.ORDER_NONE);
+      const volume = this.valueToCode(block, 'VOLUME', this.ORDER_NONE);
+      const feedback = this.valueToCode(block, 'FEEDBACK', this.ORDER_NONE);
+      const type = block.getFieldValue('TYPE');
+      const volumeValue = `round(${volume} / 100 * 127)`;
+      const feedbackValue = `round(${feedback} / 100 * 127)`;
+      const code = `_midi.set_reverberation(${channel}, ${type}, ${volumeValue}, ${feedbackValue})\n`;
+      return code;
+    },
   },
   {
     id: 'setChorus',
@@ -414,6 +535,15 @@ export const blocks = (meta) => [
       const code = `midi.SetChorus(${channel}, ${type}, ${volumeValue}, 0, ${delay});\n`;
       return code;
     },
+    mpy(block) {
+      const channel = this.valueToCode(block, 'CHAN', this.ORDER_NONE);
+      const volume = this.valueToCode(block, 'VOLUME', this.ORDER_NONE);
+      const delay = this.valueToCode(block, 'DELAY', this.ORDER_NONE);
+      const type = block.getFieldValue('TYPE');
+      const volumeValue = `round(${volume} / 100 * 127)`;
+      const code = `_midi.set_chorus(${channel}, ${type}, ${volumeValue}, 0, ${delay})\n`;
+      return code;
+    },
   },
   {
     id: 'reset',
@@ -425,6 +555,9 @@ export const blocks = (meta) => [
     ),
     ino(block) {
       return 'midi.MidiReset();\n';
+    },
+    mpy(block) {
+      return '_midi.midi_reset()\n';
     },
   },
   {
