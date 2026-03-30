@@ -1,5 +1,6 @@
 import { addLocalesMessages, Text } from '@blockcode/core';
 import { blocks } from './lib/blocks';
+import { files } from './lib/files';
 
 import translations from './l10n.yaml';
 import iconImage from './icon.svg';
@@ -14,5 +15,6 @@ export default {
       defaultMessage="LCD"
     />
   ),
+  files,
   blocks,
 };

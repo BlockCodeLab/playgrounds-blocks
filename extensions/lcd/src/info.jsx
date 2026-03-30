@@ -18,7 +18,7 @@ export default {
       defaultMessage="I2C LCD module."
     />
   ),
-  tags: ['arduino', 'display'],
+  tags: ['device', 'arduino', 'display'],
 };
 
 addLocalesMessages({

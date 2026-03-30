@@ -1,52 +1,111 @@
 import { Text } from '@blockcode/core';
 
 export const blocks = (meta) => [
-  {
-    id: 'init',
-    text: (
-      <Text
-        id="blocks.lcd.init"
-        defaultMessage="set lcd display [SIZE] address [ADDR]"
-      />
-    ),
-    inputs: {
-      SIZE: {
-        defaultValue: '16,2',
-        menu: [
-          ['0801', '8,1'],
-          ['0802', '8,2'],
-          ['1601', '16,1'],
-          ['1602', '16,2'],
-          ['1604', '16,4'],
-          ['2002', '20,2'],
-          ['2004', '20,4'],
-          ['2402', '24,2'],
-          ['4002', '40,2'],
-          ['4004', '40,4'],
-        ],
+  meta.editor !== '@blockcode/gui-arduino'
+    ? {
+        id: 'initI2c',
+        text: (
+          <Text
+            id="blocks.lcd.initI2c"
+            defaultMessage="set lcd display [SIZE] SCL:[SCL] SDA:[SDA] i2c address:[ADDR]"
+          />
+        ),
+        inputs: {
+          SIZE: {
+            defaultValue: '16,2',
+            menu: [
+              ['0801', '8,1'],
+              ['0802', '8,2'],
+              ['1601', '16,1'],
+              ['1602', '16,2'],
+              ['1604', '16,4'],
+              ['2002', '20,2'],
+              ['2004', '20,4'],
+              ['2402', '24,2'],
+              ['4002', '40,2'],
+              ['4004', '40,4'],
+            ],
+          },
+          SCL: meta.boardPins
+            ? { menu: meta.boardPins.out }
+            : {
+                type: 'positive_integer',
+                defaultValue: 2,
+              },
+          SDA: meta.boardPins
+            ? { menu: meta.boardPins.out }
+            : {
+                type: 'positive_integer',
+                defaultValue: 3,
+              },
+          ADDR: {
+            menu: [
+              ['0×27', '0x27'],
+              ['0×26', '0x26'],
+              ['0×25', '0x25'],
+              ['0×24', '0x24'],
+              ['0×23', '0x23'],
+              ['0×22', '0x22'],
+              ['0×21', '0x21'],
+              ['0×20', '0x20'],
+            ],
+          },
+        },
+        mpy(block) {
+          const scl = meta.boardPins ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
+          const sda = meta.boardPins ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
+          const size = block.getFieldValue('SIZE');
+          const addr = block.getFieldValue('ADDR');
+          this.definitions_['lcdi2c'] = `lcd = lcdi2c.LCD_I2C(${scl}, ${sda}, ${size}, ${addr})`;
+          return '';
+        },
+      }
+    : {
+        id: 'init',
+        text: (
+          <Text
+            id="blocks.lcd.init"
+            defaultMessage="set lcd display [SIZE] i2c address:[ADDR]"
+          />
+        ),
+        inputs: {
+          SIZE: {
+            defaultValue: '16,2',
+            menu: [
+              ['0801', '8,1'],
+              ['0802', '8,2'],
+              ['1601', '16,1'],
+              ['1602', '16,2'],
+              ['1604', '16,4'],
+              ['2002', '20,2'],
+              ['2004', '20,4'],
+              ['2402', '24,2'],
+              ['4002', '40,2'],
+              ['4004', '40,4'],
+            ],
+          },
+          ADDR: {
+            menu: [
+              ['0×27', '0x27'],
+              ['0×26', '0x26'],
+              ['0×25', '0x25'],
+              ['0×24', '0x24'],
+              ['0×23', '0x23'],
+              ['0×22', '0x22'],
+              ['0×21', '0x21'],
+              ['0×20', '0x20'],
+            ],
+          },
+        },
+        ino(block) {
+          const size = block.getFieldValue('SIZE');
+          const addr = block.getFieldValue('ADDR');
+          this.definitions_['include_lcdi2c'] = '#include <LCDI2C_Generic.h>';
+          this.definitions_['variable_lcd'] = `LCDI2C_Generic lcd(${addr}, ${size});`;
+          this.definitions_['setup_lcd'] = 'lcd.init();';
+          return '';
+        },
       },
-      ADDR: {
-        menu: [
-          ['0×27', '0x27'],
-          ['0×26', '0x26'],
-          ['0×25', '0x25'],
-          ['0×24', '0x24'],
-          ['0×23', '0x23'],
-          ['0×22', '0x22'],
-          ['0×21', '0x21'],
-          ['0×20', '0x20'],
-        ],
-      },
-    },
-    ino(block) {
-      const size = block.getFieldValue('SIZE');
-      const addr = block.getFieldValue('ADDR');
-      this.definitions_['include_lcdi2c'] = '#include <LCDI2C_Generic.h>';
-      this.definitions_['variable_lcd'] = `LCDI2C_Generic lcd(${addr}, ${size});`;
-      this.definitions_['setup_lcd'] = 'lcd.init();';
-      return '';
-    },
-  },
   {
     id: 'backlight',
     text: (
@@ -83,9 +142,14 @@ export const blocks = (meta) => [
       const code = `lcd.setBacklight(${state});\n`;
       return code;
     },
+    mpy(block) {
+      const state = this.valueToCode(block, 'STATE', this.ORDER_NONE);
+      const code = `lcd.backlight(${state})\n`;
+      return code;
+    },
   },
   '---',
-  {
+  meta.editor === '@blockcode/gui-arduino' && {
     id: 'text',
     text: (
       <Text
@@ -137,6 +201,14 @@ export const blocks = (meta) => [
       code += `lcd.println(${text});\n`;
       return code;
     },
+    mpy(block) {
+      const text = this.valueToCode(block, 'TEXT', this.ORDER_NONE);
+      const line = block.getFieldValue('LINE');
+      let code = '';
+      code += `lcd.set_cursor(0, ${line - 1})\n`;
+      code += `lcd.print(${text})\n`;
+      return code;
+    },
   },
   {
     id: 'textXY',
@@ -169,6 +241,15 @@ export const blocks = (meta) => [
       code += `lcd.println(${text});\n`;
       return code;
     },
+    mpy(block) {
+      const text = this.valueToCode(block, 'TEXT', this.ORDER_NONE);
+      const row = this.getAdjusted(block, 'ROW');
+      const col = this.getAdjusted(block, 'COL');
+      let code = '';
+      code += `lcd.set_cursor(${col}, ${row})\n`;
+      code += `lcd.print(${text});\n`;
+      return code;
+    },
   },
   {
     id: 'clear',
@@ -180,6 +261,10 @@ export const blocks = (meta) => [
     ),
     ino(block) {
       const code = 'lcd.clear();\n';
+      return code;
+    },
+    mpy(block) {
+      const code = 'lcd.clear()\n';
       return code;
     },
   },
