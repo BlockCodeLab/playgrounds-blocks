@@ -1,7 +1,9 @@
-import nlcs11H from './files/nlcs11.h';
-import nlcs11Cpp from './files/nlcs11.cpp';
-import tcs34725H from './files/tcs34725.h';
-import tcs34725Cpp from './files/tcs34725.cpp';
+import nlcs11H from './ino/nlcs11.h';
+import nlcs11Cpp from './ino/nlcs11.cpp';
+import tcs34725H from './ino/tcs34725.h';
+import tcs34725Cpp from './ino/tcs34725.cpp';
+import tcs34725Py from './mpy/tcs34725.py';
+import nlcs11Py from './mpy/nlcs11.py';
 
 export const files = (meta) => {
   if (meta.editor === '@blockcode/gui-arduino') {
@@ -29,5 +31,18 @@ export const files = (meta) => {
     ];
   }
 
-  return [];
+  return [
+    {
+      common: true,
+      name: 'tcs34725.py',
+      type: 'text/x-python',
+      uri: tcs34725Py,
+    },
+    {
+      common: true,
+      name: 'nlcs11.py',
+      type: 'text/x-python',
+      uri: nlcs11Py,
+    },
+  ];
 };

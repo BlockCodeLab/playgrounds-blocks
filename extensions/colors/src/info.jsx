@@ -17,7 +17,7 @@ export default {
       defaultMessage="TCS34725/NLCS11 color sensor."
     />
   ),
-  tags: ['arduino', 'sensor'],
+  tags: ['device', 'arduino', 'sensor'],
 };
 
 addLocalesMessages({

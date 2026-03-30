@@ -1,6 +1,36 @@
 import { Text } from '@blockcode/core';
 
 export const blocks = (meta) => [
+  meta.editor !== '@blockcode/gui-arduino' && {
+    id: 'tcs34725Init',
+    text: (
+      <Text
+        id="blocks.colors.tcs34725Init"
+        defaultMessage="set TCS34725 pins SCL[SCL] SDA[SDA]"
+      />
+    ),
+    inputs: {
+      SCL: meta.boardPins
+        ? { menu: meta.boardPins.out }
+        : {
+            type: 'positive_integer',
+            defaultValue: 2,
+          },
+      SDA: meta.boardPins
+        ? { menu: meta.boardPins.out }
+        : {
+            type: 'positive_integer',
+            defaultValue: 3,
+          },
+    },
+    mpy(block) {
+      const scl = meta.boardPins ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_ATOMIC);
+      const sda = meta.boardPins ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_ATOMIC);
+      this.definitions_['import_tcs34725'] = `from tcs34725 import TCS34725`;
+      this.definitions_['tcs34725'] = `_tcs34725 = TCS34725(${scl}, ${sda})`;
+      return '';
+    },
+  },
   {
     id: 'tcs34725Color',
     text: (
@@ -16,6 +46,10 @@ export const blocks = (meta) => [
       this.definitions_['setup_wire'] = 'Wire.begin();';
       this.definitions_['setup_tcs34725'] = `_tcs34725.begin();`;
       const code = `_tcs34725.getColorToGamma()`;
+      return [code];
+    },
+    mpy(block) {
+      const code = `(await _tcs34725.async_get_color_to_gamma())`;
       return [code];
     },
   },
@@ -44,6 +78,37 @@ export const blocks = (meta) => [
     },
   },
   '---',
+  meta.editor !== '@blockcode/gui-arduino' && {
+    id: 'nlcs11Init',
+    text: (
+      <Text
+        id="blocks.colors.nlcs11Init"
+        defaultMessage="set NLCS11 pins SCL[SCL] SDA[SDA]"
+      />
+    ),
+    inputs: {
+      SCL: meta.boardPins
+        ? { menu: meta.boardPins.out }
+        : {
+            type: 'positive_integer',
+            defaultValue: 2,
+          },
+      SDA: meta.boardPins
+        ? { menu: meta.boardPins.in }
+        : {
+            type: 'positive_integer',
+            defaultValue: 3,
+          },
+    },
+    mpy(block) {
+      const scl = meta.boardPins ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_ATOMIC);
+      const sda = meta.boardPins ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_ATOMIC);
+      this.definitions_['import_nlcs11'] = 'from nlcs11 import NLCS11';
+      this.definitions_['nlcs11'] = `_nlcs11 = NLCS11(${scl}, ${sda})`;
+      this.definitions_['nlcs11_init'] = `_nlcs11.init()`;
+      return '';
+    },
+  },
   {
     id: 'nlcs11Color',
     text: (
@@ -58,6 +123,10 @@ export const blocks = (meta) => [
       this.definitions_['variable_nlcs11'] = `NLCS11 _nlcs11;`;
       this.definitions_['setup_nlcs11'] = `_nlcs11.Initialize();`;
       const code = `_nlcs11.GetColor()`;
+      return [code];
+    },
+    mpy(block) {
+      const code = `_nlcs11.get_color()`;
       return [code];
     },
   },
@@ -81,6 +150,11 @@ export const blocks = (meta) => [
       this.definitions_['variable_nlcs11'] = `NLCS11 _nlcs11;`;
       this.definitions_['setup_nlcs11'] = `_nlcs11.Initialize();`;
       const code = `_nlcs11.Get${rgb}()`;
+      return [code];
+    },
+    mpy(block) {
+      const rgb = block.getFieldValue('RGB');
+      const code = `_nlcs11.get_${rgb.toLowerCase()}()`;
       return [code];
     },
   },
