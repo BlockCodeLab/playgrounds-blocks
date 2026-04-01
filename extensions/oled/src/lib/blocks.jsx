@@ -1,43 +1,79 @@
 import { Text } from '@blockcode/core';
 
 export const blocks = (meta) => [
-  {
-    id: 'initDisplay',
-    text: (
-      <Text
-        id="blocks.oled.initDisplay"
-        defaultMessage="set oled [DRIVER] display [SIZE]"
-      />
-    ),
-    inputs: {
-      DRIVER: {
-        defaultValue: 'SSD1306',
-        menu: ['SSD1305', 'SSD1306', 'SSD1315', 'SH1106'],
-      },
-      SIZE: {
-        defaultValue: '128X64',
-        menu: [
-          ['128×32', '128X32'],
-          ['128×64', '128X64'],
-        ],
-      },
-    },
-    ino(block) {
-      const size = block.getFieldValue('SIZE');
-
-      // SSD1315 = SSD1306
-      let driver = block.getFieldValue('DRIVER');
-      if (driver === 'SSD1315') {
-        driver = 'SSD1306';
+  meta.editor !== '@blockcode/gui-arduino'
+    ? {
+        id: 'initI2C',
+        text: (
+          <Text
+            id="blocks.oled.initI2C"
+            defaultMessage="set oled [DRIVER] SCL:[SCL] SDA:[SDA] display [SIZE]"
+          />
+        ),
+        inputs: {
+          DRIVER: {
+            defaultValue: 'SSD1306',
+            menu: ['SSD1306', 'SH1106'],
+          },
+          SCL: meta.boardPins
+            ? { menu: meta.boardPins.out }
+            : {
+                type: 'positive_integer',
+                defaultValue: 2,
+              },
+          SDA: meta.boardPins
+            ? { menu: meta.boardPins.out }
+            : {
+                type: 'positive_integer',
+                defaultValue: 3,
+              },
+          SIZE: {
+            defaultValue: '128X64',
+            menu: [
+              ['128×32', '128X32'],
+              ['128×64', '128X64'],
+            ],
+          },
+        },
+        mpy(block) {
+          const scl = meta.boardPins ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
+          const sda = meta.boardPins ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
+          const driver = block.getFieldValue('DRIVER');
+          const size = block.getFieldValue('SIZE');
+          this.definitions_['oled'] = `_oled = oled.${driver}_I2C(${size.replace('X', ',')}, ${scl}, ${sda})`;
+          return '';
+        },
       }
-
-      this.definitions_['include_u8g2lib'] = '#include <U8g2lib.h>';
-      this.definitions_['variable_oled'] = `U8G2_${driver}_${size}_NONAME_F_HW_I2C oled(U8G2_R0);`;
-      this.definitions_['setup_oled'] = 'oled.setBusClock(400000); oled.begin();';
-
-      return '';
-    },
-  },
+    : {
+        id: 'initDisplay',
+        text: (
+          <Text
+            id="blocks.oled.initDisplay"
+            defaultMessage="set oled [DRIVER] display [SIZE]"
+          />
+        ),
+        inputs: {
+          DRIVER: {
+            defaultValue: 'SSD1306',
+            menu: ['SSD1306', 'SH1106'],
+          },
+          SIZE: {
+            defaultValue: '128X64',
+            menu: [
+              ['128×32', '128X32'],
+              ['128×64', '128X64'],
+            ],
+          },
+        },
+        ino(block) {
+          const driver = block.getFieldValue('DRIVER');
+          const size = block.getFieldValue('SIZE');
+          this.definitions_['include_u8g2lib'] = '#include <U8g2lib.h>';
+          this.definitions_['variable_oled'] = `U8G2_${driver}_${size}_NONAME_F_HW_I2C oled(U8G2_R0);`;
+          this.definitions_['setup_oled'] = 'oled.setBusClock(400000); oled.begin();';
+          return '';
+        },
+      },
   {
     id: 'brightness',
     text: (
@@ -55,6 +91,11 @@ export const blocks = (meta) => [
     ino(block) {
       const brightness = this.valueToCode(block, 'BRIGHTNESS', this.ORDER_NONE);
       const code = `oled.setContrast(map(${brightness}, 0, 100, 0, 255));\n`;
+      return code;
+    },
+    mpy(block) {
+      const brightness = this.valueToCode(block, 'BRIGHTNESS', this.ORDER_NONE);
+      const code = `_oled.contrast(round(${brightness} / 100 * 255))\n`;
       return code;
     },
   },
@@ -80,7 +121,7 @@ export const blocks = (meta) => [
     },
   },
   '---',
-  {
+  meta.editor === '@blockcode/gui-arduino' && {
     id: 'pageBuffer',
     text: (
       <Text
@@ -116,6 +157,10 @@ export const blocks = (meta) => [
       const code = 'oled.clearBuffer();\n';
       return code;
     },
+    mpy(block) {
+      const code = '_oled.fill(0)\n';
+      return code;
+    },
   },
   {
     id: 'updateDisplay',
@@ -127,6 +172,10 @@ export const blocks = (meta) => [
     ),
     ino(block) {
       const code = 'oled.sendBuffer();\n';
+      return code;
+    },
+    mpy(block) {
+      const code = '_oled.show()\n';
       return code;
     },
   },
@@ -165,6 +214,13 @@ export const blocks = (meta) => [
       const code = `oled.drawUTF8(${x}, ${y} + 12, ${text});\n`;
       return code;
     },
+    mpy(block) {
+      const x = this.valueToCode(block, 'X', this.ORDER_NONE);
+      const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
+      const text = this.valueToCode(block, 'TEXT', this.ORDER_NONE);
+      const code = `_oled.draw_text(${x}, ${y}, str(${text}))\n`;
+      return code;
+    },
   },
   {
     id: 'drawTextLine',
@@ -191,7 +247,13 @@ export const blocks = (meta) => [
       if (!/^".*"$/.test(text)) {
         text = `String(${text}).c_str()`;
       }
-      const code = `oled.drawUTF8(2, ${line * 12 + (line - 1) - 2}, ${text});\n`;
+      const code = `oled.drawUTF8(1, ${line * 12 + (line - 1) - 2}, ${text});\n`;
+      return code;
+    },
+    mpy(block) {
+      const line = parseInt(block.getFieldValue('LINE'));
+      const text = this.valueToCode(block, 'TEXT', this.ORDER_NONE);
+      const code = `_oled.draw_text(1, ${(line - 1) * 13}, str(${text}));\n`;
       return code;
     },
   },
@@ -219,6 +281,13 @@ export const blocks = (meta) => [
       const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
 
       const code = `oled.drawPixel(${x}, ${y});\n`;
+      return code;
+    },
+    mpy(block) {
+      const x = this.valueToCode(block, 'X', this.ORDER_NONE);
+      const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
+
+      const code = `_oled.pixel(${x}, ${y})\n`;
       return code;
     },
   },
@@ -257,6 +326,15 @@ export const blocks = (meta) => [
       const code = `oled.drawLine(${x1}, ${y1}, ${x2}, ${y2});\n`;
       return code;
     },
+    mpy(block) {
+      const x1 = this.valueToCode(block, 'X1', this.ORDER_NONE);
+      const y1 = this.valueToCode(block, 'Y1', this.ORDER_NONE);
+      const x2 = this.valueToCode(block, 'X2', this.ORDER_NONE);
+      const y2 = this.valueToCode(block, 'Y2', this.ORDER_NONE);
+
+      const code = `_oled.line(${x1}, ${y1}, ${x2}, ${y2})\n`;
+      return code;
+    },
   },
   {
     id: 'drawEllipse',
@@ -291,6 +369,15 @@ export const blocks = (meta) => [
       const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
 
       const code = `oled.drawEllipse(${x}, ${y}, ${rx}, ${ry});\n`;
+      return code;
+    },
+    mpy(block) {
+      const rx = this.valueToCode(block, 'RX', this.ORDER_NONE);
+      const ry = this.valueToCode(block, 'RY', this.ORDER_NONE);
+      const x = this.valueToCode(block, 'X', this.ORDER_NONE);
+      const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
+
+      const code = `_oled.ellipse(${x}, ${y}, ${rx}, ${ry})\n`;
       return code;
     },
   },
@@ -329,8 +416,17 @@ export const blocks = (meta) => [
       const code = `oled.drawFrame(${x}, ${y}, ${width}, ${height});\n`;
       return code;
     },
+    mpy(block) {
+      const width = this.valueToCode(block, 'WIDTH', this.ORDER_NONE);
+      const height = this.valueToCode(block, 'HEIGHT', this.ORDER_NONE);
+      const x = this.valueToCode(block, 'X', this.ORDER_NONE);
+      const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
+
+      const code = `_oled.rect(${x}, ${y}, ${width}, ${height})\n`;
+      return code;
+    },
   },
-  {
+  meta.editor === '@blockcode/gui-arduino' && {
     id: 'drawRoundRect',
     text: (
       <Text
@@ -372,7 +468,7 @@ export const blocks = (meta) => [
     },
   },
   '---',
-  {
+  meta.editor === '@blockcode/gui-arduino' && {
     id: 'fillEllipse',
     text: (
       <Text
@@ -443,8 +539,17 @@ export const blocks = (meta) => [
       const code = `oled.drawBox(${x}, ${y}, ${width}, ${height});\n`;
       return code;
     },
+    mpy(block) {
+      const width = this.valueToCode(block, 'WIDTH', this.ORDER_NONE);
+      const height = this.valueToCode(block, 'HEIGHT', this.ORDER_NONE);
+      const x = this.valueToCode(block, 'X', this.ORDER_NONE);
+      const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
+
+      const code = `_oled.fill_rect(${x}, ${y}, ${width}, ${height})\n`;
+      return code;
+    },
   },
-  {
+  meta.editor === '@blockcode/gui-arduino' && {
     id: 'fillRoundRect',
     text: (
       <Text

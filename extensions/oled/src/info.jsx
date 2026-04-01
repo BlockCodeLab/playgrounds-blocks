@@ -18,7 +18,7 @@ export default {
       defaultMessage="SSD1306/SSD1315 I2C monochrome OLED."
     />
   ),
-  tags: ['arduino', 'display'],
+  tags: ['device', 'arduino', 'display'],
 };
 
 addLocalesMessages({
