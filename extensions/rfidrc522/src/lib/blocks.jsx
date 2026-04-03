@@ -30,20 +30,50 @@ const DefaultInitRFID = (gen, block) => {
 };
 
 export const blocks = (meta) => [
-  meta.editor === '@blockcode/gui-arduino' && {
-    id: 'eventPolling',
-    text: (
-      <Text
-        id="blocks.rfidrc522.eventPolling"
-        defaultMessage="RFID events polling"
-      />
-    ),
-    ino(block) {
-      DefaultInitRFID(this);
-      const code = 'rfidrc522_whennewcard();\n';
-      return code;
-    },
-  },
+  meta.editor === '@blockcode/gui-arduino'
+    ? {
+        id: 'eventPolling',
+        text: (
+          <Text
+            id="blocks.rfidrc522.eventPolling"
+            defaultMessage="RFID events polling"
+          />
+        ),
+        ino(block) {
+          DefaultInitRFID(this);
+          const code = 'rfidrc522_whennewcard();\n';
+          return code;
+        },
+      }
+    : {
+        id: 'init',
+        text: (
+          <Text
+            id="blocks.rfidrc522.initI2C"
+            defaultMessage="set pins SCL:[SCL] SDA:[SDA]"
+          />
+        ),
+        inputs: {
+          SCL: meta.boardPins
+            ? { menu: meta.boardPins.out }
+            : {
+                type: 'positive_integer',
+                defaultValue: 2,
+              },
+          SDA: meta.boardPins
+            ? { menu: meta.boardPins.out }
+            : {
+                type: 'positive_integer',
+                defaultValue: 3,
+              },
+        },
+        mpy(block) {
+          const scl = meta.boardPins ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
+          const sda = meta.boardPins ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
+          this.definitions_['rfid'] = `rfid = mfrc522.MFRC522(${scl}, ${sda})`;
+          return '';
+        },
+      },
   '---',
   {
     id: 'whennewcard',
@@ -57,6 +87,42 @@ export const blocks = (meta) => [
     ino(block) {
       DefaultInitRFID(this, block);
       return '';
+    },
+    mpy(block) {
+      this.definitions_['rfid_uid'] = 'rfid_uid = ""';
+      if (!this.definitions_['rfidrc522_whennewcard']) {
+        let code = '';
+        code += '@_tasks__.append\n';
+        code += 'async def rfidrc522_whennewcard():\n';
+        code += '  global rfid_uid\n';
+        code += '  while True:\n';
+        code += '    await asyncio.sleep_ms(5)\n';
+        code += '    status, data, bits = rfid.scan()\n';
+        code += '    if status != rfid.MIFARE_OK: continue\n';
+        code += '    status, uid, bits = rfid.identify()\n';
+        code += '    if status != rfid.MIFARE_OK: continue\n';
+        code += '    rfid_uid = "".join(f"{b:02x}" for b in uid[0:4])\n';
+        this.definitions_['rfidrc522_whennewcard'] = code;
+      }
+
+      const flagName = this.createName('rfidrc522_flag');
+      this.definitions_[flagName] = `${flagName} = asyncio.ThreadSafeFlag()`;
+
+      let branchCode = this.statementToCode(block) || '';
+      let code = '';
+      code += 'while True:\n';
+      code += `  await ${flagName}.wait()\n`;
+      code += branchCode;
+
+      // const funcName = this.createName('rfidrc522_callback');
+      branchCode = this.prefixLines(code, this.INDENT);
+      branchCode = this.addEventTrap(branchCode, 'rfidrc522_callback');
+      code = '@_tasks__.append\n';
+      code += branchCode;
+      this.definitions_[`${flagName}_callback`] = code;
+
+      code = `    ${flagName}.set()\n`;
+      this.definitions_['rfidrc522_whennewcard'] += code;
     },
   },
   {
@@ -86,6 +152,10 @@ export const blocks = (meta) => [
       const checked = rootBlock.type.endsWith('_whennewcard') ? true : 'rfidrc522_check()';
       const code = `getRFIDCardId(${checked})`;
       return [code];
+    },
+    mpy(block) {
+      this.definitions_['rfid_uid'] = 'rfid_uid = ""';
+      return ['rfid_uid'];
     },
   },
 ];

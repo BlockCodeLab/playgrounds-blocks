@@ -1,5 +1,6 @@
 en:
   blocks.rfidrc522.name: RFID
+  blocks.rfidrc522.initI2C: set pins SCL:[SCL] SDA:[SDA]
   blocks.rfidrc522.eventPolling: RFID events polling
   blocks.rfidrc522.whennewcard: when a new card
   blocks.rfidrc522.write: write data [HEX] to card block [BLOCK]
@@ -8,6 +9,7 @@ en:
 
 zh-Hans:
   blocks.rfidrc522.name: RFID 模组
+  blocks.rfidrc522.initI2C: 初始引脚 SCL:[SCL] SDA:[SDA]
   blocks.rfidrc522.eventPolling: RFID 事件轮询
   blocks.rfidrc522.whennewcard: 当感应到卡片时
   blocks.rfidrc522.write: 将数据 [HEX] 写入卡片 [BLOCK] 数据块
@@ -16,6 +18,7 @@ zh-Hans:
 
 zh-Hant:
   blocks.rfidrc522.name: RFID 模組
+  blocks.rfidrc522.initI2C: 初始引腳 SCL:[SCL] SDA:[SDA]
   blocks.rfidrc522.eventPolling: RFID 事件輪詢
   blocks.rfidrc522.whennewcard: 當感應到卡片時
   blocks.rfidrc522.write: 將數據 [HEX] 寫入卡片 [BLOCK] 數據塊

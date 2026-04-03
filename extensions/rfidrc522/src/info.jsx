@@ -17,7 +17,7 @@ export default {
       defaultMessage="RFID."
     />
   ),
-  tags: ['arduino', 'module'],
+  tags: ['device', 'arduino', 'module'],
 };
 
 addLocalesMessages({
