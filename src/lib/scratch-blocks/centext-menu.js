@@ -32,29 +32,62 @@ ScratchBlocks.ContextMenu.show = function (e, options, rtl) {
     exportPngOption.callback = () => {
       const workspace = ScratchBlocks.getMainWorkspace();
       const canvas = workspace.getCanvas();
-      if (canvas) {
-        const id = setAlert('exporting');
-        svgAsPngUri(canvas)
-          .then((uri) => saveDataUri(id, uri))
-          .catch(() => setAlert('exportError', { id }, 1000));
+      if (!canvas) return;
+      const options = {};
+      const getBBox = canvas.getBBox.bind(canvas);
+      const bbox = getBBox();
+      // 修复缩放导致的裁剪
+      const transform = canvas.getAttribute('transform');
+      const match = transform.match(/scale\(([^)]+)\)/);
+      const scaleValue = match ? parseFloat(match[1]) : 0.8;
+      let left = Infinity;
+      let top = Infinity;
+      for (const childSvg of canvas.children) {
+        const transform = childSvg.getAttribute('transform');
+        const match = transform.match(/translate\(([^,]+),([^)]+)\)/);
+        if (match) {
+          const x = parseFloat(match[1]);
+          const y = parseFloat(match[2]);
+          if (x < left) left = x;
+          if (y < top) top = y;
+        }
       }
+      options.top = (bbox.y - 1) * scaleValue;
+      options.left = (bbox.x - 1) * scaleValue;
+      options.scale = 1 / scaleValue;
+      bbox.x = 0;
+      bbox.y = 0;
+      bbox.width *= scaleValue;
+      bbox.height *= scaleValue;
+      bbox.width += 2 * scaleValue;
+      bbox.height += 2 * scaleValue;
+      canvas.getBBox = () => bbox;
+
+      const id = setAlert('exporting');
+      svgAsPngUri(canvas, options)
+        .then((uri) => saveDataUri(id, uri))
+        .catch(() => setAlert('exportError', { id }, 1000))
+        .finally(() => (canvas.getBBox = getBBox));
     };
   } else {
     exportPngOption.text = translate('blocks.centextMenu.exportBlocksPng', 'Export Blocks to PNG');
     exportPngOption.callback = () => {
       const block = ScratchBlocks.ContextMenu.currentBlock;
+      if (!block) return;
       const options = {};
       const getBBox = block.svgGroup_.getBBox.bind(block.svgGroup_);
       const bbox = getBBox();
       // 修复帽子积木被裁剪掉帽子
-      bbox.y = 0;
+      const top = bbox.y;
+      options.top = 0;
       bbox.width += 2;
-      bbox.height += 1;
+      bbox.height += 2;
       if (block.startHat_) {
-        options.top = -22;
-        options.left = -1;
-        bbox.height += 5;
+        bbox.y = 0;
+        options.top = top;
       }
+      options.top -= 1;
+      options.left = -1;
       block.svgGroup_.getBBox = () => bbox;
 
       const id = setAlert('exporting');
