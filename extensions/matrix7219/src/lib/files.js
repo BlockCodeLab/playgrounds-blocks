@@ -3,8 +3,10 @@ import matrix7219HUri from './ino/matrix7219.h';
 import matrix7219CppUri from './ino/matrix7219.cpp';
 import matrix7219PyUri from './mpy/matrix7219.py';
 
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const files = (meta) => {
-  if (meta.editor === '@blockcode/gui-arduino') {
+  if (isArduino(meta)) {
     return [
       {
         header: true,

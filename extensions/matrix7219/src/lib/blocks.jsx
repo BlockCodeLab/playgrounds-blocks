@@ -3,6 +3,7 @@ import { setMeta, addAsset, delAsset, openPromptModal, Text, translate } from '@
 import { createFontWithCStyle, createFontWithPythonStyle } from './font-creator';
 import styles from './font-creator.module.css';
 
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
 const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
 
 export const blocks = (meta) => [
@@ -42,11 +43,10 @@ export const blocks = (meta) => [
             </textarea>
           ),
           onSubmit() {
-            const isArduino = meta.editor === '@blockcode/gui-arduino';
             const fontMap = document.getElementById('matrix7219_font_creator').value;
 
             const fonts = fontMap
-              ? isArduino
+              ? isArduino(meta)
                 ? `#pragma once\n#include <Arduino.h>\n${createFontWithCStyle(fontMap)}`
                 : createFontWithPythonStyle(fontMap)
               : {
@@ -57,28 +57,32 @@ export const blocks = (meta) => [
             batch(() => {
               setMeta({
                 users: {
-                  ...(meta.users ?? {}),
+                  ...meta.users,
                   fonts: fonts.map.join(''),
                 },
               });
-              if (isArduino) {
-                fontMap
-                  ? addAsset({
-                      id: 'user_fonts.h',
-                      name: 'user_fonts',
-                      type: 'text/x-c',
-                      content: fonts.content,
-                    })
-                  : delAsset('user_fonts.h');
+              if (isArduino(meta)) {
+                if (fontMap) {
+                  addAsset({
+                    id: 'user_fonts.h',
+                    name: 'user_fonts',
+                    type: 'text/x-c',
+                    content: fonts.content,
+                  });
+                } else {
+                  delAsset('user_fonts.h');
+                }
               } else {
-                fontMap
-                  ? addAsset({
-                      id: '/lib/user_fonts/matrix7219',
-                      name: 'user_fonts',
-                      type: 'text/x-python',
-                      content: fonts.content,
-                    })
-                  : delAsset('/lib/user_fonts/matrix7219');
+                if (fontMap) {
+                  addAsset({
+                    id: '/lib/user_fonts/matrix7219',
+                    name: 'user_fonts',
+                    type: 'text/x-python',
+                    content: fonts.content,
+                  });
+                } else {
+                  delAsset('/lib/user_fonts/matrix7219');
+                }
               }
               resolve(true);
             });

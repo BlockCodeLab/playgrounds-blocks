@@ -3,8 +3,10 @@ import midiCppUri from './ino/midi.cpp';
 import midiTimbreHUri from './ino/midi_timbre.h';
 import midiPyUri from './mpy/midi.py';
 
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const files = (meta) => {
-  if (meta.editor === '@blockcode/gui-arduino') {
+  if (isArduino(meta)) {
     return [
       {
         header: true,

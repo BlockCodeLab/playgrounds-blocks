@@ -1,8 +1,10 @@
 import tm1650PyUri from './tm1650.py';
 import decimal1650PyUri from './decimal1650.py';
 
+const notArduino = (meta) => !['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const files = (meta) => {
-  if (meta.editor !== '@blockcode/gui-arduino') {
+  if (notArduino(meta)) {
     return [
       {
         name: 'decimal1650',

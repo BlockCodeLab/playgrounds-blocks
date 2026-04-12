@@ -1,8 +1,10 @@
 import { Text } from '@blockcode/core';
 import { changeCase } from '@blockcode/utils';
 
+const notArduino = (meta) => !['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const blocks = (meta) => [
-  meta.editor !== '@blockcode/gui-arduino' && {
+  notArduino(meta) && {
     id: 'i2c',
     text: (
       <Text

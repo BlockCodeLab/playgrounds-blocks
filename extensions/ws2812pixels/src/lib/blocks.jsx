@@ -1,8 +1,8 @@
 import { changeCase } from '@blockcode/utils';
 import { Text } from '@blockcode/core';
 
-const isArduino = (meta) => meta.editor === '@blockcode/gui-arduino';
-const notArduino = (meta) => meta.editor !== '@blockcode/gui-arduino';
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+const notArduino = (meta) => !isArduino(meta);
 
 export const blocks = (meta) => [
   // [TODO] 彩灯点阵图案编辑器

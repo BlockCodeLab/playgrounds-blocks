@@ -2,8 +2,10 @@ import matrixKeypadCppUri from './files/matrixkeypad.cpp';
 import matrixKeypadHUri from './files/matrixkeypad.h';
 import matrixKeypadPyUri from './files/matrixkeypad.py';
 
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const files = (meta) => {
-  if (meta.editor === '@blockcode/gui-arduino') {
+  if (isArduino(meta)) {
     return [
       {
         header: true,

@@ -1,6 +1,6 @@
 import { Text } from '@blockcode/core';
 
-const notArduino = (meta) => meta.editor !== '@blockcode/gui-arduino';
+const notArduino = (meta) => !['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
 const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
 
 export const blocks = (meta) => [

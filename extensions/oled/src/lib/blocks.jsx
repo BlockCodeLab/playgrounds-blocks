@@ -1,8 +1,40 @@
 import { Text } from '@blockcode/core';
 
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const blocks = (meta) => [
-  meta.editor !== '@blockcode/gui-arduino'
+  isArduino(meat)
     ? {
+        id: 'initDisplay',
+        text: (
+          <Text
+            id="blocks.oled.initDisplay"
+            defaultMessage="set oled [DRIVER] display [SIZE]"
+          />
+        ),
+        inputs: {
+          DRIVER: {
+            defaultValue: 'SSD1306',
+            menu: ['SSD1306', 'SH1106'],
+          },
+          SIZE: {
+            defaultValue: '128X64',
+            menu: [
+              ['128×32', '128X32'],
+              ['128×64', '128X64'],
+            ],
+          },
+        },
+        ino(block) {
+          const driver = block.getFieldValue('DRIVER');
+          const size = block.getFieldValue('SIZE');
+          this.definitions_['include_u8g2lib'] = '#include <U8g2lib.h>';
+          this.definitions_['variable_oled'] = `U8G2_${driver}_${size}_NONAME_F_HW_I2C oled(U8G2_R0);`;
+          this.definitions_['setup_oled'] = 'oled.setBusClock(400000); oled.begin();';
+          return '';
+        },
+      }
+    : {
         id: 'initI2C',
         text: (
           <Text
@@ -41,36 +73,6 @@ export const blocks = (meta) => [
           const driver = block.getFieldValue('DRIVER');
           const size = block.getFieldValue('SIZE');
           this.definitions_['oled'] = `_oled = oled.${driver}_I2C(${size.replace('X', ',')}, ${scl}, ${sda})`;
-          return '';
-        },
-      }
-    : {
-        id: 'initDisplay',
-        text: (
-          <Text
-            id="blocks.oled.initDisplay"
-            defaultMessage="set oled [DRIVER] display [SIZE]"
-          />
-        ),
-        inputs: {
-          DRIVER: {
-            defaultValue: 'SSD1306',
-            menu: ['SSD1306', 'SH1106'],
-          },
-          SIZE: {
-            defaultValue: '128X64',
-            menu: [
-              ['128×32', '128X32'],
-              ['128×64', '128X64'],
-            ],
-          },
-        },
-        ino(block) {
-          const driver = block.getFieldValue('DRIVER');
-          const size = block.getFieldValue('SIZE');
-          this.definitions_['include_u8g2lib'] = '#include <U8g2lib.h>';
-          this.definitions_['variable_oled'] = `U8G2_${driver}_${size}_NONAME_F_HW_I2C oled(U8G2_R0);`;
-          this.definitions_['setup_oled'] = 'oled.setBusClock(400000); oled.begin();';
           return '';
         },
       },
@@ -121,7 +123,7 @@ export const blocks = (meta) => [
     },
   },
   '---',
-  meta.editor === '@blockcode/gui-arduino' && {
+  isArduino(meta) && {
     id: 'pageBuffer',
     text: (
       <Text
@@ -426,7 +428,7 @@ export const blocks = (meta) => [
       return code;
     },
   },
-  meta.editor === '@blockcode/gui-arduino' && {
+  isArduino(meta) && {
     id: 'drawRoundRect',
     text: (
       <Text
@@ -468,7 +470,7 @@ export const blocks = (meta) => [
     },
   },
   '---',
-  meta.editor === '@blockcode/gui-arduino' && {
+  isArduino(meta) && {
     id: 'fillEllipse',
     text: (
       <Text
@@ -549,7 +551,7 @@ export const blocks = (meta) => [
       return code;
     },
   },
-  meta.editor === '@blockcode/gui-arduino' && {
+  isArduino(meta) && {
     id: 'fillRoundRect',
     text: (
       <Text

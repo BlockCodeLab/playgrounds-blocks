@@ -5,8 +5,10 @@ import tcs34725Cpp from './ino/tcs34725.cpp';
 import tcs34725Py from './mpy/tcs34725.py';
 import nlcs11Py from './mpy/nlcs11.py';
 
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const files = (meta) => {
-  if (meta.editor === '@blockcode/gui-arduino') {
+  if (isArduino(meta)) {
     return [
       {
         name: 'nlcs11.h',

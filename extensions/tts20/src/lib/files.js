@@ -3,8 +3,10 @@ import tts20Cpp from './files/tts20.cpp';
 import emCheckH from './files/em_check.h';
 import tts20Py from './files/tts20.py';
 
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const files = (meta) => {
-  if (meta.editor === '@blockcode/gui-arduino') {
+  if (isArduino(meta)) {
     return [
       {
         header: true,

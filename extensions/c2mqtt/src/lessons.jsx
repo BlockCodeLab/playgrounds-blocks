@@ -3,6 +3,8 @@ import feature from './feature.svg';
 
 import exmpleArduino from './assets/esp32c2-mqtt.bcp';
 
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const lessons = {
   'c2mqtt-help': {
     title: (
@@ -13,7 +15,7 @@ export const lessons = {
     ),
     image: feature,
     project(meta) {
-      if (meta.editor === '@blockcode/gui-arduino') {
+      if (isArduino(meta)) {
         return exmpleArduino;
       }
     },

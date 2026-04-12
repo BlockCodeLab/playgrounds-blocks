@@ -1,6 +1,6 @@
 import { Text } from '@blockcode/core';
 
-const isArduino = (meta) => meta.editor === '@blockcode/gui-arduino';
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
 
 const ProcessAssistantCode = `void processAssistant() {
   if (aivoxAssistant.available() == 0) return;
@@ -47,7 +47,7 @@ export const blocks = (meta) => [
       return '';
     },
   },
-  meta.editor === '@blockcode/gui-arduino' && {
+  isArduino(meta) && {
     id: 'eventPolling',
     text: (
       <Text

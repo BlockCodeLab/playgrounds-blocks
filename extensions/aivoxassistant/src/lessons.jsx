@@ -7,6 +7,8 @@ import exmpleIotBit from './assets/aivoxassistant-iotbit.bcp';
 import knowledge from './assets/knowledge.png';
 import xiaozhi from './assets/xiaozhi.png';
 
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const lessons = {
   'aivoxassistant-help': {
     title: (
@@ -17,7 +19,7 @@ export const lessons = {
     ),
     image: feature,
     project(meta) {
-      if (meta.editor === '@blockcode/gui-arduino') {
+      if (isArduino(meta)) {
         return exmpleArduino;
       }
       if (meta.editor === '@blockcode/gui-esp32') {

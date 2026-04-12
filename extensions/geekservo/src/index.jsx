@@ -7,6 +7,8 @@ import iconImage from './icon.svg';
 
 addLocalesMessages(translations);
 
+const notArduino = (meta) => !['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export default {
   icon: iconImage,
   name: (
@@ -16,7 +18,7 @@ export default {
     />
   ),
   files(meta) {
-    if (meta.editor !== '@blockcode/gui-arduino') {
+    if (notArduino(meta)) {
       return [
         {
           common: true,

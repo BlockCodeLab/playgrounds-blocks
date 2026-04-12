@@ -3,8 +3,10 @@ import toneCppUri from './ino/tone.cpp';
 import musicHUri from './ino/music.h';
 import buzzerPyUri from './mpy/buzzer.py';
 
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const files = (meta) => {
-  if (meta.editor === '@blockcode/gui-arduino') {
+  if (isArduino(meta)) {
     return [
       {
         name: 'tone.h',

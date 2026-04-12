@@ -2,8 +2,10 @@ import dm11CppUri from './files/dm11.cpp';
 import dm11HUri from './files/dm11.h';
 import dm11PyUri from './files/dm11.py';
 
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const files = (meta) => {
-  if (meta.editor === '@blockcode/gui-arduino') {
+  if (isArduino(meta)) {
     return [
       {
         header: true,

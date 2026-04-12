@@ -1,6 +1,6 @@
 import { Text } from '@blockcode/core';
 
-const isArduino = (meta) => meta.editor === '@blockcode/gui-arduino';
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
 
 export const blocks = (meta) => [
   {

@@ -1,7 +1,9 @@
 import mfrc522Py from './mfrc522.py';
 
+const notArduino = (meta) => !['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const files = (meta) => {
-  if (meta.editor !== '@blockcode/gui-arduino') {
+  if (notArduino(meta)) {
     return [
       {
         name: 'mfrc522.py',

@@ -1,8 +1,56 @@
 import { Text } from '@blockcode/core';
 
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const blocks = (meta) => [
-  meta.editor !== '@blockcode/gui-arduino'
+  isArduino(meta)
     ? {
+        id: 'init',
+        text: (
+          <Text
+            id="blocks.lcd.init"
+            defaultMessage="set lcd display [SIZE] i2c address:[ADDR]"
+          />
+        ),
+        inputs: {
+          SIZE: {
+            defaultValue: '16,2',
+            menu: [
+              ['0801', '8,1'],
+              ['0802', '8,2'],
+              ['1601', '16,1'],
+              ['1602', '16,2'],
+              ['1604', '16,4'],
+              ['2002', '20,2'],
+              ['2004', '20,4'],
+              ['2402', '24,2'],
+              ['4002', '40,2'],
+              ['4004', '40,4'],
+            ],
+          },
+          ADDR: {
+            menu: [
+              ['0×27', '0x27'],
+              ['0×26', '0x26'],
+              ['0×25', '0x25'],
+              ['0×24', '0x24'],
+              ['0×23', '0x23'],
+              ['0×22', '0x22'],
+              ['0×21', '0x21'],
+              ['0×20', '0x20'],
+            ],
+          },
+        },
+        ino(block) {
+          const size = block.getFieldValue('SIZE');
+          const addr = block.getFieldValue('ADDR');
+          this.definitions_['include_lcdi2c'] = '#include <LCDI2C_Generic.h>';
+          this.definitions_['variable_lcd'] = `LCDI2C_Generic lcd(${addr}, ${size});`;
+          this.definitions_['setup_lcd'] = 'lcd.init();';
+          return '';
+        },
+      }
+    : {
         id: 'initI2c',
         text: (
           <Text
@@ -59,52 +107,6 @@ export const blocks = (meta) => [
           this.definitions_['lcdi2c'] = `lcd = lcdi2c.LCD_I2C(${scl}, ${sda}, ${size}, ${addr})`;
           return '';
         },
-      }
-    : {
-        id: 'init',
-        text: (
-          <Text
-            id="blocks.lcd.init"
-            defaultMessage="set lcd display [SIZE] i2c address:[ADDR]"
-          />
-        ),
-        inputs: {
-          SIZE: {
-            defaultValue: '16,2',
-            menu: [
-              ['0801', '8,1'],
-              ['0802', '8,2'],
-              ['1601', '16,1'],
-              ['1602', '16,2'],
-              ['1604', '16,4'],
-              ['2002', '20,2'],
-              ['2004', '20,4'],
-              ['2402', '24,2'],
-              ['4002', '40,2'],
-              ['4004', '40,4'],
-            ],
-          },
-          ADDR: {
-            menu: [
-              ['0×27', '0x27'],
-              ['0×26', '0x26'],
-              ['0×25', '0x25'],
-              ['0×24', '0x24'],
-              ['0×23', '0x23'],
-              ['0×22', '0x22'],
-              ['0×21', '0x21'],
-              ['0×20', '0x20'],
-            ],
-          },
-        },
-        ino(block) {
-          const size = block.getFieldValue('SIZE');
-          const addr = block.getFieldValue('ADDR');
-          this.definitions_['include_lcdi2c'] = '#include <LCDI2C_Generic.h>';
-          this.definitions_['variable_lcd'] = `LCDI2C_Generic lcd(${addr}, ${size});`;
-          this.definitions_['setup_lcd'] = 'lcd.init();';
-          return '';
-        },
       },
   {
     id: 'backlight',
@@ -149,7 +151,7 @@ export const blocks = (meta) => [
     },
   },
   '---',
-  meta.editor === '@blockcode/gui-arduino' && {
+  isArduino(meta) && {
     id: 'text',
     text: (
       <Text

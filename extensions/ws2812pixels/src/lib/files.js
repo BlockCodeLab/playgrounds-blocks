@@ -2,8 +2,10 @@ import ledPixelPyUrl from './files/ledpixel.py';
 import ledPixelHUrl from './files/ledpixel.h';
 import ledPixelCppUrl from './files/ledpixel.cpp';
 
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const files = (meta) => {
-  if (meta.editor === '@blockcode/gui-arduino') {
+  if (isArduino(meta)) {
     return [
       {
         header: true,

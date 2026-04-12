@@ -1,7 +1,9 @@
 import { Text } from '@blockcode/core';
 
+const notArduino = (meta) => !['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const blocks = (meta) => [
-  meta.editor !== '@blockcode/gui-arduino' && {
+  notArduino(meta) && {
     id: 'tcs34725Init',
     text: (
       <Text
@@ -78,7 +80,7 @@ export const blocks = (meta) => [
     },
   },
   '---',
-  meta.editor !== '@blockcode/gui-arduino' && {
+  notArduino(meta) && {
     id: 'nlcs11Init',
     text: (
       <Text

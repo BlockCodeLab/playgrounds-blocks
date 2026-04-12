@@ -3,8 +3,10 @@ import md40HUri from './files/md40.h';
 import emCheckHUri from './files/em_check.h';
 import md40PyUri from './files/md40.py';
 
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const files = (meta) => {
-  if (meta.editor === '@blockcode/gui-arduino') {
+  if (isArduino(meta)) {
     return [
       {
         header: true,

@@ -2,8 +2,10 @@ import ioExpansionCppUri from './files/ioexpansion.cpp';
 import ioExpansionHUri from './files/ioexpansion.h';
 import ioExpansionPyUri from './files/ioexpansion.py';
 
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const files = (meta) => {
-  if (meta.editor === '@blockcode/gui-arduino') {
+  if (isArduino(meta)) {
     return [
       {
         header: true,
