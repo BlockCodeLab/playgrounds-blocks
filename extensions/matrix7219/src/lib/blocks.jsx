@@ -4,7 +4,6 @@ import { createFontWithCStyle, createFontWithPythonStyle } from './font-creator'
 import styles from './font-creator.module.css';
 
 const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
-const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
 
 export const blocks = (meta) => [
   {
@@ -101,28 +100,19 @@ export const blocks = (meta) => [
     ),
     inputs: {
       CLK: meta.boardPins
-        ? {
-            menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? '33' : '2',
-          }
+        ? { menu: meta.boardPins.out }
         : {
             type: 'positive_integer',
             defaultValue: 2,
           },
       DIN: meta.boardPins
-        ? {
-            menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? '35' : '3',
-          }
+        ? { menu: meta.boardPins.out }
         : {
             type: 'positive_integer',
             defaultValue: 3,
           },
       CS: meta.boardPins
-        ? {
-            menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? '32' : '4',
-          }
+        ? { menu: meta.boardPins.out }
         : {
             type: 'positive_integer',
             defaultValue: 4,

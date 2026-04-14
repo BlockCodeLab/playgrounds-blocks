@@ -7,7 +7,7 @@ import iconImage from './icon.png';
 
 addLocalesMessages(translations);
 
-const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+const notArduino = (meta) => !['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
 
 export default {
   icon: iconImage,
@@ -18,7 +18,7 @@ export default {
     />
   ),
   files(meta) {
-    if (isArduino(meta)) {
+    if (notArduino(meta)) {
       return [
         {
           name: 'bmx280',

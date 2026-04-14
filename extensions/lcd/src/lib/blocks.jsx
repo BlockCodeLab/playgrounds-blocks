@@ -46,7 +46,7 @@ export const blocks = (meta) => [
           const addr = block.getFieldValue('ADDR');
           this.definitions_['include_lcdi2c'] = '#include <LCDI2C_Generic.h>';
           this.definitions_['variable_lcd'] = `LCDI2C_Generic lcd(${addr}, ${size});`;
-          this.definitions_['setup_lcd'] = 'lcd.init();';
+          this.definitions_['setup_lcd'] = 'lcd.init();\nlcd.setBacklight(1);';
           return '';
         },
       }

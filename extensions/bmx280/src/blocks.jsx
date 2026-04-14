@@ -1,7 +1,6 @@
 import { Text } from '@blockcode/core';
 
 const notArduino = (meta) => !['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
-const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
 
 export const blocks = (meta) => [
   notArduino(meta) && {
@@ -14,13 +13,13 @@ export const blocks = (meta) => [
     ),
     inputs: {
       SCL: meta.boardPins
-        ? { menu: meta.boardPins.all, defaultValue: isIotBit(meta) ? '22' : 2 }
+        ? { menu: meta.boardPins.all }
         : {
             type: 'integer',
             defaultValue: '2',
           },
       SDA: meta.boardPins
-        ? { menu: meta.boardPins.all, defaultValue: isIotBit(meta) ? '23' : '3' }
+        ? { menu: meta.boardPins.all }
         : {
             type: 'integer',
             defaultValue: '3',
@@ -89,7 +88,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.bmx280.pressure"
-        defaultMessage="pressure atmosphere"
+        defaultMessage="pressure(hPa)"
       />
     ),
     output: 'number',

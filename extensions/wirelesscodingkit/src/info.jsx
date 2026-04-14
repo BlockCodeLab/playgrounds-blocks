@@ -24,7 +24,7 @@ export default {
       defaultMessage="Emakefun"
     />
   ),
-  tags: ['device', 'arduino', 'kit'],
+  tags: ['device', 'arduino', 'kit', 'blekit'],
   readme,
 };
 

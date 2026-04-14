@@ -1,7 +1,7 @@
 import { setMeta, Text } from '@blockcode/core';
 
 export const blocks = (meta) => {
-  const isArduino = ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+  const isArduino = meta.editor === '@blockcode/gui-arduino';
   const isESP32 = meta.editor === '@blockcode/gui-esp32';
 
   const portsInMenu = {
