@@ -3,7 +3,7 @@ import { Text } from '@blockcode/core';
 const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
 
 export const blocks = (meta) => [
-  isArduino(meat)
+  isArduino(meta)
     ? {
         id: 'initDisplay',
         text: (

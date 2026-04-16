@@ -95,7 +95,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.matrix7219.init"
-        defaultMessage="set pins CLK:[CLK] DIN:[DIN] CS:[CS]"
+        defaultMessage="set pins CLK:[CLK] CS:[CS] DIN:[DIN]"
       />
     ),
     inputs: {
