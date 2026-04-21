@@ -9,7 +9,7 @@ export const blocks = (meta) => [
         text: (
           <Text
             id="blocks.lcd.init"
-            defaultMessage="set lcd display [SIZE] i2c address:[ADDR]"
+            defaultMessage="set lcd display [SIZE] I2C address:[ADDR]"
           />
         ),
         inputs: {
@@ -55,7 +55,7 @@ export const blocks = (meta) => [
         text: (
           <Text
             id="blocks.lcd.initI2c"
-            defaultMessage="set lcd display [SIZE] SCL:[SCL] SDA:[SDA] i2c address:[ADDR]"
+            defaultMessage="set lcd display [SIZE] SCL:[SCL] SDA:[SDA] I2C address:[ADDR]"
           />
         ),
         inputs: {
