@@ -1,0 +1,236 @@
+en:
+  blocks.sentry.name: Sentry/Sengo Vision
+  blocks.sentry.init: set [MODEL] pins SCL:[SCL] SDA:[SDA] I2C address [ADDR]
+  blocks.sentry.addr: set [MODEL] I2C address [ADDR]
+  blocks.sentry.open: '[STATE] [VISION] algorithm'
+  blocks.sentry.paramNum: set [VISION] maximum detection limit to [NUM]
+  blocks.sentry.paramColor: 'set Color #[NUM] paramset x-coord:[CX] y-coord:[CY] width:[W] height:[H]'
+  blocks.sentry.paramBlob: 'set Blob #[NUM] paramset min-width:[W] min-height:[H] color:[RES]'
+  blocks.sentry.paramLearning: '[VISION] algorithm [MODE] ID [NUM]'
+  blocks.sentry.learningSave: learn and assign
+  blocks.sentry.learningRemove: delete data
+  blocks.sentry.resultNum: 'number of [VISION] detected objects'
+  blocks.sentry.result: '[VISION] detected [TYPE] of #[NUM] object'
+  blocks.sentry.resultColor: 'Color detected [TYPE] of #[NUM] object'
+  blocks.sentry.resultLine: 'Line detected [TYPE] of #[NUM] line'
+  blocks.sentry.resultQRCode: String of QR code
+  blocks.sentry.resultIsColor: 'Color detected #[NUM] object is [RES]?'
+  blocks.sentry.resultIsBlob: 'Blob detected #[NUM] object is [RES]?'
+  blocks.sentry.resultIs20Classes: '20Classes detected #[NUM] object is [RES]?'
+  blocks.sentry.resultIsCard: 'Card detected #[NUM] object is [RES]?'
+  blocks.sentry.stateOn: run
+  blocks.sentry.stateOff: stop
+  blocks.sentry.visionColor: Color
+  blocks.sentry.visionBlob: Blob
+  blocks.sentry.visionAprilTag: Apriltag
+  blocks.sentry.visionLine: Line
+  blocks.sentry.visionBall: Ball
+  blocks.sentry.visionLearning: Learning
+  blocks.sentry.visionCard: Card
+  blocks.sentry.visionBody: Body
+  blocks.sentry.visionFace: Face
+  blocks.sentry.visionQrCode: QRCode
+  blocks.sentry.vision20Classes: 20Classes
+  blocks.sentry.visionMotionDetect: Motion
+  blocks.sentry.resultTypeWidth: width
+  blocks.sentry.resultTypeHeight: height
+  blocks.sentry.resultTypeLabel: label
+  blocks.sentry.resultLabelAngle: angle
+  blocks.sentry.resultColorR: R channel
+  blocks.sentry.resultColorG: G channel
+  blocks.sentry.resultColorB: B channel
+  blocks.sentry.resultColorBlack: black
+  blocks.sentry.resultColorWhite: white
+  blocks.sentry.resultColorRed: red
+  blocks.sentry.resultColorGreen: green
+  blocks.sentry.resultColorBlue: blue
+  blocks.sentry.resultColorYellow: yellow
+  blocks.sentry.resultObjectAirplane: airplane
+  blocks.sentry.resultObjectBicycle: bicycle
+  blocks.sentry.resultObjectBird: bird
+  blocks.sentry.resultObjectBoat: boat
+  blocks.sentry.resultObjectBottle: bottle
+  blocks.sentry.resultObjectBus: bus
+  blocks.sentry.resultObjectCar: car
+  blocks.sentry.resultObjectCat: cat
+  blocks.sentry.resultObjectChair: chair
+  blocks.sentry.resultObjectCow: cow
+  blocks.sentry.resultObjectTable: dining table
+  blocks.sentry.resultObjectDog: dog
+  blocks.sentry.resultObjectHorse: horse
+  blocks.sentry.resultObjectMotorbike: motorbike
+  blocks.sentry.resultObjectPerson: person
+  blocks.sentry.resultObjectPlant: potted plant
+  blocks.sentry.resultObjectSheep: sheep
+  blocks.sentry.resultObjectSofa: sofa
+  blocks.sentry.resultObjectTrain: train
+  blocks.sentry.resultObjectMonitor: tv monitor
+  blocks.sentry.resultCardForward: forward
+  blocks.sentry.resultCardLeft: left
+  blocks.sentry.resultCardRight: right
+  blocks.sentry.resultCardTurn: turn around
+  blocks.sentry.resultCardPark: park
+  blocks.sentry.resultCardGreenLight: green light
+  blocks.sentry.resultCardRedLight: red light
+  blocks.sentry.resultCardSpeed40: speed 40
+  blocks.sentry.resultCardSpeed60: speed 60
+  blocks.sentry.resultCardSpeed80: speed 80
+  blocks.sentry.lessonTitle1: Sengo1 Color
+
+zh-Hans:
+  blocks.sentry.name: Sentry/Sengo 视觉
+  blocks.sentry.init: 初始 [MODEL] 引脚 SCL:[SCL] SDA:[SDA] I2C 地址 [ADDR]
+  blocks.sentry.addr: 初始 [MODEL] I2C 地址 [ADDR]
+  blocks.sentry.open: '[STATE] [VISION] 算法'
+  blocks.sentry.paramNum: 将 [VISION] 识别组总数设为 [NUM]
+  blocks.sentry.paramColor: 将颜色识别第 [NUM] 组参数设为中心x:[CX] 中心y:[CY] 宽:[W] 高:[H]
+  blocks.sentry.paramBlob: 将色块识别第 [NUM] 组参数设为最小宽度:[W] 最小高度:[H] 颜色:[RES]
+  blocks.sentry.paramLearning: '[VISION] 算法 [MODE] ID [NUM]'
+  blocks.sentry.learningSave: 学习并指定
+  blocks.sentry.learningRemove: 删除数据
+  blocks.sentry.resultNum: '[VISION] 检测到的结果数量'
+  blocks.sentry.result: '[VISION] 检测到第 [NUM] 组结果的 [TYPE]'
+  blocks.sentry.resultColor: 颜色识别到第 [NUM] 组结果的 [TYPE]
+  blocks.sentry.resultLine: 线条检测到第 [NUM] 组结果的 [TYPE]
+  blocks.sentry.resultQRCode: 检测到二维码的字符串
+  blocks.sentry.resultIsColor: 颜色识别到第 [NUM] 个结果是 [RES]？
+  blocks.sentry.resultIsBlob: 色块识别到第 [NUM] 个结果是 [RES]？
+  blocks.sentry.resultIs20Classes: 20类物体识别到第 [NUM] 个结果是 [RES]？
+  blocks.sentry.resultIsCard: 卡片识别到第 [NUM] 个结果是 [RES]？
+  blocks.sentry.stateOn: 开启
+  blocks.sentry.stateOff: 关闭
+  blocks.sentry.visionColor: 颜色识别
+  blocks.sentry.visionBlob: 色块检测
+  blocks.sentry.visionLine: 线条检测
+  blocks.sentry.visionBall: 球体检测
+  blocks.sentry.visionAprilTag: Apriltag
+  blocks.sentry.visionCard: 卡片检测
+  blocks.sentry.visionBody: 人体检测
+  blocks.sentry.visionFace: 人脸识别
+  blocks.sentry.visionQrCode: 二维码
+  blocks.sentry.vision20Classes: 20类物体
+  blocks.sentry.visionMotionDetect: 运动物体
+  blocks.sentry.visionLearning: 深度学习
+  blocks.sentry.resultTypeWidth: 宽
+  blocks.sentry.resultTypeHeight: 高
+  blocks.sentry.resultTypeLabel: 标签
+  blocks.sentry.resultLabelAngle: 倾斜角度
+  blocks.sentry.resultColorR: R 通道
+  blocks.sentry.resultColorG: G 通道
+  blocks.sentry.resultColorB: B 通道
+  blocks.sentry.resultColorBlack: 黑色
+  blocks.sentry.resultColorWhite: 白色
+  blocks.sentry.resultColorRed: 红色
+  blocks.sentry.resultColorGreen: 绿色
+  blocks.sentry.resultColorBlue: 蓝色
+  blocks.sentry.resultColorYellow: 黄色
+  blocks.sentry.resultObjectAirplane: 飞机
+  blocks.sentry.resultObjectBicycle: 自行车
+  blocks.sentry.resultObjectBird: 鸟
+  blocks.sentry.resultObjectBoat: 船
+  blocks.sentry.resultObjectBottle: 瓶子
+  blocks.sentry.resultObjectBus: 公交车
+  blocks.sentry.resultObjectCar: 汽车
+  blocks.sentry.resultObjectCat: 猫
+  blocks.sentry.resultObjectChair: 椅子
+  blocks.sentry.resultObjectCow: 牛
+  blocks.sentry.resultObjectTable: 餐桌
+  blocks.sentry.resultObjectDog: 狗
+  blocks.sentry.resultObjectHorse: 马
+  blocks.sentry.resultObjectMotorbike: 摩托车
+  blocks.sentry.resultObjectPerson: 人
+  blocks.sentry.resultObjectPlant: 盆栽植物
+  blocks.sentry.resultObjectSheep: 羊
+  blocks.sentry.resultObjectSofa: 沙发
+  blocks.sentry.resultObjectTrain: 火车
+  blocks.sentry.resultObjectMonitor: 显示器
+  blocks.sentry.resultCardForward: 前进
+  blocks.sentry.resultCardLeft: 左转
+  blocks.sentry.resultCardRight: 右转
+  blocks.sentry.resultCardTurn: 掉头
+  blocks.sentry.resultCardPark: 停车
+  blocks.sentry.resultCardGreenLight: 绿灯
+  blocks.sentry.resultCardRedLight: 红灯
+  blocks.sentry.resultCardSpeed40: 限速40
+  blocks.sentry.resultCardSpeed60: 限速60
+  blocks.sentry.resultCardSpeed80: 限速80
+  blocks.sentry.lessonTitle1: Sengo1 颜色识别
+
+zh-Hant:
+  blocks.sentry.name: Sentry/Sengo 視覺
+  blocks.sentry.init: 初始 [MODEL] 引腳 SCL:[SCL] SDA:[SDA] I2C 地址 [ADDR]
+  blocks.sentry.addr: 初始 [MODEL] I2C 地址 [ADDR]
+  blocks.sentry.open: '[STATE] [VISION] 算法'
+  blocks.sentry.paramNum: 將 [VISION] 識別組總數設為 [NUM]
+  blocks.sentry.paramColor: 將顏色識別第 [NUM] 組參數設為中心x:[CX] 中心y:[CY] 寬:[W] 高:[H]
+  blocks.sentry.paramBlob: 將色塊識別第 [NUM] 組參數設為最小寬度:[W] 最小高度:[H] 顏色:[RES]
+  blocks.sentry.paramLearning: '[VISION] 算法 [MODE] ID [NUM]'
+  blocks.sentry.learningSave: 學習並指定
+  blocks.sentry.learningRemove: 刪除數據
+  blocks.sentry.resultNum: '[VISION] 檢測到的結果數量'
+  blocks.sentry.result: '[VISION] 檢測到第 [NUM] 組結果的 [TYPE]'
+  blocks.sentry.resultColor: 顏色識別到第 [NUM] 組結果的 [TYPE]
+  blocks.sentry.resultLine: 線條檢測到第 [NUM] 組結果的 [TYPE]
+  blocks.sentry.resultQRCode: 檢測到二維碼的字符串
+  blocks.sentry.resultIsColor: 顏色識別到第 [NUM] 個結果是 [RES]？
+  blocks.sentry.resultIsBlob: 色塊識別到第 [NUM] 個結果是 [RES]？
+  blocks.sentry.resultIs20Classes: 20類物體識別到第 [NUM] 個結果是 [RES]？
+  blocks.sentry.resultIsCard: 卡片識別到第 [NUM] 個結果是 [RES]？
+  blocks.sentry.stateOn: 開啟
+  blocks.sentry.stateOff: 關閉
+  blocks.sentry.visionColor: 顏色識別
+  blocks.sentry.visionBlob: 色塊檢測
+  blocks.sentry.visionLine: 線條檢測
+  blocks.sentry.visionBall: 球體檢測
+  blocks.sentry.visionAprilTag: Apriltag
+  blocks.sentry.visionCard: 卡片檢測
+  blocks.sentry.visionBody: 人體檢測
+  blocks.sentry.visionFace: 人臉識別
+  blocks.sentry.visionQrCode: 二維碼
+  blocks.sentry.vision20Classes: 20類物體
+  blocks.sentry.visionMotionDetect: 運動物體
+  blocks.sentry.visionLearning: 深度學習
+  blocks.sentry.resultTypeWidth: 寬
+  blocks.sentry.resultTypeHeight: 高
+  blocks.sentry.resultTypeLabel: 標籤
+  blocks.sentry.resultLabelAngle: 傾斜角度
+  blocks.sentry.resultColorR: R 通道
+  blocks.sentry.resultColorG: G 通道
+  blocks.sentry.resultColorB: B 通道
+  blocks.sentry.resultColorBlack: 黑色
+  blocks.sentry.resultColorWhite: 白色
+  blocks.sentry.resultColorRed: 紅色
+  blocks.sentry.resultColorGreen: 綠色
+  blocks.sentry.resultColorBlue: 藍色
+  blocks.sentry.resultColorYellow: 黃色
+  blocks.sentry.resultObjectAirplane: 飛機
+  blocks.sentry.resultObjectBicycle: 自行車
+  blocks.sentry.resultObjectBird: 鳥
+  blocks.sentry.resultObjectBoat: 船
+  blocks.sentry.resultObjectBottle: 瓶子
+  blocks.sentry.resultObjectBus: 公交車
+  blocks.sentry.resultObjectCar: 汽車
+  blocks.sentry.resultObjectCat: 貓
+  blocks.sentry.resultObjectChair: 椅子
+  blocks.sentry.resultObjectCow: 牛
+  blocks.sentry.resultObjectTable: 餐桌
+  blocks.sentry.resultObjectDog: 狗
+  blocks.sentry.resultObjectHorse: 馬
+  blocks.sentry.resultObjectMotorbike: 摩托車
+  blocks.sentry.resultObjectPerson: 人
+  blocks.sentry.resultObjectPlant: 盆栽植物
+  blocks.sentry.resultObjectSheep: 羊
+  blocks.sentry.resultObjectSofa: 沙發
+  blocks.sentry.resultObjectTrain: 火車
+  blocks.sentry.resultObjectMonitor: 顯示器
+  blocks.sentry.resultCardForward: 前進
+  blocks.sentry.resultCardLeft: 左轉
+  blocks.sentry.resultCardRight: 右轉
+  blocks.sentry.resultCardTurn: 掉頭
+  blocks.sentry.resultCardPark: 停車
+  blocks.sentry.resultCardGreenLight: 綠燈
+  blocks.sentry.resultCardRedLight: 紅燈
+  blocks.sentry.resultCardSpeed40: 限速40
+  blocks.sentry.resultCardSpeed60: 限速60
+  blocks.sentry.resultCardSpeed80: 限速80
+  blocks.sentry.lessonTitle1: Sengo1 顏色識別
