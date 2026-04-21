@@ -202,6 +202,8 @@ export function BlocksEditor({
 
   const extensionStatusMenu = useSignal(null);
 
+  const codePreviewWidth = useSignal(480);
+
   const options = useMemo(
     () => ({
       generator,
@@ -939,6 +941,32 @@ export function BlocksEditor({
     }
   }, [variableTypes]);
 
+  // 打开/关闭代码预览窗口
+  const handleCodePreview = useCallback(() => {
+    codePreviewVisible.value = !codePreviewVisible.value;
+    if (codePreviewVisible.value) {
+      codePreviewWidth.value = 480;
+    }
+  }, []);
+
+  // 改变代码预览窗口尺寸
+  const handleResize = useCallback((e) => {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startWidth = codePreviewWidth.value;
+    const maxWidth = window.innerWidth * 0.7;
+    const resizePreview = (e) => {
+      let width = startWidth - (e.clientX - startX);
+      if (width > maxWidth) width = maxWidth;
+      if (width < 100) width = 100;
+      codePreviewWidth.value = width;
+    };
+    document.addEventListener('mousemove', resizePreview);
+    document.addEventListener('mouseup', () => {
+      document.removeEventListener('mousemove', resizePreview);
+    });
+  }, []);
+
   return (
     <>
       <div className={styles.editorPreviewWrapper}>
@@ -1007,16 +1035,21 @@ export function BlocksEditor({
               width={36}
               height={36}
               src={codePreviewVisible.value ? showIcon : hideIcon}
-              onClick={useCallback(() => (codePreviewVisible.value = !codePreviewVisible.value), [])}
+              onClick={handleCodePreview}
             />
           </div>
         )}
 
         {codePreviewVisible.value && (
           <div className={styles.codePreview}>
+            <span
+              className={styles.resizeHandle}
+              onMouseDown={handleResize}
+            ></span>
             <CodeEditor
               readOnly
               options={{ fontSize: 13 }}
+              style={{ width: `${codePreviewWidth.value}px` }}
             />
           </div>
         )}

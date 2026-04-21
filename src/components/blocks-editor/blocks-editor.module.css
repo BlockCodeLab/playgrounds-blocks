@@ -27,6 +27,12 @@
   border-left: 1px solid var(--ui-black-transparent);
 }
 
+.code-preview .resize-handle {
+  width: 4px;
+  cursor: ew-resize;
+  background: #f9f9f9;
+}
+
 .code-preview > div {
   width: 480px;
 }

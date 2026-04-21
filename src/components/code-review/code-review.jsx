@@ -28,7 +28,7 @@ const showAlert = () =>
     onClose: hideAlert,
   });
 
-export function CodeReview({ keyName, readOnly, onRegisterCompletionItems }) {
+export function CodeReview({ style, keyName, readOnly, onRegisterCompletionItems }) {
   const { tabIndex } = useAppContext();
 
   const { meta } = useProjectContext();
@@ -50,6 +50,7 @@ export function CodeReview({ keyName, readOnly, onRegisterCompletionItems }) {
           enabled: true,
         },
       }}
+      style={style}
       keyName={keyName}
       readOnly={readOnly}
       onRegisterCompletionItems={onRegisterCompletionItems}
