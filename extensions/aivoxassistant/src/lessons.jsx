@@ -10,11 +10,11 @@ import xiaozhi from './assets/xiaozhi.png';
 const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
 
 export const lessons = {
-  'aivoxassistant-help': {
+  'aivoxassistant-example': {
     title: (
       <Text
         id="blocks.aivoxassistant.lessonTitle"
-        defaultMessage="AI Vox Assistant Help"
+        defaultMessage="AI Vox Assistant Example"
       />
     ),
     image: feature,
@@ -22,13 +22,10 @@ export const lessons = {
       if (isArduino(meta)) {
         return exmpleArduino;
       }
-      if (meta.editor === '@blockcode/gui-esp32') {
-        return exmpleEsp32;
-      }
       if (meta.editor === '@emakefun/gui-iotbit') {
         return exmpleIotBit;
       }
-      return;
+      return exmpleEsp32;
     },
     pages: [
       {
