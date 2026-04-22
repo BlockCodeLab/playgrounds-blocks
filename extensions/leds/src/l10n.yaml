@@ -7,7 +7,7 @@ en:
   blocks.leds.brightness: set pin [PIN] LED brightness [LEVEL]%
   blocks.leds.trafficLeds.init: set traffic leds pins red:[R] yellow:[Y] green:[G]
   blocks.leds.trafficLeds.color: set traffic leds [R] red [Y] yellow [G] green
-  blocks.leds.rgbLed.init: set RGB LED pins red:[R] green:[G] blue:[B]
+  blocks.leds.rgbLed.init: set RGB LED pins B channel:[B] R channel:[R] G channel:[G]
   blocks.leds.rgbLed.color: set RGB LED color [COLOR]
   blocks.leds.rgbLed.off: turn off RGB LED
 
@@ -20,7 +20,7 @@ zh-Hans:
   blocks.leds.brightness: 将引脚[PIN] LED 灯亮度设为[LEVEL]%
   blocks.leds.trafficLeds.init: 初始交通灯引脚绿灯:[G]黄灯:[Y]红灯:[R]
   blocks.leds.trafficLeds.color: 设置交通灯[G]绿灯[Y]黄灯[R]红灯
-  blocks.leds.rgbLed.init: 初始 RGB 灯引脚红色:[R]绿色:[G]蓝色:[B]
+  blocks.leds.rgbLed.init: 初始 RGB 灯引脚 B通道:[B] R通道:[R] G通道:[G]
   blocks.leds.rgbLed.color: 将 RGB 灯颜色设为[COLOR]
   blocks.leds.rgbLed.off: 关闭 RGB 灯
 
@@ -33,6 +33,6 @@ zh-Hant:
   blocks.leds.brightness: 將引腳[PIN] LED 燈亮度設為[LEVEL]%
   blocks.leds.trafficLeds.init: 初始交通燈引腳紅燈:[R]黃燈:[Y]綠燈:[G]
   blocks.leds.trafficLeds.color: 設置交通燈[R]紅燈[Y]黃燈[G]綠燈
-  blocks.leds.rgbLed.init: 初始 RGB 燈引腳紅色:[R]綠色:[G]藍色:[B]
+  blocks.leds.rgbLed.init: 初始 RGB 燈引腳 B通道:[B] R通道:[R] G通道:[G]
   blocks.leds.rgbLed.color: 將 RGB 燈顏色設為[COLOR]
   blocks.leds.rgbLed.off: 關閉 RGB 燈

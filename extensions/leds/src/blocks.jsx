@@ -142,19 +142,19 @@ export const blocks = (meta) => [
     ),
     inputs: {
       G: meta.boardPins
-        ? { menu: meta.boardPins.pwm }
+        ? { menu: meta.boardPins.out }
         : {
             type: 'positive_integer',
             defaultValue: 1,
           },
       Y: meta.boardPins
-        ? { menu: meta.boardPins.pwm }
+        ? { menu: meta.boardPins.out }
         : {
             type: 'positive_integer',
             defaultValue: 2,
           },
       R: meta.boardPins
-        ? { menu: meta.boardPins.pwm }
+        ? { menu: meta.boardPins.out }
         : {
             type: 'positive_integer',
             defaultValue: 3,
@@ -181,9 +181,9 @@ export const blocks = (meta) => [
       return '';
     },
     mpy(block) {
-      const pinR = this.valueToCode(block, 'R', this.ORDER_NONE);
-      const pinY = this.valueToCode(block, 'Y', this.ORDER_NONE);
-      const pinG = this.valueToCode(block, 'G', this.ORDER_NONE);
+      const pinR = meta.boardPins ? block.getFieldValue('R') : this.valueToCode(block, 'R', this.ORDER_NONE);
+      const pinY = meta.boardPins ? block.getFieldValue('Y') : this.valueToCode(block, 'Y', this.ORDER_NONE);
+      const pinG = meta.boardPins ? block.getFieldValue('G') : this.valueToCode(block, 'G', this.ORDER_NONE);
       const pinRName = `pin_${pinR}`;
       const pinYName = `pin_${pinY}`;
       const pinGName = `pin_${pinG}`;
@@ -250,55 +250,49 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.leds.rgbLed.init"
-        defaultMessage="set RGB LED pins red:[R] green:[G] blue:[B]"
+        defaultMessage="set RGB LED pins B channel:[B] R channel:[R] G channel:[G]"
       />
     ),
     inputs: {
       R: meta.boardPins
-        ? {
-            menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? '18' : '1',
-          }
+        ? { menu: meta.boardPins.pwm }
         : {
             type: 'positive_integer',
             defaultValue: 1,
           },
       G: meta.boardPins
-        ? {
-            menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? '19' : '2',
-          }
+        ? { menu: meta.boardPins.pwm }
         : {
             type: 'positive_integer',
             defaultValue: 2,
           },
       B: meta.boardPins
-        ? {
-            menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? '21' : '3',
-          }
+        ? { menu: meta.boardPins.pwm }
         : {
             type: 'positive_integer',
             defaultValue: 3,
           },
     },
     ino(block) {
-      const pinR = this.valueToCode(block, 'R', this.ORDER_NONE);
-      const pinG = this.valueToCode(block, 'G', this.ORDER_NONE);
-      const pinB = this.valueToCode(block, 'B', this.ORDER_NONE);
+      const pinR = meta.boardPins ? block.getFieldValue('R') : this.valueToCode(block, 'R', this.ORDER_NONE);
+      const pinG = meta.boardPins ? block.getFieldValue('G') : this.valueToCode(block, 'G', this.ORDER_NONE);
+      const pinB = meta.boardPins ? block.getFieldValue('B') : this.valueToCode(block, 'B', this.ORDER_NONE);
       this.definitions_[`setup_pin_${pinR}`] = `pinMode(${pinR}, OUTPUT);`;
       this.definitions_[`setup_pin_${pinG}`] = `pinMode(${pinG}, OUTPUT);`;
       this.definitions_[`setup_pin_${pinB}`] = `pinMode(${pinB}, OUTPUT);`;
 
       // 设置颜色辅助函数
       let code = '';
-      code += 'void setRGBLed(int rgb[]) {\n';
-      code += `  analogWrite(${pinR}, rgb[0]);\n`;
-      code += `  analogWrite(${pinG}, rgb[1]);\n`;
-      code += `  analogWrite(${pinB}, rgb[2]);\n`;
+      code += 'void setRGBLed(uint32_t rgb) {\n';
+      code += '  int r = (rgb >> 16) & 0xFF;\n';
+      code += '  int g = (rgb >> 8) & 0xFF;\n';
+      code += '  int b = rgb & 0xFF;\n';
+      code += `  analogWrite(${pinR}, r);\n`;
+      code += `  analogWrite(${pinG}, g);\n`;
+      code += `  analogWrite(${pinB}, b);\n`;
       code += '}';
 
-      this.definitions_[`declare_setRGBLed`] = `void setRGBLed(int rgb[]);`;
+      this.definitions_[`declare_setRGBLed`] = `void setRGBLed(uint32_t rgb);`;
       this.definitions_[`setRGBLed`] = code;
 
       return '';
@@ -342,7 +336,7 @@ export const blocks = (meta) => [
     },
     ino(block) {
       const color = this.valueToCode(block, 'COLOR', this.ORDER_NONE);
-      const code = `{ int rgb[3]=${color}; setRGBLed(rgb); }\n`;
+      const code = `setRGBLed(${color});\n`;
       return code;
     },
     mpy(block) {
