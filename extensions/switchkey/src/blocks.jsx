@@ -14,8 +14,10 @@ export const blocks = (meta) => [
     ),
     ino(block) {
       const tickName = '_1buttonTicks';
-      this.definitions_[`declare_${tickName}`] = `void ${tickName}();`;
-      this.definitions_[tickName] = `void ${tickName}() {\n}`;
+      if (!this.definitions_[tickName]) {
+        this.definitions_[`declare_${tickName}`] = `void ${tickName}();`;
+        this.definitions_[tickName] = `void ${tickName}() {\n}`;
+      }
       const code = `${tickName}();\n`;
       return code;
     },

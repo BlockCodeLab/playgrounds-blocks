@@ -56,8 +56,10 @@ export const blocks = (meta) => [
       />
     ),
     ino(block) {
-      this.definitions_['processAssistant'] = ProcessAssistantCode;
-      this.definitions_['declare_processAssistant'] = 'void processAssistant();';
+      if (!this.definitions_['processAssistant']) {
+        this.definitions_['processAssistant'] = ProcessAssistantCode;
+        this.definitions_['declare_processAssistant'] = 'void processAssistant();';
+      }
       const code = 'processAssistant();\n';
       return code;
     },

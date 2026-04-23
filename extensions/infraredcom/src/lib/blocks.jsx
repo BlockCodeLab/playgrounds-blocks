@@ -37,7 +37,10 @@ export const blocks = (meta) => [
       />
     ),
     ino(block) {
-      const code = 'irreceiver_received();\n';
+      const funcName = 'irreceiver_received';
+      this.definitions_[`declare_${funcName}`] = `void ${funcName}();`;
+      this.definitions_[funcName] = `void ${funcName}(){}`;
+      const code = `${funcName}();\n`;
       return code;
     },
   },
@@ -56,7 +59,7 @@ export const blocks = (meta) => [
 
       // 加入事件定时器
       const funcName = 'irreceiver_received';
-      this.definitions_['declare_irreceiver'] = `void ${funcName}();`;
+      this.definitions_[`declare_${funcName}`] = `void ${funcName}();`;
 
       const branchCode = this.statementToCode(block) || '';
       let code = '';

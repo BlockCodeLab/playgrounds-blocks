@@ -17,15 +17,16 @@ const DefaultInitRFID = (gen, block) => {
   gen.definitions_['rfidrc522_check'] = code;
 
   if (block) {
+    const funcName = 'rfidrc522_whennewcard';
     const branchCode = block ? gen.statementToCode(block) : '';
     let code = '';
-    code += 'void rfidrc522_whennewcard() {\n';
+    code += `void ${funcName}() {\n`;
     code += '  if (!rfidrc522_check()) return;\n';
     code += branchCode || '';
     code += '  mfrc522.PICC_HaltA();\n';
     code += '}\n';
-    gen.definitions_['declare_rfidrc522_whennewcard'] = 'void rfidrc522_whennewcard();';
-    gen.definitions_['rfidrc522_whennewcard'] = code;
+    gen.definitions_[`declare_${funcName}`] = `void ${funcName}();`;
+    gen.definitions_[funcName] = code;
   }
 };
 
@@ -43,7 +44,12 @@ export const blocks = (meta) => [
         ),
         ino(block) {
           DefaultInitRFID(this);
-          const code = 'rfidrc522_whennewcard();\n';
+          const funcName = 'rfidrc522_whennewcard';
+          if (!this.definitions_[funcName]) {
+            this.definitions_[`declare_${funcName}`] = `void ${funcName}();`;
+            this.definitions_[funcName] = `void ${funcName}() {\n}`;
+          }
+          const code = `${funcName}();\n`;
           return code;
         },
       }
