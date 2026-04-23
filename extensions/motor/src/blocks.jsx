@@ -15,7 +15,7 @@ export const blocks = (meta) => [
       },
       IN1: meta.boardPins
         ? {
-            menu: meta.boardPins.pwm,
+            menu: meta.boardPins.out,
           }
         : {
             type: 'positive_integer',
@@ -45,7 +45,7 @@ export const blocks = (meta) => [
       const in2 = meta.boardPins ? block.getFieldValue('IN2') : this.valueToCode(block, 'IN2', this.ORDER_NONE);
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_pwm'] = 'from machine import PWM';
-      this.definitions_[`motor_${motor}`] = `_${motor} = (PWM(Pin(${in1}), freq=1000), PWM(Pin(${in2}), freq=1000))`;
+      this.definitions_[`motor_${motor}`] = `_${motor} = (Pin(${in1}), PWM(Pin(${in2}), freq=1000))`;
       return '';
     },
   },
@@ -93,11 +93,11 @@ export const blocks = (meta) => [
 
       let code = '';
       if (dir > 0) {
-        code += `analogWrite(_${motor}[0], round((float)${speed} * ${255 / 100}));\n`;
-        code += `analogWrite(_${motor}[1], 0);\n`;
-      } else {
-        code += `analogWrite(_${motor}[0], 0);\n`;
+        code += `digitalWrite(_${motor}[0], 0);\n`;
         code += `analogWrite(_${motor}[1], round((float)${speed} * ${255 / 100}));\n`;
+      } else {
+        code += `digitalWrite(_${motor}[0], 1);\n`;
+        code += `analogWrite(_${motor}[1], round((float)(100 - ${speed}) * ${255 / 100}));\n`;
       }
       return code;
     },
@@ -108,11 +108,11 @@ export const blocks = (meta) => [
 
       let code = '';
       if (dir > 0) {
-        code += `_${motor}[0].duty(round(${speed} * ${1023 / 100}))\n`;
-        code += `_${motor}[1].duty(0)\n`;
-      } else {
-        code += `_${motor}[0].duty(0)\n`;
+        code += `_${motor}[0].value(0)\n`;
         code += `_${motor}[1].duty(round(${speed} * ${1023 / 100}))\n`;
+      } else {
+        code += `_${motor}[0].value(1)\n`;
+        code += `_${motor}[1].duty(round((100 - ${speed}) * ${1023 / 100}))\n`;
       }
       return code;
     },
@@ -133,15 +133,15 @@ export const blocks = (meta) => [
     ino(block) {
       const motor = block.getFieldValue('MOTOR');
       let code = '';
-      code += `analogWrite(_${motor}[0], 255);\n`;
-      code += `analogWrite(_${motor}[1], 255);\n`;
+      code += `digitalWrite(_${motor}[0], 0);\n`;
+      code += `analogWrite(_${motor}[1], 0);\n`;
       return code;
     },
     mpy(block) {
       const motor = block.getFieldValue('MOTOR');
       let code = '';
-      code += `_${motor}[0].duty(255)\n`;
-      code += `_${motor}[1].duty(255)\n`;
+      code += `_${motor}[0].value(0)\n`;
+      code += `_${motor}[1].duty(1023)\n`;
       return code;
     },
   },
