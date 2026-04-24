@@ -28,8 +28,8 @@
 }
 
 .code-preview .resize-handle {
-  width: 4px;
-  cursor: ew-resize;
+  width: 6px;
+  cursor: col-resize;
   background: #f9f9f9;
 }
 

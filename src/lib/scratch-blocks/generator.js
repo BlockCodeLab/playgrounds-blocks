@@ -1,8 +1,5 @@
-import { pinyin, addTraditionalDict } from 'pinyin-pro';
+import { pinyin } from '@blockcode/utils';
 import { ScratchBlocks } from './scratch-blocks';
-import TraditionalDict from '@pinyin-pro/data/traditional';
-
-addTraditionalDict(TraditionalDict);
 
 const BaseGenerator = ScratchBlocks.Generator;
 
