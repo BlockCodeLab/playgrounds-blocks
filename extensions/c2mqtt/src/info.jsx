@@ -24,7 +24,7 @@ export default {
       defaultMessage="Emakefun"
     />
   ),
-  tags: ['arduino', 'module'],
+  tags: ['arduino', 'module', 'communication'],
   readme,
 };
 
