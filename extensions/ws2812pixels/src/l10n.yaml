@@ -1,6 +1,7 @@
 en:
   blocks.ws2812pixels.name: WS2812 Pixels
   blocks.ws2812pixels.init: set pin [PIN] leds [NUM]
+  blocks.ws2812pixels.batch: batch refresh leds
   blocks.ws2812pixels.led: set pin [PIN] led [POS][COLOR] brightness [BRIGHTNESS]%
   blocks.ws2812pixels.leds: set pin [PIN] leds from [START] to [END] color [COLOR] brightness [BRIGHTNESS]%
   blocks.ws2812pixels.closeLeds: close pin [PIN] leds from [START] to [END]
@@ -25,6 +26,7 @@ en:
 zh-Hans:
   blocks.ws2812pixels.name: WS2812 彩灯
   blocks.ws2812pixels.init: 初始引脚[PIN]彩灯数量[NUM]
+  blocks.ws2812pixels.batch: 批量刷新彩燈
   blocks.ws2812pixels.led: 将引脚[PIN]第[POS]个灯设为[COLOR]亮度[BRIGHTNESS]%
   blocks.ws2812pixels.leds: 将引脚[PIN]第[START]到第[END]个灯设为[COLOR]亮度[BRIGHTNESS]%
   blocks.ws2812pixels.closeLeds: 关闭引脚[PIN]第[START]到第[END]个灯
@@ -49,6 +51,7 @@ zh-Hans:
 zh-Hant:
   blocks.ws2812pixels.name: WS2812 彩燈
   blocks.ws2812pixels.init: 初始引腳[PIN]彩燈數量[NUM]
+  blocks.ws2812pixels.batch: 批量刷新彩燈
   blocks.ws2812pixels.led: 將引腳[PIN]第[POS]個燈設為[COLOR]亮度[BRIGHTNESS]%
   blocks.ws2812pixels.leds: 將引腳[PIN]第[START]到第[END]個燈設為[COLOR]亮度[BRIGHTNESS]%
   blocks.ws2812pixels.closeLeds: 關閉引腳[PIN]第[START]到第[END]個燈

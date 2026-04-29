@@ -47,6 +47,38 @@ export const blocks = (meta) => [
       return '';
     },
   },
+  {
+    id: 'batch',
+    text: (
+      <Text
+        id="blocks.ws2812pixels.batch"
+        defaultMessage="batch refresh leds"
+      />
+    ),
+    substack: true,
+    mpy(block) {
+      const branchCode = this.statementToCode(block, 'SUBSTACK') || '';
+      let code = branchCode.replace(/^  /gm, '');
+
+      const match = branchCode.match(/\S*ledpixel_[^.]+/g);
+      const pinNames = Array.from(new Set(match));
+      for (const pinName of pinNames) {
+        code += `${pinName}.write()\n`;
+      }
+      return code;
+    },
+    ino(block) {
+      const branchCode = this.statementToCode(block, 'SUBSTACK') || '';
+      let code = branchCode.replace(/^  /gm, '');
+
+      const match = branchCode.match(/\S*ledpixel_[^.]+/g);
+      const pinNames = Array.from(new Set(match));
+      for (const pinName of pinNames) {
+        code += `${pinName}.show();\n`;
+      }
+      return code;
+    },
+  },
   '---',
   {
     id: 'color',
@@ -90,6 +122,14 @@ export const blocks = (meta) => [
         return code;
       }
 
+      let parentBlock = block.getParent();
+      while (parentBlock) {
+        if (parentBlock.type.endsWith('-ws2812pixels_batch')) {
+          return code;
+        }
+        parentBlock = parentBlock.getParent();
+      }
+
       code += `${pinName}.write()\n`;
       return code;
     },
@@ -106,6 +146,14 @@ export const blocks = (meta) => [
       const nextBlock = block.getNextBlock();
       if (nextBlock?.type.endsWith('-ws2812pixels_color')) {
         return code;
+      }
+
+      let parentBlock = block.getParent();
+      while (parentBlock) {
+        if (parentBlock.type.endsWith('-ws2812pixels_batch')) {
+          return code;
+        }
+        parentBlock = parentBlock.getParent();
       }
 
       code += `${pinName}.show();\n`;
@@ -159,6 +207,14 @@ export const blocks = (meta) => [
         return code;
       }
 
+      let parentBlock = block.getParent();
+      while (parentBlock) {
+        if (parentBlock.type.endsWith('-ws2812pixels_batch')) {
+          return code;
+        }
+        parentBlock = parentBlock.getParent();
+      }
+
       code += `${pinName}.write()\n`;
       return code;
     },
@@ -176,6 +232,14 @@ export const blocks = (meta) => [
       const nextBlock = block.getNextBlock();
       if (nextBlock?.type.endsWith('-ws2812pixels_color')) {
         return code;
+      }
+
+      let parentBlock = block.getParent();
+      while (parentBlock) {
+        if (parentBlock.type.endsWith('-ws2812pixels_batch')) {
+          return code;
+        }
+        parentBlock = parentBlock.getParent();
       }
 
       code += `${pinName}.show();\n`;
