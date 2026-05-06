@@ -1,0 +1,44 @@
+en:
+  blocks.codexpad.name: CodexPad
+  blocks.codexpad.connect: connect CodexPad with mac:[MAC]
+  blocks.codexpad.scanConnect: connect CodexPad with [BTNA] and [BTNB] combo
+  blocks.codexpad.paLevel: set power amplifier level to [PA] dBm
+  blocks.codexpad.isconnected: CodexPad is connected?
+  blocks.codexpad.whenPressed: when [KEY] pressed
+  blocks.codexpad.whenJoystickMoved: when [JOYSTICK] axis [WAY] [VALUE]
+  blocks.codexpad.keyPressed: '[KEY] is pressed?'
+  blocks.codexpad.joystickValue: '[JOYSTICK] axis value (0~255)'
+  blocks.codexpad.joystickLXAxis: left joystick X
+  blocks.codexpad.joystickLYAxis: left joystick Y
+  blocks.codexpad.joystickRXAxis: right joystick X
+  blocks.codexpad.joystickRYAxis: right joystick Y
+
+zh-Hans:
+  blocks.codexpad.name: CodexPad 手柄
+  blocks.codexpad.connect: 通过 CodexPad MAC:[MAC] 连接
+  blocks.codexpad.scanConnect: 通过 CodexPad 按键组合 [BTNA] 和 [BTNB] 连接
+  blocks.codexpad.paLevel: 将发射功率设为 [PA] dBm
+  blocks.codexpad.isconnected: CodexPad 是否已连接？
+  blocks.codexpad.whenPressed: 当按下 [KEY] 时
+  blocks.codexpad.whenJoystickMoved: 当 [JOYSTICK] 轴值 [WAY] [VALUE] 时
+  blocks.codexpad.keyPressed: '[KEY] 被按下？'
+  blocks.codexpad.joystickValue: '[JOYSTICK] 轴值（0~255）'
+  blocks.codexpad.joystickLXAxis: 左摇杆 X
+  blocks.codexpad.joystickLYAxis: 左摇杆 Y
+  blocks.codexpad.joystickRXAxis: 右摇杆 X
+  blocks.codexpad.joystickRYAxis: 右摇杆 Y
+
+zh-Hant:
+  blocks.codexpad.name: CodexPad 手柄
+  blocks.codexpad.connect: 通過 CodexPad MAC:[MAC] 連接
+  blocks.codexpad.scanConnect: 通過 CodexPad 按鍵組合 [BTNA] 和 [BTNB] 連接
+  blocks.codexpad.paLevel: 將發射功率設為 [PA] dBm
+  blocks.codexpad.isconnected: CodexPad 是否已連接？
+  blocks.codexpad.whenPressed: 當按下 [KEY] 時
+  blocks.codexpad.whenJoystickMoved: 當 [JOYSTICK] 軸值 [WAY] [VALUE] 時
+  blocks.codexpad.keyPressed: '[KEY] 被按下？'
+  blocks.codexpad.joystickValue: '[JOYSTICK] 軸值（0~255）'
+  blocks.codexpad.joystickLXAxis: 左搖杆 X
+  blocks.codexpad.joystickLYAxis: 左搖杆 Y
+  blocks.codexpad.joystickRXAxis: 右搖杆 X
+  blocks.codexpad.joystickRYAxis: 右搖杆 Y

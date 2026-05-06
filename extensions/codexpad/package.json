@@ -1,0 +1,26 @@
+{
+  "name": "@emakefun/blocks-codexpad",
+  "version": "1.0.0",
+  "private": "true",
+  "type": "module",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./info": {
+      "import": "./dist/info.js"
+    }
+  },
+  "scripts": {
+    "build": "playground-build ."
+  },
+  "dependencies": {
+    "preact": "^10.28.4"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "playground-build": "git+https://github.com/BlockCodeLab/playground-build.git"
+  },
+  "readme": "///docs.emakefun.com/#/zh-cn/peripheral/codexpad/wireless_controller_diffrent"
+}
