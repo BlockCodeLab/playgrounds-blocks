@@ -1,0 +1,40 @@
+en:
+  blocks.rtci2c.name: RTC
+  blocks.rtci2c.init: set [DRV] RTC pins SCL:[SCL] SDA:[SDA]
+  blocks.rtci2c.initRtc: init [DRV] RTC
+  blocks.rtci2c.setTime: set time [YEAR]-[MONTH]-[DAY] [HOUR]:[MINUTE]:[SECOND]
+  blocks.rtci2c.getTime: '[OPTION]'
+  blocks.rtci2c.optionYear: year
+  blocks.rtci2c.optionMonth: month
+  blocks.rtci2c.optionDay: day
+  blocks.rtci2c.optionWeekday: day of week
+  blocks.rtci2c.optionHour: hour
+  blocks.rtci2c.optionMinute: minute
+  blocks.rtci2c.optionSecond: second
+
+zh-Hans:
+  blocks.rtci2c.name: 时钟模块
+  blocks.rtci2c.init: 初始 [DRV] 时钟引脚 SCL:[SCL] SDA:[SDA]
+  blocks.rtci2c.initRtc: 初始 [DRV] 时钟
+  blocks.rtci2c.setTime: 设置时钟 [YEAR]-[MONTH]-[DAY] [HOUR]:[MINUTE]:[SECOND]
+  blocks.rtci2c.getTime: '[OPTION]'
+  blocks.rtci2c.optionYear: 年
+  blocks.rtci2c.optionMonth: 月
+  blocks.rtci2c.optionDay: 日
+  blocks.rtci2c.optionWeekday: 星期
+  blocks.rtci2c.optionHour: 时
+  blocks.rtci2c.optionMinute: 分
+  blocks.rtci2c.optionSecond: 秒
+
+zh-Hant:
+  blocks.rtci2c.name: 時鐘模塊
+  blocks.rtci2c.init: 初始引腳 SCL:[SCL] SDA:[SDA]
+  blocks.rtci2c.setTime: 設置時鐘 [YEAR]-[MONTH]-[DAY] [HOUR]:[MINUTE]:[SECOND]
+  blocks.rtci2c.getTime: '[OPTION]'
+  blocks.rtci2c.optionYear: 年
+  blocks.rtci2c.optionMonth: 月
+  blocks.rtci2c.optionDay: 日
+  blocks.rtci2c.optionWeekday: 星期
+  blocks.rtci2c.optionHour: 時
+  blocks.rtci2c.optionMinute: 分
+  blocks.rtci2c.optionSecond: 秒
