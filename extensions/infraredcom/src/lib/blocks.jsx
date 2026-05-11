@@ -50,7 +50,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.infraredcom.whenReceived"
-        defaultMessage="when ir received"
+        defaultMessage="when ir received data"
       />
     ),
     hat: true,
@@ -103,16 +103,36 @@ export const blocks = (meta) => [
       return [code, this.ORDER_ATOMIC];
     },
   },
-  // {
-  //   id: 'receiveText',
-  //   text: (
-  //     <Text
-  //       id="blocks.infraredcom.receiveText"
-  //       defaultMessage="received String"
-  //     />
-  //   ),
-  //   output: 'string',
-  // },
+  {
+    id: 'rawData',
+    text: (
+      <Text
+        id="blocks.infraredcom.rawData"
+        defaultMessage="raw data"
+      />
+    ),
+    output: 'string',
+    ino(block) {
+      this.definitions_['include_irremote'] = '#include <IRremote.h>';
+      const code = 'IrReceiver.decodedIRData.decodedRawData';
+      return [code, this.ORDER_ATOMIC];
+    },
+  },
+  {
+    id: 'protocol',
+    text: (
+      <Text
+        id="blocks.infraredcom.protocol"
+        defaultMessage="encode protocol"
+      />
+    ),
+    output: 'string',
+    ino(block) {
+      this.definitions_['include_irremote'] = '#include <IRremote.h>';
+      const code = 'getProtocolString(IrReceiver.decodedIRData.protocol)';
+      return [code, this.ORDER_ATOMIC];
+    },
+  },
   '---',
   {
     id: 'initSend',
@@ -198,29 +218,33 @@ export const blocks = (meta) => [
       return code;
     },
   },
-  // {
-  //   id: 'sendText',
-  //   text: (
-  //     <Text
-  //       id="blocks.infraredcom.sendText"
-  //       defaultMessage="pin [PIN] send String [TEXT]"
-  //     />
-  //   ),
-  //   inputs: {
-  //     PIN: meta.boardPins
-  //       ? {
-  //           menu: meta.boardPins.pwm,
-  //         }
-  //       : {
-  //           type: 'positive_integer',
-  //           defaultValue: '1',
-  //         },
-  //     TEXT: {
-  //       type: 'string',
-  //       defaultValue: 'message',
-  //     },
-  //   },
-  // },
+  {
+    id: 'sendRaw',
+    text: (
+      <Text
+        id="blocks.infraredcom.sendRaw"
+        defaultMessage="send raw data [RAW] encode [PROTO]"
+      />
+    ),
+    inputs: {
+      RAW: {
+        type: 'hex32',
+        defaultValue: 0x0,
+      },
+      PROTO: {
+        menu: 'PROTORAW',
+      },
+    },
+    ino(block) {
+      const raw = this.valueToCode(block, 'RAW', this.ORDER_NONE);
+      const proto = block.getFieldValue('PROTO');
+      this.definitions_['include_irremote'] = '#include <IRremote.h>';
+      let code = '';
+      code += `IrSender.send${proto}(${raw});\n`;
+      code += 'IrSender.space(20);\n';
+      return code;
+    },
+  },
 ];
 
 export const menus = {
@@ -245,9 +269,20 @@ export const menus = {
       ['NEC2', 'NEC2'],
       ['Onkyo', 'ONKYO'],
       ['Apple', 'APPLE'],
+      ['Bang & Olufsen', 'BANG_OLUFSEN'],
       ['BoseWave', 'BOSEWAVE'],
       ['FAST', 'FAST'],
       ['Lego', 'LEGO_PF'],
+      ['OpenLASIR', 'OPENLASIR'],
+    ],
+  },
+  PROTORAW: {
+    items: [
+      ['NEC', 'NECRaw'],
+      ['Denon', 'DenonRaw'],
+      ['LG', 'LGRaw'],
+      ['Lego', 'LegoPowerFunctions'],
+      ['OpenLASIR', 'OPENLASIRRaw'],
     ],
   },
 };
