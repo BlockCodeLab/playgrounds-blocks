@@ -1,0 +1,17 @@
+en:
+  blocks.qmc5883l.name: QMC5883L Compass
+  blocks.qmc5883l.init: set pins SCL:[SCL] SDA:[SDA]
+  blocks.qmc5883l.heading: heading
+  blocks.qmc5883l.xyz: '[XYZ] value'
+
+zh-Hans:
+  blocks.qmc5883l.name: QMC5883L 指南针
+  blocks.qmc5883l.init: 初始引脚 SCL:[SCL] SDA:[SDA]
+  blocks.qmc5883l.heading: 方位
+  blocks.qmc5883l.xyz: '[XYZ] 值'
+
+zh-Hant:
+  blocks.qmc5883l.name: QMC5883L 指南針
+  blocks.qmc5883l.init: 初始引腳 SCL:[SCL] SDA:[SDA]
+  blocks.qmc5883l.heading: 方位
+  blocks.qmc5883l.xyz: '[XYZ] 值'
