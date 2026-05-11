@@ -22,7 +22,7 @@ export const menus = {
       [ScratchBlocks.Msg.EVENT_WHENKEYPRESSED_RIGHT, 'RIGHT'],
       ['X (□)', 'SQUARE_X'],
       ['Y (△)', 'TRIANGLE_Y'],
-      ['A (×)', 'CROSS_A'],
+      ['A (✕)', 'CROSS_A'],
       ['B (○)', 'CIRCLE_B'],
       ['L1', 'L1'],
       ['L2', 'L2'],
@@ -119,7 +119,10 @@ export const blocks = [
       this.definitions_['import_asyncio'] = 'import asyncio';
       this.definitions_['codexpad'] = 'codex_pad = codexpad.CodexPad()';
       let code = '';
-      code += `asyncio.create_task(codex_pad.scan_and_connect(${keys.join('|')}, scan_duration_ms=1000, connect_timeout_ms=10_000))\n`;
+      code += 'try:\n';
+      code += `  await codex_pad.scan_and_connect(${keys.join('|')}, scan_duration_ms=1000, connect_timeout_ms=5000)\n`;
+      code += 'except Exception as e:\n';
+      code += '  pass\n';
       return code;
     },
   },
