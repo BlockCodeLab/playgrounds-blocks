@@ -8,7 +8,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.bmx280.init"
-        defaultMessage="set pins SCL[SCL] SDA[SDA]"
+        defaultMessage="set pins SCL:[SCL] SDA:[SDA]"
       />
     ),
     inputs: {

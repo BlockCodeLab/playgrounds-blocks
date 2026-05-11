@@ -15,7 +15,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.vk16k33.init"
-        defaultMessage="set pins SCL[SCL] SDA[SDA]"
+        defaultMessage="set pins SCL:[SCL] SDA:[SDA]"
       />
     ),
     inputs: {

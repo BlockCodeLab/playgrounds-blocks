@@ -1,6 +1,6 @@
 en:
   blocks.vk16k33.name: VK16K33 4-Digit
-  blocks.vk16k33.init: set pins SCL[SCL] SDA[SDA]
+  blocks.vk16k33.init: set pins SCL:[SCL] SDA:[SDA]
   blocks.vk16k33.addr: set I2C address [ADDR]
   blocks.vk16k33.display: display number [NUM]
   blocks.vk16k33.time: display time [HH]:[MM]
@@ -11,7 +11,6 @@ en:
   blocks.vk16k33.state.off: off
   blocks.vk16k33.frequency: set blink frequency [FREQ]
   blocks.vk16k33.clear: clear display
-
 
 zh-Hans:
   blocks.vk16k33.name: VK16K33 四位数码管
