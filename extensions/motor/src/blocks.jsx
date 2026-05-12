@@ -6,7 +6,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.motor.init"
-        defaultMessage="set [MOTOR] pins IN1:[IN1] IN2:[IN2]"
+        defaultMessage="set phase-enable mode [MOTOR] pins IN1:[IN1] IN2:[IN2]"
       />
     ),
     inputs: {
@@ -14,17 +14,13 @@ export const blocks = (meta) => [
         menu: 'Motor',
       },
       IN1: meta.boardPins
-        ? {
-            menu: meta.boardPins.out,
-          }
+        ? { menu: meta.boardPins.out }
         : {
             type: 'positive_integer',
             defaultValue: 1,
           },
       IN2: meta.boardPins
-        ? {
-            menu: meta.boardPins.pwm,
-          }
+        ? { menu: meta.boardPins.pwm }
         : {
             type: 'positive_integer',
             defaultValue: 2,
@@ -54,7 +50,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.motor.run"
-        defaultMessage="set [MOTOR] to [SPEED] % [DIR] speed"
+        defaultMessage="set phase-enable mode [MOTOR] to [SPEED] % [DIR] speed"
       />
     ),
     inputs: {
@@ -122,7 +118,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.motor.stop"
-        defaultMessage="stop [MOTOR]"
+        defaultMessage="stop phase-enable mode [MOTOR]"
       />
     ),
     inputs: {
@@ -141,7 +137,148 @@ export const blocks = (meta) => [
       const motor = block.getFieldValue('MOTOR');
       let code = '';
       code += `_${motor}[0].value(0)\n`;
-      code += `_${motor}[1].duty(1023)\n`;
+      code += `_${motor}[1].duty(0)\n`;
+      return code;
+    },
+  },
+  '---',
+  {
+    id: 'initDual',
+    text: (
+      <Text
+        id="blocks.motor.initDual"
+        defaultMessage="set dual pwm mode [MOTOR] pins IN1:[IN1] IN2:[IN2]"
+      />
+    ),
+    inputs: {
+      MOTOR: {
+        menu: 'Motor',
+      },
+      IN1: meta.boardPins
+        ? { menu: meta.boardPins.pwm }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
+      IN2: meta.boardPins
+        ? { menu: meta.boardPins.pwm }
+        : {
+            type: 'positive_integer',
+            defaultValue: 2,
+          },
+    },
+    ino(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const in1 = meta.boardPins ? block.getFieldValue('IN1') : this.valueToCode(block, 'IN1', this.ORDER_NONE);
+      const in2 = meta.boardPins ? block.getFieldValue('IN2') : this.valueToCode(block, 'IN2', this.ORDER_NONE);
+      this.definitions_[`variable_${motor}`] = `uint8_t _${motor}[] = {${in1}, ${in2}};`;
+      this.definitions_[`setup_pin_${in1}`] = `pinMode(_${motor}[0], OUTPUT);`;
+      this.definitions_[`setup_pin_${in2}`] = `pinMode(_${motor}[1], OUTPUT);`;
+      return '';
+    },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const in1 = meta.boardPins ? block.getFieldValue('IN1') : this.valueToCode(block, 'IN1', this.ORDER_NONE);
+      const in2 = meta.boardPins ? block.getFieldValue('IN2') : this.valueToCode(block, 'IN2', this.ORDER_NONE);
+      this.definitions_['import_pin'] = 'from machine import Pin';
+      this.definitions_['import_pwm'] = 'from machine import PWM';
+      this.definitions_[`motor_${motor}`] = `_${motor} = (PWM(Pin(${in1}), freq=1000), PWM(Pin(${in2}), freq=1000))`;
+      return '';
+    },
+  },
+  {
+    id: 'runDual',
+    text: (
+      <Text
+        id="blocks.motor.runDual"
+        defaultMessage="set dual pwm mode [MOTOR] to [SPEED] % [DIR] speed"
+      />
+    ),
+    inputs: {
+      MOTOR: {
+        menu: 'Motor',
+      },
+      SPEED: {
+        shadow: 'speedvalue',
+      },
+      DIR: {
+        type: 'number',
+        inputMode: true,
+        defaultValue: '1',
+        menu: [
+          [
+            <Text
+              id="blocks.motor.forward"
+              defaultMessage="forward"
+            />,
+            '1',
+          ],
+          [
+            <Text
+              id="blocks.motor.reverse"
+              defaultMessage="reverse"
+            />,
+            '-1',
+          ],
+        ],
+      },
+    },
+    ino(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const dir = this.valueToCode(block, 'DIR', this.ORDER_NONE);
+      const speed = this.valueToCode(block, 'SPEED', this.ORDER_NONE);
+
+      let code = '';
+      if (dir > 0) {
+        code += `analogWrite(_${motor}[0], round((float)${speed} * ${255 / 100}));\n`;
+        code += `analogWrite(_${motor}[1], 0);\n`;
+      } else {
+        code += `analogWrite(_${motor}[0], 0);\n`;
+        code += `analogWrite(_${motor}[1], round((float)${speed} * ${255 / 100}));\n`;
+      }
+      return code;
+    },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      const dir = this.valueToCode(block, 'DIR', this.ORDER_NONE);
+      const speed = this.valueToCode(block, 'SPEED', this.ORDER_NONE);
+
+      let code = '';
+      if (dir > 0) {
+        code += `_${motor}[0].duty(round(${speed} * ${1023 / 100}))\n`;
+        code += `_${motor}[1].duty(0)\n`;
+      } else {
+        code += `_${motor}[0].duty(0)\n`;
+        code += `_${motor}[1].duty(round(${speed} * ${1023 / 100}))\n`;
+      }
+      return code;
+    },
+  },
+  {
+    id: 'stopDual',
+    text: (
+      <Text
+        id="blocks.motor.stopDual"
+        defaultMessage="stop dual pwm mode [MOTOR]"
+      />
+    ),
+    inputs: {
+      MOTOR: {
+        menu: 'Motor',
+      },
+    },
+    ino(block) {
+      const motor = block.getFieldValue('MOTOR');
+      let code = '';
+      code += `analogWrite(_${motor}[0], 0);\n`;
+      code += `analogWrite(_${motor}[1], 0);\n`;
+      return code;
+    },
+    mpy(block) {
+      const motor = block.getFieldValue('MOTOR');
+      let code = '';
+      code += `_${motor}[0].duty(0)\n`;
+      code += `_${motor}[1].duty(0)\n`;
       return code;
     },
   },
@@ -171,6 +308,6 @@ export const blocks = (meta) => [
 
 export const menus = {
   Motor: {
-    items: ['M1', 'M2', 'M3', 'M4'],
+    items: ['M0', 'M1', 'M2', 'M3', 'M4', 'M5'],
   },
 };

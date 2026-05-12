@@ -1,23 +1,32 @@
 en:
   blocks.motor.name: Motor
-  blocks.motor.init: set [MOTOR] pins IN1:[IN1] IN2:[IN2]
-  blocks.motor.run: set [MOTOR] to [SPEED] % [DIR] speed
+  blocks.motor.init: set phase-enable mode [MOTOR] pins IN1:[IN1] IN2:[IN2]
+  blocks.motor.run: set phase-enable mode [MOTOR] to [SPEED] % [DIR] speed
   blocks.motor.forward: forward
   blocks.motor.reverse: reverse
-  blocks.motor.stop: stop [MOTOR]
+  blocks.motor.stop: stop phase-enable mode [MOTOR]
+  blocks.motor.initDual: set dual pwm mode [MOTOR] pins IN1:[IN1] IN2:[IN2]
+  blocks.motor.runDual: set dual pwm mode [MOTOR] to [SPEED] % [DIR] speed
+  blocks.motor.stopDual: stop dual pwm mode [MOTOR]
 
 zh-Hans:
   blocks.motor.name: 电机
-  blocks.motor.init: 初始 [MOTOR] 引脚 IN1:[IN1] IN2:[IN2]
-  blocks.motor.run: 将 [MOTOR] [DIR] 速度设为 [SPEED] %
+  blocks.motor.init: 初始单 PWM 模式 [MOTOR] 引脚 IN1:[IN1] IN2:[IN2]
+  blocks.motor.run: 将单 PWM 模式 [MOTOR] [DIR] 速度设为 [SPEED] %
   blocks.motor.forward: 正转
   blocks.motor.reverse: 反转
-  blocks.motor.stop: 停止 [MOTOR]
+  blocks.motor.stop: 停止单 PWM 模式 [MOTOR]
+  blocks.motor.initDual: 初始双 PWM 模式 [MOTOR] 引脚 IN1:[IN1] IN2:[IN2]
+  blocks.motor.runDual: 将双 PWM 模式 [MOTOR] [DIR] 速度设为 [SPEED] %
+  blocks.motor.stopDual: 停止双 PWM 模式 [MOTOR]
 
 zh-Hant:
   blocks.motor.name: 電機
-  blocks.motor.init: 初始 [MOTOR] 引腳 IN1:[IN1] IN2:[IN2]
-  blocks.motor.run: 將 [MOTOR] [DIR] 速度設為 [SPEED] %
+  blocks.motor.init: 初始單 PWM 模式 [MOTOR] 引腳 IN1:[IN1] IN2:[IN2]
+  blocks.motor.run: 將單 PWM 模式 [MOTOR] [DIR] 速度設為 [SPEED] %
   blocks.motor.forward: 正轉
   blocks.motor.reverse: 反轉
-  blocks.motor.stop: 停止 [MOTOR]
+  blocks.motor.stop: 停止單 PWM 模式 [MOTOR]
+  blocks.motor.initDual: 初始雙 PWM 模式 [MOTOR] 引腳 IN1:[IN1] IN2:[IN2]
+  blocks.motor.runDual: 將雙 PWM 模式 [MOTOR] [DIR] 速度設為 [SPEED] %
+  blocks.motor.stopDual: 停止雙 PWM 模式 [MOTOR]
