@@ -1,8 +1,7 @@
 import { changeCase } from '@blockcode/utils';
 import { Text } from '@blockcode/core';
 
-const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
-const notArduino = (meta) => !isArduino(meta);
+const notArduino = (meta) => !['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
 
 export const blocks = (meta) => [
   // [TODO] 彩灯点阵图案编辑器
@@ -392,7 +391,7 @@ export const blocks = (meta) => [
   },
   '---',
   notArduino(meta) && {
-    id: 'effect',
+    id: 'effectStart',
     text: (
       <Text
         id="blocks.ws2812pixels.effect"
@@ -413,12 +412,25 @@ export const blocks = (meta) => [
     mpy(block) {
       const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const effect = block.getFieldValue('EFFECT');
-      const code = `asyncio.create_task(ledpixel_${pin}.${effect}())\n`;
+
+      const flagName = this.createName('ws2812_effect_flag');
+      this.definitions_[flagName] = `${flagName} = asyncio.ThreadSafeFlag()`;
+
+      const funcName = this.getDistinctName('ws2812_effect');
+      let code = '';
+      code += '@_tasks__.append\n';
+      code += `async def ${funcName}():\n`;
+      code += '  while True:\n';
+      code += `    await ${flagName}.wait()\n`;
+      code += `    await ledpixel_${pin}.${effect}()\n`;
+      this.definitions_[funcName] = code;
+
+      code = `${flagName}.set()\n`;
       return code;
     },
   },
   notArduino(meta) && {
-    id: 'effectColor',
+    id: 'effectColorStart',
     text: (
       <Text
         id="blocks.ws2812pixels.effectColor"
@@ -443,11 +455,25 @@ export const blocks = (meta) => [
       const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const color = this.valueToCode(block, 'COLOR', this.ORDER_NONE);
       const effect = block.getFieldValue('EFFECT');
-      const code = `asyncio.create_task(ledpixel_${pin}.${effect}(${color}))\n`;
+
+      const flagName = this.createName('ws2812_effect_flag');
+      this.definitions_[flagName] = `${flagName} = asyncio.ThreadSafeFlag()`;
+
+      let code = '';
+      code += '@_tasks__.append\n';
+      code += 'async def _start_1():\n';
+      code += '  while True:\n';
+      code += `    await ${flagName}.wait()\n`;
+      code += `    await ledpixel_${pin}.${effect}(${color})\n`;
+      const funcName = this.getDistinctName('ws2812_effect');
+      this.definitions_[funcName] = code;
+
+      code = `${flagName}.set()\n`;
       return code;
     },
   },
-  isArduino(meta) && {
+  '---',
+  {
     id: 'effect',
     text: (
       <Text
@@ -472,8 +498,14 @@ export const blocks = (meta) => [
       const code = `ledpixel_${pin}.${effect}();\n`;
       return code;
     },
+    mpy(block) {
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const effect = block.getFieldValue('EFFECT');
+      const code = `await ledpixel_${pin}.${effect}(frame=True)\n`;
+      return code;
+    },
   },
-  isArduino(meta) && {
+  {
     id: 'effectColor',
     text: (
       <Text
@@ -500,6 +532,13 @@ export const blocks = (meta) => [
       const color = this.valueToCode(block, 'COLOR', this.ORDER_NONE);
       const effect = changeCase.camelCase(block.getFieldValue('EFFECT'));
       const code = `ledpixel_${pin}.${effect}(${color});\n`;
+      return code;
+    },
+    mpy(block) {
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const color = this.valueToCode(block, 'COLOR', this.ORDER_NONE);
+      const effect = block.getFieldValue('EFFECT');
+      const code = `await ledpixel_${pin}.${effect}(${color},frame=True)\n`;
       return code;
     },
   },

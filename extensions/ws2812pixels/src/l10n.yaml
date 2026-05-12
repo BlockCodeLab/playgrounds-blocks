@@ -10,8 +10,8 @@ en:
   blocks.ws2812pixels.effectColorWait: pin [PIN] play [COLOR] [EFFECT] effect until done
   blocks.ws2812pixels.effect: pin [PIN] start [EFFECT] effect
   blocks.ws2812pixels.effectColor: pin [PIN] start [COLOR] [EFFECT] effect
-  blocks.ws2812pixels.effectStep: pin [PIN] effect [EFFECT]
-  blocks.ws2812pixels.effectStepColor: pin [PIN] [COLOR] [EFFECT] effect
+  blocks.ws2812pixels.effectStep: pin [PIN] frame [EFFECT] effect
+  blocks.ws2812pixels.effectStepColor: pin [PIN] frame [COLOR] [EFFECT] effect
   blocks.ws2812pixels.effect.rainbow: rainbow cycle
   blocks.ws2812pixels.effect.chase: chase
   blocks.ws2812pixels.effect.twinkle: twinkle
@@ -33,10 +33,10 @@ zh-Hans:
   blocks.ws2812pixels.close: 关闭引脚[PIN]所有灯
   blocks.ws2812pixels.effectWait: 引脚[PIN]播放[EFFECT]效果等待播完
   blocks.ws2812pixels.effectColorWait: 引脚[PIN]播放[COLOR][EFFECT]效果等待播完
-  blocks.ws2812pixels.effect: 引脚[PIN]播放[EFFECT]效果
-  blocks.ws2812pixels.effectColor: 引脚[PIN]播放[COLOR][EFFECT]效果
-  blocks.ws2812pixels.effectStep: 引脚[PIN][EFFECT]效果
-  blocks.ws2812pixels.effectStepColor: 引脚[PIN][COLOR][EFFECT]效果
+  blocks.ws2812pixels.effect: 引脚[PIN]开始[EFFECT]效果
+  blocks.ws2812pixels.effectColor: 引脚[PIN]开始[COLOR][EFFECT]效果
+  blocks.ws2812pixels.effectStep: 引脚[PIN]逐帧[EFFECT]效果
+  blocks.ws2812pixels.effectStepColor: 引脚[PIN]逐帧[COLOR][EFFECT]效果
   blocks.ws2812pixels.effect.rainbow: 彩虹环
   blocks.ws2812pixels.effect.chase: 追逐
   blocks.ws2812pixels.effect.twinkle: 爆闪
@@ -58,10 +58,10 @@ zh-Hant:
   blocks.ws2812pixels.close: 關閉引腳[PIN]所有燈
   blocks.ws2812pixels.effectWait: 引腳[PIN]播放[EFFECT]效果
   blocks.ws2812pixels.effectColorWait: 引腳[PIN]播放[COLOR][EFFECT]效果直到結束
-  blocks.ws2812pixels.effect: 引腳[PIN]播放[EFFECT]效果
-  blocks.ws2812pixels.effectColor: 引腳[PIN]播放[COLOR][EFFECT]效果
-  blocks.ws2812pixels.effectStep: 引腳[PIN][EFFECT]效果
-  blocks.ws2812pixels.effectStepColor: 引腳[PIN][COLOR][EFFECT]效果
+  blocks.ws2812pixels.effect: 引腳[PIN]开始[EFFECT]效果
+  blocks.ws2812pixels.effectColor: 引腳[PIN]开始[COLOR][EFFECT]效果
+  blocks.ws2812pixels.effectStep: 引腳[PIN]逐幀[EFFECT]效果
+  blocks.ws2812pixels.effectStepColor: 引腳[PIN]逐幀[COLOR][EFFECT]效果
   blocks.ws2812pixels.effect.rainbow: 彩虹環
   blocks.ws2812pixels.effect.chase: 追逐
   blocks.ws2812pixels.effect.twinkle: 爆閃
