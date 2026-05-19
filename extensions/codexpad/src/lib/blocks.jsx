@@ -234,7 +234,7 @@ export const blocks = [
       },
       VALUE: {
         type: 'integer',
-        defaultValue: 0,
+        defaultValue: 150,
       },
     },
     mpy(block) {

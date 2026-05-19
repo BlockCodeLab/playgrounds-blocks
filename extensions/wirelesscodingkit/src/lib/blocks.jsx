@@ -99,7 +99,6 @@ export const blocks = (meta) => {
           return code;
         },
       },
-      '---',
       {
         label: (
           <Text
@@ -204,7 +203,6 @@ export const blocks = (meta) => {
           return code;
         },
       },
-      '---',
       {
         label: (
           <Text
@@ -244,7 +242,6 @@ export const blocks = (meta) => {
     ],
     // Arduino 主板才有4位数码管
     isArduino && [
-      '---',
       {
         label: (
           <Text
@@ -364,7 +361,6 @@ export const blocks = (meta) => {
       },
     ],
     [
-      '---',
       {
         label: (
           <Text
@@ -397,7 +393,6 @@ export const blocks = (meta) => {
           return [code, this.ORDER_FUNCTION_CALL];
         },
       },
-      '---',
       {
         label: (
           <Text
@@ -454,7 +449,6 @@ export const blocks = (meta) => {
           return [code, this.ORDER_FUNCTION_CALL];
         },
       },
-      '---',
       {
         label: (
           <Text
@@ -487,7 +481,6 @@ export const blocks = (meta) => {
           return [code, this.ORDER_FUNCTION_CALL];
         },
       },
-      '---',
       {
         label: (
           <Text
@@ -520,7 +513,6 @@ export const blocks = (meta) => {
           return [code, this.ORDER_FUNCTION_CALL];
         },
       },
-      '---',
       {
         label: (
           <Text
@@ -552,7 +544,6 @@ export const blocks = (meta) => {
           return [code, this.ORDER_FUNCTION_CALL];
         },
       },
-      '---',
       {
         label: (
           <Text

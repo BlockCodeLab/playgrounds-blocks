@@ -270,15 +270,15 @@ export const blocks = (meta) => [
     ino(block) {
       const motor = block.getFieldValue('MOTOR');
       let code = '';
-      code += `analogWrite(_${motor}[0], 0);\n`;
-      code += `analogWrite(_${motor}[1], 0);\n`;
+      code += `analogWrite(_${motor}[0], 255);\n`;
+      code += `analogWrite(_${motor}[1], 255);\n`;
       return code;
     },
     mpy(block) {
       const motor = block.getFieldValue('MOTOR');
       let code = '';
-      code += `_${motor}[0].duty(0)\n`;
-      code += `_${motor}[1].duty(0)\n`;
+      code += `_${motor}[0].duty(1023)\n`;
+      code += `_${motor}[1].duty(1023)\n`;
       return code;
     },
   },

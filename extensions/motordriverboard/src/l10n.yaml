@@ -1,0 +1,80 @@
+en:
+  blocks.motordriverboard.name: Motor Driver Board
+  blocks.motordriverboard.ps2: PS2 controller
+  blocks.motordriverboard.eventPolling: controller events polling
+  blocks.motordriverboard.whenPressed: when [KEY] pressed
+  blocks.motordriverboard.whenJoystickMoved: when [JOYSTICK] axis [WAY] [VALUE]
+  blocks.motordriverboard.keyPressed: '[KEY] is pressed?'
+  blocks.motordriverboard.joystickValue: '[JOYSTICK] axis value (0~255)'
+  blocks.motordriverboard.joystickLXAxis: left joystick X
+  blocks.motordriverboard.joystickLYAxis: left joystick Y
+  blocks.motordriverboard.joystickRXAxis: right joystick X
+  blocks.motordriverboard.joystickRYAxis: right joystick Y
+  blocks.motordriverboard.io: Expand IOs
+  blocks.motordriverboard.setIO: set expand IO [IO] to [VALUE]
+  blocks.motordriverboard.high: high
+  blocks.motordriverboard.low: low
+  blocks.motordriverboard.setPwmFreq: set expand IOs PWM freq [FREQ]
+  blocks.motordriverboard.setPwmDuty: set expand IO [IO] PWM duty [DUTY]
+  blocks.motordriverboard.servo: Servo
+  blocks.motordriverboard.setServo: set servo [SERVO] angle to [ANGLE]
+  blocks.motordriverboard.motor: Motor
+  blocks.motordriverboard.all: all
+  blocks.motordriverboard.forward: forward
+  blocks.motordriverboard.reverse: reverse
+  blocks.motordriverboard.setMotor: set DC motor [MOTOR] [DIR] speed to [SPEED]%
+  blocks.motordriverboard.stopMotor: stop DC motor [MOTOR]
+  blocks.motordriverboard.stepper: Stepper
+  blocks.motordriverboard.initStepper: init stepper [MOTOR] speed [SPEED] rpm and [STEPS] steps/round
+  blocks.motordriverboard.stopStepper: set stepper [MOTOR] [MODE] drive [DIR] steps to [STEPS]
+  blocks.motordriverboard.stepperStop: stop stepper [MOTOR]
+  blocks.motordriverboard.stepperSingle: single step
+  blocks.motordriverboard.stepperFull: full step
+  blocks.motordriverboard.stepperInterleave: interleaved step
+  blocks.motordriverboard.stepperMicro: micro step
+  blocks.motordriverboard.encoderMotor: Encoder Motor
+  blocks.motordriverboard.setEncoderMotor: set encoder motor [MOTOR] [DIR] speed to [SPEED]%
+  blocks.motordriverboard.setEncoderMotorPules: set encoder motor [MOTOR] [SPEED]% speed [DIR] pules to [PULSES]
+  blocks.motordriverboard.stopEncoderMotor: stop encoder motor [MOTOR]
+
+zh-Hans:
+  blocks.motordriverboard.name: 电机驱动扩展板
+  blocks.motordriverboard.ps2: PS2 手柄
+  blocks.motordriverboard.eventPolling: 手柄事件轮询
+  blocks.motordriverboard.whenPressed: 当按下 [KEY] 时
+  blocks.motordriverboard.whenJoystickMoved: 当 [JOYSTICK] 轴值 [WAY] [VALUE] 时
+  blocks.motordriverboard.keyPressed: '[KEY] 被按下？'
+  blocks.motordriverboard.joystickValue: '[JOYSTICK] 轴值（0~255）'
+  blocks.motordriverboard.joystickLXAxis: 左摇杆 X
+  blocks.motordriverboard.joystickLYAxis: 左摇杆 Y
+  blocks.motordriverboard.joystickRXAxis: 右摇杆 X
+  blocks.motordriverboard.joystickRYAxis: 右摇杆 Y
+  blocks.motordriverboard.io: 扩展 IO
+  blocks.motordriverboard.setIO: 将扩展 IO [IO] 设为 [VALUE]
+  blocks.motordriverboard.high: 高电平
+  blocks.motordriverboard.low: 低电平
+  blocks.motordriverboard.setPwmFreq: 将扩展 IO PWM 频率设为 [FREQ]
+  blocks.motordriverboard.setPwmDuty: 将扩展 IO [IO] PWM 占空比设为 [DUTY]
+  blocks.motordriverboard.servo: 舵机
+  blocks.motordriverboard.setServo: 将舵机 [SERVO] 角度设为 [ANGLE]
+  blocks.motordriverboard.motor: 电机
+  blocks.motordriverboard.all: 全部
+  blocks.motordriverboard.forward: 正转
+  blocks.motordriverboard.reverse: 反转
+  blocks.motordriverboard.setMotor: 将直流电机 [MOTOR] [DIR] 速度设为 [SPEED]%
+  blocks.motordriverboard.stopMotor: 停止直流电机 [MOTOR]
+  blocks.motordriverboard.stepper: 步进电机
+  blocks.motordriverboard.initStepper: 初始化步进电机 [MOTOR] 转速 [SPEED] 圈/分钟 [STEPS] 步/圈
+  blocks.motordriverboard.setStepper: 将步进电机 [MOTOR] 以 [MODE] 驱动 [DIR] [STEPS] 步
+  blocks.motordriverboard.stopStepper: 停止步进电机 [MOTOR]
+  blocks.motordriverboard.stepperSingle: 单步
+  blocks.motordriverboard.stepperFull: 全步
+  blocks.motordriverboard.stepperInterleave: 半步
+  blocks.motordriverboard.stepperMicro: 微步
+  blocks.motordriverboard.encoderMotor: 编码电机
+  blocks.motordriverboard.setEncoderMotor: 将编码电机 [MOTOR] [DIR] 速度设为 [SPEED]%
+  blocks.motordriverboard.setEncoderMotorPules: 将编码电机 [MOTOR] 以 [SPEED]% 的速度[DIR] [PULSES] 个脉冲
+  blocks.motordriverboard.stopEncoderMotor: 停止编码电机 [MOTOR]
+
+zh-Hant:
+  blocks.motordriverboard.name: 電機驅動扩展板

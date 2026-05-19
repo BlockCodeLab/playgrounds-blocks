@@ -1,0 +1,22 @@
+{
+  "name": "@emakefun/blocks-motordriverboard",
+  "version": "1.0.0",
+  "private": "true",
+  "type": "module",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./info": {
+      "import": "./dist/info.js"
+    }
+  },
+  "dependencies": {
+    "preact": "^10.28.4"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "readme": "///docs.emakefun.com/#/zh-cn/arduino_products/uno/motor_driver_board/MotorDriverBoard"
+}
