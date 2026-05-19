@@ -78,3 +78,40 @@ zh-Hans:
 
 zh-Hant:
   blocks.motordriverboard.name: 電機驅動扩展板
+  blocks.motordriverboard.name: 電機驅動擴展板
+  blocks.motordriverboard.ps2: PS2 手柄
+  blocks.motordriverboard.eventPolling: 手柄事件輪詢
+  blocks.motordriverboard.whenPressed: 當按下 [KEY] 時
+  blocks.motordriverboard.whenJoystickMoved: 當 [JOYSTICK] 軸值 [WAY] [VALUE] 時
+  blocks.motordriverboard.keyPressed: '[KEY] 被按下？'
+  blocks.motordriverboard.joystickValue: '[JOYSTICK] 軸值（0~255）'
+  blocks.motordriverboard.joystickLXAxis: 左搖杆 X
+  blocks.motordriverboard.joystickLYAxis: 左搖杆 Y
+  blocks.motordriverboard.joystickRXAxis: 右搖杆 X
+  blocks.motordriverboard.joystickRYAxis: 右搖杆 Y
+  blocks.motordriverboard.io: 擴展 IO
+  blocks.motordriverboard.setIO: 將擴展 IO [IO] 設為 [VALUE]
+  blocks.motordriverboard.high: 高電平
+  blocks.motordriverboard.low: 低電平
+  blocks.motordriverboard.setPwmFreq: 將擴展 IO PWM 頻率設為 [FREQ]
+  blocks.motordriverboard.setPwmDuty: 將擴展 IO [IO] PWM 占空比設為 [DUTY]
+  blocks.motordriverboard.servo: 舵機
+  blocks.motordriverboard.setServo: 將舵機 [SERVO] 角度設為 [ANGLE]
+  blocks.motordriverboard.motor: 電機
+  blocks.motordriverboard.all: 全部
+  blocks.motordriverboard.forward: 正轉
+  blocks.motordriverboard.reverse: 反轉
+  blocks.motordriverboard.setMotor: 將直流電機 [MOTOR] [DIR] 速度設為 [SPEED]%
+  blocks.motordriverboard.stopMotor: 停止直流電機 [MOTOR]
+  blocks.motordriverboard.stepper: 步進電機
+  blocks.motordriverboard.initStepper: 初始化步進電機 [MOTOR] 轉速 [SPEED] 圈/分鐘 [STEPS] 步/圈
+  blocks.motordriverboard.setStepper: 將步進電機 [MOTOR] 以 [MODE] 驅動 [DIR] [STEPS] 步
+  blocks.motordriverboard.stopStepper: 停止步進電機 [MOTOR]
+  blocks.motordriverboard.stepperSingle: 單步
+  blocks.motordriverboard.stepperFull: 全步
+  blocks.motordriverboard.stepperInterleave: 半步
+  blocks.motordriverboard.stepperMicro: 微步
+  blocks.motordriverboard.encoderMotor: 編碼電機
+  blocks.motordriverboard.setEncoderMotor: 將編碼電機 [MOTOR] [DIR] 速度設為 [SPEED]%
+  blocks.motordriverboard.setEncoderMotorPules: 將編碼電機 [MOTOR] 以 [SPEED]% 的速度[DIR] [PULSES] 個脈衝
+  blocks.motordriverboard.stopEncoderMotor: 停止編碼電機 [MOTOR]
