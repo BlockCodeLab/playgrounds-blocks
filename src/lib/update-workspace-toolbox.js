@@ -1,6 +1,6 @@
 import { ScratchBlocks } from './scratch-blocks';
 
-export function updateWorkspaceToolbox(workspace, xmlDom, toolboxXml) {
+export function updateWorkspaceToolbox(workspace, toolboxXml, xmlDom) {
   // 记录工具栏位置
   const categoryId = workspace.toolbox_.getSelectedCategoryId();
   const offset = workspace.toolbox_.getCategoryScrollOffset();

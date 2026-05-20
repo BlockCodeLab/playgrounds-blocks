@@ -266,7 +266,7 @@ export function BlocksEditor({
     const buildinExtensions = onBuildinExtensions?.();
     const toolboxXml = updateToolboxXml(buildinExtensions, options, meta.value);
     if (ref.workspace?.toolbox_) {
-      updateWorkspaceToolbox(ref.workspace, xmlDom, wrapToolboxXml(toolboxXml));
+      updateWorkspaceToolbox(ref.workspace, wrapToolboxXml(toolboxXml), xmlDom);
     }
     return toolboxXml;
   }, []);
@@ -405,7 +405,7 @@ export function BlocksEditor({
     // 更新积木栏
     const buildinExtensions = onBuildinExtensions?.();
     const toolboxXml = updateToolboxXml(buildinExtensions, options, meta.value);
-    updateWorkspaceToolbox(ref.workspace, null, wrapToolboxXml(toolboxXml));
+    updateWorkspaceToolbox(ref.workspace, wrapToolboxXml(toolboxXml));
 
     // 加载积木到工作区
     loadXmlToWorkspace(file.value.xmlDom ?? file.value.xml, globalVariables, ref.workspace);
@@ -440,7 +440,7 @@ export function BlocksEditor({
       clearTimeout(updateWorkspace.timeout);
       updateWorkspace.timeout = setTimeout(() => {
         updateWorkspace(ScratchBlocks.Xml.workspaceToDom(ref.workspace));
-      });
+      }, 5); // 影响注释显示
     }
 
     // 检查代码如果有改动
@@ -585,6 +585,7 @@ export function BlocksEditor({
 
       // 绑定工作区事件
       ref.workspace.addChangeListener((e) => {
+        console.log(e.type);
         if (splashVisible.value) return;
 
         // 创建变量后添加积木前选项框
