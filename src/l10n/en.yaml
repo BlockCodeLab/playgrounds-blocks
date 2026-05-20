@@ -10,7 +10,7 @@ blocks.panes.monitor: Monitor
 
 blocks.extensions.addExtension: Add Extension
 blocks.extensions.empty: No extension!
-blocks.extensions.loading: "Loading..."
+blocks.extensions.loading: 'Loading...'
 blocks.extensions.documentation: Open Documentation
 blocks.extensions.custom: Custom
 
@@ -25,11 +25,11 @@ blocks.dataPrompt.listAvailableToAllTargets: This list will be available to all 
 blocks.dataPrompt.makeList: Make a List
 blocks.dataPrompt.listExists: A list named "%1" already exists.
 blocks.dataPrompt.newList: New List
-blocks.dataPrompt.listTitle: "New list name:"
+blocks.dataPrompt.listTitle: 'New list name:'
 blocks.dataPrompt.makeArray: Make a Array
 blocks.dataPrompt.arrayExists: A array named "%1" already exists.
 blocks.dataPrompt.newArray: New Array
-blocks.dataPrompt.arrayTitle: "New array name:"
+blocks.dataPrompt.arrayTitle: 'New array name:'
 
 blocks.myBlockPrompt.title: Make a Block
 blocks.myBlockPrompt.addAnInput: Add an input
@@ -46,7 +46,7 @@ blocks.downloadPrompt.firmwareOutdated: The firmware is outdated. Please update 
 blocks.events.programStart: when program start
 blocks.control.stopOther: other scripts
 blocks.control.stopOtherInTarget: other scripts in sprite
-blocks.operators.and: "%1 and %2"
+blocks.operators.and: '%1 and %2'
 blocks.unsupported: unsupported block
 
 blocks.dataCategory.dataType: declare %1 type to %2
@@ -54,7 +54,7 @@ blocks.dataCategory.arrayType: declare %3 type to %1 and size to %2
 blocks.dataCategory.arraySetItem: set index %1 of %2 to %3
 blocks.dataCategory.arrayItem: index %1 of %2
 
-blocks.myblock.addLabel: " label text"
+blocks.myblock.addLabel: ' label text'
 blocks.myblock.addBoolean: boolean
 blocks.myblock.addNumberText: number or text
 blocks.myblock.addNumber: number
@@ -62,20 +62,21 @@ blocks.myblock.addText: text
 blocks.myblock.return: return %1
 blocks.myblock.returnString: return string %1
 blocks.myblock.exec: exec %1
+blocks.myblock.comment: comment %1
 
 blocks.monitor: Monitor
 blocks.monitor.showValue: show value %1
 blocks.monitor.showNamedValue: show value %1 named %2
-blocks.monitor.trueValue: "true"
-blocks.monitor.falseValue: "false"
-blocks.monitor.listLength: "{length} items"
+blocks.monitor.trueValue: 'true'
+blocks.monitor.falseValue: 'false'
+blocks.monitor.listLength: '{length} items'
 
 blocks.colorPicker.redLabel: Red
 blocks.colorPicker.greenLabel: Green
 blocks.colorPicker.blueLabel: Blue
 
-blocks.extensionStatusMenu.bluetooth: "Connect device with Bluetooth (BLE)..."
-blocks.extensionStatusMenu.serial: "Connect device with USB..."
+blocks.extensionStatusMenu.bluetooth: 'Connect device with Bluetooth (BLE)...'
+blocks.extensionStatusMenu.serial: 'Connect device with USB...'
 
 blocks.centextMenu.exportPng: Export Block to PNG
 blocks.centextMenu.exportBlocksPng: Export Blocks to PNG

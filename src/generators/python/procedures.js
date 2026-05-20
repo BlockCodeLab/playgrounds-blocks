@@ -16,7 +16,13 @@ proto['procedures_return'] = function (block) {
 };
 
 proto['procedures_exec'] = function (block) {
-  const valueCode = block.childBlocks_[0].getFieldValue('TEXT') || '';
-  const code = valueCode ? `${valueCode}\n` : '';
+  const valueCode = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
+  const code = valueCode ? `${valueCode.replace(/^['"]|['"]$/g, '')}\n` : '';
+  return code;
+};
+
+proto['procedures_comment'] = function (block) {
+  const valueCode = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
+  const code = `# ${valueCode.replace(/^['"]|['"]$/g, '')}\n`;
   return code;
 };

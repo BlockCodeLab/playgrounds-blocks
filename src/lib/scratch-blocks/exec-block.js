@@ -18,6 +18,26 @@ ScratchBlocks.Blocks['procedures_exec'] = {
   },
 };
 
+// 在自制积木按钮之前，添加注释代码积木
+ScratchBlocks.Blocks['procedures_comment'] = {
+  init() {
+    this.jsonInit({
+      message0: translate('blocks.myblock.comment', 'comment %1'),
+      args0: [
+        {
+          type: 'input_value',
+          name: 'VALUE',
+        },
+      ],
+      category: ScratchBlocks.Categories.more,
+      colour: '#f8c572',
+      colourSecondary: '#e6b360',
+      colourTertiary: '#d7a14b',
+      extensions: ['shape_statement'],
+    });
+  },
+};
+
 ScratchBlocks.Procedures.addCreateButton_ = function (workspace, xmlList) {
   if (workspace.procedureExecuteEnabled_) {
     const execText =
@@ -30,6 +50,17 @@ ScratchBlocks.Procedures.addCreateButton_ = function (workspace, xmlList) {
       '</block>';
     const execBlock = ScratchBlocks.Xml.textToDom(execText);
     xmlList.push(execBlock);
+
+    const commentText =
+      '<block type="procedures_comment">' +
+      '<value name="VALUE">' +
+      '<shadow type="text">' +
+      '<field name="TEXT"/>' +
+      '</shadow>' +
+      '</value>' +
+      '</block>';
+    const commentBlock = ScratchBlocks.Xml.textToDom(commentText);
+    xmlList.push(commentBlock);
 
     const sep = ScratchBlocks.Xml.textToDom('<sep gap="36"/>');
     xmlList.push(sep);
