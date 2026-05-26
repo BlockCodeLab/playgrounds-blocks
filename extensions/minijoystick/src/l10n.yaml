@@ -1,0 +1,23 @@
+en:
+  blocks.minijoystick.name: Mini-JoyStick
+  blocks.minijoystick.eventPolling: joystick events polling
+  blocks.minijoystick.whenPressed: when [KEY] pressed
+  blocks.minijoystick.whenJoystickMoved: when [JOYSTICK] axis [WAY] [VALUE]
+  blocks.minijoystick.keyPressed: '[KEY] is pressed?'
+  blocks.minijoystick.joystickValue: joystick [JOYSTICK] axis value (0~255)
+
+zh-Hans:
+  blocks.minijoystick.name: Mini-JoyStick 手柄
+  blocks.minijoystick.eventPolling: 手柄事件轮询
+  blocks.minijoystick.whenPressed: 当按下 [KEY] 按下时
+  blocks.minijoystick.whenJoystickMoved: 当 [JOYSTICK] 轴值 [WAY] [VALUE] 时
+  blocks.minijoystick.keyPressed: '[KEY] 被按下？'
+  blocks.minijoystick.joystickValue: 摇杆 [JOYSTICK] 轴值（0~255）
+
+zh-Hant:
+  blocks.minijoystick.name: Mini-JoyStick 手柄
+  blocks.minijoystick.eventPolling: 手柄事件輪詢
+  blocks.minijoystick.whenPressed: 當按下 [KEY] 按下時
+  blocks.minijoystick.whenJoystickMoved: 當 [JOYSTICK] 軸值 [WAY] [VALUE] 時
+  blocks.minijoystick.keyPressed: '[KEY] 被 按下？'
+  blocks.minijoystick.joystickValue: 摇杆 [JOYSTICK] 軸值（0~255）
