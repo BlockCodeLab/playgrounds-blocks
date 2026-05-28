@@ -1,10 +1,10 @@
-blocks.tabs.blocks: 脚本
+blocks.tabs.blocks: 积木
 blocks.tabs.code: 代码
 
-blocks.alert.openManualCoding: 打开代码编程
-blocks.alert.closeManualCoding: 关闭代码编程
-blocks.alert.blockCoding: 已关闭代码编程，修改代码不会保存到文件。
-blocks.alert.manualCoding: 已打开代码编程，改动脚本不会更新到代码。
+blocks.alert.openManualCoding: 打开代码编辑
+blocks.alert.closeManualCoding: 关闭代码编辑
+blocks.alert.blockCoding: 如需保存或下载修改的代码，请打开代码编辑。
+blocks.alert.manualCoding: 已打开代码编辑，修改积木不会同步到下载代码。
 
 blocks.panes.monitor: 监视器
 

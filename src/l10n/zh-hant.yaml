@@ -1,10 +1,10 @@
 blocks.tabs.blocks: 積木
 blocks.tabs.code: 程式
 
-blocks.alert.openManualCoding: 打開代碼編程
-blocks.alert.closeManualCoding: 關閉代碼編程
-blocks.alert.blockCoding: 已關閉代碼編程，修改代碼不會保存到文件。
-blocks.alert.manualCoding: 已打開代碼編程，改動積木不會更新到代碼。
+blocks.alert.openManualCoding: 打開代碼編輯
+blocks.alert.closeManualCoding: 關閉代碼編輯
+blocks.alert.blockCoding: 如需保存或下載修改的代碼，請打開代碼編輯。
+blocks.alert.manualCoding: 已打開代碼編輯，修改積木不會同步到下載代碼。
 
 blocks.panes.monitor: 監視器
 
