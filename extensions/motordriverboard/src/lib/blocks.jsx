@@ -552,7 +552,6 @@ export const blocks = [
         code += `  PSS_LX_Val = ps2x.Analog(PSS_LX);\n`;
         code += `  PSS_LY_Val = ps2x.Analog(PSS_LY);\n`;
         code += `  if (millis()-t<20) delay(20-(millis()-t));\n`;
-        code += `  \n`;
         code += `}`;
 
         this.definitions_[`declare_${pollingName}`] = `void ${pollingName}();`;
@@ -588,11 +587,7 @@ export const blocks = [
 
       // 加入事件定时器
       const pollingName = '_ps2xPolling';
-      if (!this.definitions_[pollingName]) {
-        this.definitions_[`declare_${pollingName}`] = `void ${pollingName}();`;
-        this.definitions_[pollingName] = `void ${pollingName}() {\n}`;
-      }
-      this.definitions_[pollingName] = this.definitions_[pollingName].replace(
+      this.definitions_[pollingName] = this.definitions_[pollingName]?.replace(
         '  PSS_RX_Val = ps2x.Analog(PSS_RX);',
         `  if (ps2x.ButtonPressed(${key})) ${keyName}();\n  PSS_RX_Val = ps2x.Analog(PSS_RX);`,
       );
@@ -636,11 +631,7 @@ export const blocks = [
 
       // 加入事件定时器
       const pollingName = '_ps2xPolling';
-      if (!this.definitions_[pollingName]) {
-        this.definitions_[`declare_${pollingName}`] = `void ${pollingName}();`;
-        this.definitions_[pollingName] = `void ${pollingName}() {\n}`;
-      }
-      this.definitions_[pollingName] = this.definitions_[pollingName].replace(
+      this.definitions_[pollingName] = this.definitions_[pollingName]?.replace(
         '  PSS_RX_Val = ps2x.Analog(PSS_RX);',
         `  if (${value}${way}${joystick}_Val && ps2x.Analog(${joystick})${way}${value}) ${joystickName}();\n  PSS_RX_Val = ps2x.Analog(PSS_RX);`,
       );

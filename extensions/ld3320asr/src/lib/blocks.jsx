@@ -2,6 +2,7 @@ import { pinyin, changeCase } from '@blockcode/utils';
 import { Text } from '@blockcode/core';
 
 const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+const isIotBit = (meta) => meta.editor === '@emakefun/gui-iotbit';
 
 const InitSpeechRecognizer = (gen) => {
   gen.definitions_['include_wire'] = '#include <Wire.h>';
@@ -32,13 +33,19 @@ export const blocks = (meta) => [
     ),
     inputs: {
       SCL: meta.boardPins
-        ? { menu: meta.boardPins.out }
+        ? {
+            menu: meta.boardPins.out,
+            defaultValue: isIotBit(meta) ? '22' : '2',
+          }
         : {
             type: 'positive_integer',
             defaultValue: 2,
           },
       SDA: meta.boardPins
-        ? { menu: meta.boardPins.out }
+        ? {
+            menu: meta.boardPins.out,
+            defaultValue: isIotBit(meta) ? '23' : '3',
+          }
         : {
             type: 'positive_integer',
             defaultValue: 3,

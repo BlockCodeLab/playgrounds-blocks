@@ -1,6 +1,7 @@
 import { Text } from '@blockcode/core';
 
 const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+const isIotBit = (meta) => meta.editor === '@emakefun/gui-iotbit';
 
 const data = new Date();
 
@@ -42,13 +43,19 @@ export const blocks = (meta) => [
             menu: ['DS1307', 'DS3231', 'DS3232', 'PCF8563', 'PCF8523', 'MCP7940'],
           },
           SCL: meta.boardPins
-            ? { menu: meta.boardPins.all }
+            ? {
+                menu: meta.boardPins.out,
+                defaultValue: isIotBit(meta) ? '22' : '2',
+              }
             : {
                 type: 'integer',
                 defaultValue: '2',
               },
           SDA: meta.boardPins
-            ? { menu: meta.boardPins.all }
+            ? {
+                menu: meta.boardPins.out,
+                defaultValue: isIotBit(meta) ? '23' : '3',
+              }
             : {
                 type: 'integer',
                 defaultValue: '3',

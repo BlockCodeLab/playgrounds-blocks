@@ -1,7 +1,5 @@
 import { Text } from '@blockcode/core';
 
-const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
-
 export const blocks = (meta) => [
   {
     id: 'lm35',
@@ -87,7 +85,7 @@ export const blocks = (meta) => [
           },
     },
     ino(block) {
-      const pin = this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const oneWireName = `_ow${pin}`;
       const pinName = `_ds${pin}`;
       this.definitions_['include_onewire'] = '#include <OneWire.h>';
@@ -108,7 +106,7 @@ export const blocks = (meta) => [
       return [code, this.ORDER_FUNCTION_CALL];
     },
     mpy(block) {
-      const pin = isIotBit(meta) ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
       const pinName = `_ds${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_onewire'] = 'from onewire import OneWire';

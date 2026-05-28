@@ -38,7 +38,7 @@ en:
   blocks.motordriverboard.stopEncoderMotor: stop encoder motor [MOTOR]
 
 zh-Hans:
-  blocks.motordriverboard.name: 电机驱动扩展板
+  blocks.motordriverboard.name: Motor Driver Board
   blocks.motordriverboard.ps2: PS2 手柄
   blocks.motordriverboard.eventPolling: 手柄事件轮询
   blocks.motordriverboard.whenPressed: 当按下 [KEY] 时
@@ -77,8 +77,7 @@ zh-Hans:
   blocks.motordriverboard.stopEncoderMotor: 停止编码电机 [MOTOR]
 
 zh-Hant:
-  blocks.motordriverboard.name: 電機驅動扩展板
-  blocks.motordriverboard.name: 電機驅動擴展板
+  blocks.motordriverboard.name: Motor Driver Board
   blocks.motordriverboard.ps2: PS2 手柄
   blocks.motordriverboard.eventPolling: 手柄事件輪詢
   blocks.motordriverboard.whenPressed: 當按下 [KEY] 時

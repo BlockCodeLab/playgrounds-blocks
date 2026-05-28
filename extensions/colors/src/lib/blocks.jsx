@@ -1,6 +1,7 @@
 import { Text } from '@blockcode/core';
 
 const notArduino = (meta) => !['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+const isIotBit = (meta) => meta.editor === '@emakefun/gui-iotbit';
 
 export const blocks = (meta) => [
   notArduino(meta) && {
@@ -8,18 +9,24 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.colors.tcs34725Init"
-        defaultMessage="set TCS34725 pins SCL[SCL] SDA[SDA]"
+        defaultMessage="set TCS34725 pins SCL:[SCL] SDA:[SDA]"
       />
     ),
     inputs: {
       SCL: meta.boardPins
-        ? { menu: meta.boardPins.out }
+        ? {
+            menu: meta.boardPins.out,
+            defaultValue: isIotBit(meta) ? '22' : '2',
+          }
         : {
             type: 'positive_integer',
             defaultValue: 2,
           },
       SDA: meta.boardPins
-        ? { menu: meta.boardPins.out }
+        ? {
+            menu: meta.boardPins.out,
+            defaultValue: isIotBit(meta) ? '23' : '3',
+          }
         : {
             type: 'positive_integer',
             defaultValue: 3,
@@ -85,7 +92,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.colors.nlcs11Init"
-        defaultMessage="set NLCS11 pins SCL[SCL] SDA[SDA]"
+        defaultMessage="set NLCS11 pins SCL:[SCL] SDA:[SDA]"
       />
     ),
     inputs: {

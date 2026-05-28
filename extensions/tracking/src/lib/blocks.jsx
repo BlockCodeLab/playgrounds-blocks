@@ -1,6 +1,7 @@
 import { Text } from '@blockcode/core';
 
 const notArduino = (meta) => !['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+const isIotBit = (meta) => meta.editor === '@emakefun/gui-iotbit';
 
 const autoInitArduino = (gen) => {
   gen.definitions_['variable_5tracker'] = `FiveLineTracker _5tracker;`;
@@ -103,13 +104,19 @@ export const blocks = (meta) => [
     ),
     inputs: {
       SCL: meta.boardPins
-        ? { menu: meta.boardPins.out }
+        ? {
+            menu: meta.boardPins.out,
+            defaultValue: isIotBit(meta) ? '22' : '2',
+          }
         : {
             type: 'positive_integer',
             defaultValue: 2,
           },
       SDA: meta.boardPins
-        ? { menu: meta.boardPins.out }
+        ? {
+            menu: meta.boardPins.out,
+            defaultValue: isIotBit(meta) ? '23' : '3',
+          }
         : {
             type: 'positive_integer',
             defaultValue: 3,

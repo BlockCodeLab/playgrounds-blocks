@@ -35,12 +35,12 @@ addLocalesMessages({
     'blocks.motordriverboard.collaborator': 'Emakefun',
   },
   'zh-Hans': {
-    'blocks.motordriverboard.name': '电机驱动扩展板',
+    'blocks.motordriverboard.name': 'Motor Driver Board',
     'blocks.motordriverboard.description': '带PS2手柄接口的电机驱动扩展板。',
     'blocks.motordriverboard.collaborator': '易创空间',
   },
   'zh-Hant': {
-    'blocks.motordriverboard.name': '電機驅動擴展板',
+    'blocks.motordriverboard.name': 'Motor Driver Board',
     'blocks.motordriverboard.description': '帶PS2手柄接口的電機驅動擴展板。',
     'blocks.motordriverboard.collaborator': 'Emakefun',
   },
