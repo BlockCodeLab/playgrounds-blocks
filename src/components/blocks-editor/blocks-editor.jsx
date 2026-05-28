@@ -169,6 +169,7 @@ export function BlocksEditor({
   enableProcedureReturns,
   enableCodePreview,
   enableMonitor,
+  defaultCodePreviewVisible,
   disableGenerateCode,
   disableSensingBlocks,
   disableExtensionButton,
@@ -181,6 +182,7 @@ export function BlocksEditor({
   onDefinitions,
   onLoad,
   onResize,
+  onCodePreviewChange,
 }) {
   const { language } = useLocalesContext();
 
@@ -196,7 +198,7 @@ export function BlocksEditor({
 
   const toolboxStyles = useSignal(null);
 
-  const codePreviewVisible = useSignal(enableCodePreview);
+  const codePreviewVisible = useSignal(defaultCodePreviewVisible ?? enableCodePreview);
 
   const extensionsLibraryVisible = useSignal(false);
 
@@ -585,7 +587,6 @@ export function BlocksEditor({
 
       // 绑定工作区事件
       ref.workspace.addChangeListener((e) => {
-        console.log(e.type);
         if (splashVisible.value) return;
 
         // 创建变量后添加积木前选项框
@@ -948,6 +949,7 @@ export function BlocksEditor({
     if (codePreviewVisible.value) {
       codePreviewWidth.value = 480;
     }
+    onCodePreviewChange?.({ visible: codePreviewVisible.value });
   }, []);
 
   // 改变代码预览窗口尺寸
