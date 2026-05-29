@@ -34,7 +34,7 @@ zh-Hans:
   blocks.ioexpansion.digitalHigh: 高定平
   blocks.ioexpansion.digitalLow: 低电平
   blocks.ioexpansion.isDigitalHigh: 数字引脚 [PIN] 是高电平？
-  blocks.ioexpansion.analogValue: 模拟模拟 [PIN] 模拟值
+  blocks.ioexpansion.analogValue: 模拟引脚 [PIN] 模拟值
   blocks.ioexpansion.percentageValue: 模拟引脚 [PIN] 百分值
   blocks.ioexpansion.setfreq: 将 PWM 频率设为 [FREQ] Hz
   blocks.ioexpansion.setpwm: 将引脚 [PIN] PWM 占空比设为 [VALUE]
@@ -55,7 +55,7 @@ zh-Hant:
   blocks.ioexpansion.digitalHigh: 高定平
   blocks.ioexpansion.digitalLow: 低電平
   blocks.ioexpansion.isDigitalHigh: 數字引腳 [PIN] 是高電平？
-  blocks.ioexpansion.analogValue: 模擬模擬 [PIN] 模擬值
+  blocks.ioexpansion.analogValue: 模擬引腳 [PIN] 模擬值
   blocks.ioexpansion.percentageValue: 模擬引腳 [PIN] 百分值
   blocks.ioexpansion.setfreq: 將 PWM 頻率設為 [FREQ] Hz
   blocks.ioexpansion.setpwm: 將引腳 [PIN] PWM 占空比設為 [VALUE]
