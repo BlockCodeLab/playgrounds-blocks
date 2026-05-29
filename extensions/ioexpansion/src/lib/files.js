@@ -1,5 +1,5 @@
-import ioExpansionCppUri from './files/ioexpansion.cpp';
-import ioExpansionHUri from './files/ioexpansion.h';
+import ioExpansionCppUri from './files/io_expansion.cpp';
+import ioExpansionHUri from './files/io_expansion.h';
 import ioExpansionPyUri from './files/ioexpansion.py';
 
 const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);

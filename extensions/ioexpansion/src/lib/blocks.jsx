@@ -64,7 +64,6 @@ export const blocks = (meta) => [
     ino(block) {
       const addr = block.getFieldValue('ADDR');
       this.definitions_['variable_ioexpansion'] = `IOExpansion ioExpansion(${addr});`;
-      this.definitions_['setup_wire'] = 'Wire.begin();';
       return '';
     },
     mpy(block) {
@@ -137,7 +136,6 @@ export const blocks = (meta) => [
       if (!this.definitions_['variable_ioexpansion']) {
         this.definitions_['variable_ioexpansion'] = 'IOExpansion ioExpansion(IOExpansion::kDeviceI2cAddressDefault);';
       }
-      this.definitions_['setup_wire'] = 'Wire.begin();';
 
       const code = `ioExpansion.SetGpioMode(IOExpansion::kGpioPinE${pin}, IOExpansion::k${mode});\n`;
       return code;
@@ -194,7 +192,6 @@ export const blocks = (meta) => [
       if (!this.definitions_['variable_ioexpansion']) {
         this.definitions_['variable_ioexpansion'] = 'IOExpansion ioExpansion(IOExpansion::kDeviceI2cAddressDefault);';
       }
-      this.definitions_['setup_wire'] = 'Wire.begin();';
 
       const code = `ioExpansion.SetGpioLevel(IOExpansion::kGpioPinE${pin}, ${value});\n`;
       return code;
@@ -226,7 +223,6 @@ export const blocks = (meta) => [
       if (!this.definitions_['variable_ioexpansion']) {
         this.definitions_['variable_ioexpansion'] = 'IOExpansion ioExpansion(IOExpansion::kDeviceI2cAddressDefault);';
       }
-      this.definitions_['setup_wire'] = 'Wire.begin();';
 
       const code = `(ioExpansion.GetGpioLevel(IOExpansion::kGpioPinE${pin}) != 0)`;
       return [code];
@@ -257,7 +253,6 @@ export const blocks = (meta) => [
       if (!this.definitions_['variable_ioexpansion']) {
         this.definitions_['variable_ioexpansion'] = 'IOExpansion ioExpansion(IOExpansion::kDeviceI2cAddressDefault);';
       }
-      this.definitions_['setup_wire'] = 'Wire.begin();';
 
       const code = `ioExpansion.GetGpioAdcValue(IOExpansion::kGpioPinE${pin})`;
       return [code];
@@ -288,7 +283,6 @@ export const blocks = (meta) => [
   //     if (!this.definitions_['variable_ioexpansion']) {
   //       this.definitions_['variable_ioexpansion'] = 'IOExpansion ioExpansion(IOExpansion::kDeviceI2cAddressDefault);';
   //     }
-  //     this.definitions_['setup_wire'] = 'Wire.begin();';;
 
   //     const code = `(ioExpansion.GetGpioAdcValue(IOExpansion::kGpioPinE${pin}) / 1023)`;
   //     return [code];
@@ -315,7 +309,6 @@ export const blocks = (meta) => [
       if (!this.definitions_['variable_ioexpansion']) {
         this.definitions_['variable_ioexpansion'] = 'IOExpansion ioExpansion(IOExpansion::kDeviceI2cAddressDefault);';
       }
-      this.definitions_['setup_wire'] = 'Wire.begin();';
 
       const code = `ioExpansion.SetPwmFrequency(${freq});\n`;
       return code;
@@ -349,7 +342,6 @@ export const blocks = (meta) => [
       if (!this.definitions_['variable_ioexpansion']) {
         this.definitions_['variable_ioexpansion'] = 'IOExpansion ioExpansion(IOExpansion::kDeviceI2cAddressDefault);';
       }
-      this.definitions_['setup_wire'] = 'Wire.begin();';
 
       const code = `ioExpansion.SetPwmDuty(IOExpansion::kGpioPinE${pin}, ${value});\n`;
       return code;
@@ -384,7 +376,6 @@ export const blocks = (meta) => [
       if (!this.definitions_['variable_ioexpansion']) {
         this.definitions_['variable_ioexpansion'] = 'IOExpansion ioExpansion(IOExpansion::kDeviceI2cAddressDefault);';
       }
-      this.definitions_['setup_wire'] = 'Wire.begin();';
 
       const code = `ioExpansion.SetServoAngle(IOExpansion::kGpioPinE${pin}, ${angle});\n`;
       return code;
