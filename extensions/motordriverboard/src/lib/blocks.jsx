@@ -23,6 +23,26 @@ const InitEncoderMotor = (gen, motor) => {
   gen.definitions_[`encoder_$${motor}`] = code;
 };
 
+const InitJoystick = (gen) => {
+  const pollingName = '_ps2xPolling';
+  if (!gen.definitions_[pollingName]) {
+    let code = '';
+    code += `void ${pollingName}() {\n`;
+    code += `  unsigned long t = millis();\n`;
+    code += `  static byte PSS_RX_Val, PSS_RY_Val, PSS_LX_Val, PSS_LY_Val;\n`;
+    code += `  PSS_RX_Val = ps2x.Analog(PSS_RX);\n`;
+    code += `  PSS_RY_Val = ps2x.Analog(PSS_RY);\n`;
+    code += `  PSS_LX_Val = ps2x.Analog(PSS_LX);\n`;
+    code += `  PSS_LY_Val = ps2x.Analog(PSS_LY);\n`;
+    code += `  if (millis()-t<20) delay(20-(millis()-t));\n`;
+    code += `}`;
+
+    gen.definitions_[`declare_${pollingName}`] = `void ${pollingName}();`;
+    gen.definitions_[pollingName] = code;
+  }
+  return pollingName;
+};
+
 export const blocks = [
   {
     label: (
@@ -541,22 +561,7 @@ export const blocks = [
       this.definitions_['setup_ps2x'] = 'ps2x.config_gamepad(13, 11, 10, 12, false, false);';
       this.definitions_['tick_ps2x'] = 'ps2x.read_gamepad();';
 
-      const pollingName = '_ps2xPolling';
-      if (!this.definitions_[pollingName]) {
-        let code = '';
-        code += `void ${pollingName}() {\n`;
-        code += `  unsigned long t = millis();\n`;
-        code += `  static byte PSS_RX_Val, PSS_RY_Val, PSS_LX_Val, PSS_LY_Val;\n`;
-        code += `  PSS_RX_Val = ps2x.Analog(PSS_RX);\n`;
-        code += `  PSS_RY_Val = ps2x.Analog(PSS_RY);\n`;
-        code += `  PSS_LX_Val = ps2x.Analog(PSS_LX);\n`;
-        code += `  PSS_LY_Val = ps2x.Analog(PSS_LY);\n`;
-        code += `  if (millis()-t<20) delay(20-(millis()-t));\n`;
-        code += `}`;
-
-        this.definitions_[`declare_${pollingName}`] = `void ${pollingName}();`;
-        this.definitions_[pollingName] = code;
-      }
+      const pollingName = InitJoystick(this);
       const code = `${pollingName}();\n`;
       return code;
     },
@@ -586,7 +591,7 @@ export const blocks = [
       const keyName = this.createName(`_ps2x_${key}`);
 
       // 加入事件定时器
-      const pollingName = '_ps2xPolling';
+      const pollingName = InitJoystick(this);
       this.definitions_[pollingName] = this.definitions_[pollingName]?.replace(
         '  PSS_RX_Val = ps2x.Analog(PSS_RX);',
         `  if (ps2x.ButtonPressed(${key})) ${keyName}();\n  PSS_RX_Val = ps2x.Analog(PSS_RX);`,
@@ -630,7 +635,7 @@ export const blocks = [
       const joystickName = this.createName(`_ps2x_${joystick}`);
 
       // 加入事件定时器
-      const pollingName = '_ps2xPolling';
+      const pollingName = InitJoystick(this);
       this.definitions_[pollingName] = this.definitions_[pollingName]?.replace(
         '  PSS_RX_Val = ps2x.Analog(PSS_RX);',
         `  if (${value}${way}${joystick}_Val && ps2x.Analog(${joystick})${way}${value}) ${joystickName}();\n  PSS_RX_Val = ps2x.Analog(PSS_RX);`,
@@ -771,7 +776,7 @@ export const menus = {
       ['B (○)', 'PSB_CIRCLE'],
       ['L1', 'PSB_L1'],
       ['L2', 'PSB_L2'],
-      ['L3', 'LPSB_3'],
+      ['L3', 'PSB_L3'],
       ['R1', 'PSB_R1'],
       ['R2', 'PSB_R2'],
       ['R3', 'PSB_R3'],

@@ -1,4 +1,5 @@
 import { Text } from '@blockcode/core';
+import { ScratchBlocks } from '@blockcode/blocks';
 
 const notArduino = (meta) => !['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
 const isIotBit = (meta) => meta.editor === '@emakefun/gui-iotbit';
@@ -51,21 +52,46 @@ export const blocks = (meta) => [
     inputs: {
       KEY: {
         inputMode: true,
-        defaultValue: '1',
-        menu: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'A', 'B', 'C', 'D', '*', '#'],
+        defaultValue: 'any',
+        menu: [
+          ['1', '1'],
+          ['2', '2'],
+          ['3', '3'],
+          ['4', '4'],
+          ['5', '5'],
+          ['6', '6'],
+          ['7', '7'],
+          ['8', '8'],
+          ['9', '9'],
+          ['0', '0'],
+          ['A', 'A'],
+          ['B', 'B'],
+          ['C', 'C'],
+          ['D', 'D'],
+          ['*', '*'],
+          ['#', '#'],
+          [ScratchBlocks.Msg.EVENT_WHENKEYPRESSED_ANY, 'any'],
+        ],
       },
     },
     ino(block) {
-      const key = block.getFieldValue('KEY') || '1';
+      const key = this.valueToCode(block, 'KEY', this.ORDER_NONE).replace(/^"|"$/g, "'");
+      this.definitions_['include_wire'] = '#include <Wire.h>';
       this.definitions_['variable_matrixkeypad'] = `MatrixKeypad matrixKeypad;`;
       this.definitions_['setup_wire'] = 'Wire.begin();';
       this.definitions_['setup_matrixkeypad'] = `matrixKeypad.Init();`;
-      const code = `matrixKeypad.PressedKey("${key}")`;
+      let code = `matrixKeypad.PressedKey(${key})`;
+      if (/^['"]any['"]$/.test(key)) {
+        code = `!matrixKeypad.PressedKey('\\0')`;
+      }
       return [code, this.ORDER_FUNCTION_CALL];
     },
     mpy(block) {
-      const key = block.getFieldValue('KEY') || '1';
-      const code = `_matrixKeypad.pressed("${key}")`;
+      const key = this.valueToCode(block, 'KEY', this.ORDER_NONE);
+      let code = `_matrixKeypad.pressed(${key})`;
+      if (/^['"]any['"]$/.test(key)) {
+        code = `not _matrixKeypad.pressed(None)`;
+      }
       return [code, this.ORDER_FUNCTION_CALL];
     },
   },
@@ -79,6 +105,7 @@ export const blocks = (meta) => [
     ),
     output: 'string',
     ino(block) {
+      this.definitions_['include_wire'] = '#include <Wire.h>';
       this.definitions_['variable_matrixkeypad'] = `MatrixKeypad matrixKeypad;`;
       this.definitions_['setup_wire'] = 'Wire.begin();';
       this.definitions_['setup_matrixkeypad'] = `matrixKeypad.Init();`;
