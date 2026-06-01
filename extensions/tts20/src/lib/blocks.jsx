@@ -70,6 +70,7 @@ export const blocks = (meta) => [
     },
     ino(block) {
       const addr = block.getFieldValue('ADDR');
+      this.definitions_['include_wire'] = '#include <Wire.h>';
       this.definitions_['variable_tts20'] = `em::Tts20 tts(${addr});`;
       this.definitions_['setup_wire'] = 'Wire.begin();';
       this.definitions_['setup_tts20'] = `tts.Init();`;
@@ -103,6 +104,7 @@ export const blocks = (meta) => [
     ino(block) {
       const str = this.valueToCode(block, 'STR', this.ORDER_ATOMIC);
       if (!this.definitions_['variable_tts20']) {
+        this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
         this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
@@ -126,6 +128,7 @@ export const blocks = (meta) => [
     ),
     ino(block) {
       if (!this.definitions_['variable_tts20']) {
+        this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
         this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
@@ -149,6 +152,7 @@ export const blocks = (meta) => [
     output: 'boolean',
     ino(block) {
       if (!this.definitions_['variable_tts20']) {
+        this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
         this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
@@ -208,6 +212,7 @@ export const blocks = (meta) => [
     },
     ino(block) {
       if (!this.definitions_['variable_tts20']) {
+        this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
         this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
@@ -275,6 +280,7 @@ export const blocks = (meta) => [
     },
     ino(block) {
       if (!this.definitions_['variable_tts20']) {
+        this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
         this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
@@ -318,6 +324,7 @@ export const blocks = (meta) => [
     },
     ino(block) {
       if (!this.definitions_['variable_tts20']) {
+        this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
         this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
@@ -387,6 +394,7 @@ export const blocks = (meta) => [
     },
     ino(block) {
       if (!this.definitions_['variable_tts20']) {
+        this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
         this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
@@ -432,6 +440,7 @@ export const blocks = (meta) => [
     ),
     ino(block) {
       if (!this.definitions_['variable_tts20']) {
+        this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
         this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
@@ -454,6 +463,7 @@ export const blocks = (meta) => [
     ),
     ino(block) {
       if (!this.definitions_['variable_tts20']) {
+        this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
         this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
