@@ -119,10 +119,13 @@ export const blocks = [
       this.definitions_['import_asyncio'] = 'import asyncio';
       this.definitions_['codexpad'] = 'codex_pad = codexpad.CodexPad()';
       let code = '';
-      code += 'try:\n';
-      code += `  await codex_pad.scan_and_connect(${keys.join('|')}, scan_duration_ms=1000, connect_timeout_ms=5000)\n`;
-      code += 'except Exception as e:\n';
-      code += '  pass\n';
+      code += 'for _ in range(10):\n';
+      code += '  try:\n';
+      code += `    await codex_pad.scan_and_connect(${keys.join('|')}, scan_duration_ms=1000, connect_timeout_ms=5000)\n`;
+      code += '  except:\n';
+      code += '    await asyncio.sleep(1)\n';
+      code += '    continue\n';
+      code += '  break;';
       return code;
     },
   },
