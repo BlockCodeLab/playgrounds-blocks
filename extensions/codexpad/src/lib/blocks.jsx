@@ -119,13 +119,7 @@ export const blocks = [
       this.definitions_['import_asyncio'] = 'import asyncio';
       this.definitions_['codexpad'] = 'codex_pad = codexpad.CodexPad()';
       let code = '';
-      code += 'for _ in range(10):\n';
-      code += '  try:\n';
-      code += `    await codex_pad.scan_and_connect(${keys.join('|')}, scan_duration_ms=1000, connect_timeout_ms=5000)\n`;
-      code += '  except:\n';
-      code += '    await asyncio.sleep(1)\n';
-      code += '    continue\n';
-      code += '  break;';
+      code += `await codex_pad.scan_and_connect_10(${keys.join('|')})\n`;
       return code;
     },
   },
@@ -263,7 +257,7 @@ export const blocks = [
       code += branchCode;
       this.definitions_[funcName] = code;
 
-      code = `    if codex_pad._prev_inputs.axis_values[codexpad.AXIS_${joystick}] ${way === '>' ? '<=' : '>='} ${value} and codex_pad.axis_value(codexpad.AXIS_${joystick}) ${way} ${value}: ${flagName}.set()\n`;
+      code = `    if codex_pad._prev_inputs.axis_values[codexpad.AXIS_${joystick}] ${way === '>' ? '<=' : '>='} ${value} and codex_pad.axis_values[codexpad.AXIS_${joystick}] ${way} ${value}: ${flagName}.set()\n`;
       this.definitions_['codexpad_update'] += code;
     },
   },
@@ -283,8 +277,9 @@ export const blocks = [
       },
     },
     mpy(block) {
+      CodexPadUpdate(this);
       const joystick = block.getFieldValue('JOYSTICK');
-      const code = `codex_pad.axis_value(codexpad.AXIS_${joystick})`;
+      const code = `await codex_pad.axis_value(codexpad.AXIS_${joystick})`;
       return [code];
     },
   },
@@ -304,8 +299,9 @@ export const blocks = [
       },
     },
     mpy(block) {
+      CodexPadUpdate(this);
       const key = block.getFieldValue('KEY');
-      const code = `codex_pad.pressed(codexpad.BUTTON_${key})`;
+      const code = `await codex_pad.holding(codexpad.BUTTON_${key})`;
       return [code];
     },
   },
