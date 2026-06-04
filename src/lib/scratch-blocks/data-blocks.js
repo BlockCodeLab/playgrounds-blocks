@@ -128,6 +128,9 @@ ScratchBlocks.setDataCategoryForTyped = (typeOptions) => {
       });
     },
   };
+  ScratchBlocks.DataCategory.addChangeVariableBy = function (xmlList, variable) {
+    ScratchBlocks.DataCategory.addBlock(xmlList, variable, 'data_changevariableby', 'VARIABLE', ['VALUE', 'text', 0]);
+  };
 
   // 声明数组
   ScratchBlocks.Blocks['data_insertatlist'] = {
