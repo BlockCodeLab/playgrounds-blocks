@@ -9,6 +9,7 @@ import './data-blocks';
 import './argument-blocks';
 import './return-block';
 import './exec-block';
+import './duplicate-cherry-picking';
 
 import './field-slider';
 import './field-matrix';
