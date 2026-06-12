@@ -170,9 +170,9 @@ export function loadExtension(extObj, options, meta) {
           message0: block.text ? maybeTranslate(block.text) : '%1',
           category: extId,
           outputShape: ScratchBlocks.OUTPUT_SHAPE_SQUARE,
-          colour: extObj.themeColor || THEME_COLOR,
-          colourSecondary: extObj.inputColor || INPUT_COLOR,
-          colourTertiary: extObj.otherColor || OTHER_COLOR,
+          colour: block.themeColor || extObj.themeColor || THEME_COLOR,
+          colourSecondary: block.inputColor || extObj.inputColor || INPUT_COLOR,
+          colourTertiary: block.otherColor || extObj.otherColor || OTHER_COLOR,
         };
 
         let argsIndexStart = 1;
