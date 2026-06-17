@@ -25,7 +25,7 @@ export const blocks = (meta) => [
           },
       SDA: meta.boardPins
         ? {
-            menu: meta.boardPins.out,
+            menu: meta.boardPins.all,
             defaultValue: isIotBit(meta) ? '23' : '3',
           }
         : {
