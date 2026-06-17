@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback, useMemo } from 'preact/hooks';
+import { useRef, useImperativeHandle, useEffect, useCallback, useMemo } from 'preact/hooks';
 import { batch, useComputed, useSignal } from '@preact/signals';
 import { classNames, getCompactBlock, getBlockSize } from '@blockcode/utils';
 import {
@@ -159,6 +159,7 @@ const showManualCodingAlert = () =>
 export function BlocksEditor({
   emulator,
   generator,
+  editorRef,
   enableCloneBlocks,
   enableStringBlocks,
   enableMyBlockWarp,
@@ -204,7 +205,7 @@ export function BlocksEditor({
 
   const extensionStatusMenu = useSignal(null);
 
-  const codePreviewWidth = useSignal(480);
+  const codePreviewWidth = useSignal(485);
 
   const options = useMemo(
     () => ({
@@ -947,7 +948,7 @@ export function BlocksEditor({
   const handleCodePreview = useCallback(() => {
     codePreviewVisible.value = !codePreviewVisible.value;
     if (codePreviewVisible.value) {
-      codePreviewWidth.value = 480;
+      codePreviewWidth.value = 485;
     }
     onCodePreviewChange?.({ visible: codePreviewVisible.value });
   }, []);
@@ -969,6 +970,14 @@ export function BlocksEditor({
       document.removeEventListener('mousemove', resizePreview);
     });
   }, []);
+
+  useImperativeHandle(
+    editorRef,
+    () => ({
+      toggleCodePreview: handleCodePreview,
+    }),
+    [handleCodePreview],
+  );
 
   return (
     <>
@@ -1045,15 +1054,15 @@ export function BlocksEditor({
 
         {codePreviewVisible.value && (
           <div className={styles.codePreview}>
-            <span
-              className={styles.resizeHandle}
-              onMouseDown={handleResize}
-            ></span>
             <CodeEditor
               readOnly
               options={{ fontSize: 13 }}
               style={{ width: `${codePreviewWidth.value}px` }}
             />
+            <div
+              className={styles.resizeHandle}
+              onMouseDown={handleResize}
+            ></div>
           </div>
         )}
       </div>

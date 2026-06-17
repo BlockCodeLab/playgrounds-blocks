@@ -28,13 +28,11 @@
 }
 
 .code-preview .resize-handle {
-  width: 6px;
+  width: 4px;
+  height: 100%;
   cursor: col-resize;
-  background: #f9f9f9;
-}
-
-.code-preview > div {
-  width: 480px;
+  /*background: #f9f9f9;*/
+  position: absolute;
 }
 
 .toolbox-wrapper {
