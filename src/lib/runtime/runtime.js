@@ -220,8 +220,8 @@ export class Runtime extends EventEmitter {
     this._data.set(key, value);
   }
 
-  getData(key) {
-    return this._data.get(key);
+  getData(key, defaultValue) {
+    return this._data.get(key) ?? defaultValue;
   }
 
   hasData(key) {

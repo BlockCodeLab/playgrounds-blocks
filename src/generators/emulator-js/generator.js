@@ -73,7 +73,7 @@ export class EmulatorGenerator extends JavaScriptGenerator {
 
   addLoopTrap(branchCode, id) {
     // 检查是否有 await 语句，有则可以无需防死循环
-    this.loopTrap_ = this.loopTrap_ ?? !/\bawait /m.test(branchCode);
+    this.loopTrap_ = this.loopTrap_ ?? !/^  await /m.test(branchCode);
 
     let code = '';
     code += '  if (userscript.aborted) return;\n';
