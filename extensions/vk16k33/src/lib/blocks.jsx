@@ -7,7 +7,7 @@ const autoInitArduino = (gen) => {
   gen.definitions_['include_wire'] = '#include <Wire.h>';
   gen.definitions_['include_ht16k33'] = '#include <HT16K33.h>';
   gen.definitions_['variable_digit16k33'] = `HT16K33 _digit16k33(0x70);`;
-  gen.definitions_['setup_wire'] = 'Wire.begin();';
+  gen.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
   gen.definitions_['setup_digit16k33'] = '_digit16k33.begin();';
 };
 

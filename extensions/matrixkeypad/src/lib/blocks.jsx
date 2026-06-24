@@ -78,7 +78,7 @@ export const blocks = (meta) => [
       const key = this.valueToCode(block, 'KEY', this.ORDER_NONE).replace(/^"|"$/g, "'");
       this.definitions_['include_wire'] = '#include <Wire.h>';
       this.definitions_['variable_matrixkeypad'] = `MatrixKeypad matrixKeypad;`;
-      this.definitions_['setup_wire'] = 'Wire.begin();';
+      this.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
       this.definitions_['setup_matrixkeypad'] = `matrixKeypad.Init();`;
       let code = `matrixKeypad.PressedKey(${key})`;
       if (/^['"]any['"]$/.test(key)) {
@@ -107,7 +107,7 @@ export const blocks = (meta) => [
     ino(block) {
       this.definitions_['include_wire'] = '#include <Wire.h>';
       this.definitions_['variable_matrixkeypad'] = `MatrixKeypad matrixKeypad;`;
-      this.definitions_['setup_wire'] = 'Wire.begin();';
+      this.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
       this.definitions_['setup_matrixkeypad'] = `matrixKeypad.Init();`;
       const code = `matrixKeypad.GetKey()`;
       return [code, this.ORDER_FUNCTION_CALL];

@@ -7,7 +7,7 @@ const autoInitArduino = (gen) => {
   gen.definitions_['include_wire'] = '#include <Wire.h>';
   gen.definitions_['include_tm1650'] = '#include <TM1650.h>';
   gen.definitions_['variable_digit1650'] = `TM1650 _digit1650;`;
-  gen.definitions_['setup_wire'] = 'Wire.begin();';
+  gen.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
   gen.definitions_['setup_digit1650'] = '_digit1650.init();';
   gen.definitions_['setup_digit1650_bright'] = '_digit1650.setBrightness(4);';
 };

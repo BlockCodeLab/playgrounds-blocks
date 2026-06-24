@@ -6,7 +6,7 @@ const isIotBit = (meta) => meta.editor === '@emakefun/gui-iotbit';
 const autoInitArduino = (gen) => {
   gen.definitions_['include_wire'] = '#include <Wire.h>';
   gen.definitions_['variable_5tracker'] = `FiveLineTracker _5tracker;`;
-  gen.definitions_['setup_wire'] = 'Wire.begin();';
+  gen.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
   gen.definitions_['setup_5tracker'] = '_5tracker.Initialize();';
 };
 
