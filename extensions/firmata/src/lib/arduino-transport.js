@@ -1,8 +1,8 @@
 import { EventEmitter } from 'node:events';
 import { sleepMs } from '@blockcode/utils';
-import { setAlert, delAlert, Text, Spinner } from '@blockcode/core';
+import { setAlert, Text, Spinner } from '@blockcode/core';
 import { ArduinoUtils } from '@blockcode/board';
-import firmataHex from './firmata-express.ino.hex';
+import firmataHex from './firmata-express.hex';
 
 const updatingAlert = (progress) => {
   if (progress < 100) {
@@ -56,6 +56,10 @@ export class ArduinoTransport extends EventEmitter {
 
   get board() {
     return this._board;
+  }
+
+  disconnect() {
+    this.board.disconnect();
   }
 
   async flash() {

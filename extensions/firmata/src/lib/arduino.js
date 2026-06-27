@@ -28,6 +28,12 @@ export class Arduino {
     });
   }
 
+  disconnect() {
+    if (this.board) {
+      this.board.transport.disconnect();
+    }
+  }
+
   getAnalogValue(pinV) {
     const pin = parseInt(pinV);
     const pinObj = this.board.pins[this.board.analogPins[pin]];

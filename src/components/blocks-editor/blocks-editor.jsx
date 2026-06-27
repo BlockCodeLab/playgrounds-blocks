@@ -1,6 +1,6 @@
 import { useRef, useImperativeHandle, useEffect, useCallback, useMemo } from 'preact/hooks';
 import { batch, useComputed, useSignal } from '@preact/signals';
-import { classNames, getCompactBlock, getBlockSize } from '@blockcode/utils';
+import { classNames, getCompactBlock, getBlockSize, sleepMs } from '@blockcode/utils';
 import {
   useLocalesContext,
   useAppContext,
@@ -814,15 +814,9 @@ export function BlocksEditor({
       // 连接蓝牙设备
       const connectBluetooth = async (extObj, options) => {
         const deviceName = `device.${extObj.id}`;
-        let device = appState.value?.[deviceName];
-        if (device?.disconnect) {
-          await device?.disconnect();
-        }
-        if (device?.close) {
-          await device.close();
-        }
+        setAppState(deviceName, false);
 
-        device = await navigator.bluetooth.requestDevice(options);
+        const device = await navigator.bluetooth.requestDevice(options);
         // 断开连接
         device.addEventListener(
           'gattserverdisconnected',
@@ -838,15 +832,9 @@ export function BlocksEditor({
       // 连接串口设备
       const connectSerial = async (extObj, options) => {
         const deviceName = `device.${extObj.id}`;
-        let device = appState.value?.[deviceName];
-        if (device?.disconnect) {
-          await device?.disconnect();
-        }
-        if (device?.close) {
-          await device.close();
-        }
+        setAppState(deviceName, false);
 
-        device = await navigator.serial.requestPort(options);
+        const device = await navigator.serial.requestPort(options);
         // 断开连接
         device.addEventListener(
           'disconnect',

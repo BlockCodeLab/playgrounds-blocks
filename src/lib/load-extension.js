@@ -60,17 +60,16 @@ export function loadExtension(extObj, options, meta) {
           if (prop === 'on') {
             return (eventName, listener) => {
               // 扩展硬件连接
-              if (eventName === 'connecting') {
-                eventName = `${extId}.connecting`;
+              if (['connecting', 'disconnect'].includes(eventName)) {
+                eventName = `${extId}.${eventName}`;
               }
               target.on(eventName, listener);
             };
           }
           if (prop === 'emit') {
             return (eventName, ...args) => {
-              // 扩展硬件断开连接
-              if (eventName === 'disconnect') {
-                eventName = `${extId}.disconnect`;
+              if (['connecting', 'disconnect'].includes(eventName)) {
+                eventName = `${extId}.${eventName}`;
               }
               target.emit(eventName, ...args);
             };
