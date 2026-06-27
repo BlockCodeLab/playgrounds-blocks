@@ -53,6 +53,7 @@ blocks.dataCategory.dataType: 聲明 %1 類型為 %2
 blocks.dataCategory.arrayType: 聲明 %3 類型為 %1 且長度為 %2
 blocks.dataCategory.arraySetItem: 將 %2 下標 %1 的值設為 %3
 blocks.dataCategory.arrayItem: '%2 下標 %1 的值'
+blocks.dataCategory.arraySet: 聲明 %2 類型為 %3 內容為 %1
 
 blocks.myblock.addLabel: 文本
 blocks.myblock.addBoolean: 布爾值

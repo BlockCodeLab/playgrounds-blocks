@@ -72,7 +72,7 @@ for (const key of DATA_BLOCKS) {
 ScratchBlocks.setDataCategoryForTyped = (typeOptions) => {
   // 禁用变量/列表的部分的积木
   ScratchBlocks.DataCategory.addAddToList = () => {};
-  ScratchBlocks.DataCategory.addDeleteOfList = () => {};
+  // ScratchBlocks.DataCategory.addDeleteOfList = () => {};
   ScratchBlocks.DataCategory.addDeleteAllOfList = () => {};
   // ScratchBlocks.DataCategory.addInsertAtList = () => {};
   // ScratchBlocks.DataCategory.addReplaceItemOfList = () => {};
@@ -130,6 +130,38 @@ ScratchBlocks.setDataCategoryForTyped = (typeOptions) => {
   };
   ScratchBlocks.DataCategory.addChangeVariableBy = function (xmlList, variable) {
     ScratchBlocks.DataCategory.addBlock(xmlList, variable, 'data_changevariableby', 'VARIABLE', ['VALUE', 'text', 0]);
+  };
+
+  // 数组
+  ScratchBlocks.Blocks['data_deleteoflist'] = {
+    init: function () {
+      this.jsonInit({
+        message0: translate('blocks.dataCategory.arraySet', 'declare %2 type to %3 and content to %1'),
+        args0: [
+          {
+            type: 'input_value',
+            name: 'ITEM',
+          },
+          {
+            type: 'field_variable',
+            name: 'LIST',
+            variableTypes: [ScratchBlocks.LIST_VARIABLE_TYPE],
+          },
+          {
+            type: 'field_dropdown',
+            name: 'TYPE',
+            options: typeOptions.map((type) => {
+              if (typeof type === 'string') {
+                return [type, type];
+              }
+              return type;
+            }),
+          },
+        ],
+        category: ScratchBlocks.Categories.dataLists,
+        extensions: ['colours_data_lists', 'shape_statement'],
+      });
+    },
   };
 
   // 声明数组
