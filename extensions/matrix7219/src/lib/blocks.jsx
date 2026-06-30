@@ -95,10 +95,13 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.matrix7219.init"
-        defaultMessage="set pins CLK:[CLK] CS:[CS] DIN:[DIN]"
+        defaultMessage="set #[ID] device pins CLK:[CLK] CS:[CS] DIN:[DIN]"
       />
     ),
     inputs: {
+      ID: {
+        menu: 'IDs',
+      },
       CLK: meta.boardPins
         ? { menu: meta.boardPins.out }
         : {
@@ -119,21 +122,26 @@ export const blocks = (meta) => [
           },
     },
     ino(block) {
+      const id = block.getFieldValue('ID');
       const clk = meta.boardPins ? block.getFieldValue('CLK') : this.valueToCode(block, 'CLK', this.ORDER_NONE);
       const din = meta.boardPins ? block.getFieldValue('DIN') : this.valueToCode(block, 'DIN', this.ORDER_NONE);
       const cs = meta.boardPins ? block.getFieldValue('CS') : this.valueToCode(block, 'CS', this.ORDER_NONE);
-      const devices = this.definitions_['variable_matrix7219_devices']?.replace('// MAX7219 devices: ', '') || 1;
-      delete this.definitions_['variable_matrix7219_devices'];
-      this.definitions_['variable_matrix7219'] = `Matrix7219 _matrix7219(${clk}, ${din}, ${cs}, ${devices});`;
+      const devices =
+        this.definitions_[`variable_matrix7219_${id}_screens`]?.replace(`// MAX7219 ${id} screens: `, '') || 1;
+      delete this.definitions_[`variable_matrix7219_${id}_screens`];
+      this.definitions_[`variable_matrix7219_${id}`] =
+        `Matrix7219 _matrix7219_${id}(${din}, ${clk}, ${cs}, ${devices});`;
       return '';
     },
     mpy(block) {
+      const id = block.getFieldValue('ID');
       const clk = meta.boardPins ? block.getFieldValue('CLK') : this.valueToCode(block, 'CLK', this.ORDER_NONE);
       const din = meta.boardPins ? block.getFieldValue('DIN') : this.valueToCode(block, 'DIN', this.ORDER_NONE);
       const cs = meta.boardPins ? block.getFieldValue('CS') : this.valueToCode(block, 'CS', this.ORDER_NONE);
-      const devices = this.definitions_['matrix7219_devices']?.replace('# MAX7219 devices: ', '') || 1;
-      delete this.definitions_['matrix7219_devices'];
-      this.definitions_['matrix7219'] = `_matrix7219 = matrix7219.Matrix7219(${clk}, ${din}, ${cs}, ${devices})`;
+      const devices = this.definitions_[`matrix7219_${id}_screens`]?.replace(`# MAX7219 ${id} screens: `, '') || 1;
+      delete this.definitions_[`matrix7219_${id}_screens`];
+      this.definitions_[`matrix7219_${id}`] =
+        `_matrix7219_${id} = matrix7219.Matrix7219(${din}, ${clk}, ${cs}, ${devices})`;
       return '';
     },
   },
@@ -142,49 +150,103 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.matrix7219.devices"
-        defaultMessage="set matrix devices [NUM]"
+        defaultMessage="set #[ID] device matrix screens [NUM]"
       />
     ),
     inputs: {
+      ID: {
+        menu: 'IDs',
+      },
       NUM: {
         type: 'positive_integer',
         defaultValue: '1',
       },
     },
     ino(block) {
+      const id = block.getFieldValue('ID');
       const devices = this.valueToCode(block, 'NUM', this.ORDER_NONE);
 
-      if (this.definitions_['variable_matrix7219']) {
-        this.definitions_['variable_matrix7219'] = this.definitions_['variable_matrix7219'].replace(
+      if (this.definitions_[`variable_matrix7219_${id}`]) {
+        this.definitions_[`variable_matrix7219_${id}`] = this.definitions_[`variable_matrix7219_${id}`].replace(
           /\d+\);$/,
           `${devices});`,
         );
       } else {
-        this.definitions_['variable_matrix7219_devices'] = `// MAX7219 devices: ${devices}`;
+        this.definitions_[`variable_matrix7219_${id}_screens`] = `// MAX7219 ${id} screens: ${devices}`;
       }
 
       return '';
     },
     mpy(block) {
+      const id = block.getFieldValue('ID');
       const devices = this.valueToCode(block, 'NUM', this.ORDER_NONE);
-      if (this.definitions_['matrix7219']) {
-        this.definitions_['matrix7219'] = this.definitions_['matrix7219'].replace(/\d+\)$/, `${devices})`);
+      if (this.definitions_[`matrix7219_${id}`]) {
+        this.definitions_[`matrix7219_${id}`] = this.definitions_[`matrix7219_${id}`].replace(/\d+\)$/, `${devices})`);
       } else {
-        this.definitions_['matrix7219_devices'] = `# MAX7219 devices: ${devices}`;
+        this.definitions_[`matrix7219_${id}_screens`] = `# MAX7219 ${id} screens: ${devices}`;
       }
       return '';
     },
   },
   '---',
   {
+    id: 'pixel',
+    text: (
+      <Text
+        id="blocks.matrix7219.pixel"
+        defaultMessage="[STATE] [ID] device [IDX] screen at x:[X] y:[Y] pixel"
+      />
+    ),
+    inputs: {
+      ID: {
+        menu: 'IDs',
+      },
+      IDX: {
+        type: 'positive_integer',
+        defaultValue: 1,
+      },
+      X: {
+        type: 'positive_integer',
+        defaultValue: 1,
+      },
+      Y: {
+        type: 'positive_integer',
+        defaultValue: 1,
+      },
+      STATE: {
+        menu: 'LedStates',
+      },
+    },
+    ino(block) {
+      const id = block.getFieldValue('ID');
+      const idx = this.getAdjusted(block, 'IDX');
+      const x = this.valueToCode(block, 'X', this.ORDER_NONE);
+      const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
+      const state = this.valueToCode(block, 'STATE', this.ORDER_NONE);
+      const code = `_matrix7219_${id}.setLed(${idx}, ${y}, ${x}, ${state});\n`;
+      return code;
+    },
+    mpy(block) {
+      const id = block.getFieldValue('ID');
+      const idx = this.getAdjusted(block, 'IDX');
+      const x = this.valueToCode(block, 'X', this.ORDER_NONE);
+      const y = this.valueToCode(block, 'Y', this.ORDER_NONE);
+      const code = `_matrix7219_${id}.set_led(${idx}, ${y}, ${x}, ${state})\n`;
+      return code;
+    },
+  },
+  {
     id: 'display',
     text: (
       <Text
         id="blocks.matrix7219.display"
-        defaultMessage="display [MATRIX] on device [IDX]"
+        defaultMessage="display [MATRIX] on #[ID] device [IDX] screen"
       />
     ),
     inputs: {
+      ID: {
+        menu: 'IDs',
+      },
       MATRIX: {
         shadow: 'matrix88',
         defaultValue: '0000000001100110111111111111111111111111011111100011110000011000',
@@ -195,16 +257,17 @@ export const blocks = (meta) => [
       },
     },
     ino(block) {
+      const id = block.getFieldValue('ID');
       const idx = this.getAdjusted(block, 'IDX');
       const matrix = this.valueToCode(block, 'MATRIX', this.ORDER_NONE);
-      const code = `_matrix7219.showMatrix(${idx}, (byte[]){${matrix}});\n`;
+      const code = `_matrix7219_${id}.showMatrix(${idx}, (byte[]){${matrix}});\n`;
       return code;
     },
     mpy(block) {
+      const id = block.getFieldValue('ID');
       const idx = this.getAdjusted(block, 'IDX');
       const matrix = this.valueToCode(block, 'MATRIX', this.ORDER_NONE);
-      let code = ``;
-      code += `_matrix7219.show_matrix(${idx}, b"${matrix}")\n`;
+      const code = `_matrix7219_${id}.show_matrix(${idx}, b"${matrix}")\n`;
       return code;
     },
   },
@@ -221,6 +284,7 @@ export const blocks = (meta) => [
       },
     },
     ino(block) {
+      const id = block.getFieldValue('ID');
       const matrix = block.getFieldValue('MATRIX');
       const frame = [];
       for (let i = 0; i < 8; i++) {
@@ -231,6 +295,7 @@ export const blocks = (meta) => [
       return [`0x${frame.join(',0x')}`, this.ORDER_ATOMIC];
     },
     mpy(block) {
+      const id = block.getFieldValue('ID');
       const matrix = block.getFieldValue('MATRIX');
       const frame = [];
       for (let i = 0; i < 8; i++) {
@@ -246,16 +311,20 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.matrix7219.text"
-        defaultMessage="display [MSG]"
+        defaultMessage="display [MSG] on #[ID] device"
       />
     ),
     inputs: {
+      ID: {
+        menu: 'IDs',
+      },
       MSG: {
         type: 'string',
         defaultValue: 'abc',
       },
     },
     ino(block) {
+      const id = block.getFieldValue('ID');
       const msg = this.valueToCode(block, 'MSG', this.ORDER_NONE);
       const text = msg.replace(/^['"]/, '').replace(/['"]$/, '');
       const textArr = text.split('').map((c) => `"${c === '"' ? `\\"` : c === '\\' ? '\\\\' : c}"`);
@@ -267,7 +336,7 @@ export const blocks = (meta) => [
         // 使用用户字库
         if (meta.users?.fonts) {
           this.definitions_['include_user_fonts'] = '#include "user_fonts.h"';
-          const code = `SHOW_TEXT(_matrix7219, ${textArr});\n`;
+          const code = `SHOW_TEXT(_matrix7219_${id}, ${textArr});\n`;
           return code;
         }
 
@@ -282,15 +351,16 @@ export const blocks = (meta) => [
         }
         const fonts = createFontWithCStyle(oldMap + text);
         this.definitions_['variable_user_fonts'] = fonts.content;
-        const code = `SHOW_TEXT(_matrix7219, ${textArr});\n`;
+        const code = `SHOW_TEXT(_matrix7219_${id}, ${textArr});\n`;
         return code;
       }
 
       this.definitions_['include_user_fonts'] = '#include "fonts8x8.h"';
-      const code = `SHOW_TEXT(_matrix7219, ${textArr});\n`;
+      const code = `SHOW_TEXT(_matrix7219_${id}, ${textArr});\n`;
       return code;
     },
     mpy(block) {
+      const id = block.getFieldValue('ID');
       const msg = this.valueToCode(block, 'MSG', this.ORDER_NONE);
       const text = msg.replace(/^['"]/, '').replace(/['"]$/, '');
 
@@ -299,7 +369,7 @@ export const blocks = (meta) => [
         // 使用用户字库
         if (meta.users?.fonts) {
           this.definitions_['import_user_fonts'] = 'from user_fonts.matrix7219 import *';
-          const code = `_matrix7219.show_text(${msg}, USER_FONTS, USER_FONT_MAP, USER_FONT_WIDTH_INDEX)\n`;
+          const code = `_matrix7219_${id}.show_text(${msg}, USER_FONTS, USER_FONT_MAP, USER_FONT_WIDTH_INDEX)\n`;
           return code;
         }
 
@@ -313,11 +383,11 @@ export const blocks = (meta) => [
         }
         const fonts = createFontWithPythonStyle(oldMap + text);
         this.definitions_['user_fonts'] = fonts.content;
-        const code = `_matrix7219.show_text(${msg}, USER_FONTS, USER_FONT_MAP, USER_FONT_WIDTH_INDEX)\n`;
+        const code = `_matrix7219_${id}.show_text(${msg}, USER_FONTS, USER_FONT_MAP, USER_FONT_WIDTH_INDEX)\n`;
         return code;
       }
 
-      const code = `_matrix7219.show_text(${msg})\n`;
+      const code = `_matrix7219_${id}.show_text(${msg})\n`;
       return code;
     },
   },
@@ -326,23 +396,28 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.matrix7219.clear"
-        defaultMessage="clear device [IDX]"
+        defaultMessage="clear [IDX] screen on #[ID] device"
       />
     ),
     inputs: {
+      ID: {
+        menu: 'IDs',
+      },
       IDX: {
         type: 'positive_integer',
         defaultValue: '1',
       },
     },
     ino(block) {
+      const id = block.getFieldValue('ID');
       const idx = this.getAdjusted(block, 'IDX');
-      const code = `_matrix7219.clearDisplay(${idx});\n`;
+      const code = `_matrix7219_${id}.clearDisplay(${idx});\n`;
       return code;
     },
     mpy(block) {
+      const id = block.getFieldValue('ID');
       const idx = this.getAdjusted(block, 'IDX');
-      const code = `_matrix7219.clear_display(${idx})\n`;
+      const code = `_matrix7219_${id}.clear_display(${idx})\n`;
       return code;
     },
   },
@@ -351,17 +426,24 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.matrix7219.clearall"
-        defaultMessage="clear all devices"
+        defaultMessage="clear all screens on #[ID] device"
       />
     ),
+    inputs: {
+      ID: {
+        menu: 'IDs',
+      },
+    },
     ino(block) {
+      const id = block.getFieldValue('ID');
       let code = '';
-      code += 'for (int i=0; i< _matrix7219.getDeviceCount(); i++)\n';
-      code += `  _matrix7219.clearDisplay(i);\n`;
+      code += 'for (int i=0; i< _matrix7219_${id}.getDeviceCount(); i++)\n';
+      code += `  _matrix7219_${id}.clearDisplay(i);\n`;
       return code;
     },
     mpy(block) {
-      const code = `_matrix7219.clear_display()\n`;
+      const id = block.getFieldValue('ID');
+      const code = `_matrix7219_${id}.clear_display()\n`;
       return code;
     },
   },
@@ -371,10 +453,13 @@ export const blocks = (meta) => [
   //   text: (
   //     <Text
   //       id="blocks.matrix7219.rotate"
-  //       defaultMessage="rotate device [IDX] to [ANGLE]"
+  //       defaultMessage="rotate #[ID] device [IDX] screen to [ANGLE]"
   //     />
   //   ),
   //   inputs: {
+  //     ID: {
+  //       menu: 'IDs',
+  //     },
   //     IDX: {
   //       type: 'positive_integer',
   //       defaultValue: 1,
@@ -400,10 +485,13 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.matrix7219.brightness"
-        defaultMessage="set device [IDX] brightness [LEVEL]"
+        defaultMessage="set #[ID] device [IDX] screen brightness [LEVEL]"
       />
     ),
     inputs: {
+      ID: {
+        menu: 'IDs',
+      },
       IDX: {
         type: 'positive_integer',
         defaultValue: 1,
@@ -414,15 +502,17 @@ export const blocks = (meta) => [
       },
     },
     ino(block) {
+      const id = block.getFieldValue('ID');
       const idx = this.getAdjusted(block, 'IDX');
       const level = this.valueToCode(block, 'LEVEL', this.ORDER_NONE);
-      const code = `_matrix7219.setIntensity(${idx}, ${level});\n`;
+      const code = `_matrix7219_${id}.setIntensity(${idx}, ${level});\n`;
       return code;
     },
     mpy(block) {
+      const id = block.getFieldValue('ID');
       const idx = this.getAdjusted(block, 'IDX');
       const level = this.valueToCode(block, 'LEVEL', this.ORDER_NONE);
-      const code = `_matrix7219.set_intensity(${idx}, ${level})\n`;
+      const code = `_matrix7219_${id}.set_intensity(${idx}, ${level})\n`;
       return code;
     },
   },
@@ -431,27 +521,32 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.matrix7219.brightnessall"
-        defaultMessage="set all devices brightness [LEVEL]"
+        defaultMessage="set #[ID] device all screens brightness [LEVEL]"
       />
     ),
     inputs: {
+      ID: {
+        menu: 'IDs',
+      },
       LEVEL: {
         shadow: 'brightnessLevel',
         defaultValue: '8',
       },
     },
     ino(block) {
+      const id = block.getFieldValue('ID');
       const level = this.valueToCode(block, 'LEVEL', this.ORDER_NONE);
       let code = '';
-      code += 'for (int i=0; i< _matrix7219.getDeviceCount(); i++)\n';
-      code += `  _matrix7219.setIntensity(i, ${level});\n`;
+      code += 'for (int i=0; i< _matrix7219_${id}.getDeviceCount(); i++)\n';
+      code += `  _matrix7219_${id}.setIntensity(i, ${level});\n`;
       return code;
     },
     mpy(block) {
+      const id = block.getFieldValue('ID');
       const level = this.valueToCode(block, 'LEVEL', this.ORDER_NONE);
       let code = '';
-      code += 'for i in range(_matrix7219.get_device_count()):\n';
-      code += `  _matrix7219.set_intensity(i, ${level})\n`;
+      code += 'for i in range(_matrix7219_${id}.get_device_count()):\n';
+      code += `  _matrix7219_${id}.set_intensity(i, ${level})\n`;
       return code;
     },
   },
@@ -468,10 +563,12 @@ export const blocks = (meta) => [
       },
     },
     mpy(block) {
+      const id = block.getFieldValue('ID');
       const code = block.getFieldValue('LEVEL') || 0;
       return [code, this.ORDER_NONE];
     },
     ino(block) {
+      const id = block.getFieldValue('ID');
       const code = block.getFieldValue('LEVEL') || 0;
       return [code, this.ORDER_NONE];
     },
@@ -479,33 +576,31 @@ export const blocks = (meta) => [
 ];
 
 export const menus = {
-  iotOutPins: {
+  IDs: {
     items: [
-      ['P0', '33'],
-      ['P1', '32'],
-      // ['P2', '35'],
-      // ['P3', '34'],
-      // ['P4', '39'],
-      ['P5', '0'],
-      ['P6', '16'],
-      ['P7', '17'],
-      ['P8', '26'],
-      ['P9', '25'],
-      // ['P10', '36'],
-      ['P11', '2'],
-      // ['P12', ''],
-      ['P13', '18'],
-      ['P14', '19'],
-      ['P15', '21'],
-      ['P16', '5'],
-      ['P19', '22'],
-      ['P20', '23'],
-      ['P23', '27'],
-      ['P24', '14'],
-      ['P25', '12'],
-      ['P26', '13'],
-      ['P27', '15'],
-      ['P28', '4'],
+      ['#1', '1'],
+      ['#2', '2'],
+    ],
+  },
+  LedStates: {
+    type: 'integer',
+    inputMode: true,
+    defaultValue: '1',
+    items: [
+      [
+        <Text
+          id="blocks.matrix7219.stateOn"
+          defaultMessage="on"
+        />,
+        '1',
+      ],
+      [
+        <Text
+          id="blocks.matrix7219.stateOff"
+          defaultMessage="off"
+        />,
+        '0',
+      ],
     ],
   },
 };
