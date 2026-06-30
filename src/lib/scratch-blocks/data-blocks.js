@@ -72,7 +72,6 @@ for (const key of DATA_BLOCKS) {
 ScratchBlocks.setDataCategoryForTyped = (typeOptions) => {
   // 禁用变量/列表的部分的积木
   ScratchBlocks.DataCategory.addAddToList = () => {};
-  // ScratchBlocks.DataCategory.addDeleteOfList = () => {};
   ScratchBlocks.DataCategory.addDeleteAllOfList = () => {};
   // ScratchBlocks.DataCategory.addInsertAtList = () => {};
   // ScratchBlocks.DataCategory.addReplaceItemOfList = () => {};
@@ -80,6 +79,11 @@ ScratchBlocks.setDataCategoryForTyped = (typeOptions) => {
   ScratchBlocks.DataCategory.addItemNumberOfList = () => {};
   // ScratchBlocks.DataCategory.addLengthOfList = () => {};
   ScratchBlocks.DataCategory.addListContainsItem = () => {};
+
+  const addDeleteOfList = ScratchBlocks.DataCategory.addDeleteOfList.bind(ScratchBlocks.DataCategory);
+  const addInsertAtList = ScratchBlocks.DataCategory.addInsertAtList.bind(ScratchBlocks.DataCategory);
+  ScratchBlocks.DataCategory.addDeleteOfList = addInsertAtList;
+  ScratchBlocks.DataCategory.addInsertAtList = addDeleteOfList;
 
   // 声明变量
   ScratchBlocks.Blocks['data_setvariableto'] = {
