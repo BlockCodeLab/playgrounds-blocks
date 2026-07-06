@@ -67,6 +67,31 @@ export const menus = {
       ],
     ],
   },
+  STATE: {
+    items: [
+      [
+        <Text
+          id="blocks.codexpad.keyStatePressed"
+          defaultMessage="Pressed"
+        />,
+        'pressed',
+      ],
+      [
+        <Text
+          id="blocks.codexpad.keyStateHolding"
+          defaultMessage="Holding"
+        />,
+        'holding',
+      ],
+      [
+        <Text
+          id="blocks.codexpad.keyStateReleased"
+          defaultMessage="Released"
+        />,
+        'released',
+      ],
+    ],
+  },
 };
 
 export const blocks = [
@@ -81,7 +106,7 @@ export const blocks = [
     inputs: {
       MAC: {
         type: 'string',
-        defaultValue: '',
+        defaultValue: '00:00:00:00:00:00',
       },
     },
     mpy(block) {
@@ -178,7 +203,7 @@ export const blocks = [
     text: (
       <Text
         id="blocks.codexpad.whenPressed"
-        defaultMessage="when [KEY] pressed"
+        defaultMessage="when [KEY] [STATE]"
       />
     ),
     hat: true,
@@ -187,9 +212,14 @@ export const blocks = [
         menu: 'KEYS',
         defaultValue: 'CROSS_A',
       },
+      STATE: {
+        menu: 'STATE',
+        defaultValue: 'pressed',
+      },
     },
     mpy(block) {
       const key = block.getFieldValue('KEY');
+      const state = block.getFieldValue('STATE');
 
       CodexPadUpdate(this);
 
@@ -202,14 +232,14 @@ export const blocks = [
       code += `  await ${flagName}.wait()\n`;
       code += branchCode;
 
-      const funcName = this.createName(`codexpad_${key}_pressed`);
+      const funcName = this.createName(`codexpad_${key}_${state}`);
       branchCode = this.prefixLines(code, this.INDENT);
-      branchCode = this.addEventTrap(branchCode, `codexpad_${key}_pressed`);
+      branchCode = this.addEventTrap(branchCode, `codexpad_${key}_${state}`);
       code = '@_tasks__.append\n';
       code += branchCode;
       this.definitions_[funcName] = code;
 
-      code = `    if codex_pad.pressed(codexpad.BUTTON_${key}): ${flagName}.set()\n`;
+      code = `    if codex_pad.${state}(codexpad.BUTTON_${key}): ${flagName}.set()\n`;
       this.definitions_['codexpad_update'] += code;
     },
   },
@@ -288,7 +318,7 @@ export const blocks = [
     text: (
       <Text
         id="blocks.codexpad.keyPressed"
-        defaultMessage="[KEY] is pressed"
+        defaultMessage="[KEY] is [STATE]?"
       />
     ),
     output: 'boolean',
@@ -297,11 +327,16 @@ export const blocks = [
         menu: 'KEYS',
         defaultValue: 'CROSS_A',
       },
+      STATE: {
+        menu: 'STATE',
+        defaultValue: 'holding',
+      },
     },
     mpy(block) {
       CodexPadUpdate(this);
       const key = block.getFieldValue('KEY');
-      const code = `await codex_pad.holding(codexpad.BUTTON_${key})`;
+      const state = block.getFieldValue('STATE');
+      const code = `await codex_pad.${state}(codexpad.BUTTON_${key})`;
       return [code];
     },
   },
