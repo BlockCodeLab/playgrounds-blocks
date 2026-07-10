@@ -16,6 +16,7 @@ export default {
   ),
   files: [
     {
+      header: true,
       name: 'light',
       type: 'text/x-python',
       uri: lightFile,

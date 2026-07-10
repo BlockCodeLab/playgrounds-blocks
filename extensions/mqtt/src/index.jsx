@@ -18,6 +18,7 @@ export default {
   ),
   files: [
     {
+      header: true,
       name: 'mqtt',
       type: 'text/x-python',
       uri: mqttFile,

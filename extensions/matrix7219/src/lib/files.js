@@ -29,6 +29,7 @@ export const files = (meta) => {
 
   return [
     {
+      header: true,
       name: 'matrix7219',
       type: 'text/x-python',
       uri: matrix7219PyUri,

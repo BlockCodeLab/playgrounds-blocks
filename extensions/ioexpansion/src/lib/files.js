@@ -23,6 +23,7 @@ export const files = (meta) => {
 
   return [
     {
+      header: true,
       name: 'ioexpansion.py',
       type: 'text/x-python',
       uri: ioExpansionPyUri,

@@ -22,6 +22,7 @@ export default {
   ),
   files: [
     {
+      header: true,
       name: 'brain',
       type: 'text/x-python',
       uri: brainFile,

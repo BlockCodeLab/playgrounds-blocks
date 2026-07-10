@@ -7,6 +7,7 @@ export const files = (meta) => {
 
   return [
     {
+      header: true,
       name: 'lcdi2c.py',
       type: 'text/x-python',
       uri: lcdi2cPy,

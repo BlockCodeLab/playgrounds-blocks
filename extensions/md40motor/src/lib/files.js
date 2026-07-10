@@ -29,6 +29,7 @@ export const files = (meta) => {
 
   return [
     {
+      header: true,
       name: 'md40.py',
       type: 'text/x-python',
       uri: md40PyUri,

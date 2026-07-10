@@ -1,5 +1,6 @@
+import { extname } from 'node:path';
 import { batch } from '@preact/signals';
-import { nullObject } from '@blockcode/utils';
+import { nullObject, pathResolve } from '@blockcode/utils';
 import { addAsset } from '@blockcode/core';
 
 const escape = (name) => name.replaceAll(/[^a-z0-9]/gi, '_').replace(/^_/, '');
@@ -14,18 +15,33 @@ export async function importExtension(meta, extId) {
 
   const { default: extObj } = await import(moduleName);
   extObj.id = extId;
+  // 本地扩展的路径
+  if (localBlocks?.[extId]?.main) {
+    extObj.customPath = localBlocks[extId].basepath;
+  }
 
   // 载入扩展附带的静态文件（库文件）
   if (extObj.files) {
     const assets = [];
-    const files = typeof extObj.files === 'function' ? extObj.files(meta) : extObj.files;
+    const files =
+      typeof extObj.files === 'function'
+        ? extObj.files({
+            ...meta,
+            isArduino: ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor),
+          })
+        : extObj.files;
     for (const file of files) {
+      let uri = file.uri;
+      // 载入本地文件
+      if (extObj.customPath) {
+        uri = pathResolve(extObj.customPath, uri);
+      }
       const asset = nullObject(file, {
         id: file.name,
-        content: await fetch(file.uri).then((res) => res.arrayBuffer()),
+        content: await fetch(uri).then((res) => res.arrayBuffer()),
       });
       // micropython 库文件
-      if (file.type === 'text/x-python') {
+      if (file.type === 'text/x-python' || ['.py', '.mpy'].includes(extname(file.name))) {
         asset.id = file.common
           ? `lib/${file.name}` // 公共文件
           : `lib/${escape(extId)}/${file.name}`;

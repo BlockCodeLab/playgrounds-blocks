@@ -22,6 +22,7 @@ export default {
   ),
   files: [
     {
+      header: true,
       name: 'translate',
       type: 'text/x-python',
       uri: translateFile,
@@ -39,7 +40,8 @@ export default {
       uri: aiohttpWsFile,
     },
     {
-      name: '_sparkai',
+      common: true,
+      name: 'sparkai',
       type: 'text/x-python',
       uri: sparkaiFile,
     },

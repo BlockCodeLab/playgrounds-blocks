@@ -20,6 +20,7 @@ export default {
   ),
   files: [
     {
+      header: true,
       name: 'websocket',
       type: 'text/x-python',
       uri: websocketFile,

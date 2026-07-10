@@ -1,4 +1,4 @@
-import { xmlEscape, Konva } from '@blockcode/utils';
+import { xmlEscape, pathResolve, Konva } from '@blockcode/utils';
 import { themeColors, maybeTranslate, translate } from '@blockcode/core';
 import { Runtime } from './runtime/runtime';
 import { ScratchBlocks } from '../lib/scratch-blocks';
@@ -90,7 +90,12 @@ export function loadExtension(extObj, options, meta) {
     categoryXML += ` showStatusButton="true"`;
   }
   if (extObj.icon) {
-    categoryXML += ` iconURI="${xmlEscape(extObj.icon)}"`;
+    let extIcon = extObj.icon;
+    // 本地扩展的图标路径
+    if (extObj.customPath) {
+      extIcon = pathResolve(extObj.customPath, extIcon);
+    }
+    categoryXML += ` iconURI="${xmlEscape(extIcon)}"`;
   }
   categoryXML += `>`;
 
@@ -104,7 +109,13 @@ export function loadExtension(extObj, options, meta) {
       'callbackKey="OPEN_DOCUMENTATION"/>';
   }
 
-  const blocks = typeof extObj.blocks === 'function' ? extObj.blocks(meta) : extObj.blocks;
+  const blocks =
+    typeof extObj.blocks === 'function'
+      ? extObj.blocks({
+          ...meta,
+          isArduino: ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor),
+        })
+      : extObj.blocks;
 
   categoryXML += blocks
     .filter((block, index) => {
@@ -151,6 +162,7 @@ export function loadExtension(extObj, options, meta) {
       // json用于代码转换，有可能不显示的积木也存在代码转换
       const blockId = `${extId}_${block.id}`;
       let blockXML = '';
+      let blockArgs;
 
       // 显示特殊定义的积木
       if (block.custom) {
@@ -175,8 +187,12 @@ export function loadExtension(extObj, options, meta) {
         };
 
         let argsIndexStart = 1;
-        const blockIcon = block.icon ?? extObj.blockIcon ?? extObj.icon;
+        let blockIcon = block.icon ?? extObj.blockIcon ?? extObj.icon;
         if (!block.shadow && blockIcon) {
+          // 本地扩展的图标路径
+          if (extObj.customPath) {
+            blockIcon = pathResolve(extObj.customPath, blockIcon);
+          }
           blockJson.message0 = `%1 %2 ${blockJson.message0}`;
           blockJson.args0 = [
             {
@@ -385,13 +401,27 @@ export function loadExtension(extObj, options, meta) {
         if (block.shadow) {
           blockXML = '';
         }
+        blockArgs = blockJson.args0;
       }
 
       // 扩展积木代码生成器
       if (generator) {
         let codeName = generator.name_.toLowerCase();
         if (block[codeName]) {
-          generator[blockId] = block[codeName].bind(generator);
+          // 获取积木内嵌积木的值后作为参数传递。
+          generator[blockId] = (b) => {
+            const args = blockArgs
+              ? Object.fromEntries(
+                  blockArgs.map((arg) => [
+                    arg.name,
+                    arg.type === 'field_dropdown'
+                      ? b.getFieldValue(arg.name)
+                      : generator.valueToCode(b, arg.name, generator.ORDER_NONE),
+                  ]),
+                )
+              : {};
+            return block[codeName].call(generator, b, args);
+          };
         } else if (!generator[blockId]) {
           generator[blockId] = () => '';
         }

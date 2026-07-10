@@ -23,6 +23,7 @@ export const files = (meta) => {
 
   return [
     {
+      header: true,
       name: 'touchpiano.py',
       type: 'text/x-python',
       uri: touchpianoPyUri,

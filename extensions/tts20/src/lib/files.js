@@ -29,6 +29,7 @@ export const files = (meta) => {
 
   return [
     {
+      header: true,
       name: 'tts20.py',
       type: 'text/x-python',
       uri: tts20Py,

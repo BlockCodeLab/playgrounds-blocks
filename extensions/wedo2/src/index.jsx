@@ -19,6 +19,7 @@ export default {
   ),
   files: [
     {
+      header: true,
       name: 'wedo2',
       type: 'text/x-python',
       uri: wedo2PyURI,

@@ -10,7 +10,7 @@ import security from './aioble/security.mpy';
 import server from './aioble/server.mpy';
 
 export const files = [
-  { name: 'codexpad.mpy', type: 'text/x-python', uri: codexpad },
+  { header: true, name: 'codexpad.mpy', type: 'text/x-python', uri: codexpad },
   { common: true, name: 'aioble/__init__.mpy', type: 'text/x-python', uri: aioble },
   { common: true, name: 'aioble/central.mpy', type: 'text/x-python', uri: central },
   { common: true, name: 'aioble/client.mpy', type: 'text/x-python', uri: client },

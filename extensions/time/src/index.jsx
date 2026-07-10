@@ -17,6 +17,7 @@ export default {
   ),
   files: [
     {
+      header: true,
       name: 'ntptime',
       type: 'text/x-python',
       uri: ntptimeFile,

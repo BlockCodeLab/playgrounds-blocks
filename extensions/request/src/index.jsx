@@ -20,6 +20,7 @@ export default {
   ),
   files: [
     {
+      header: true,
       name: 'request',
       type: 'text/x-python',
       uri: requestFile,

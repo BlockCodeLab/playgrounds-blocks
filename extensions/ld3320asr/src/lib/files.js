@@ -22,6 +22,7 @@ export const files = (meta) => {
 
   return [
     {
+      header: true,
       name: 'speech_recognizer.py',
       type: 'text/x-python',
       uri: speechRecognizerPy,

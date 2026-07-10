@@ -1,6 +1,6 @@
 import { useRef, useImperativeHandle, useEffect, useCallback, useMemo } from 'preact/hooks';
 import { batch, useComputed, useSignal } from '@preact/signals';
-import { classNames, getCompactBlock, getBlockSize, sleepMs } from '@blockcode/utils';
+import { classNames, getCompactBlock, getBlockSize } from '@blockcode/utils';
 import {
   useLocalesContext,
   useAppContext,
@@ -331,8 +331,14 @@ export function BlocksEditor({
     // 查询扩展附带的资源
     const resources = Object.create(null);
     for (const extObj of loadedExtensions.values()) {
-      if (extensions.includes(extObj.id) && extObj.files) {
-        const extFiles = typeof extObj.files === 'function' ? extObj.files(meta.value) : extObj.files;
+      if (extObj.files) {
+        const extFiles =
+          typeof extObj.files === 'function'
+            ? extObj.files({
+                ...meta.value,
+                isArduino: ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.value.editor),
+              })
+            : extObj.files;
         resources[extObj.id] = extFiles.map(({ content, data, uri, ...res }) => res);
       }
     }
@@ -995,7 +1001,7 @@ export function BlocksEditor({
               >
                 <img
                   src={extensionIcon}
-                  title="Add Extension"
+                  title={translate('blocks.extensions.addExtension', 'Add Extension')}
                 />
               </button>
             </div>

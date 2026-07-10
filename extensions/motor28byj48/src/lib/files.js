@@ -23,6 +23,7 @@ export const files = (meta) => {
 
   return [
     {
+      header: true,
       name: 'stepper_motor',
       type: 'text/x-python',
       uri: stepperMotorPyUri,

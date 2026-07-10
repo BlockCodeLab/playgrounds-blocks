@@ -1,7 +1,5 @@
 import { Text } from '@blockcode/core';
 
-const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
-
 export const blocks = (meta) => [
   {
     id: 'rawValue',
@@ -22,14 +20,14 @@ export const blocks = (meta) => [
             defaultValue: 1,
           },
     },
-    ino(block) {
-      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+    ino(block, args) {
+      const pin = args.PIN;
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, INPUT);`;
       const code = `analogRead(${pin})`;
       return [code, this.ORDER_FUNCTION_CALL];
     },
-    mpy(block) {
-      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+    mpy(block, args) {
+      const pin = args.PIN;
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_adc'] = 'from machine import ADC';
@@ -59,14 +57,14 @@ export const blocks = (meta) => [
             defaultValue: 1,
           },
     },
-    ino(block) {
-      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+    ino(block, args) {
+      const pin = args.PIN;
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, INPUT);`;
       const code = `round((analogRead(${pin}) / 1023.0f) * 100)`;
       return [code, this.ORDER_NONE];
     },
-    mpy(block) {
-      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+    mpy(block, args) {
+      const pin = args.PIN;
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_adc'] = 'from machine import ADC';
@@ -96,22 +94,22 @@ export const blocks = (meta) => [
             defaultValue: 1,
           },
       // REF: {
-      //   defaultValue: isArduino(meta) ? '500' : '330',
+      //   defaultValue: meta.isArduino ? '500' : '330',
       //   menu: [
       //     ['3.3V', '330'],
       //     ['5V', '500'],
       //   ],
       // },
     },
-    ino(block) {
-      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
-      // const ref = block.getFieldValue('REF');
+    ino(block, args) {
+      const pin = args.PIN;
+      // const ref = args.REF;
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, INPUT);`;
       const code = `round((analogRead(${pin}) / 1023.0f) * 500) / 100.0f`; // 精度，小数点后两位
       return [code, this.ORDER_NONE];
     },
-    mpy(block) {
-      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+    mpy(block, args) {
+      const pin = args.PIN;
       // const ref = block.getFieldValue('REF');
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
@@ -142,14 +140,14 @@ export const blocks = (meta) => [
             defaultValue: 1,
           },
     },
-    ino(block) {
-      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+    ino(block, args) {
+      const pin = args.PIN;
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, INPUT);`;
       const code = `round(((analogRead(${pin}) - 511) / 511.0f) * 100)`;
       return [code, this.ORDER_FUNCTION_CALL];
     },
-    mpy(block) {
-      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+    mpy(block, args) {
+      const pin = args.PIN;
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_adc'] = 'from machine import ADC';
@@ -179,14 +177,14 @@ export const blocks = (meta) => [
             defaultValue: 1,
           },
     },
-    ino(block) {
-      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+    ino(block, args) {
+      const pin = args.PIN;
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, INPUT);`;
       const code = `round(((analogRead(${pin}) - 511) / 511.0f) * 100)`;
       return [code, this.ORDER_FUNCTION_CALL];
     },
-    mpy(block) {
-      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+    mpy(block, args) {
+      const pin = args.PIN;
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_['import_adc'] = 'from machine import ADC';
@@ -217,14 +215,14 @@ export const blocks = (meta) => [
             defaultValue: 1,
           },
     },
-    ino(block) {
-      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+    ino(block, args) {
+      const pin = args.PIN;
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, INPUT);`;
       const code = `(digitalRead(${pin}) == HIGH)`;
       return [code, this.ORDER_NONE];
     },
-    mpy(block) {
-      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+    mpy(block, args) {
+      const pin = args.PIN;
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_[pinName] = `${pinName} = Pin(${pin}, Pin.IN)`;
@@ -251,14 +249,14 @@ export const blocks = (meta) => [
             defaultValue: 1,
           },
     },
-    ino(block) {
-      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+    ino(block, args) {
+      const pin = args.PIN;
       this.definitions_[`setup_pin_${pin}`] = `pinMode(${pin}, INPUT);`;
       const code = `(digitalRead(${pin}) == LOW)`;
       return [code, this.ORDER_NONE];
     },
-    mpy(block) {
-      const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
+    mpy(block, args) {
+      const pin = args.PIN;
       const pinName = `pin_${pin}`;
       this.definitions_['import_pin'] = 'from machine import Pin';
       this.definitions_[pinName] = `${pinName} = Pin(${pin}, Pin.IN)`;

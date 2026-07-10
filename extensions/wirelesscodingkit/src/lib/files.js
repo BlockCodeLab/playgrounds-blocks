@@ -17,6 +17,7 @@ export const files = (meta) => {
 
   return [
     {
+      header: true,
       name: 'wirelesskit',
       type: 'text/x-python',
       uri: wirelesskitPyUri,

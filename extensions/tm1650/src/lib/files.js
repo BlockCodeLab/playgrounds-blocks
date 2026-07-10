@@ -7,6 +7,7 @@ export const files = (meta) => {
   if (notArduino(meta)) {
     return [
       {
+        header: true,
         name: 'decimal1650',
         type: 'text/x-python',
         uri: decimal1650PyUri,

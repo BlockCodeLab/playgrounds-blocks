@@ -6,6 +6,7 @@ export const files = (meta) => {
   if (notArduino(meta)) {
     return [
       {
+        header: true,
         name: 'mfrc522.py',
         type: 'text/x-python',
         uri: mfrc522Py,

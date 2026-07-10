@@ -17,6 +17,7 @@ export default {
   ),
   files: [
     {
+      header: true,
       name: 'broadcast',
       type: 'text/x-python',
       uri: broadcastFile,

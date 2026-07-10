@@ -23,6 +23,7 @@ export const files = (meta) => {
 
   return [
     {
+      header: true,
       name: 'dm11.py',
       type: 'text/x-python',
       uri: dm11PyUri,

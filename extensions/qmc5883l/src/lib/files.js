@@ -7,6 +7,7 @@ export const files = (meta) => {
 
   return [
     {
+      header: true,
       name: 'qmc5883l.py',
       type: 'text/x-python',
       uri: qmc5883lPy,

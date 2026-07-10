@@ -21,6 +21,7 @@ export default {
     if (notArduino(meta)) {
       return [
         {
+          header: true,
           name: 'bmx280',
           type: 'text/x-python',
           uri: bmx280PyUri,

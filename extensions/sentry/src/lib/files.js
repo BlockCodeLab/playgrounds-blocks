@@ -7,6 +7,7 @@ export const files = (meta) => {
 
   return [
     {
+      header: true,
       name: 'sentry.py',
       type: 'text/x-python',
       uri: sentryPy,

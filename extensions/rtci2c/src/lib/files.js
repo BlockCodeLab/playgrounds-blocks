@@ -7,6 +7,7 @@ export const files = (meta) => {
 
   return [
     {
+      header: true,
       name: 'rtci2c.py',
       type: 'text/x-python',
       uri: rtci2cPy,

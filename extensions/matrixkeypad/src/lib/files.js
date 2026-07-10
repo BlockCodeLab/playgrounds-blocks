@@ -23,6 +23,7 @@ export const files = (meta) => {
 
   return [
     {
+      header: true,
       name: 'matrixkeypad.py',
       type: 'text/x-python',
       uri: matrixKeypadPyUri,

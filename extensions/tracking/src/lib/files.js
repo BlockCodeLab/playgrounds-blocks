@@ -23,6 +23,7 @@ export const files = (meta) => {
 
   return [
     {
+      header: true,
       name: 'five_line_tracker',
       type: 'text/x-python',
       uri: fiveTrackerPyUri,

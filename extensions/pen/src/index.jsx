@@ -18,6 +18,7 @@ export default {
   ),
   files: [
     {
+      header: true,
       name: 'pen',
       type: 'text/x-python',
       uri: penFile,

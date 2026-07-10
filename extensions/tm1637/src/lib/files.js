@@ -6,6 +6,7 @@ export const files = (meta) => {
   if (notArduino(meta)) {
     return [
       {
+        header: true,
         name: 'tm1637',
         type: 'text/x-python',
         uri: tm1637PyUri,

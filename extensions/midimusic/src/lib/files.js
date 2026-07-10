@@ -29,6 +29,7 @@ export const files = (meta) => {
 
   return [
     {
+      header: true,
       name: 'midi.py',
       type: 'text/x-python',
       uri: midiPyUri,
