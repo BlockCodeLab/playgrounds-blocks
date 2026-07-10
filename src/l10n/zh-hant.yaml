@@ -14,6 +14,15 @@ blocks.extensions.loading: 正在加載…
 blocks.extensions.documentation: 打開檔案
 blocks.extensions.custom: 自製擴展
 
+blocks.extension.tags.controllers: 輸入控制
+blocks.extension.tags.sensors: 傳感器
+blocks.extension.tags.actuators: 執行器
+blocks.extension.tags.displays: 顯示模組
+blocks.extension.tags.modules: 智能模組
+blocks.extension.tags.communication: 通訊
+blocks.extension.tags.data: 數據
+blocks.extension.tags.kits: 套件
+
 blocks.prompt.ok: 確認
 blocks.prompt.cancel: 取消
 

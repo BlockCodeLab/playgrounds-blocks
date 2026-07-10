@@ -14,6 +14,15 @@ blocks.extensions.loading: 'Loading...'
 blocks.extensions.documentation: Open Documentation
 blocks.extensions.custom: Custom
 
+blocks.extension.tags.controllers: Controllers
+blocks.extension.tags.sensors: Sensors
+blocks.extension.tags.actuators: Actuators
+blocks.extension.tags.displays: Displays
+blocks.extension.tags.modules: Modules
+blocks.extension.tags.communication: Communication
+blocks.extension.tags.data: Data
+blocks.extension.tags.kits: Kits
+
 blocks.prompt.ok: OK
 blocks.prompt.cancel: Cancel
 
