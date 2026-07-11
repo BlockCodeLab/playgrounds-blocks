@@ -113,7 +113,7 @@ boolean TCS34725::begin(tcs34725IntegrationTime_t it, tcs34725Gain_t gain) {
     x = pow(x, 2.5);
     x *= 255;
     // Serial.println(i);
-    gammatable[i] = x;
+    gammatable[i] = (int)(x + 0.5);
   }
 
   return true;
@@ -145,33 +145,6 @@ void TCS34725::setGain(tcs34725Gain_t gain) {
 
 uint16_t TCS34725::getRed() {
 
-  uint16_t r;
-
-  this->getRGBC(&r, NULL, NULL, NULL, false);
-
-  return r;
-}
-
-uint16_t TCS34725::getGreen() {
-
-  uint16_t g;
-
-  this->getRGBC(NULL, &g, NULL, NULL, false);
-
-  return g;
-}
-
-uint16_t TCS34725::getBlue() {
-
-  uint16_t b;
-
-  this->getRGBC(NULL, NULL, &b, NULL, false);
-
-  return b;
-}
-
-uint16_t TCS34725::getRedToGamma() {
-
   uint16_t r, c;
 
   float fr, fc;
@@ -180,10 +153,10 @@ uint16_t TCS34725::getRedToGamma() {
   fr = r;
   fc = c;
 
-  return (uint16_t)gammatable[(int)(((fr / fc) * 256))];
+  return (uint16_t)((fr / fc) * 256);
 }
 
-uint16_t TCS34725::getGreenToGamma() {
+uint16_t TCS34725::getGreen() {
 
   uint16_t g, c;
 
@@ -193,10 +166,10 @@ uint16_t TCS34725::getGreenToGamma() {
   fg = g;
   fc = c;
 
-  return (uint16_t)gammatable[(int)(((fg / fc) * 256))];
+  return (uint16_t)((fg / fc) * 256);
 }
 
-uint16_t TCS34725::getBlueToGamma() {
+uint16_t TCS34725::getBlue() {
 
   uint16_t b, c;
 
@@ -206,7 +179,47 @@ uint16_t TCS34725::getBlueToGamma() {
   fb = b;
   fc = c;
 
-  return (uint16_t)gammatable[(int)(((fb / fc) * 256))];
+  return (uint16_t)((fb / fc) * 256);
+}
+
+uint16_t TCS34725::getRedToGamma() {
+
+  uint16_t r = getRed();
+
+  return (uint16_t)gammatable[r];
+}
+
+uint16_t TCS34725::getGreenToGamma() {
+
+  uint16_t g = getGreen();
+
+  return (uint16_t)gammatable[g];
+}
+
+uint16_t TCS34725::getBlueToGamma() {
+
+  uint16_t b = getBlue();
+
+  return (uint16_t)gammatable[b];
+}
+
+uint32_t TCS34725::getColor() {
+
+  uint16_t r, g, b, c;
+
+  float fr, fg, fb, fc;
+
+  this->getRGBC(&r, &g, &b, &c, false);
+  fr = r;
+  fg = g;
+  fb = b;
+  fc = c;
+
+  r = (uint16_t)((fr / fc) * 256);
+  g = (uint16_t)((fg / fc) * 256);
+  b = (uint16_t)((fb / fc) * 256);
+
+  return ((uint32_t)r << 16) | ((uint32_t)g << 8) | (uint32_t)b;
 }
 
 uint32_t TCS34725::getColorToGamma() {

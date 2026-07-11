@@ -102,6 +102,7 @@ public:
   uint16_t getBlue();
   uint16_t getBlueToGamma();
 
+  uint32_t getColor();
   uint32_t getColorToGamma();
 
 private:
