@@ -18,7 +18,7 @@ export const blocks = (meta) => [
       INA: meta.boardPins
         ? {
             menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? '18' : '1',
+            defaultValue: isIotBit(meta) ? 'P13' : '1',
           }
         : {
             type: 'positive_integer',
@@ -27,7 +27,7 @@ export const blocks = (meta) => [
       INB: meta.boardPins
         ? {
             menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? '19' : '2',
+            defaultValue: isIotBit(meta) ? 'P14' : '2',
           }
         : {
             type: 'positive_integer',
@@ -36,7 +36,7 @@ export const blocks = (meta) => [
       INC: meta.boardPins
         ? {
             menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? '21' : '3',
+            defaultValue: isIotBit(meta) ? 'P15' : '3',
           }
         : {
             type: 'positive_integer',
@@ -45,7 +45,7 @@ export const blocks = (meta) => [
       IND: meta.boardPins
         ? {
             menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? '5' : '4',
+            defaultValue: isIotBit(meta) ? 'P16' : '4',
           }
         : {
             type: 'positive_integer',

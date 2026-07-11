@@ -1,6 +1,5 @@
 import { Text } from '@blockcode/core';
 
-const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
 export const blocks = (meta) => [
   {
     id: 'ledState',

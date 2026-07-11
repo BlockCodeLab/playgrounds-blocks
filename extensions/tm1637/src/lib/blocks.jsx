@@ -15,7 +15,7 @@ export const blocks = (meta) => [
       CLK: meta.boardPins
         ? {
             menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? '22' : '2',
+            defaultValue: isIotBit(meta) ? 'P19' : '2',
           }
         : {
             type: 'positive_integer',
@@ -24,7 +24,7 @@ export const blocks = (meta) => [
       DIO: meta.boardPins
         ? {
             menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? '23' : '3',
+            defaultValue: isIotBit(meta) ? 'P20' : '3',
           }
         : {
             type: 'positive_integer',

@@ -24,7 +24,7 @@ export const blocks = (meta) => [
       SCL: meta.boardPins
         ? {
             menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? '22' : '2',
+            defaultValue: isIotBit(meta) ? 'P19' : '2',
           }
         : {
             type: 'positive_integer',
@@ -33,7 +33,7 @@ export const blocks = (meta) => [
       SDA: meta.boardPins
         ? {
             menu: meta.boardPins.all,
-            defaultValue: isIotBit(meta) ? '23' : '3',
+            defaultValue: isIotBit(meta) ? 'P20' : '3',
           }
         : {
             type: 'positive_integer',
