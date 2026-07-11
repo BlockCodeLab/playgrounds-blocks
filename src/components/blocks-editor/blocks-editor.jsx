@@ -17,6 +17,7 @@ import {
   setMeta,
   themeColors,
   addLessons,
+  removeLessons,
 } from '@blockcode/core';
 
 import { ScratchBlocks } from '../../lib/scratch-blocks';
@@ -504,7 +505,19 @@ export function BlocksEditor({
     );
 
     const projData = await preloadProjectBlocks(meta.value, files.value);
+    let readyCleanExtensions = true;
     for (const [extId, extObj] of projData.extensions) {
+      // 清除旧扩展
+      if (readyCleanExtensions) {
+        // 移除教程
+        for (const extObj of loadedExtensions.values()) {
+          if (extObj.lessons) {
+            removeLessons(extObj.lessons);
+          }
+        }
+        loadedExtensions.clear();
+        readyCleanExtensions = false;
+      }
       loadExtension(extObj, options, meta.value);
       loadedExtensions.set(extId, extObj);
 
