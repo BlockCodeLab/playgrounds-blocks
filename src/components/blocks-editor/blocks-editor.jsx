@@ -41,6 +41,7 @@ import styles from './blocks-editor.module.css';
 import extensionIcon from './icons/icon-extension.svg';
 import hideIcon from './icons/icon-hide.svg';
 import showIcon from './icons/icon-show.svg';
+import refreshIcon from './icons/icon-refresh.svg';
 
 // 支持更新的事件
 const supportedEvents = new Set([
@@ -288,12 +289,12 @@ export function BlocksEditor({
   }, [language.value]);
 
   // 添加扩展XML
-  const handleSelectExtension = useCallback(async (extId) => {
+  const handleSelectExtension = useCallback(async (extId, isReload) => {
     if (loadedExtensions.has(extId)) return;
     setAlert('importing', { id: extId });
 
     // 载入扩展
-    const extObj = await importExtension(meta.value, extId);
+    const extObj = await importExtension(meta.value, extId, isReload);
     loadedExtensions.set(extObj.id, extObj);
     updateWorkspace();
     if (onExtensionLoad) {
@@ -791,6 +792,17 @@ export function BlocksEditor({
         if (!loadedExtensions.has(extId)) return;
 
         const extObj = loadedExtensions.get(extId);
+
+        if (extObj.customPath) {
+          setTimeout(() => {
+            const buttons = document.querySelectorAll('.blocklyFlyoutLabel .blocklyFlyoutButton') ?? [];
+            for (const button of buttons) {
+              button.setAttribute('xlink:href', refreshIcon);
+            }
+          }, 5);
+          return ScratchBlocks.StatusButtonState.NOT_READY;
+        }
+
         const statusButton = extObj.statusButton;
         if (!statusButton) {
           return ScratchBlocks.StatusButtonState.NOT_READY;
@@ -870,6 +882,14 @@ export function BlocksEditor({
         if (!loadedExtensions.has(extId)) return;
 
         const extObj = loadedExtensions.get(extId);
+
+        // 更新自定义扩展
+        if (extObj.customPath) {
+          loadedExtensions.delete(extId);
+          await handleSelectExtension(extId, true);
+          return;
+        }
+
         const statusButton = extObj.statusButton;
         if (!statusButton) return;
 

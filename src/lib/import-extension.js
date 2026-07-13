@@ -5,7 +5,7 @@ import { addAsset } from '@blockcode/core';
 
 const escape = (name) => name.replaceAll(/[^a-z0-9]/gi, '_').replace(/^_/, '');
 
-export async function importExtension(meta, extId) {
+export async function importExtension(meta, extId, isReload) {
   // 载入本地扩展
   let moduleName = extId;
   const localBlocks = window.electron?.getLocalBlocks();
@@ -13,7 +13,7 @@ export async function importExtension(meta, extId) {
     moduleName = localBlocks[extId].main;
   }
 
-  const { default: extObj } = await import(moduleName);
+  const { default: extObj } = await import(`${moduleName}${isReload ? `?_t=${Date.now()}` : ''}`);
   extObj.id = extId;
   // 本地扩展的路径
   if (localBlocks?.[extId]?.main) {

@@ -86,7 +86,7 @@ export function loadExtension(extObj, options, meta) {
   let categoryXML = `<category id="${xmlEscape(extId)}" name="${xmlEscape(extName)}"`;
   categoryXML += ` colour="${xmlEscape(extObj.themeColor || THEME_COLOR)}"`;
   categoryXML += ` secondaryColour="${xmlEscape(extObj.inputColor || INPUT_COLOR)}"`;
-  if (extObj.statusButton) {
+  if (extObj.statusButton || extObj.customPath) {
     categoryXML += ` showStatusButton="true"`;
   }
   if (extObj.icon) {
