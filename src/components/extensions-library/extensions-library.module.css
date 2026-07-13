@@ -6,3 +6,8 @@
 .add-custom-button > :first-child {
   margin: auto;
 }
+
+.more-link {
+  margin-bottom: var(--space);
+  text-decoration-line: none;
+}

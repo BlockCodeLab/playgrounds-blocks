@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'preact/hooks';
 import { useSignal } from '@preact/signals';
-import { setAlert, delAlert, Text, Library } from '@blockcode/core';
+import { useLocalesContext, setAlert, delAlert, Text, Library } from '@blockcode/core';
 import { isElectron } from '@blockcode/utils';
 import styles from './extensions-library.module.css';
 import plusIcon from './icon-plus.svg';
@@ -8,6 +8,8 @@ import plusIcon from './icon-plus.svg';
 import getExtensions from '../../lib/get-extensions';
 
 export function ExtensionsLibrary({ tags, disableCustom, onSelect, onClose, onFilter }) {
+  const { language } = useLocalesContext();
+
   const data = useSignal(null);
 
   const handleFilter = useCallback(
@@ -65,7 +67,23 @@ export function ExtensionsLibrary({ tags, disableCustom, onSelect, onClose, onFi
       result.unshift({
         eeggTag: 'custom',
         className: styles.addCustomButton,
-        custom: <img src={plusIcon} />,
+        custom: (
+          <>
+            <img src={plusIcon} />
+            <a
+              target="_blank"
+              className={styles.moreLink}
+              href="https://app.blockcode.fun/#/custom-extension"
+              // href={`https://app.blockcode.fun/#${language.value === 'zh-Hans' ? '' : `/${language.value}`}/custom-extension`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Text
+                id="blocks.extensions.howtoDefinition"
+                defaultMessage="View How to Customize a Extension"
+              />
+            </a>
+          </>
+        ),
         async onSelect() {
           const id = setAlert('importing');
           await window.electron.loadBlocksZip();

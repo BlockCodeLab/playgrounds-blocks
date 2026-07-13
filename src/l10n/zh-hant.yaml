@@ -13,6 +13,7 @@ blocks.extensions.empty: 沒有擴展！
 blocks.extensions.loading: 正在加載…
 blocks.extensions.documentation: 打開檔案
 blocks.extensions.custom: 自製擴展
+blocks.extensions.howtoDefinition: 查看更多自製擴展的幫助
 
 blocks.extension.tags.controllers: 輸入控制
 blocks.extension.tags.sensors: 傳感器
