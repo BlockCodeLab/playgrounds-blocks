@@ -13,7 +13,7 @@ blocks.extensions.empty: No extension!
 blocks.extensions.loading: 'Loading...'
 blocks.extensions.documentation: Open Documentation
 blocks.extensions.custom: Custom
-blocks.extensions.howtoDefinition: View How to Customize a Extension.
+blocks.extensions.addCustom: Open Custom Extension(.zip)
 
 blocks.extension.tags.controllers: Controllers
 blocks.extension.tags.sensors: Sensors

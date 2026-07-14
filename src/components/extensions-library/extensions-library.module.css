@@ -8,6 +8,12 @@
 }
 
 .more-link {
-  margin-bottom: var(--space);
+  margin-bottom: calc(var(--space) * 2);
+  color: var(--text-transparent);
+}
+
+.more-link a {
   text-decoration-line: none;
+  color: var(--theme-primary);
+  margin-left: 4px;
 }

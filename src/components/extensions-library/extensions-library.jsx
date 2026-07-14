@@ -70,18 +70,23 @@ export function ExtensionsLibrary({ tags, disableCustom, onSelect, onClose, onFi
         custom: (
           <>
             <img src={plusIcon} />
-            <a
-              target="_blank"
-              className={styles.moreLink}
-              href="https://app.blockcode.fun/#/custom-extension"
-              // href={`https://app.blockcode.fun/#${language.value === 'zh-Hans' ? '' : `/${language.value}`}/custom-extension`}
-              onClick={(e) => e.stopPropagation()}
-            >
+            <div className={styles.moreLink}>
               <Text
-                id="blocks.extensions.howtoDefinition"
-                defaultMessage="View How to Customize a Extension"
+                id="blocks.extensions.addCustom"
+                defaultMessage="Open Custom Extension (.zip)"
               />
-            </a>
+              <a
+                target="_blank"
+                href="https://app.blockcode.fun/#/custom-extension"
+                // href={`https://app.blockcode.fun/#${language.value === 'zh-Hans' ? '' : `/${language.value}`}/custom-extension`}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Text
+                  id="core.library.readmore"
+                  defaultMessage="Read more..."
+                />
+              </a>
+            </div>
           </>
         ),
         async onSelect() {
