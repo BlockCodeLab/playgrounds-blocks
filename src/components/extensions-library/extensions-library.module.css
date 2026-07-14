@@ -3,8 +3,9 @@
   border-style: dashed;
 }
 
-.add-custom-button > :first-child {
+.add-custom-image {
   margin: auto;
+  padding: 4rem 0;
 }
 
 .more-link {

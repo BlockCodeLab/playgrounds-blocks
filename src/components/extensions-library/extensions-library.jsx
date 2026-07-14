@@ -69,7 +69,10 @@ export function ExtensionsLibrary({ tags, disableCustom, onSelect, onClose, onFi
         className: styles.addCustomButton,
         custom: (
           <>
-            <img src={plusIcon} />
+            <img
+              src={plusIcon}
+              className={styles.addCustomImage}
+            />
             <div className={styles.moreLink}>
               <Text
                 id="blocks.extensions.addCustom"
@@ -77,8 +80,7 @@ export function ExtensionsLibrary({ tags, disableCustom, onSelect, onClose, onFi
               />
               <a
                 target="_blank"
-                href="https://app.blockcode.fun/#/custom-extension"
-                // href={`https://app.blockcode.fun/#${language.value === 'zh-Hans' ? '' : `/${language.value}`}/custom-extension`}
+                href={`https://app.blockcode.fun/#${language.value === 'zh-Hans' ? '' : `/${language.value}`}/custom-extension`}
                 onClick={(e) => e.stopPropagation()}
               >
                 <Text
