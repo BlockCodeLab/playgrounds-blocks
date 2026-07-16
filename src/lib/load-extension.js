@@ -56,7 +56,7 @@ export function loadExtension(extObj, options, meta) {
   if (emulator && extObj.emulator && Runtime.currentRuntime) {
     if (!Runtime.currentRuntime._extensions.has(extId)) {
       const runtime = new Proxy(Runtime.currentRuntime, {
-        get(target, prop, receiver) {
+        get(target, prop) {
           if (prop === 'on') {
             return (eventName, listener) => {
               // 扩展硬件连接
@@ -409,7 +409,7 @@ export function loadExtension(extObj, options, meta) {
         let codeName = generator.name_.toLowerCase();
         if (block[codeName]) {
           // 获取积木内嵌积木的值后作为参数传递。
-          generator[blockId] = (b) => {
+          generator[blockId] = function (b) {
             const args = blockArgs
               ? Object.fromEntries(
                   blockArgs.map((arg) => [
@@ -420,7 +420,7 @@ export function loadExtension(extObj, options, meta) {
                   ]),
                 )
               : {};
-            return block[codeName].call(generator, b, args);
+            return block[codeName].call(generator, b, args, this.definitions_);
           };
         } else if (!generator[blockId]) {
           generator[blockId] = () => '';
@@ -429,7 +429,20 @@ export function loadExtension(extObj, options, meta) {
       if (emulator) {
         let codeName = emulator.name_.toLowerCase();
         if (block[codeName]) {
-          emulator[blockId] = block[codeName].bind(emulator);
+          // 获取积木内嵌积木的值后作为参数传递。
+          emulator[blockId] = function (b) {
+            const args = blockArgs
+              ? Object.fromEntries(
+                  blockArgs.map((arg) => [
+                    arg.name,
+                    arg.type === 'field_dropdown'
+                      ? b.getFieldValue(arg.name)
+                      : emulator.valueToCode(b, arg.name, emulator.ORDER_NONE),
+                  ]),
+                )
+              : {};
+            return block[codeName].call(emulator, b, args, this.definitions_);
+          };
         } else if (!emulator[blockId]) {
           emulator[blockId] = () => '';
         }
