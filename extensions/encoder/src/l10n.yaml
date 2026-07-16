@@ -1,0 +1,20 @@
+en:
+  blocks.encoder.name: Encoder
+  blocks.encoder.init: init [ID] encoder pins A:[APin] B:[BPin]
+  blocks.encoder.position: '[ID] encoder position'
+  blocks.encoder.update: manual update [ID] encoder
+  blocks.encoder.reset: reset [ID] encoder
+
+zh-Hans:
+  blocks.encoder.name: 旋转编码器
+  blocks.encoder.init: 初始 [ID] 编码器引脚 A:[APin] B:[BPin]
+  blocks.encoder.position: '[ID] 编码器位置'
+  blocks.encoder.update: 手动更新 [ID] 编码器
+  blocks.encoder.reset: 复位 [ID] 编码器
+
+zh-Hant:
+  blocks.encoder.name: 旋轉編碼器
+  blocks.encoder.init: 初始 [ID] 編碼器引腳 A:[APin] B:[BPin]
+  blocks.encoder.update: 手動更新 [ID] 編碼器
+  blocks.encoder.position: '[ID] 編碼器位置'
+  blocks.encoder.reset: 復位 [ID] 編碼器
