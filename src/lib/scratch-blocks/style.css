@@ -84,7 +84,7 @@
   appearance: none;
   background: var(--ui-white) !important;
   border-radius: 50%;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, .15);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15);
   cursor: pointer;
   height: 24px !important;
   width: 24px !important;
@@ -93,4 +93,12 @@
 
 .blocklyAngleCircleEx {
   stroke-width: 1;
+}
+
+.blocklyDisabled > [data-argument-type='dropdown'] {
+  opacity: 0.5;
+}
+
+.blocklyDisabled > .blocklyEditableText > text.blocklyText {
+  opacity: 0.5;
 }

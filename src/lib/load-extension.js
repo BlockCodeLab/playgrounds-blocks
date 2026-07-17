@@ -409,18 +409,24 @@ export function loadExtension(extObj, options, meta) {
         let codeName = generator.name_.toLowerCase();
         if (block[codeName]) {
           // 获取积木内嵌积木的值后作为参数传递。
-          generator[blockId] = function (b) {
+          generator[blockId] = function (targetBlock) {
+            // 禁用积木时不转换
+            if (targetBlock.getRootBlock()?.disabled) return ''; // 帽子积木被禁用
+            if (targetBlock.getSurroundParent()?.disabled) return ''; // 父积木被禁用
+            if (targetBlock.disabled) return ''; // 自己被禁用
+
+            // 简化参数获取
             const args = blockArgs
               ? Object.fromEntries(
                   blockArgs.map((arg) => [
                     arg.name,
                     arg.type === 'field_dropdown'
-                      ? b.getFieldValue(arg.name)
-                      : generator.valueToCode(b, arg.name, generator.ORDER_NONE),
+                      ? targetBlock.getFieldValue(arg.name)
+                      : generator.valueToCode(targetBlock, arg.name, generator.ORDER_NONE),
                   ]),
                 )
               : {};
-            return block[codeName].call(generator, b, args, this.definitions_);
+            return block[codeName].call(generator, targetBlock, args, this.definitions_);
           };
         } else if (!generator[blockId]) {
           generator[blockId] = () => '';
@@ -430,18 +436,24 @@ export function loadExtension(extObj, options, meta) {
         let codeName = emulator.name_.toLowerCase();
         if (block[codeName]) {
           // 获取积木内嵌积木的值后作为参数传递。
-          emulator[blockId] = function (b) {
+          emulator[blockId] = function (targetBlock) {
+            // 禁用积木时不转换
+            if (targetBlock.getRootBlock()?.disabled) return ''; // 帽子积木被禁用
+            if (targetBlock.getSurroundParent()?.disabled) return ''; // 父积木被禁用
+            if (targetBlock.disabled) return ''; // 自己被禁用
+
+            // 简化参数获取
             const args = blockArgs
               ? Object.fromEntries(
                   blockArgs.map((arg) => [
                     arg.name,
                     arg.type === 'field_dropdown'
-                      ? b.getFieldValue(arg.name)
-                      : emulator.valueToCode(b, arg.name, emulator.ORDER_NONE),
+                      ? targetBlock.getFieldValue(arg.name)
+                      : emulator.valueToCode(targetBlock, arg.name, emulator.ORDER_NONE),
                   ]),
                 )
               : {};
-            return block[codeName].call(emulator, b, args, this.definitions_);
+            return block[codeName].call(emulator, targetBlock, args, this.definitions_);
           };
         } else if (!emulator[blockId]) {
           emulator[blockId] = () => '';

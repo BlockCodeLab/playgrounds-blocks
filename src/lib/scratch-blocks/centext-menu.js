@@ -17,17 +17,38 @@ const saveDataUri = async (id, uri) => {
 // 给工作区添加导出积木图片菜单项
 const showContextMenu = ScratchBlocks.ContextMenu.show;
 ScratchBlocks.ContextMenu.show = function (e, options, rtl) {
-  let isWorkspace = false;
-  for (const item of options) {
-    if (item.text === ScratchBlocks.Msg.UNDO) {
-      isWorkspace = true;
-      break;
-    }
-  }
+  const targetBlock = e.target.tooltip;
 
   // 导出积木图片菜单项
   const exportPngOption = { enabled: true };
-  if (isWorkspace) {
+  if (targetBlock) {
+    exportPngOption.text = translate('blocks.centextMenu.exportBlocksPng', 'Export Blocks to PNG');
+    exportPngOption.callback = () => {
+      const block = ScratchBlocks.ContextMenu.currentBlock;
+      if (!block) return;
+      const options = {};
+      const getBBox = block.svgGroup_.getBBox.bind(block.svgGroup_);
+      const bbox = getBBox();
+      // 修复帽子积木被裁剪掉帽子
+      const top = bbox.y;
+      options.top = 0;
+      bbox.width += 2;
+      bbox.height += 2;
+      if (block.startHat_) {
+        bbox.y = 0;
+        options.top = top;
+      }
+      options.top -= 1;
+      options.left = -1;
+      block.svgGroup_.getBBox = () => bbox;
+
+      const id = setAlert('exporting');
+      svgAsPngUri(block.svgGroup_, options)
+        .then((uri) => saveDataUri(id, uri))
+        .catch(() => setAlert('exportError', { id }, 1000))
+        .finally(() => (block.svgGroup_.getBBox = getBBox));
+    };
+  } else {
     exportPngOption.text = translate('blocks.centextMenu.exportAllBlocksPng', 'Export all Blocks to PNG');
     exportPngOption.callback = () => {
       const workspace = ScratchBlocks.getMainWorkspace();
@@ -69,32 +90,18 @@ ScratchBlocks.ContextMenu.show = function (e, options, rtl) {
         .catch(() => setAlert('exportError', { id }, 1000))
         .finally(() => (canvas.getBBox = getBBox));
     };
-  } else {
-    exportPngOption.text = translate('blocks.centextMenu.exportBlocksPng', 'Export Blocks to PNG');
-    exportPngOption.callback = () => {
-      const block = ScratchBlocks.ContextMenu.currentBlock;
-      if (!block) return;
-      const options = {};
-      const getBBox = block.svgGroup_.getBBox.bind(block.svgGroup_);
-      const bbox = getBBox();
-      // 修复帽子积木被裁剪掉帽子
-      const top = bbox.y;
-      options.top = 0;
-      bbox.width += 2;
-      bbox.height += 2;
-      if (block.startHat_) {
-        bbox.y = 0;
-        options.top = top;
-      }
-      options.top -= 1;
-      options.left = -1;
-      block.svgGroup_.getBBox = () => bbox;
+  }
 
-      const id = setAlert('exporting');
-      svgAsPngUri(block.svgGroup_, options)
-        .then((uri) => saveDataUri(id, uri))
-        .catch(() => setAlert('exportError', { id }, 1000))
-        .finally(() => (block.svgGroup_.getBBox = getBBox));
+  // 禁用积木菜单项
+  const disabledOption = { enabled: false };
+  if (targetBlock) {
+    disabledOption.enabled = true;
+    disabledOption.text = targetBlock.disabled
+      ? translate('blocks.centextMenu.enableBlock', 'Enable Block')
+      : translate('blocks.centextMenu.disableBlock', 'Disable Block');
+    disabledOption.callback = () => {
+      targetBlock.setDisabled(!targetBlock.disabled ? 'true' : false);
+      targetBlock.updateDisabled();
     };
   }
 
@@ -108,6 +115,7 @@ ScratchBlocks.ContextMenu.show = function (e, options, rtl) {
     const deleteIndex = options.findIndex((item) => item.text === ScratchBlocks.Msg.DELETE);
     deleteItem = options.splice(deleteIndex, 1)[0];
 
+    options.push(disabledOption);
     options.push(commentItem);
     options.push(exportPngOption);
     options.push(deleteItem);

@@ -92,3 +92,5 @@ blocks.extensionStatusMenu.serial: 'Connect device with USB...'
 blocks.centextMenu.exportPng: Export Block to PNG
 blocks.centextMenu.exportBlocksPng: Export Blocks to PNG
 blocks.centextMenu.exportAllBlocksPng: Export all Blocks to PNG
+blocks.centextMenu.enableBlock: Enable Block
+blocks.centextMenu.disableBlock: Disable Block
