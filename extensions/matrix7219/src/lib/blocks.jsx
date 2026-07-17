@@ -578,8 +578,8 @@ export const blocks = (meta) => [
 export const menus = {
   IDs: {
     items: [
-      ['#1', '1'],
-      ['#2', '2'],
+      ['1#', '1'],
+      ['2#', '2'],
     ],
   },
   LedStates: {
