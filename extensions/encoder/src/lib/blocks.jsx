@@ -1,5 +1,7 @@
 import { Text } from '@blockcode/core';
 
+const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+
 export const blocks = (meta) => [
   {
     id: 'init',
@@ -64,7 +66,7 @@ export const blocks = (meta) => [
     },
   },
   '---',
-  {
+  isArduino(meta) && {
     id: 'update',
     text: (
       <Text
@@ -84,11 +86,7 @@ export const blocks = (meta) => [
     },
     ino(_, args) {
       const code = `encoder_${args.ID}.read();\n`;
-      return [code];
-    },
-    mpy(_, args) {
-      const code = `encoder_${args.ID}.update()\n`;
-      return [code];
+      return code;
     },
   },
   {
