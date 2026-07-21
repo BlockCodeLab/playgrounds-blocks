@@ -51,7 +51,7 @@ export const blocks = (meta) => [
     ),
     output: 'number',
     mpy(block) {
-      const code = '_qmc5883l.heading()[0]';
+      const code = '_qmc5883l.heading()';
       return [code];
     },
     ino(block) {
@@ -60,6 +60,29 @@ export const blocks = (meta) => [
       this.definitions_['setup_compass'] = `compass.init();`;
       this.definitions_['loop_compass'] = `compass.read();`;
       const code = `compass.getAzimuth()`;
+      return [code];
+    },
+  },
+  {
+    id: 'yaw',
+    text: (
+      <Text
+        id="blocks.qmc5883l.yaw"
+        defaultMessage="yaw"
+      />
+    ),
+    output: 'number',
+    mpy(block) {
+      const code = '_qmc5883l.get_yaw()';
+      return [code];
+    },
+    ino(block) {
+      this.definitions_['include_qmc5883l'] = `#include <QMC5883LCompass.h>`;
+      this.definitions_['include_math'] = `#include <math.h>`;
+      this.definitions_['variable_compass'] = `QMC5883LCompass compass;`;
+      this.definitions_['setup_compass'] = `compass.init();`;
+      this.definitions_['loop_compass'] = `compass.read();`;
+      const code = `round(atan2(compass.getY(), compass.getX()) * 180.0 / 3.14159265358979323846)`;
       return [code];
     },
   },
@@ -83,6 +106,7 @@ export const blocks = (meta) => [
       return [code];
     },
     ino(block) {
+      const xyz = block.getFieldValue('XYZ');
       this.definitions_['include_qmc5883l'] = `#include <QMC5883LCompass.h>`;
       this.definitions_['variable_compass'] = `QMC5883LCompass compass;`;
       this.definitions_['setup_compass'] = `compass.init();`;
