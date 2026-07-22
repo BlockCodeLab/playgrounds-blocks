@@ -80,6 +80,35 @@ export const blocks = (meta) => [
   },
   '---',
   {
+    id: 'brightness',
+    text: (
+      <Text
+        id="blocks.ws2812pixels.brightness"
+        defaultMessage="set pin [PIN] all leds brightness to [BRIGHTNESS]%"
+      />
+    ),
+    inputs: {
+      PIN: meta.boardPins
+        ? { menu: meta.boardPins.out }
+        : {
+            type: 'positive_integer',
+            defaultValue: 1,
+          },
+      BRIGHTNESS: {
+        shadow: 'brightnessSlider',
+        defaultValue: 80,
+      },
+    },
+    mpy(block, args) {
+      const code = `ledpixel_${args.PIN}.set_brightness(${args.BRIGHTNESS})\n`;
+      return code;
+    },
+    ino(block, args) {
+      const code = `ledpixel_${args.PIN}.setBrightness(${args.BRIGHTNESS});\n`;
+      return code;
+    },
+  },
+  {
     id: 'color',
     text: (
       <Text
