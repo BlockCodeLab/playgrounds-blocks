@@ -55,4 +55,13 @@ export class MicroPythonGenerator extends PythonGenerator {
     code += branchCode;
     return code;
   }
+
+  addLoopTrap(branchCode, id) {
+    let code = super.addLoopTrap(branchCode, id);
+    // 检查是否有 await 语句，有则可以无需防死循环
+    if (branchCode && !/^  await /m.test(branchCode)) {
+      code += `  ${this.INFINITE_LOOP_TRAP}`;
+    }
+    return code;
+  }
 }
