@@ -147,7 +147,7 @@ class CodexPad:
                 await self.scan_and_connect(
                     button_mask, scan_duration_ms, connect_timeout_ms
                 )
-                if self.is_connected():
+                if self.is_connected:
                     return
             except Exception:
                 await asyncio.sleep(1)
