@@ -7,6 +7,7 @@ en:
   blocks.codexpad.whenPressed: when [KEY] [STATE]
   blocks.codexpad.whenJoystickMoved: when [JOYSTICK] axis [WAY] [VALUE]
   blocks.codexpad.keyPressed: '[KEY] is [STATE]?'
+  blocks.codexpad.trackerUpdate: update status
   blocks.codexpad.keyStatePressed: pressed
   blocks.codexpad.keyStateHolding: holding
   blocks.codexpad.keyStateReleased: released
@@ -25,6 +26,7 @@ zh-Hans:
   blocks.codexpad.whenPressed: 当 [STATE] [KEY] 时
   blocks.codexpad.whenJoystickMoved: 当 [JOYSTICK] 轴值 [WAY] [VALUE] 时
   blocks.codexpad.keyPressed: '[KEY] 被 [STATE]？'
+  blocks.codexpad.trackerUpdate: 刷新手柄状态
   blocks.codexpad.keyStatePressed: 按下
   blocks.codexpad.keyStateHolding: 按住
   blocks.codexpad.keyStateReleased: 松开
@@ -43,6 +45,7 @@ zh-Hant:
   blocks.codexpad.whenPressed: 當 [STATE] [KEY] 時
   blocks.codexpad.whenJoystickMoved: 當 [JOYSTICK] 軸值 [WAY] [VALUE] 時
   blocks.codexpad.keyPressed: '[KEY] 被 [STATE]？'
+  blocks.codexpad.trackerUpdate: 刷新手柄狀態
   blocks.codexpad.keyStatePressed: 按下
   blocks.codexpad.keyStateHolding: 按住
   blocks.codexpad.keyStateReleased: 鬆開

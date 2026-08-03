@@ -1,3 +1,4 @@
+import { changeCase } from '@blockcode/utils';
 import { Text } from '@blockcode/core';
 import { ScratchBlocks } from '@blockcode/blocks';
 
@@ -94,7 +95,7 @@ export const menus = {
   },
 };
 
-export const blocks = [
+export const blocks = (meta) => [
   {
     id: 'connect',
     text: (
@@ -109,15 +110,20 @@ export const blocks = [
         defaultValue: '00:00:00:00:00:00',
       },
     },
-    mpy(block) {
-      const mac = this.valueToCode(block, 'MAC', this.ORDER_NONE);
-      this.definitions_['import_asyncio'] = 'import asyncio';
-      this.definitions_['codexpad'] = 'codex_pad = codexpad.CodexPad()';
-      const code = `asyncio.create_task(codex_pad.connect(${mac}, timeout_ms=60_000))\n`;
+    mpy(_, args, defs) {
+      defs['import_asyncio'] = 'import asyncio';
+      defs['codexpad'] = 'codex_pad = codexpad.CodexPad()';
+      const code = `asyncio.create_task(codex_pad.connect(${args.MAC}, timeout_ms=60_000))\n`;
       return code;
     },
+    ino(_, args, defs) {
+      defs['variable_codexpad'] = `CodexPad codexpad(Serial);`;
+      defs['setup_serial_baudrate'] = `Serial.begin(115200);`;
+      defs['setup_codexpad_connect'] = `codexpad.Connect(${args.MAC});`;
+      return '';
+    },
   },
-  {
+  !meta.isArduino && {
     id: 'scanConnect',
     text: (
       <Text
@@ -148,7 +154,7 @@ export const blocks = [
       return code;
     },
   },
-  {
+  !meta.isArduino && {
     id: 'paLevel',
     text: (
       <Text
@@ -183,7 +189,7 @@ export const blocks = [
       return code;
     },
   },
-  {
+  !meta.isArduino && {
     id: 'isConnected',
     text: (
       <Text
@@ -198,7 +204,7 @@ export const blocks = [
     },
   },
   '---',
-  {
+  !meta.isArduino && {
     id: 'whenPressed',
     text: (
       <Text
@@ -243,7 +249,7 @@ export const blocks = [
       this.definitions_['codexpad_update'] += code;
     },
   },
-  {
+  !meta.isArduino && {
     id: 'whenJoystickMoved',
     text: (
       <Text
@@ -292,6 +298,19 @@ export const blocks = [
     },
   },
   '---',
+  meta.isArduino && {
+    id: 'trackerUpdate',
+    text: (
+      <Text
+        id="blocks.codexpad.trackerUpdate"
+        defaultMessage="update status"
+      />
+    ),
+    ino() {
+      const code = 'codexpad.Update();\n';
+      return code;
+    },
+  },
   {
     id: 'joystickValue',
     text: (
@@ -308,8 +327,11 @@ export const blocks = [
     },
     mpy(block) {
       CodexPadUpdate(this);
-      const joystick = block.getFieldValue('JOYSTICK');
-      const code = `await codex_pad.axis_value(codexpad.AXIS_${joystick})`;
+      const code = `await codex_pad.axis_value(codexpad.AXIS_${args.JOYSTICK})`;
+      return [code];
+    },
+    ino(_, args) {
+      const code = `codexpad.Axis(gamepad::input::Axis::k${changeCase.pascalCase(args.JOYSTICK)})`;
       return [code];
     },
   },
@@ -332,11 +354,13 @@ export const blocks = [
         defaultValue: 'holding',
       },
     },
-    mpy(block) {
+    mpy(_, args) {
       CodexPadUpdate(this);
-      const key = block.getFieldValue('KEY');
-      const state = block.getFieldValue('STATE');
-      const code = `await codex_pad.${state}(codexpad.BUTTON_${key})`;
+      const code = `await codex_pad.${args.STATE}(codexpad.BUTTON_${args.KEY})`;
+      return [code];
+    },
+    ino(_, args) {
+      const code = `codexpad.${changeCase.pascalCase(args.STATE)}(gamepad::input::Button::k${changeCase.pascalCase(args.KEY)})`;
       return [code];
     },
   },
