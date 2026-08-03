@@ -31,7 +31,7 @@ export const blocks = (meta) => [
         ),
         inputs: {
           MODEL: {
-            menu: ['Sengo1', 'Sengo2', 'Sentry1', 'Sentry2', 'Sentry3'],
+            menu: ['Sengo1', 'Sengo2', 'Sentry2', 'Sentry3'],
           },
           ADDR: {
             menu: [
