@@ -1,7 +1,7 @@
 en:
-  blocks.aivoxassistant.name: AI Vox Assistant
-  blocks.aivoxassistant.init: set pins RX:[RX] TX:[TX]
-  blocks.aivoxassistant.eventPolling: assistant events polling
+  blocks.aivoxassistant.name: AI-VOX Assistant
+  blocks.aivoxassistant.init: set AI-VOX pins RX:[RX] TX:[TX]
+  blocks.aivoxassistant.eventPolling: AI-VOX events polling
   blocks.aivoxassistant.whenCommand: when received [CMD] command
   blocks.aivoxassistant.argument: '[TYPE] argument [ARG] of command'
   blocks.aivoxassistant.argumentInt: integer
@@ -14,9 +14,9 @@ en:
   blocks.aivoxassistant.lessonPage2.text: Import the "Peripheral Control Commands" into the knowledge base of the Xiaozhi backend at xiaozhi.me.
 
 zh-Hans:
-  blocks.aivoxassistant.name: AI 语音助手
-  blocks.aivoxassistant.init: 初始引脚 RX:[RX] TX:[TX]
-  blocks.aivoxassistant.eventPolling: 助手事件轮询
+  blocks.aivoxassistant.name: AI-VOX 语音助手
+  blocks.aivoxassistant.init: 初始化 AI-VOX 引脚 RX:[RX] TX:[TX]
+  blocks.aivoxassistant.eventPolling: AI-VOX 事件轮询
   blocks.aivoxassistant.whenCommand: 当收到 [CMD] 指令时
   blocks.aivoxassistant.argument: 指令参数 [ARG] 类型 [TYPE]
   blocks.aivoxassistant.argumentInt: 整数
@@ -29,9 +29,9 @@ zh-Hans:
   blocks.aivoxassistant.lessonPage2.text: 将“外设控制指令表”导入到小智后台 xiaozhi.me 的知识库中。
 
 zh-Hant:
-  blocks.aivoxassistant.name: AI 語音助手
-  blocks.aivoxassistant.init: 初始引腳 RX:[RX] TX:[TX]
-  blocks.aivoxassistant.eventPolling: 助手事件輪詢
+  blocks.aivoxassistant.name: AI-VOX 語音助手
+  blocks.aivoxassistant.init: 初始化 AI-VOX 引腳 RX:[RX] TX:[TX]
+  blocks.aivoxassistant.eventPolling: AI-VOX 事件輪詢
   blocks.aivoxassistant.whenCommand: 當收到 [CMD] 指令時
   blocks.aivoxassistant.argument: 指令參數 [ARG] 类型 [TYPE]
   blocks.aivoxassistant.argumentInt: 整数

@@ -21,8 +21,8 @@ zh-Hans:
   blocks.matrix7219.fontCreator: 自定义字库
   blocks.matrix7219.fontCreatorLabel: 请输入字库包含的非英文字符（最多 {count} 个）：
   blocks.matrix7219.fontCreatorPlaceholder: 输入字符…
-  blocks.matrix7219.init: 初始[ID]设备引脚 CLK:[CLK] CS:[CS] DIN:[DIN]
-  blocks.matrix7219.devices: 初始[ID]设备屏数 [NUM]
+  blocks.matrix7219.init: 初始化[ID]设备引脚 CLK:[CLK] CS:[CS] DIN:[DIN]
+  blocks.matrix7219.devices: 初始化[ID]设备屏数 [NUM]
   blocks.matrix7219.pixel: '[STATE] [ID]设备第[IDX]屏 x:[X] y:[Y] LED'
   blocks.matrix7219.display: 在[ID]设备第[IDX]屏显示[MATRIX]
   blocks.matrix7219.text: 在[ID]设备显示[MSG]
@@ -39,8 +39,8 @@ zh-Hant:
   blocks.matrix7219.fontCreator: 生成字庫
   blocks.matrix7219.fontCreatorLabel: 請輸入字庫包含的非英文字符（最多 {count} 個）：
   blocks.matrix7219.fontCreatorPlaceholder: 輸入字符…
-  blocks.matrix7219.init: 初始[ID]設備引腳 CLK:[CLK] CS:[CS] DIN:[DIN]
-  blocks.matrix7219.devices: 初始[ID]設備屏數 [NUM]
+  blocks.matrix7219.init: 初始化[ID]設備引腳 CLK:[CLK] CS:[CS] DIN:[DIN]
+  blocks.matrix7219.devices: 初始化[ID]設備屏數 [NUM]
   blocks.matrix7219.pixel: '[STATE] [ID]設備第[IDX]屏 x:[X] y:[Y] LED'
   blocks.matrix7219.display: 在[ID]設備第[IDX]屏顯示[MATRIX]
   blocks.matrix7219.text: 在[ID]設備顯示[MSG]

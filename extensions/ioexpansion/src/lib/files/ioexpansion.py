@@ -96,8 +96,8 @@ class IOExpansion:
         def servo_angle(self, value):
             self.pwm_duty = ((value / 90) + 0.5) / 20 * 4095
 
-    def __init__(self, scl_pin, sda_pin, i2c_address=0x24, i2c_id=1):
-        self._i2c = I2C(i2c_id, scl=Pin(scl_pin), sda=Pin(sda_pin))
+    def __init__(self, i2c, i2c_address=0x24):
+        self._i2c = i2c
         self._i2c_address = i2c_address
         self._pins = []
         for i in range(8):

@@ -1,17 +1,17 @@
 en:
   blocks.matrixkeypad.name: Matrix Keypad
-  blocks.matrixkeypad.init: set pins SCL:[SCL] SDA:[SDA]
+  blocks.matrixkeypad.init: set matrix keypad pins SCL:[SCL] SDA:[SDA]
   blocks.matrixkeypad.keyPressed: key [KEY] is pressed?
   blocks.matrixkeypad.pressedKey: pressed key
 
 zh-Hans:
   blocks.matrixkeypad.name: 矩阵键盘
-  blocks.matrixkeypad.init: 初始引脚 SCL:[SCL] SDA:[SDA]
+  blocks.matrixkeypad.init: 初始化矩阵键盘引脚 SCL:[SCL] SDA:[SDA]
   blocks.matrixkeypad.keyPressed: 按下[KEY]键？
   blocks.matrixkeypad.pressedKey: 按下的键
 
 zh-Hant:
   blocks.matrixkeypad.name: 矩陣鍵盤
-  blocks.matrixkeypad.init: 初始引腳 SCL:[SCL] SDA:[SDA]
+  blocks.matrixkeypad.init: 初始化矩阵键盘引腳 SCL:[SCL] SDA:[SDA]
   blocks.matrixkeypad.keyPressed: 按下[KEY]鍵？
   blocks.matrixkeypad.pressedKey: 按下的鍵

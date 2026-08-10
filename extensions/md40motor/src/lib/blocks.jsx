@@ -3,51 +3,12 @@ import { Text } from '@blockcode/core';
 
 const notArduino = (meta) => !['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
 const isIotBit = (meta) => meta.editor === '@emakefun/gui-iotbit';
+const isIotBoard = (meta) => meta.boardType === 'ESP32_IOT_BOARD';
 
 export const blocks = (meta) => [
-  notArduino(meta) && {
-    id: 'i2c',
-    text: (
-      <Text
-        id="blocks.md40motor.i2c"
-        defaultMessage="set pins SCL:[SCL] SDA:[SDA]"
-      />
-    ),
-    inputs: {
-      SCL: meta.boardPins
-        ? {
-            menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? 'P19' : '2',
-          }
-        : {
-            type: 'positive_integer',
-            defaultValue: 2,
-          },
-      SDA: meta.boardPins
-        ? {
-            menu: meta.boardPins.all,
-            defaultValue: isIotBit(meta) ? 'P20' : '3',
-          }
-        : {
-            type: 'positive_integer',
-            defaultValue: 3,
-          },
-    },
-    mpy(block) {
-      const scl = meta.boardPins ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
-      const sda = meta.boardPins ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
-      if (this.definitions_['md40motor_addr']) {
-        const addr = this.definitions_['md40motor_addr'].replace('# MD40 addr: ', '');
-        this.definitions_['md40motor'] = `md40Motor = md40.MD40(${scl}, ${sda}, ${addr})`;
-        delete this.definitions_['md40motor_addr'];
-      } else {
-        this.definitions_['md40motor'] = `md40Motor = md40.MD40(${scl}, ${sda})`;
-      }
-      return '';
-    },
-  },
   {
     id: 'addr',
+    hidden: notArduino(meta),
     text: (
       <Text
         id="blocks.md40motor.addr"
@@ -74,13 +35,56 @@ export const blocks = (meta) => [
       this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       return '';
     },
-    mpy(block) {
-      const addr = block.getFieldValue('ADDR');
-      if (this.definitions_['md40motor']) {
-        this.definitions_['md40motor'] = this.definitions_['md40motor'].replace(/(\d+)\)$/, `$1, ${addr})`);
-      } else {
-        this.definitions_['md40motor_addr'] = `# MD40 addr: ${addr}`;
-      }
+  },
+  notArduino(meta) && {
+    id: 'i2c',
+    text: (
+      <Text
+        id="blocks.md40motor.i2c"
+        defaultMessage="set MD40 pins SCL:[SCL] SDA:[SDA] I2C address [ADDR]"
+      />
+    ),
+    inputs: {
+      SCL: meta.boardPins
+        ? {
+            menu: meta.boardPins.out,
+            defaultValue: isIotBit(meta) ? 'P19' : isIotBoard(meta) ? '22' : '2',
+          }
+        : {
+            type: 'positive_integer',
+            defaultValue: 2,
+          },
+      SDA: meta.boardPins
+        ? {
+            menu: meta.boardPins.all,
+            defaultValue: isIotBit(meta) ? 'P20' : isIotBoard(meta) ? '21' : '3',
+          }
+        : {
+            type: 'positive_integer',
+            defaultValue: 3,
+          },
+      ADDR: {
+        menu: [
+          ['0×16', '0x16'],
+          ['0×17', '0x17'],
+          ['0×18', '0x18'],
+          ['0×19', '0x19'],
+          ['0×1A', '0x1A'],
+          ['0×1B', '0x1B'],
+          ['0×1C', '0x1C'],
+          ['0×1D', '0x1D'],
+        ],
+      },
+    },
+    mpy(_, args, defs) {
+      const pins = meta.boardPins;
+      const chan = pins?.i2c && pins.i2c.scl === args.SCL && pins.i2c.sda === args.SDA ? pins.i2c.channel : 1;
+      const i2c = `i2c${chan}_${args.SCL}_${args.SDA}`;
+
+      defs['import_pin'] = `from machine import Pin`;
+      defs['import_i2c'] = `from machine import I2C`;
+      defs[i2c] = `${i2c} = I2C(${chan}, scl=Pin(${args.SCL}), sda=Pin(${args.SDA}))`;
+      defs['md40motor'] = `md40Motor = md40.MD40(${i2c}, ${args.ADDR})`;
       return '';
     },
   },

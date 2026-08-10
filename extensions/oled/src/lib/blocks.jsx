@@ -1,6 +1,8 @@
 import { Text } from '@blockcode/core';
 
 const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
+const isIotBit = (meta) => meta.editor === '@emakefun/gui-iotbit';
+const isIotBoard = (meta) => meta.boardType === 'ESP32_IOT_BOARD';
 
 export const blocks = (meta) => [
   isArduino(meta)
@@ -39,7 +41,7 @@ export const blocks = (meta) => [
         text: (
           <Text
             id="blocks.oled.initI2C"
-            defaultMessage="set oled [DRIVER] SCL:[SCL] SDA:[SDA] display [SIZE]"
+            defaultMessage="set oled display [DRIVER] SCL:[SCL] SDA:[SDA] size [SIZE]"
           />
         ),
         inputs: {
@@ -48,16 +50,22 @@ export const blocks = (meta) => [
             menu: ['SSD1306', 'SH1106'],
           },
           SCL: meta.boardPins
-            ? { menu: meta.boardPins.out }
+            ? {
+                menu: meta.boardPins.out,
+                defaultValue: isIotBit(meta) ? 'P19' : isIotBoard(meta) ? '22' : '2',
+              }
             : {
-                type: 'positive_integer',
-                defaultValue: 2,
+                type: 'integer',
+                defaultValue: '2',
               },
           SDA: meta.boardPins
-            ? { menu: meta.boardPins.out }
+            ? {
+                menu: meta.boardPins.all,
+                defaultValue: isIotBit(meta) ? 'P20' : isIotBoard(meta) ? '21' : '3',
+              }
             : {
-                type: 'positive_integer',
-                defaultValue: 3,
+                type: 'integer',
+                defaultValue: '3',
               },
           SIZE: {
             defaultValue: '128X64',
@@ -67,12 +75,15 @@ export const blocks = (meta) => [
             ],
           },
         },
-        mpy(block) {
-          const scl = meta.boardPins ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
-          const sda = meta.boardPins ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
-          const driver = block.getFieldValue('DRIVER');
-          const size = block.getFieldValue('SIZE');
-          this.definitions_['oled'] = `_oled = oled.${driver}_I2C(${size.replace('X', ',')}, ${scl}, ${sda})`;
+        mpy(_, args, defs) {
+          const pins = meta.boardPins;
+          const chan = pins?.i2c && pins.i2c.scl === args.SCL && pins.i2c.sda === args.SDA ? pins.i2c.channel : 1;
+          const i2c = `i2c${chan}_${args.SCL}_${args.SDA}`;
+
+          defs['import_pin'] = `from machine import Pin`;
+          defs['import_i2c'] = `from machine import I2C`;
+          defs[i2c] = `${i2c} = I2C(${chan}, scl=Pin(${args.SCL}), sda=Pin(${args.SDA}))`;
+          defs['oled'] = `_oled = oled.${args.DRIVER}_I2C(${args.SIZE.replace('X', ',')}, ${i2c})`;
           return '';
         },
       },

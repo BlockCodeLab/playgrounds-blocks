@@ -17,7 +17,7 @@ en:
 
 zh-Hans:
   blocks.rfcom.name: RF 通讯
-  blocks.rfcom.init: 初始引脚 CE:[CE] CSN:[CSN]
+  blocks.rfcom.init: 初始化引脚 CE:[CE] CSN:[CSN]
   blocks.rfcom.send: 给 [ADDR] 地址发送数据 [DATA]
   blocks.rfcom.listen: 监听 [ADDR] 地址
   blocks.rfcom.stop: 停止监听
@@ -34,7 +34,7 @@ zh-Hans:
 
 zh-Hant:
   blocks.rfcom.name: RF 通訊
-  blocks.rfcom.init: 初始引腳 CE:[CE] CSN:[CSN]
+  blocks.rfcom.init: 初始化引腳 CE:[CE] CSN:[CSN]
   blocks.rfcom.send: 給 [ADDR] 地址發送數據 [DATA]
   blocks.rfcom.listen: 監聽 [ADDR] 地址
   blocks.rfcom.stop: 停止監聽

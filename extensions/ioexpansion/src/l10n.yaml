@@ -1,7 +1,7 @@
 en:
   blocks.ioexpansion.name: I/O Expansion
-  blocks.ioexpansion.i2c: set pins SCL:[SCL] SDA:[SDA]
-  blocks.ioexpansion.addr: set I2C address [ADDR]
+  blocks.ioexpansion.i2c: set I/O Expansion pins SCL:[SCL] SDA:[SDA] I2C address [ADDR]
+  blocks.ioexpansion.addr: set I/O Expansion I2C address [ADDR]
   blocks.ioexpansion.setmode: set pin [PIN] mode to [MODE]
   blocks.ioexpansion.inputMode: input
   blocks.ioexpansion.outputMode: output
@@ -21,8 +21,8 @@ en:
 
 zh-Hans:
   blocks.ioexpansion.name: I/O 扩展
-  blocks.ioexpansion.i2c: 初始引脚 SCL:[SCL] SDA:[SDA]
-  blocks.ioexpansion.addr: 初始 I2C 地址 [ADDR]
+  blocks.ioexpansion.i2c: 初始化 I/O 扩展引脚 SCL:[SCL] SDA:[SDA] I2C 地址 [ADDR]
+  blocks.ioexpansion.addr: 初始化 I/O 扩展 I2C 地址 [ADDR]
   blocks.ioexpansion.setmode: 将引脚 [PIN] 模式设为 [MODE]
   blocks.ioexpansion.inputMode: 输入
   blocks.ioexpansion.outputMode: 输出
@@ -42,8 +42,8 @@ zh-Hans:
 
 zh-Hant:
   blocks.ioexpansion.name: I/O 擴展
-  blocks.ioexpansion.i2c: 初始引腳 SCL:[SCL] SDA:[SDA]
-  blocks.ioexpansion.addr: 初始 I2C 地址 [ADDR]
+  blocks.ioexpansion.i2c: 初始化 I/O 擴展引腳 SCL:[SCL] SDA:[SDA] I2C 地址 [ADDR]
+  blocks.ioexpansion.addr: 初始化 I/O 擴展 I2C 地址 [ADDR]
   blocks.ioexpansion.setmode: 將引腳 [PIN] 模式設為 [MODE]
   blocks.ioexpansion.inputMode: 輸入
   blocks.ioexpansion.outputMode: 輸出

@@ -1,6 +1,7 @@
 import { Text } from '@blockcode/core';
 
-const isIotBit = (meta) => meta.editor === '@blockcode/gui-iotbit';
+const isIotBit = (meta) => meta.editor === '@emakefun/gui-iotbit';
+const isIotBoard = (meta) => meta.boardType === 'ESP32_IOT_BOARD';
 
 export const blocks = (meta) => [
   {
@@ -8,14 +9,14 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.tm1637.init"
-        defaultMessage="set pins CLK:[CLK] DIO:[DIO]"
+        defaultMessage="set TM1637 pins CLK:[CLK] DIO:[DIO]"
       />
     ),
     inputs: {
       CLK: meta.boardPins
         ? {
             menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? 'P19' : '2',
+            defaultValue: isIotBit(meta) ? 'P5' : '2',
           }
         : {
             type: 'positive_integer',
@@ -24,7 +25,7 @@ export const blocks = (meta) => [
       DIO: meta.boardPins
         ? {
             menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? 'P20' : '3',
+            defaultValue: isIotBit(meta) ? 'P6' : '3',
           }
         : {
             type: 'positive_integer',

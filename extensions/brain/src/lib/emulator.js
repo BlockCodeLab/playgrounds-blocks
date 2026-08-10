@@ -89,7 +89,7 @@ export function emulator(runtime) {
 
       const prompts = this.getPrompts(target);
       const messages = [].concat(
-        // 初始提示词设置
+        // 初始化提示词设置
         {
           role: 'system',
           content: `你的话不多，擅长总结归纳，回总是简明扼要。。${prompts.join('；')}。`,

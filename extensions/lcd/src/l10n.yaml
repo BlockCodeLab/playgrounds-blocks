@@ -12,8 +12,8 @@ en:
 
 zh-Hans:
   blocks.lcd.name: LCD 显示屏
-  blocks.lcd.init: 初始 LCD 显示屏 [SIZE] I2C 地址 [ADDR]
-  blocks.lcd.initI2c: 初始 LCD 显示屏 [SIZE] 引脚 SCL:[SCL] SDA:[SDA] I2C 地址:[ADDR]
+  blocks.lcd.init: 初始化 LCD 显示屏 [SIZE] I2C 地址 [ADDR]
+  blocks.lcd.initI2c: 初始化 LCD 显示屏 [SIZE] 引脚 SCL:[SCL] SDA:[SDA] I2C 地址:[ADDR]
   blocks.lcd.backlight: '[STATE] 背光'
   blocks.lcd.stateOn: 开
   blocks.lcd.stateOff: 关
@@ -24,8 +24,8 @@ zh-Hans:
 
 zh-Hant:
   blocks.lcd.name: LCD 顯示屏
-  blocks.lcd.init: 初始 LCD 顯示屏 [SIZE] I2C 地址 [ADDR]
-  blocks.lcd.initI2c: 初始 LCD 顯示屏 [SIZE] 引腳 SCL:[SCL] SDA:[SDA] I2C 地址:[ADDR]
+  blocks.lcd.init: 初始化 LCD 顯示屏 [SIZE] I2C 地址 [ADDR]
+  blocks.lcd.initI2c: 初始化 LCD 顯示屏 [SIZE] 引腳 SCL:[SCL] SDA:[SDA] I2C 地址:[ADDR]
   blocks.lcd.backlight: '[STATE] 背光'
   blocks.lcd.stateOn: 開
   blocks.lcd.stateOff: 關

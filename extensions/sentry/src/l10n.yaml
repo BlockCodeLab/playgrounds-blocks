@@ -79,8 +79,8 @@ en:
 
 zh-Hans:
   blocks.sentry.name: Sentry/Sengo 视觉
-  blocks.sentry.init: 初始 [MODEL] 引脚 SCL:[SCL] SDA:[SDA] I2C 地址 [ADDR]
-  blocks.sentry.addr: 初始 [MODEL] I2C 地址 [ADDR]
+  blocks.sentry.init: 初始化 [MODEL] 引脚 SCL:[SCL] SDA:[SDA] I2C 地址 [ADDR]
+  blocks.sentry.addr: 初始化 [MODEL] I2C 地址 [ADDR]
   blocks.sentry.open: '[STATE] [VISION] 算法'
   blocks.sentry.paramNum: 将 [VISION] 识别组总数设为 [NUM]
   blocks.sentry.paramColor: 将颜色识别第 [NUM] 组参数设为中心x:[CX] 中心y:[CY] 宽:[W] 高:[H]
@@ -158,8 +158,8 @@ zh-Hans:
 
 zh-Hant:
   blocks.sentry.name: Sentry/Sengo 視覺
-  blocks.sentry.init: 初始 [MODEL] 引腳 SCL:[SCL] SDA:[SDA] I2C 地址 [ADDR]
-  blocks.sentry.addr: 初始 [MODEL] I2C 地址 [ADDR]
+  blocks.sentry.init: 初始化 [MODEL] 引腳 SCL:[SCL] SDA:[SDA] I2C 地址 [ADDR]
+  blocks.sentry.addr: 初始化 [MODEL] I2C 地址 [ADDR]
   blocks.sentry.open: '[STATE] [VISION] 算法'
   blocks.sentry.paramNum: 將 [VISION] 識別組總數設為 [NUM]
   blocks.sentry.paramColor: 將顏色識別第 [NUM] 組參數設為中心x:[CX] 中心y:[CY] 寬:[W] 高:[H]

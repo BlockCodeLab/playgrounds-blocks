@@ -5,7 +5,7 @@ en:
   blocks.midimusic.playNote: channel [CHAN]play note [NOTE] for [BEAT] beats
   blocks.midimusic.rest: rest for [BEAT] beats
   blocks.midimusic.setInstrument: set channel [CHAN] instrument to [TIMBRE]
-  blocks.midimusic.setTimbre: "set channel [CHAN] instrument to expanding timbre # [TIMBRE]"
+  blocks.midimusic.setTimbre: 'set channel [CHAN] instrument to expanding timbre # [TIMBRE]'
   blocks.midimusic.setDrum: set drum timbre type to [TYPE]
   blocks.midimusic.setVolume: set channel [CHAN] volume to [VOLUME]%
   blocks.midimusic.setAllVolume: set all volume to [VOLUME]%
@@ -15,27 +15,27 @@ en:
   blocks.midimusic.setChorus: set channel [CHAN] chorus [TYPE] volume to [VOLUME]% delay [DELAY] ms
   blocks.midimusic.reset: reset
   blocks.midimusic.drum: 9 (Drum)
-  blocks.midimusic.timbre0: "#0 Piano"
-  blocks.midimusic.timbre2: "#2 Electric Piano"
-  blocks.midimusic.timbre10: "#10 Music Box"
-  blocks.midimusic.timbre11: "#11 Vibraphone"
-  blocks.midimusic.timbre12: "#12 Marimba"
-  blocks.midimusic.timbre15: "#15 Dulcimer"
-  blocks.midimusic.timbre19: "#19 Organ"
-  blocks.midimusic.timbre22: "#22 Harmonica"
-  blocks.midimusic.timbre25: "#25 Guitar"
-  blocks.midimusic.timbre27: "#27 Electric Guitar"
-  blocks.midimusic.timbre32: "#32 Bass"
-  blocks.midimusic.timbre40: "#40 Violin"
-  blocks.midimusic.timbre42: "#42 Cello"
-  blocks.midimusic.timbre57: "#57 Trombone"
-  blocks.midimusic.timbre65: "#65 Saxophone"
-  blocks.midimusic.timbre71: "#71 Clarinet"
-  blocks.midimusic.timbre73: "#73 Flute"
-  blocks.midimusic.timbre79: "#79 Ocarina"
-  blocks.midimusic.timbre107: "#107 Zither"
-  blocks.midimusic.timbre111: "#111 Surnay"
-  blocks.midimusic.timbre114: "#114 Steel Drum"
+  blocks.midimusic.timbre0: '#0 Piano'
+  blocks.midimusic.timbre2: '#2 Electric Piano'
+  blocks.midimusic.timbre10: '#10 Music Box'
+  blocks.midimusic.timbre11: '#11 Vibraphone'
+  blocks.midimusic.timbre12: '#12 Marimba'
+  blocks.midimusic.timbre15: '#15 Dulcimer'
+  blocks.midimusic.timbre19: '#19 Organ'
+  blocks.midimusic.timbre22: '#22 Harmonica'
+  blocks.midimusic.timbre25: '#25 Guitar'
+  blocks.midimusic.timbre27: '#27 Electric Guitar'
+  blocks.midimusic.timbre32: '#32 Bass'
+  blocks.midimusic.timbre40: '#40 Violin'
+  blocks.midimusic.timbre42: '#42 Cello'
+  blocks.midimusic.timbre57: '#57 Trombone'
+  blocks.midimusic.timbre65: '#65 Saxophone'
+  blocks.midimusic.timbre71: '#71 Clarinet'
+  blocks.midimusic.timbre73: '#73 Flute'
+  blocks.midimusic.timbre79: '#79 Ocarina'
+  blocks.midimusic.timbre107: '#107 Zither'
+  blocks.midimusic.timbre111: '#111 Surnay'
+  blocks.midimusic.timbre114: '#114 Steel Drum'
   blocks.midimusic.drumd2: d2 Snare Drum
   blocks.midimusic.druma2: a2 Bass Drum
   blocks.midimusic.drumcS2: c#2 Side Strike
@@ -81,12 +81,12 @@ en:
 
 zh-Hans:
   blocks.midimusic.name: MIDI 音乐
-  blocks.midimusic.init: 初始 MIDI 引脚 [PIN]
+  blocks.midimusic.init: 初始化 MIDI 引脚 [PIN]
   blocks.midimusic.playDrum: 击打 [DRUM] 力度 [VELO]%
   blocks.midimusic.playNote: 通道 [CHAN] 演奏音符 [NOTE] [BEAT] 拍
   blocks.midimusic.rest: 休止 [BEAT] 拍
   blocks.midimusic.setInstrument: 将通道 [CHAN] 的乐器设为 [TIMBRE]
-  blocks.midimusic.setTimbre: "将通道 [CHAN] 的乐器设为扩展音色 # [TIMBRE]"
+  blocks.midimusic.setTimbre: '将通道 [CHAN] 的乐器设为扩展音色 # [TIMBRE]'
   blocks.midimusic.setDrum: 将打击乐音色类型设为 [TYPE]
   blocks.midimusic.setVolume: 将通道 [CHAN] 音量设为 [VOLUME]%
   blocks.midimusic.setAllVolume: 将所有通道音量设为 [VOLUME]%
@@ -96,27 +96,27 @@ zh-Hans:
   blocks.midimusic.setChorus: 将通道 [CHAN] 合唱效果 [TYPE] 音量设为 [VOLUME]% 延迟 [DELAY] 毫秒
   blocks.midimusic.reset: 重置
   blocks.midimusic.drum: 9 (打击乐)
-  blocks.midimusic.timbre0: "#0 钢琴"
-  blocks.midimusic.timbre2: "#2 电钢琴"
-  blocks.midimusic.timbre10: "#10 八音盒"
-  blocks.midimusic.timbre11: "#11 颤音琴"
-  blocks.midimusic.timbre12: "#12 马林巴琴"
-  blocks.midimusic.timbre15: "#15 扬琴"
-  blocks.midimusic.timbre19: "#19 管风琴"
-  blocks.midimusic.timbre22: "#22 口琴"
-  blocks.midimusic.timbre25: "#25 吉他"
-  blocks.midimusic.timbre27: "#27 电吉他"
-  blocks.midimusic.timbre32: "#32 贝斯"
-  blocks.midimusic.timbre40: "#40 小提琴"
-  blocks.midimusic.timbre42: "#42 大提琴"
-  blocks.midimusic.timbre57: "#59 长号"
-  blocks.midimusic.timbre65: "#65 萨克斯"
-  blocks.midimusic.timbre71: "#71 单簧管"
-  blocks.midimusic.timbre73: "#73 长笛"
-  blocks.midimusic.timbre79: "#79 陶笛"
-  blocks.midimusic.timbre107: "#107 古筝"
-  blocks.midimusic.timbre111: "#111 唢呐"
-  blocks.midimusic.timbre114: "#114 钢鼓"
+  blocks.midimusic.timbre0: '#0 钢琴'
+  blocks.midimusic.timbre2: '#2 电钢琴'
+  blocks.midimusic.timbre10: '#10 八音盒'
+  blocks.midimusic.timbre11: '#11 颤音琴'
+  blocks.midimusic.timbre12: '#12 马林巴琴'
+  blocks.midimusic.timbre15: '#15 扬琴'
+  blocks.midimusic.timbre19: '#19 管风琴'
+  blocks.midimusic.timbre22: '#22 口琴'
+  blocks.midimusic.timbre25: '#25 吉他'
+  blocks.midimusic.timbre27: '#27 电吉他'
+  blocks.midimusic.timbre32: '#32 贝斯'
+  blocks.midimusic.timbre40: '#40 小提琴'
+  blocks.midimusic.timbre42: '#42 大提琴'
+  blocks.midimusic.timbre57: '#59 长号'
+  blocks.midimusic.timbre65: '#65 萨克斯'
+  blocks.midimusic.timbre71: '#71 单簧管'
+  blocks.midimusic.timbre73: '#73 长笛'
+  blocks.midimusic.timbre79: '#79 陶笛'
+  blocks.midimusic.timbre107: '#107 古筝'
+  blocks.midimusic.timbre111: '#111 唢呐'
+  blocks.midimusic.timbre114: '#114 钢鼓'
   blocks.midimusic.drumd2: d2 军鼓
   blocks.midimusic.druma2: a2 低通鼓
   blocks.midimusic.drumcS2: c#2 边击打
@@ -162,12 +162,12 @@ zh-Hans:
 
 zh-Hant:
   blocks.midimusic.name: MIDI 音樂
-  blocks.midimusic.init: 初始 MIDI 引腳 [PIN]
+  blocks.midimusic.init: 初始化 MIDI 引腳 [PIN]
   blocks.midimusic.playDrum: 演奏節拍 [DRUM] 力度 [VELO]%
   blocks.midimusic.playNote: 通道 [CHAN] 演奏音階 [NOTE] [BEAT] 拍
   blocks.midimusic.rest: 演奏休息 [BEAT] 拍
   blocks.midimusic.setInstrument: 通道 [CHAN] 的樂器設為 [TIMBRE]
-  blocks.midimusic.setTimbre: "通道 [CHAN] 的樂器設為擴展音色 # [TIMBRE]"
+  blocks.midimusic.setTimbre: '通道 [CHAN] 的樂器設為擴展音色 # [TIMBRE]'
   blocks.midimusic.setDrum: 打擊樂音色類型設為 [TYPE]
   blocks.midimusic.setVolume: 通道 [CHAN] 音量設為 [VOLUME]%
   blocks.midimusic.setAllVolume: 所有通道音量設為 [VOLUME]%
@@ -177,27 +177,27 @@ zh-Hant:
   blocks.midimusic.setChorus: 通道 [CHAN] 合唱效果 [TYPE] 音量設為 [VOLUME]% 延遲 [DELAY] 毫秒
   blocks.midimusic.reset: 重置
   blocks.midimusic.drum: 9 (打擊樂)
-  blocks.midimusic.timbre0: "#0 鋼琴"
-  blocks.midimusic.timbre2: "#2 電鋼琴"
-  blocks.midimusic.timbre10: "#10 八音盒"
-  blocks.midimusic.timbre11: "#11 顫音琴"
-  blocks.midimusic.timbre12: "#12 馬林巴琴"
-  blocks.midimusic.timbre15: "#15 揚琴"
-  blocks.midimusic.timbre19: "#19 管風琴"
-  blocks.midimusic.timbre22: "#22 口琴"
-  blocks.midimusic.timbre25: "#25 吉他"
-  blocks.midimusic.timbre27: "#27 電吉他"
-  blocks.midimusic.timbre32: "#32 貝斯"
-  blocks.midimusic.timbre40: "#40 小提琴"
-  blocks.midimusic.timbre42: "#42 大提琴"
-  blocks.midimusic.timbre57: "#59 長號"
-  blocks.midimusic.timbre65: "#65 薩克斯"
-  blocks.midimusic.timbre71: "#71 單簧管"
-  blocks.midimusic.timbre73: "#73 長笛"
-  blocks.midimusic.timbre79: "#79 陶笛"
-  blocks.midimusic.timbre107: "#107 古箏"
-  blocks.midimusic.timbre111: "#111 嗩吶"
-  blocks.midimusic.timbre114: "#114 鋼鼓"
+  blocks.midimusic.timbre0: '#0 鋼琴'
+  blocks.midimusic.timbre2: '#2 電鋼琴'
+  blocks.midimusic.timbre10: '#10 八音盒'
+  blocks.midimusic.timbre11: '#11 顫音琴'
+  blocks.midimusic.timbre12: '#12 馬林巴琴'
+  blocks.midimusic.timbre15: '#15 揚琴'
+  blocks.midimusic.timbre19: '#19 管風琴'
+  blocks.midimusic.timbre22: '#22 口琴'
+  blocks.midimusic.timbre25: '#25 吉他'
+  blocks.midimusic.timbre27: '#27 電吉他'
+  blocks.midimusic.timbre32: '#32 貝斯'
+  blocks.midimusic.timbre40: '#40 小提琴'
+  blocks.midimusic.timbre42: '#42 大提琴'
+  blocks.midimusic.timbre57: '#59 長號'
+  blocks.midimusic.timbre65: '#65 薩克斯'
+  blocks.midimusic.timbre71: '#71 單簧管'
+  blocks.midimusic.timbre73: '#73 長笛'
+  blocks.midimusic.timbre79: '#79 陶笛'
+  blocks.midimusic.timbre107: '#107 古箏'
+  blocks.midimusic.timbre111: '#111 嗩吶'
+  blocks.midimusic.timbre114: '#114 鋼鼓'
   blocks.midimusic.drumd2: d2 軍鼓
   blocks.midimusic.druma2: a2 低通鼓
   blocks.midimusic.drumcS2: c#2 邊擊打

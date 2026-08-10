@@ -24,7 +24,7 @@ en:
 
 zh-Hans:
   blocks.mp3player.name: MP3 播放器
-  blocks.mp3player.init: 初始引脚 TX:[TX] RX:[RX]
+  blocks.mp3player.init: 初始化引脚 TX:[TX] RX:[RX]
   blocks.mp3player.playTrack: 播放曲目 [TRACK]
   blocks.mp3player.play: 播放
   blocks.mp3player.pause: 暂停
@@ -48,7 +48,7 @@ zh-Hans:
 
 zh-Hant:
   blocks.mp3player.name: MP3 播放器
-  blocks.mp3player.init: 初始引腳 TX:[TX] RX:[RX]
+  blocks.mp3player.init: 初始化引腳 TX:[TX] RX:[RX]
   blocks.mp3player.playTrack: 播放曲目 [TRACK]
   blocks.mp3player.play: 播放
   blocks.mp3player.pause: 暫停

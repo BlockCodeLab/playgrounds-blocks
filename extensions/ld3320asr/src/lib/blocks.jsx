@@ -3,6 +3,7 @@ import { Text } from '@blockcode/core';
 
 const isArduino = (meta) => ['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
 const isIotBit = (meta) => meta.editor === '@emakefun/gui-iotbit';
+const isIotBoard = (meta) => meta.boardType === 'ESP32_IOT_BOARD';
 
 const InitSpeechRecognizer = (gen) => {
   gen.definitions_['include_wire'] = '#include <Wire.h>';
@@ -28,14 +29,14 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.ld3320asr.init"
-        defaultMessage="set pins SCL:[SCL] SDA:[SDA]"
+        defaultMessage="set LD3320 pins SCL:[SCL] SDA:[SDA]"
       />
     ),
     inputs: {
       SCL: meta.boardPins
         ? {
             menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? 'P19' : '2',
+            defaultValue: isIotBit(meta) ? 'P19' : isIotBoard(meta) ? '22' : '2',
           }
         : {
             type: 'positive_integer',
@@ -44,18 +45,22 @@ export const blocks = (meta) => [
       SDA: meta.boardPins
         ? {
             menu: meta.boardPins.all,
-            defaultValue: isIotBit(meta) ? 'P20' : '3',
+            defaultValue: isIotBit(meta) ? 'P20' : isIotBoard(meta) ? '21' : '3',
           }
         : {
             type: 'positive_integer',
             defaultValue: 3,
           },
     },
-    mpy(block) {
-      const scl = meta.boardPins ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
-      const sda = meta.boardPins ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
-      this.definitions_['import_i2c'] = 'from machine import I2C';
-      this.definitions_['init_asr'] = `asr = speech_recognizer.SpeechRecognizer(I2C(1, scl=${scl}, sda=${sda}))`;
+    mpy(_, args, defs) {
+      const pins = meta.boardPins;
+      const chan = pins?.i2c && pins.i2c.scl === args.SCL && pins.i2c.sda === args.SDA ? pins.i2c.channel : 1;
+      const i2c = `i2c${chan}_${args.SCL}_${args.SDA}`;
+
+      defs['import_pin'] = `from machine import Pin`;
+      defs['import_i2c'] = `from machine import I2C`;
+      defs[i2c] = `${i2c} = I2C(${chan}, scl=Pin(${args.SCL}), sda=Pin(${args.SDA}))`;
+      defs['init_asr'] = `asr = speech_recognizer.SpeechRecognizer(${i2c})`;
       return '';
     },
   },

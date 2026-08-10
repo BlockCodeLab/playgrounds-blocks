@@ -14,7 +14,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.ultrasonic.read4pins"
-        defaultMessage="pins ECHO:[ECHO] TRIG:[TRIG] distance [UNIT]"
+        defaultMessage="pins TRIG:[TRIG] ECHO:[ECHO] distance [UNIT]"
       />
     ),
     output: 'number',

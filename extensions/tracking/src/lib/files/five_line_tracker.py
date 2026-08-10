@@ -1,6 +1,7 @@
-from micropython import const
-from machine import Pin, I2C
 import struct
+
+from machine import I2C, Pin
+from micropython import const
 
 
 class FiveLineTracker:
@@ -11,8 +12,8 @@ class FiveLineTracker:
     _MEMORY_ADDRESS_HIGH_THRESHOLDS: int = const(0x1C)
     _MEMORY_ADDRESS_LOW_THRESHOLDS: int = const(0x26)
 
-    def __init__(self, scl, sda, i2c_address=0x50):
-        self._i2c = I2C(1, scl=Pin(scl), sda=Pin(sda))
+    def __init__(self, i2c, i2c_address=0x50):
+        self._i2c = i2c
         self._i2c_address = i2c_address
 
     @property

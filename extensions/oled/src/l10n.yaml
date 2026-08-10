@@ -1,7 +1,7 @@
 en:
   blocks.oled.name: OLED Display
-  blocks.oled.initI2C: set [DRIVER] SCL:[SCL] SDA:[SDA] oled display [SIZE]
-  blocks.oled.initDisplay: set [DRIVER] oled display [SIZE]
+  blocks.oled.initI2C: set oled display [DRIVER] SCL:[SCL] SDA:[SDA] size [SIZE]
+  blocks.oled.initDisplay: set oled display [DRIVER] size [SIZE]
   blocks.oled.brightness: set display brightness to [BRIGHTNESS] %
   blocks.oled.pageBuffer: page buffer display
   blocks.oled.drawText: display text [TEXT] at x:[X] y:[Y]
@@ -19,8 +19,8 @@ en:
 
 zh-Hans:
   blocks.oled.name: OLED 显示屏
-  blocks.oled.initI2C: 初始 [DRIVER] [SIZE] OLED 显示屏引脚 SCL:[SCL] SDA:[SDA]
-  blocks.oled.initDisplay: 初始 [DRIVER] [SIZE] OLED 显示屏
+  blocks.oled.initI2C: 初始化 OLED 显示屏 [DRIVER] 尺寸 [SIZE] 引脚 SCL:[SCL] SDA:[SDA]
+  blocks.oled.initDisplay: 初始化 OLED 显示屏 [DRIVER] 尺寸 [SIZE]
   blocks.oled.brightness: 将屏幕亮度设为[BRIGHTNESS]%
   blocks.oled.pageBuffer: 页面缓存显示模式
   blocks.oled.drawText: 在 x:[X] y:[Y] 显示 [TEXT]
@@ -38,8 +38,8 @@ zh-Hans:
 
 zh-Hant:
   blocks.oled.name: OLED 顯示屏
-  blocks.oled.initI2C: 初始 [DRIVER] [SIZE] OLED 顯示屏引腳 SCL:[SCL] SDA:[SDA]
-  blocks.oled.initDisplay: 初始 [DRIVER] [SIZE] OLED 顯示屏
+  blocks.oled.initI2C: 初始化 OLED 顯示屏 [DRIVER] 尺寸 [SIZE] 引腳 SCL:[SCL] SDA:[SDA]
+  blocks.oled.initDisplay: 初始化 OLED 顯示屏 [DRIVER] 尺寸 [SIZE]
   blocks.oled.brightness: 將屏幕亮度設為[BRIGHTNESS]%
   blocks.oled.pageBuffer: 頁面緩存顯示模式
   blocks.oled.drawText: 在 x:[X] y:[Y] 顯示 [TEXT]

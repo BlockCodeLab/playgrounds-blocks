@@ -2,62 +2,12 @@ import { Text } from '@blockcode/core';
 
 const notArduino = (meta) => !['@blockcode/gui-arduino', '@nulllab/gui-lgtuino'].includes(meta.editor);
 const isIotBit = (meta) => meta.editor === '@emakefun/gui-iotbit';
+const isIotBoard = (meta) => meta.boardType === 'ESP32_IOT_BOARD';
 
 export const blocks = (meta) => [
-  notArduino(meta) && {
-    id: 'init',
-    text: (
-      <Text
-        id="blocks.bmx280.init"
-        defaultMessage="set pins SCL:[SCL] SDA:[SDA]"
-      />
-    ),
-    inputs: {
-      SCL: meta.boardPins
-        ? {
-            menu: meta.boardPins.out,
-            defaultValue: isIotBit(meta) ? 'P19' : '2',
-          }
-        : {
-            type: 'integer',
-            defaultValue: '2',
-          },
-      SDA: meta.boardPins
-        ? {
-            menu: meta.boardPins.all,
-            defaultValue: isIotBit(meta) ? 'P20' : '3',
-          }
-        : {
-            type: 'integer',
-            defaultValue: '3',
-          },
-    },
-    mpy(block) {
-      const scl = meta.boardPins ? block.getFieldValue('SCL') : this.valueToCode(block, 'SCL', this.ORDER_NONE);
-      const sda = meta.boardPins ? block.getFieldValue('SDA') : this.valueToCode(block, 'SDA', this.ORDER_NONE);
-
-      if (this.definitions_['bmx280_addr']) {
-        const addr = this.definitions_['bmx280_addr'].replace('# BMx280 addr: ', '');
-        this.definitions_['bmx280'] = `_bmx280 = bmx280.BMx280(${scl}, ${sda}, ${addr})`;
-        delete this.definitions_['bmx280_addr'];
-      } else {
-        this.definitions_['bmx280'] = `_bmx280 = bmx280.BMx280(${scl}, ${sda})`;
-      }
-
-      let bmxCode = '';
-      bmxCode += 'def get_bmx280_value(mode=2):\n';
-      bmxCode += '  _bmx280.read()\n';
-      bmxCode += '  if mode == 1: return _bmx280.temperature\n';
-      bmxCode += '  if mode == 2: return _bmx280.pressure\n';
-      bmxCode += '  if mode == 3: return _bmx280.humidity\n';
-      bmxCode += '  if mode == 4: return _bmx280.altitude\n';
-      this.definitions_[`get_bmx280_value`] = bmxCode;
-
-      return '';
-    },
-  },
   {
     id: 'addr',
+    hidden: notArduino(meta),
     text: (
       <Text
         id="blocks.bmx280.addr"
@@ -79,13 +29,60 @@ export const blocks = (meta) => [
       this.definitions_[`setup_bmx280`] = `_bmx280.beginI2C(${addr});`;
       return '';
     },
-    mpy(block) {
-      const addr = block.getFieldValue('ADDR');
-      if (this.definitions_['bmx280']) {
-        this.definitions_['bmx280'] = this.definitions_['bmx280'].replace(/(\d+)\)$/, `$1, ${addr})`);
-      } else {
-        this.definitions_['bmx280_addr'] = `# BMx280 addr: ${addr}`;
-      }
+  },
+  notArduino(meta) && {
+    id: 'init',
+    text: (
+      <Text
+        id="blocks.bmx280.init"
+        defaultMessage="set BMx280 pins SCL:[SCL] SDA:[SDA] I2C address [ADDR]"
+      />
+    ),
+    inputs: {
+      SCL: meta.boardPins
+        ? {
+            menu: meta.boardPins.out,
+            defaultValue: isIotBit(meta) ? 'P19' : isIotBoard(meta) ? '22' : '2',
+          }
+        : {
+            type: 'integer',
+            defaultValue: '2',
+          },
+      SDA: meta.boardPins
+        ? {
+            menu: meta.boardPins.all,
+            defaultValue: isIotBit(meta) ? 'P20' : isIotBoard(meta) ? '21' : '3',
+          }
+        : {
+            type: 'integer',
+            defaultValue: '3',
+          },
+      ADDR: {
+        menu: [
+          ['0×76', '0x76'],
+          ['0×77', '0x77'],
+        ],
+      },
+    },
+    mpy(_, args, defs) {
+      const pins = meta.boardPins;
+      const chan = pins?.i2c && pins.i2c.scl === args.SCL && pins.i2c.sda === args.SDA ? pins.i2c.channel : 1;
+      const i2c = `i2c${chan}_${args.SCL}_${args.SDA}`;
+
+      defs['import_pin'] = `from machine import Pin`;
+      defs['import_i2c'] = `from machine import I2C`;
+      defs[i2c] = `${i2c} = I2C(${chan}, scl=Pin(${args.SCL}), sda=Pin(${args.SDA}))`;
+      defs['bmx280'] = `_bmx280 = bmx280.BMx280(${i2c}, ${args.ADDR})`;
+
+      let bmxCode = '';
+      bmxCode += 'def get_bmx280_value(mode=2):\n';
+      bmxCode += '  _bmx280.read()\n';
+      bmxCode += '  if mode == 1: return _bmx280.temperature\n';
+      bmxCode += '  if mode == 2: return _bmx280.pressure\n';
+      bmxCode += '  if mode == 3: return _bmx280.humidity\n';
+      bmxCode += '  if mode == 4: return _bmx280.altitude\n';
+      defs[`get_bmx280_value`] = bmxCode;
+
       return '';
     },
   },

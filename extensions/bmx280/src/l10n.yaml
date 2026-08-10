@@ -1,26 +1,26 @@
 en:
   blocks.bmx280.name: BMx280
-  blocks.bmx280.init: set pins SCL:[SCL] SDA:[SDA]
-  blocks.bmx280.addr: set I2C address [ADDR]
+  blocks.bmx280.init: set BMx280 pins SCL:[SCL] SDA:[SDA] I2C address [ADDR]
+  blocks.bmx280.addr: set BMx280 I2C address [ADDR]
   blocks.bmx280.pressure: pressure(hPa)
-  blocks.bmx280.temperature: temperature
-  blocks.bmx280.humidity: humidity
+  blocks.bmx280.temperature: temperature(°C)
+  blocks.bmx280.humidity: humidity(%)
   blocks.bmx280.altitude: altitude
 
 zh-Hans:
   blocks.bmx280.name: BMx280 气压
-  blocks.bmx280.init: 初始引脚 SCL:[SCL] SDA:[SDA]
-  blocks.bmx280.addr: 初始 I2C 地址[ADDR]
+  blocks.bmx280.init: 初始化 BMx280 引脚 SCL:[SCL] SDA:[SDA] I2C 地址[ADDR]
+  blocks.bmx280.addr: 初始化 BMx280 I2C 地址[ADDR]
   blocks.bmx280.pressure: 气压（hPa）
-  blocks.bmx280.temperature: 温度
-  blocks.bmx280.humidity: 湿度
+  blocks.bmx280.temperature: 温度（°C）
+  blocks.bmx280.humidity: 湿度（%）
   blocks.bmx280.altitude: 海拔
 
 zh-Hant:
   blocks.bmx280.name: BMx280 氣壓
-  blocks.bmx280.init: 初始引腳 SCL:[SCL] SDA:[SDA]
-  blocks.bmx280.addr: 初始 I2C 地址[ADDR]
+  blocks.bmx280.init: 初始化 BMx280 引腳 SCL:[SCL] SDA:[SDA] I2C 地址[ADDR]
+  blocks.bmx280.addr: 初始化 BMx280 I2C 地址[ADDR]
   blocks.bmx280.pressure: 氣壓（hPa）
-  blocks.bmx280.temperature: 溫度
-  blocks.bmx280.humidity: 濕度
+  blocks.bmx280.temperature: 溫度（°C）
+  blocks.bmx280.humidity: 濕度（%）
   blocks.bmx280.altitude: 海拔
