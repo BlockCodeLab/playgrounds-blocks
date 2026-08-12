@@ -20,7 +20,7 @@ export const blocks = (meta) => [
     },
     ino(block) {
       const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
-      this.definitions_[`include_dht`] = '#include "dht.h"';
+      this.definitions_[`include_dht`] = '#include <dht.h>';
       this.definitions_[`variable_dht`] = `dht _dht;`;
 
       let temCode = '';
@@ -70,7 +70,7 @@ export const blocks = (meta) => [
     },
     ino(block) {
       const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
-      this.definitions_[`include_dht`] = '#include "dht.h"';
+      this.definitions_[`include_dht`] = '#include <dht.h>';
       this.definitions_[`variable_dht`] = `dht _dht;`;
 
       let humCode = '';
@@ -121,7 +121,7 @@ export const blocks = (meta) => [
     },
     ino(block) {
       const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
-      this.definitions_[`include_dht`] = '#include "dht.h"';
+      this.definitions_[`include_dht`] = '#include <dht.h>';
       this.definitions_[`variable_dht`] = `dht _dht;`;
 
       let temCode = '';
@@ -171,7 +171,7 @@ export const blocks = (meta) => [
     },
     ino(block) {
       const pin = meta.boardPins ? block.getFieldValue('PIN') : this.valueToCode(block, 'PIN', this.ORDER_NONE);
-      this.definitions_[`include_dht`] = '#include "dht.h"';
+      this.definitions_[`include_dht`] = '#include <dht.h>';
       this.definitions_[`variable_dht`] = `dht _dht;`;
 
       let humCode = '';

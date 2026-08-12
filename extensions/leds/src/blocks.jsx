@@ -249,7 +249,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.leds.rgbLed.init"
-        defaultMessage="set RGB LED pins B channel:[B] R channel:[R] G channel:[G]"
+        defaultMessage="set RGB LED pins B channel:[B] G channel:[G] R channel:[R]"
       />
     ),
     inputs: {
