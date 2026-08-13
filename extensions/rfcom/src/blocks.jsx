@@ -41,7 +41,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.rfcom.send"
-        defaultMessage="send data [DATA] to address [ADDR]"
+        defaultMessage="send data [DATA] to address 0x[ADDR]"
       />
     ),
     inputs: {
@@ -102,7 +102,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.rfcom.listen"
-        defaultMessage="listen to [ADDR] address"
+        defaultMessage="listen to 0x[ADDR] address"
       />
     ),
     inputs: {

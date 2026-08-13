@@ -164,7 +164,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.infraredcom.send"
-        defaultMessage="send command [CMD] encode [PROTO]"
+        defaultMessage="send command 0x[CMD] encode [PROTO]"
       />
     ),
     inputs: {
@@ -191,7 +191,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.infraredcom.sendAddr"
-        defaultMessage="send command:[CMD] address:[ADDR] encode [PROTO]"
+        defaultMessage="send command: 0x[CMD] address: 0x[ADDR] encode [PROTO]"
       />
     ),
     inputs: {
@@ -223,7 +223,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.infraredcom.sendRaw"
-        defaultMessage="send raw data [RAW] encode [PROTO]"
+        defaultMessage="send raw data 0x[RAW] encode [PROTO]"
       />
     ),
     inputs: {

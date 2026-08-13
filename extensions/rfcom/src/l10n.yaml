@@ -1,8 +1,8 @@
 en:
   blocks.rfcom.name: RF Communication
   blocks.rfcom.init: set pins CE:[CE] CSN:[CSN]
-  blocks.rfcom.send: send data [DATA] to address [ADDR]
-  blocks.rfcom.listen: listen to [ADDR] address
+  blocks.rfcom.send: send data [DATA] to address 0x[ADDR]
+  blocks.rfcom.listen: listen to 0x[ADDR] address
   blocks.rfcom.stop: stop listening
   blocks.rfcom.available: data available?
   blocks.rfcom.availableLength: available data length
@@ -18,8 +18,8 @@ en:
 zh-Hans:
   blocks.rfcom.name: RF 通讯
   blocks.rfcom.init: 初始化引脚 CE:[CE] CSN:[CSN]
-  blocks.rfcom.send: 给 [ADDR] 地址发送数据 [DATA]
-  blocks.rfcom.listen: 监听 [ADDR] 地址
+  blocks.rfcom.send: 给 0x[ADDR] 地址发送数据 [DATA]
+  blocks.rfcom.listen: 监听 0x[ADDR] 地址
   blocks.rfcom.stop: 停止监听
   blocks.rfcom.available: 监听到数据?
   blocks.rfcom.availableLength: 可读取数据长度
@@ -35,8 +35,8 @@ zh-Hans:
 zh-Hant:
   blocks.rfcom.name: RF 通訊
   blocks.rfcom.init: 初始化引腳 CE:[CE] CSN:[CSN]
-  blocks.rfcom.send: 給 [ADDR] 地址發送數據 [DATA]
-  blocks.rfcom.listen: 監聽 [ADDR] 地址
+  blocks.rfcom.send: 給 0x[ADDR] 地址發送數據 [DATA]
+  blocks.rfcom.listen: 監聽 0x[ADDR] 地址
   blocks.rfcom.stop: 停止監聽
   blocks.rfcom.available: 監聽到數據?
   blocks.rfcom.availableLength: 可讀取數據長度

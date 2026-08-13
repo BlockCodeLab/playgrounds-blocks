@@ -8,9 +8,9 @@ en:
   blocks.infraredcom.receiveAddr: address
   blocks.infraredcom.protocol: encode protocol
   blocks.infraredcom.initSend: set pin [PIN] to ir sender
-  blocks.infraredcom.send: send command [CMD] encode [PROTO]
-  blocks.infraredcom.sendAddr: send command:[CMD] address:[ADDR] encode [PROTO]
-  blocks.infraredcom.sendRaw: send raw data [RAW] encode [PROTO]
+  blocks.infraredcom.send: send command 0x[CMD] encode [PROTO]
+  blocks.infraredcom.sendAddr: 'send command: 0x[CMD] address: 0x[ADDR] encode [PROTO]'
+  blocks.infraredcom.sendRaw: send raw data 0x[RAW] encode [PROTO]
 
 zh-Hans:
   blocks.infraredcom.name: 红外线通讯
@@ -22,9 +22,9 @@ zh-Hans:
   blocks.infraredcom.receiveAddr: 地址
   blocks.infraredcom.protocol: 编码协议
   blocks.infraredcom.initSend: 初始化红外发送引脚[PIN]
-  blocks.infraredcom.send: 通过[PROTO]协议发送信号[CMD]
-  blocks.infraredcom.sendAddr: 通过[PROTO]协议发送信号:[CMD]地址:[ADDR]
-  blocks.infraredcom.sendRaw: 通过[PROTO]协议发送原始编码数据[RAW]
+  blocks.infraredcom.send: 通过[PROTO]协议发送信号 0x[CMD]
+  blocks.infraredcom.sendAddr: '通过[PROTO]协议发送信号: 0x[CMD]地址: 0x[ADDR]'
+  blocks.infraredcom.sendRaw: 通过[PROTO]协议发送原始编码数据 0x[RAW]
 
 zh-Hant:
   blocks.infraredcom.name: 紅外線通訊
@@ -36,6 +36,6 @@ zh-Hant:
   blocks.infraredcom.receiveAddr: 地址
   blocks.infraredcom.protocol: 編碼協議
   blocks.infraredcom.initSend: 初始化紅外發送引腳[PIN]
-  blocks.infraredcom.send: 通過[PROTO]協議發送信號[CMD]
-  blocks.infraredcom.sendAddr: 通過[PROTO]協議發送信號:[CMD]地址:[ADDR]
-  blocks.infraredcom.sendRaw: 通過[PROTO]協議發送原始編碼數據[RAW]
+  blocks.infraredcom.send: 通過[PROTO]協議發送信號 0x[CMD]
+  blocks.infraredcom.sendAddr: '通過[PROTO]協議發送信號: 0x[CMD]地址: 0x[ADDR]'
+  blocks.infraredcom.sendRaw: 通過[PROTO]協議發送原始編碼數據 0x[RAW]

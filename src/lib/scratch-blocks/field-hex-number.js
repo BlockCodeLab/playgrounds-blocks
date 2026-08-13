@@ -17,7 +17,7 @@ class FieldHexNumber extends ScratchBlocks.FieldTextInput {
     if (this.lenght_ && newText.length > this.lenght_) {
       newText = newText.slice(0, this.lenght_);
     }
-    super.setText(`0x${newText.toUpperCase() || 0}`);
+    super.setText(`${newText.toUpperCase() || 0}`);
   }
 
   showEditor_(opt_quietInput, opt_readOnly, opt_withArrow, opt_arrowCallback) {
@@ -34,7 +34,7 @@ class FieldHexNumber extends ScratchBlocks.FieldTextInput {
     if (this.lenght_ && value.length > this.lenght_) {
       value = value.slice(0, this.lenght_);
     }
-    FieldHexNumber.htmlInput_.value = `0x${value?.toUpperCase() || 0}`;
+    FieldHexNumber.htmlInput_.value = `${value?.toUpperCase() || 0}`;
   }
 }
 
