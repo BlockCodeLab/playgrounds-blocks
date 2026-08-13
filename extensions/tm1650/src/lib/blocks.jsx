@@ -19,7 +19,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.tm1650.init"
-        defaultMessage="set TM1650 pins SCL:[SCL] SDA:[SDA] I2C address [ADDR]"
+        defaultMessage="set TM1650 pins SCL:[SCL] SDA:[SDA]"
       />
     ),
     inputs: {
@@ -121,6 +121,42 @@ export const blocks = (meta) => [
     mpy(block) {
       const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
       const code = `_digit1650.show_number(${num})\n`;
+      return code;
+    },
+  },
+  {
+    id: 'displayRaw',
+    text: (
+      <Text
+        id="blocks.tm1650.displayRaw"
+        defaultMessage="display raw value [RAW] and dot at [POS]"
+      />
+    ),
+    inputs: {
+      RAW: {
+        type: 'hex16',
+        defaultValue: '0',
+      },
+      POS: {
+        menu: ['-', '0', '1', '2', '3'],
+      },
+    },
+    ino(_, args) {
+      autoInitArduino(this);
+      const raw = isNaN(args.RAW) ? args.RAW : `"${args.RAW.replace(/^0x/, '')}"`;
+      let code = '';
+      code += `_digit1650.displayString(String(${raw}).c_str());\n`;
+      if (args.POS !== '-') {
+        code += `_digit1650.setDot(${args.POS}, true);\n`;
+      }
+      return code;
+    },
+    mpy(_, args) {
+      let code = '';
+      code += `_digit1650.show_number(int(${args.RAW}, 16), 16)\n`;
+      if (args.POS !== '-') {
+        code += `_digit1650.show_dot(${args.POS})\n`;
+      }
       return code;
     },
   },

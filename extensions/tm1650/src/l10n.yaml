@@ -3,6 +3,7 @@ en:
   blocks.tm1650.init: set TM1650 pins SCL:[SCL] SDA:[SDA] # I2C address [ADDR]
   blocks.tm1650.addr: set TM1650 I2C address [ADDR]
   blocks.tm1650.display: display number [NUM]
+  blocks.tm1650.displayRaw: display raw value [RAW] and dot at [POS]
   blocks.tm1650.digit: set digit [DIGIT] at [POS]
   blocks.tm1650.brightness: set brightness [LEVEL]
   blocks.tm1650.clear: clear display
@@ -12,6 +13,7 @@ zh-Hans:
   blocks.tm1650.init: 初始化 TM1650 引脚 SCL:[SCL] SDA:[SDA] # I2C 地址[ADDR]
   blocks.tm1650.addr: 初始化 TM1650 I2C 地址[ADDR]
   blocks.tm1650.display: 显示数字[NUM]
+  blocks.tm1650.displayRaw: 显示原始值[RAW]小数点位置[POS]
   blocks.tm1650.digit: 将第[POS]位数字设为[DIGIT]
   blocks.tm1650.brightness: 将亮度设为[LEVEL]
   blocks.tm1650.clear: 清除显示
@@ -21,6 +23,7 @@ zh-Hant:
   blocks.tm1650.init: 初始化 TM1650 引腳 SCL:[SCL] SDA:[SDA] # I2C 地址[ADDR]
   blocks.tm1650.addr: 初始化 TM1650 I2C 地址[ADDR]
   blocks.tm1650.display: 顯示數字[NUM]
+  blocks.tm1650.displayRaw: 顯示原始值[RAW]小數點位置[POS]
   blocks.tm1650.digit: 將第[POS]位數字設為[DIGIT]
   blocks.tm1650.brightness: 將亮度設為[LEVEL]
   blocks.tm1650.clear: 清除顯示
