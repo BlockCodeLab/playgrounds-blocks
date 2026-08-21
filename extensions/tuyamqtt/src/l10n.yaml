@@ -15,6 +15,7 @@ en:
   blocks.tuyamqtt.reportMode.send: send
   blocks.tuyamqtt.whenReceived: when received property values
   blocks.tuyamqtt.propertyValue: property [PROP] value
+  blocks.tuyamqtt.propertyIsValue: received property [PROP] value?
 
 zh-Hans:
   blocks.tuyamqtt.name: 涂鸦 Link
@@ -33,6 +34,7 @@ zh-Hans:
   blocks.tuyamqtt.reportMode.send: 发送
   blocks.tuyamqtt.whenReceived: 当接收下发的属性值时
   blocks.tuyamqtt.propertyValue: 属性[PROP]的值
+  blocks.tuyamqtt.propertyIsValue: 收到属性[PROP]的值？
 
 zh-Hant:
   blocks.tuyamqtt.name: 塗鴉 Link
@@ -51,3 +53,4 @@ zh-Hant:
   blocks.tuyamqtt.reportMode.send: 發送
   blocks.tuyamqtt.whenReceived: 當接收下發的屬性值時
   blocks.tuyamqtt.propertyValue: 屬性[PROP]的值
+  blocks.tuyamqtt.propertyIsValue: 接收屬性[PROP]的值？

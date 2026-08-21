@@ -116,11 +116,11 @@ export const blocks = [
     inputs: {
       PROP: {
         type: 'string',
-        defaultValue: 'color',
+        defaultValue: 'key',
       },
       VALUE: {
         type: 'string',
-        defaultValue: 'red',
+        defaultValue: 'value',
       },
       MODE: {
         menu: [
@@ -177,6 +177,26 @@ export const blocks = [
     },
   },
   {
+    id: 'propertyIsValue',
+    text: (
+      <Text
+        id="blocks.tuyamqtt.propertyIsValue"
+        defaultMessage="received property [PROP] value?"
+      />
+    ),
+    output: 'boolean',
+    inputs: {
+      PROP: {
+        type: 'string',
+        defaultValue: 'key',
+      },
+    },
+    mpy(_, args) {
+      const code = `tuyaclient.get_property(${args.PROP})`;
+      return [code];
+    },
+  },
+  {
     id: 'propertyValue',
     text: (
       <Text
@@ -188,7 +208,7 @@ export const blocks = [
     inputs: {
       PROP: {
         type: 'string',
-        defaultValue: 'color',
+        defaultValue: 'key',
       },
     },
     mpy(_, args) {
