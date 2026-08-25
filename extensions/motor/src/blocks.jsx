@@ -6,7 +6,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.motor.init"
-        defaultMessage="set phase-enable mode [MOTOR] pins IN1:[IN1] IN2:[IN2]"
+        defaultMessage="set [MOTOR] pins IN1:[IN1] IN2:[IN2]"
       />
     ),
     inputs: {
@@ -50,7 +50,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.motor.run"
-        defaultMessage="set phase-enable mode [MOTOR] to [SPEED] % [DIR] speed"
+        defaultMessage="set [MOTOR] to [SPEED] % [DIR] speed"
       />
     ),
     inputs: {
@@ -118,7 +118,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.motor.stop"
-        defaultMessage="stop phase-enable mode [MOTOR]"
+        defaultMessage="stop [MOTOR]"
       />
     ),
     inputs: {
@@ -147,7 +147,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.motor.initDual"
-        defaultMessage="set dual pwm mode [MOTOR] pins IN1:[IN1] IN2:[IN2]"
+        defaultMessage="set dual pwm [MOTOR] pins IN1:[IN1] IN2:[IN2]"
       />
     ),
     inputs: {
@@ -191,7 +191,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.motor.runDual"
-        defaultMessage="set dual pwm mode [MOTOR] to [SPEED] % [DIR] speed"
+        defaultMessage="set dual pwm [MOTOR] to [SPEED] % [DIR] speed"
       />
     ),
     inputs: {
@@ -259,7 +259,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.motor.stopDual"
-        defaultMessage="stop dual pwm mode [MOTOR]"
+        defaultMessage="stop dual pwm [MOTOR]"
       />
     ),
     inputs: {
