@@ -21,7 +21,7 @@ export const blocks = [
       return code;
     },
     mpy(block) {
-      const code = `pen.clear()\n`;
+      const code = `pen.clear(stage)\n`;
       return code;
     },
   },
@@ -40,7 +40,7 @@ export const blocks = [
       return code;
     },
     mpy(block) {
-      const code = `pen.stamp(target)\n`;
+      const code = `pen.stamp(target, stage)\n`;
       return code;
     },
   },
@@ -58,7 +58,7 @@ export const blocks = [
       return code;
     },
     mpy(block) {
-      const code = `pen.down(target)\n`;
+      const code = `pen.down(target, stage)\n`;
       return code;
     },
   },
