@@ -154,7 +154,8 @@ export const blocks = (meta) => [
     ino(block) {
       const msg = this.valueToCode(block, 'MSG', this.ORDER_NONE);
       const topic = this.valueToCode(block, 'TOPIC', this.ORDER_NONE);
-      const code = `espAtManager.Mqtt().Public(${topic}, ${msg});\n`;
+      const qos = block.getFieldValue('QOS');
+      const code = `espAtManager.Mqtt().Public(${topic}, ${msg}, ${qos});\n`;
       return code;
     },
   },
