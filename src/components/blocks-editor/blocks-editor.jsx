@@ -505,20 +505,17 @@ export function BlocksEditor({
       isCompactBlock.value !== false ? ScratchBlocks.CompactBlockSvg : ScratchBlocks.NormalBlockSvg,
     );
 
-    const projData = await preloadProjectBlocks(meta.value, files.value);
-    let readyCleanExtensions = true;
-    for (const [extId, extObj] of projData.extensions) {
-      // 清除旧扩展
-      if (readyCleanExtensions) {
-        // 移除教程
-        for (const extObj of loadedExtensions.values()) {
-          if (extObj.lessons) {
-            removeLessons(extObj.lessons);
-          }
-        }
-        loadedExtensions.clear();
-        readyCleanExtensions = false;
+    // 移除教程
+    for (const extObj of loadedExtensions.values()) {
+      if (extObj.lessons) {
+        removeLessons(extObj.lessons);
       }
+    }
+    // 清除旧扩展
+    loadedExtensions.clear();
+
+    const projData = await preloadProjectBlocks(meta.value, files.value);
+    for (const [extId, extObj] of projData.extensions) {
       loadExtension(extObj, options, meta.value);
       loadedExtensions.set(extId, extObj);
 
