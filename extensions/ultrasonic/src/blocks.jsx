@@ -131,7 +131,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.ultrasonic.compensation"
-        defaultMessage="set temperature(℃) [TEMP] and humidity(%) [HUM] compensation"
+        defaultMessage="set temperature [TEMP]℃ and humidity [HUM]% compensation"
       />
     ),
     inputs: {
