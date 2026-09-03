@@ -1,0 +1,26 @@
+en:
+  blocks.ubth04.name: UBT-H04 Servo
+  blocks.ubth04.init: init UBTECH BUS on pin [PIN]
+  blocks.ubth04.angle: set ID [ID] servo angle to [ANGLE]° time [TIME] ms
+  blocks.ubth04.rotate: set ID [ID] servo rotate to [ROTATE] speed [SPEED]
+  blocks.ubth04.rotateClockwise: clockwise
+  blocks.ubth04.rotateAntiClockwise: anti-clockwise
+  blocks.ubth04.stop: stop ID [ID] servo
+
+zh-Hans:
+  blocks.ubth04.name: UBT-H04 舵机
+  blocks.ubth04.init: 初始化 UBTECH 总线引脚 [PIN]
+  blocks.ubth04.angle: 将 ID [ID] 舵机角度设为 [ANGLE]° 持续 [TIME] ms
+  blocks.ubth04.rotate: 将 ID [ID] 舵机旋转方向设为 [ROTATE] 速度 [SPEED]
+  blocks.ubth04.rotateClockwise: 顺时针
+  blocks.ubth04.rotateAntiClockwise: 逆时针
+  blocks.ubth04.stop: 停止 ID [ID] 舵机
+
+zh-Hant:
+  blocks.ubth04.name: UBT-H04 舵機
+  blocks.ubth04.init: 初始化 UBTECH 總線引腳 [PIN]
+  blocks.ubth04.angle: 將 ID [ID] 舵機角度設為 [ANGLE]° 持續 [TIME] ms
+  blocks.ubth04.rotate: 將 ID [ID] 舵機旋轉方向設為 [ROTATE] 速度 [SPEED]
+  blocks.ubth04.rotateClockwise: 順時針
+  blocks.ubth04.rotateAntiClockwise: 逆時針
+  blocks.ubth04.stop: 停止 ID [ID] 舵機
