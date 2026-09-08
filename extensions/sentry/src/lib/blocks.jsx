@@ -51,7 +51,7 @@ export const blocks = (meta) => [
           this.definitions_['include_sentry'] = '#include <Sentry.h>';
           this.definitions_['variable_sentry_def'] = `typedef ${model} Sentry;`;
           this.definitions_['variable_sentry'] = `Sentry sentry(${addr});`;
-          this.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
+          this.definitions_['setup_wire'] = 'Wire.begin();';
           this.definitions_['setup_sentry'] = 'while (SENTRY_OK!=sentry.begin(&Wire)) {yield();}';
           return '';
         },

@@ -31,7 +31,9 @@ export const blocks = (meta) => [
     },
     ino(block) {
       const addr = block.getFieldValue('ADDR');
+      this.definitions_['include_wire'] = `#include <Wire.h>`;
       this.definitions_['variable_md40motor'] = `em::Md40 md40Motor(${addr});`;
+      this.definitions_['setup_wire'] = `Wire.begin();`;
       this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       return '';
     },
@@ -121,9 +123,11 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       for (const id of motors) {
         this.definitions_[`setup_md40motor_${id}`] =
@@ -172,9 +176,11 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       let code = '';
       for (const id of motors) {
@@ -230,9 +236,11 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       let code = '';
       for (const id of motors) {
@@ -289,9 +297,11 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       let code = '';
       for (const id of motors) {
@@ -348,9 +358,11 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       let code = '';
       for (const id of motors) {
@@ -397,9 +409,11 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       let code = '';
       for (const id of motors) {
@@ -444,9 +458,11 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       let code = '';
       for (const id of motors) {
@@ -507,9 +523,11 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       let code = '';
       for (const id of motors) {
@@ -576,9 +594,11 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       let code = '';
       for (const id of motors) {
@@ -633,9 +653,11 @@ export const blocks = (meta) => [
       const motor = block.getFieldValue('MOTOR');
       const pid = block.getFieldValue('PID');
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       if (!this.definitions_[`setup_md40motor_${motor}`]) {
         this.definitions_[`setup_md40motor_${motor}`] =
@@ -677,9 +699,11 @@ export const blocks = (meta) => [
       const motor = block.getFieldValue('MOTOR');
       const pid = block.getFieldValue('PID');
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       if (!this.definitions_[`setup_md40motor_${motor}`]) {
         this.definitions_[`setup_md40motor_${motor}`] =
@@ -717,9 +741,11 @@ export const blocks = (meta) => [
     ino(block) {
       const motor = block.getFieldValue('MOTOR');
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       if (!this.definitions_[`setup_md40motor_${motor}`]) {
         this.definitions_[`setup_md40motor_${motor}`] =
@@ -756,9 +782,11 @@ export const blocks = (meta) => [
     ino(block) {
       const motor = block.getFieldValue('MOTOR');
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       if (!this.definitions_[`setup_md40motor_${motor}`]) {
         this.definitions_[`setup_md40motor_${motor}`] =
@@ -795,9 +823,11 @@ export const blocks = (meta) => [
     ino(block) {
       const motor = block.getFieldValue('MOTOR');
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       if (!this.definitions_[`setup_md40motor_${motor}`]) {
         this.definitions_[`setup_md40motor_${motor}`] =
@@ -834,9 +864,11 @@ export const blocks = (meta) => [
     ino(block) {
       const motor = block.getFieldValue('MOTOR');
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       if (!this.definitions_[`setup_md40motor_${motor}`]) {
         this.definitions_[`setup_md40motor_${motor}`] =
@@ -899,9 +931,11 @@ export const blocks = (meta) => [
       const state = block.getFieldValue('STATE');
 
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       if (!this.definitions_[`setup_md40motor_${motor}`]) {
         this.definitions_[`setup_md40motor_${motor}`] =
@@ -973,9 +1007,11 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       let code = '';
       for (const id of motors) {
@@ -1028,9 +1064,11 @@ export const blocks = (meta) => [
       const motors = motor === 'all' ? [0, 1, 2, 3] : [motor];
 
       if (!this.definitions_['variable_md40motor']) {
+        this.definitions_['include_wire'] = `#include <Wire.h>`;
         this.definitions_['variable_md40motor'] = 'em::Md40 md40Motor(em::Md40::kDefaultI2cAddress);';
+        this.definitions_['setup_wire'] = `Wire.begin();`;
+        this.definitions_['setup_md40motor'] = `md40Motor.Init();`;
       }
-      this.definitions_['setup_md40motor'] = 'md40Motor.Init();';
 
       let code = '';
       for (const id of motors) {

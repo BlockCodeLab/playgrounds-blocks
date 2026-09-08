@@ -32,7 +32,7 @@ export const blocks = (meta) => [
       const addr = block.getFieldValue('ADDR');
       this.definitions_['include_wire'] = '#include <Wire.h>';
       this.definitions_['variable_tts20'] = `em::Tts20 tts(${addr});`;
-      this.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
+      this.definitions_['setup_wire'] = 'Wire.begin();';
       this.definitions_['setup_tts20'] = `tts.Init();`;
       return '';
     },
@@ -105,12 +105,15 @@ export const blocks = (meta) => [
       },
     },
     ino(block) {
-      const str = this.valueToCode(block, 'STR', this.ORDER_ATOMIC);
+      let str = this.valueToCode(block, 'STR', this.ORDER_ATOMIC);
       if (!this.definitions_['variable_tts20']) {
         this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
-        this.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
+        this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
+      }
+      if (/^"|"$/.test(str)) {
+        str = `F(${str})`;
       }
       const code = `tts.Play(${str});\n`;
       return code;
@@ -133,7 +136,7 @@ export const blocks = (meta) => [
       if (!this.definitions_['variable_tts20']) {
         this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
-        this.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
+        this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
       }
       const code = 'tts.Stop();\n';
@@ -157,7 +160,7 @@ export const blocks = (meta) => [
       if (!this.definitions_['variable_tts20']) {
         this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
-        this.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
+        this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
       }
       const code = '!tts20.IsBusy()';
@@ -217,7 +220,7 @@ export const blocks = (meta) => [
       if (!this.definitions_['variable_tts20']) {
         this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
-        this.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
+        this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
       }
       const str = this.valueToCode(block, 'STR', this.ORDER_ATOMIC);
@@ -285,7 +288,7 @@ export const blocks = (meta) => [
       if (!this.definitions_['variable_tts20']) {
         this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
-        this.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
+        this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
       }
       const num = this.valueToCode(block, 'NUM', this.ORDER_ATOMIC);
@@ -329,7 +332,7 @@ export const blocks = (meta) => [
       if (!this.definitions_['variable_tts20']) {
         this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
-        this.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
+        this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
       }
       const char = this.valueToCode(block, 'CHAR', this.ORDER_ATOMIC);
@@ -399,7 +402,7 @@ export const blocks = (meta) => [
       if (!this.definitions_['variable_tts20']) {
         this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
-        this.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
+        this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
       }
       const ring = block.getFieldValue('RING');
@@ -445,7 +448,7 @@ export const blocks = (meta) => [
       if (!this.definitions_['variable_tts20']) {
         this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
-        this.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
+        this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
       }
       const code = 'tts.Pause();\n';
@@ -468,7 +471,7 @@ export const blocks = (meta) => [
       if (!this.definitions_['variable_tts20']) {
         this.definitions_['include_wire'] = '#include <Wire.h>';
         this.definitions_['variable_tts20'] = `em::Tts20 tts(em::Tts20::kDefaultI2cAddress);`;
-        this.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
+        this.definitions_['setup_wire'] = 'Wire.begin();';
         this.definitions_['setup_tts20'] = `tts.Init();`;
       }
       const code = 'tts.Resume();\n';

@@ -60,7 +60,7 @@ export const blocks = (meta) => [
       this.definitions_['include_wire'] = '#include <Wire.h>';
       this.definitions_['include_tcs34725'] = '#include "tcs34725.h"';
       this.definitions_['variable_tcs34725'] = `TCS34725 _tcs34725;`;
-      this.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
+      this.definitions_['setup_wire'] = 'Wire.begin();';
       this.definitions_['setup_tcs34725'] = `_tcs34725.begin();`;
       const code = `_tcs34725.getColorToGamma()`;
       return [code];
@@ -88,7 +88,7 @@ export const blocks = (meta) => [
       this.definitions_['include_wire'] = '#include <Wire.h>';
       this.definitions_['include_tcs34725'] = '#include "tcs34725.h"';
       this.definitions_['variable_tcs34725'] = `TCS34725 _tcs34725;`;
-      this.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
+      this.definitions_['setup_wire'] = 'Wire.begin();';
       this.definitions_['setup_tcs34725'] = `_tcs34725.begin();`;
       const code = `_tcs34725.get${args.RGB}ToGamma()`;
       return [code];
@@ -111,7 +111,7 @@ export const blocks = (meta) => [
       this.definitions_['include_wire'] = '#include <Wire.h>';
       this.definitions_['include_tcs34725'] = '#include "tcs34725.h"';
       this.definitions_['variable_tcs34725'] = `TCS34725 _tcs34725;`;
-      this.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
+      this.definitions_['setup_wire'] = 'Wire.begin();';
       this.definitions_['setup_tcs34725'] = `_tcs34725.begin();`;
       const code = `_tcs34725.getColor()`;
       return [code];
@@ -139,7 +139,7 @@ export const blocks = (meta) => [
       this.definitions_['include_wire'] = '#include <Wire.h>';
       this.definitions_['include_tcs34725'] = '#include "tcs34725.h"';
       this.definitions_['variable_tcs34725'] = `TCS34725 _tcs34725;`;
-      this.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
+      this.definitions_['setup_wire'] = 'Wire.begin();';
       this.definitions_['setup_tcs34725'] = `_tcs34725.begin();`;
       const code = `_tcs34725.get${args.RGB}()`;
       return [code];

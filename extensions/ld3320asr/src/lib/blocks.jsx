@@ -8,7 +8,7 @@ const isIotBoard = (meta) => meta.boardType === 'ESP32_IOT_BOARD';
 const InitSpeechRecognizer = (gen) => {
   gen.definitions_['include_wire'] = '#include <Wire.h>';
   gen.definitions_['variable_speech_recognizer'] = 'emakefun::SpeechRecognizer speech_recognizer;';
-  gen.definitions_['setup_wire'] = 'Wire.begin(); delay(50);';
+  gen.definitions_['setup_wire'] = 'Wire.begin();';
   gen.definitions_['setup_speech_recognizer'] = 'speech_recognizer.Initialize();';
 
   const funcName = 'speechRecognition';
