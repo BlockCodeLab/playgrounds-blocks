@@ -1,0 +1,23 @@
+en:
+  blocks.mpu6050.name: MPU6050
+  blocks.mpu6050.init: set MPU6050 pins SCL:[SCL] SDA:[SDA]
+  blocks.mpu6050.acceleration: acceleration [XYZ]
+  blocks.mpu6050.gravity: gravity [XYZ]
+  blocks.mpu6050.pitch: pitch
+  blocks.mpu6050.roll: roll
+
+zh-Hans:
+  blocks.mpu6050.name: MPU6050 陀螺仪
+  blocks.mpu6050.init: 初始化 MPU6050 引脚 SCL:[SCL] SDA:[SDA]
+  blocks.mpu6050.acceleration: 加速度 [XYZ]
+  blocks.mpu6050.gravity: 重力 [XYZ]
+  blocks.mpu6050.pitch: 俯仰
+  blocks.mpu6050.roll: 横滚
+
+zh-Hant:
+  blocks.mpu6050.name: mpu6050 陀螺仪
+  blocks.mpu6050.init: 初始化 MPU6050 引腳 SCL:[SCL] SDA:[SDA]
+  blocks.mpu6050.acceleration: 加速度 [XYZ]
+  blocks.mpu6050.gravity: 重力 [XYZ]
+  blocks.mpu6050.pitch: 俯仰
+  blocks.mpu6050.roll: 横滚
