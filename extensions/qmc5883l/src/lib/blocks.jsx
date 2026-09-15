@@ -95,7 +95,7 @@ export const blocks = (meta) => [
     text: (
       <Text
         id="blocks.qmc5883l.xyz"
-        defaultMessage="[XYZ] value"
+        defaultMessage="magnetic [XYZ]"
       />
     ),
     output: 'number',
