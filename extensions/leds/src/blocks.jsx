@@ -353,7 +353,7 @@ export const blocks = (meta) => [
       />
     ),
     ino(block) {
-      const code = `{ int rgb[3]={0}; setRGBLed(rgb); }\n`;
+      const code = `setRGBLed(0x0);\n`;
       return code;
     },
     mpy(block) {
