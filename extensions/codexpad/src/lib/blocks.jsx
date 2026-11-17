@@ -1,6 +1,6 @@
-import { changeCase } from '@blockcode/utils';
-import { Text } from '@blockcode/core';
 import { ScratchBlocks } from '@blockcode/blocks';
+import { Text } from '@blockcode/core';
+import { changeCase } from '@blockcode/utils';
 
 const CodexPadUpdate = (gen) => {
   if (!gen.definitions_['codexpad_update']) {
@@ -325,9 +325,9 @@ export const blocks = (meta) => [
         menu: 'JOYSTICK',
       },
     },
-    mpy(block) {
+    mpy(_, args) {
       CodexPadUpdate(this);
-      const code = `await codex_pad.axis_value(codexpad.AXIS_${args.JOYSTICK})`;
+      const code = `codex_pad.axis_value(codexpad.AXIS_${args.JOYSTICK})`;
       return [code];
     },
     ino(_, args) {
@@ -356,7 +356,7 @@ export const blocks = (meta) => [
     },
     mpy(_, args) {
       CodexPadUpdate(this);
-      const code = `await codex_pad.${args.STATE}(codexpad.BUTTON_${args.KEY})`;
+      const code = `codex_pad.${args.STATE}(codexpad.BUTTON_${args.KEY})`;
       return [code];
     },
     ino(_, args) {
