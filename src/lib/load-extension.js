@@ -1,8 +1,9 @@
-import { xmlEscape, pathResolve, Konva } from '@blockcode/utils';
-import { themeColors, maybeTranslate, translate } from '@blockcode/core';
-import { Runtime } from './runtime/runtime';
-import { ScratchBlocks } from '../lib/scratch-blocks';
+import { maybeTranslate, themeColors, translate } from '@blockcode/core';
+import { Konva, pathResolve, xmlEscape } from '@blockcode/utils';
+
 import { blockSeparator, categorySeparator } from '../lib/make-toolbox-xml';
+import { ScratchBlocks } from '../lib/scratch-blocks';
+import { Runtime } from './runtime/runtime';
 
 const THEME_COLOR = themeColors.blocks.primary;
 const INPUT_COLOR = themeColors.blocks.secondary;
@@ -418,12 +419,14 @@ export function loadExtension(extObj, options, meta) {
             // 简化参数获取
             const args = blockArgs
               ? Object.fromEntries(
-                  blockArgs.map((arg) => [
-                    arg.name,
-                    arg.type === 'field_dropdown'
-                      ? targetBlock.getFieldValue(arg.name)
-                      : generator.valueToCode(targetBlock, arg.name, generator.ORDER_NONE),
-                  ]),
+                  blockArgs
+                    .filter((arg) => arg.name)
+                    .map((arg) => [
+                      arg.name,
+                      arg.type.startsWith('field_')
+                        ? targetBlock.getFieldValue(arg.name)
+                        : generator.valueToCode(targetBlock, arg.name, generator.ORDER_NONE),
+                    ]),
                 )
               : {};
             return block[codeName].call(generator, targetBlock, args, this.definitions_);
@@ -445,12 +448,14 @@ export function loadExtension(extObj, options, meta) {
             // 简化参数获取
             const args = blockArgs
               ? Object.fromEntries(
-                  blockArgs.map((arg) => [
-                    arg.name,
-                    arg.type === 'field_dropdown'
-                      ? targetBlock.getFieldValue(arg.name)
-                      : emulator.valueToCode(targetBlock, arg.name, emulator.ORDER_NONE),
-                  ]),
+                  blockArgs
+                    .filter((arg) => arg.name)
+                    .map((arg) => [
+                      arg.name,
+                      arg.type.startsWith('field_')
+                        ? targetBlock.getFieldValue(arg.name)
+                        : emulator.valueToCode(targetBlock, arg.name, emulator.ORDER_NONE),
+                    ]),
                 )
               : {};
             return block[codeName].call(emulator, targetBlock, args, this.definitions_);

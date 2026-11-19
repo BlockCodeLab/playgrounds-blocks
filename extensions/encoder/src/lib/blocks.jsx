@@ -29,11 +29,11 @@ export const blocks = (meta) => [
     },
     ino(_, args, defs) {
       defs['include_encoder'] = '#include <Encoder.h>';
-      defs['variable_encoder'] = `Encoder encoder_${args.ID}(${args.APin}, ${args.BPin});`;
+      defs[`variable_encoder_${args.ID}`] = `Encoder encoder_${args.ID}(${args.APin}, ${args.BPin});`;
       return '';
     },
     mpy(_, args, defs) {
-      defs['encoder'] = `encoder_${args.ID} = encoder.Encoder(${args.APin}, ${args.BPin})`;
+      defs[`encoder_${args.ID}`] = `encoder_${args.ID} = encoder.Encoder(${args.APin}, ${args.BPin})`;
       return '';
     },
   },
