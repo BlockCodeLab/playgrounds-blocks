@@ -1,0 +1,77 @@
+en:
+  blocks.encodermotor.name: Motor Encoder
+  blocks.encodermotor.init: set [MOTOR] encoder motor pin+ [PIN1] pin- [PIN2] pinA [PINA] pinB [PINB]
+  blocks.encodermotor.setmotor: set [MOTOR] encoder motor to ratio [RATIO] [PULSE] ppr and [PHASE] phase leads
+  blocks.encodermotor.setspeed: set [MOTOR] encoder motor to [SPEED]% [DIR] speed
+  blocks.encodermotor.setrpm: set [MOTOR] encoder motor to [DIR] at [RPM] rpm
+  blocks.encodermotor.setrotate: rotate [MOTOR] encoder motor to [DEGREE]° at [RPM] rpm
+  blocks.encodermotor.setangle: set [MOTOR] encoder motor to [ANGLE]° at [RPM] rpm
+  blocks.encodermotor.reset: reset [MOTOR] encoder motor
+  blocks.encodermotor.shutdown: stop [MOTOR] encoder motor
+  blocks.encodermotor.setpidangle: set [MOTOR] encoder motor to P:[P] I:[I] D:[D] for angle pid controller
+  blocks.encodermotor.setpidspeed: set [MOTOR] encoder motor to P:[P] I:[I] D:[D] for speed pid controller
+  blocks.encodermotor.pidangle: encoder motor [MOTOR] angle pid controller [PID] value
+  blocks.encodermotor.pidspeed: encoder motor [MOTOR] speed pid controller [PID] value
+  blocks.encodermotor.speed: encoder motor [MOTOR] speed(%)
+  blocks.encodermotor.rpm: encoder motor [MOTOR] rpm
+  blocks.encodermotor.angle: encoder motor [MOTOR] angle
+  blocks.encodermotor.pulse: encoder motor [MOTOR] pulses
+  blocks.encodermotor.state: encoder motor [MOTOR] [STATE]?
+  blocks.encodermotor.stateIdle: idle
+  blocks.encodermotor.stateRunning: running
+  blocks.encodermotor.stateReached: done
+  blocks.encodermotor.all: all
+  blocks.encodermotor.forward: forward
+  blocks.encodermotor.reverse: reverse
+
+zh-Hans:
+  blocks.encodermotor.name: 编码电机
+  blocks.encodermotor.init: 初始化 [MOTOR] 编码电机引脚+ [PIN1] 引脚- [PIN2] 引脚A [PINA] 引脚B [PINB]
+  blocks.encodermotor.setmotor: 将 [MOTOR] 编码电机减速比设为 [RATIO] [PULSE] 脉冲/转 [PHASE] 相领先
+  blocks.encodermotor.all: 全部
+  blocks.encodermotor.forward: 正转
+  blocks.encodermotor.reverse: 反转
+  blocks.encodermotor.setspeed: 将 [MOTOR] 编码电机 [DIR] 速度设为 [SPEED]%
+  blocks.encodermotor.setrpm: 将 [MOTOR] 编码电机 [DIR] 速度设为 [RPM] RPM
+  blocks.encodermotor.setrotate: 将 [MOTOR] 编码电机以 [RPM] RPM 速度转 [DEGREE]°
+  blocks.encodermotor.setangle: 将 [MOTOR] 编码电机以 [RPM] RPM 速度转到 [ANGLE]°
+  blocks.encodermotor.reset: 重置 [MOTOR] 编码电机
+  blocks.encodermotor.shutdown: 停止 [MOTOR] 编码电机
+  blocks.encodermotor.setpidangle: 将 [MOTOR] 编码电机角度 PID 控制器参数设为 P:[P] I:[I] D:[D]
+  blocks.encodermotor.setpidspeed: 将 [MOTOR] 编码电机速度 PID 控制器参数设为 P:[P] I:[I] D:[D]
+  blocks.encodermotor.speed: '[MOTOR] 编码电机速度（%）'
+  blocks.encodermotor.rpm: '[MOTOR] 编码电机速度（RPM）'
+  blocks.encodermotor.angle: '[MOTOR] 编码电机角度'
+  blocks.encodermotor.pulse: '[MOTOR] 编码电机脉冲数'
+  blocks.encodermotor.pidangle: '[MOTOR] 编码电机角度 PID 控制器 [PID] 值'
+  blocks.encodermotor.pidspeed: '[MOTOR] 编码电机速度 PID 控制器 [PID] 值'
+  blocks.encodermotor.state: '[MOTOR] 编码电机 [STATE]？'
+  blocks.encodermotor.stateIdle: 空闲
+  blocks.encodermotor.stateRunning: 运行
+  blocks.encodermotor.stateReached: 完成
+
+zh-Hant:
+  blocks.encodermotor.name: 編碼電機
+  blocks.encodermotor.init: 初始化 [MOTOR] 編碼電機引腳+ [PIN1] 引腳- [PIN2] 引腳A [PINA] 引腳B [PINB]
+  blocks.encodermotor.setmotor: 將 [MOTOR] 編碼電機減速比設為 [RATIO] [PULSE] 脈衝/轉 [PHASE] 相領先
+  blocks.encodermotor.all: 全部
+  blocks.encodermotor.forward: 正轉
+  blocks.encodermotor.reverse: 反轉
+  blocks.encodermotor.setspeed: 將 [MOTOR] 編碼電機 [DIR] 速度設為 [SPEED]%
+  blocks.encodermotor.setrpm: 將 [MOTOR] 編碼電機 [DIR] 速度設為 [RPM] RPM
+  blocks.encodermotor.setrotate: 將 [MOTOR] 編碼電機以 [RPM] RPM 速度轉 [DEGREE]°
+  blocks.encodermotor.setangle: 將 [MOTOR] 編碼電機以 [RPM] RPM 速度轉到 [ANGLE]°
+  blocks.encodermotor.reset: 重置 [MOTOR] 編碼電機
+  blocks.encodermotor.shutdown: 停止 [MOTOR] 編碼電機
+  blocks.encodermotor.setpidangle: 將 [MOTOR] 編碼電機角度 PID 控制器參數設為 P:[P] I:[I] D:[D]
+  blocks.encodermotor.setpidspeed: 將 [MOTOR] 編碼電機速度 PID 控制器參數設為 P:[P] I:[I] D:[D]
+  blocks.encodermotor.speed: '[MOTOR] 編碼電機速度（%）'
+  blocks.encodermotor.rpm: '[MOTOR] 編碼電機速度（RPM）'
+  blocks.encodermotor.angle: '[MOTOR] 編碼電機角度'
+  blocks.encodermotor.pulse: '[MOTOR] 編碼電機脈衝數'
+  blocks.encodermotor.pidangle: '[MOTOR] 編碼電機角度 PID 控制器 [PID] 值'
+  blocks.encodermotor.pidspeed: '[MOTOR] 編碼電機速度 PID 控制器 [PID] 值'
+  blocks.encodermotor.state: '[MOTOR] 編碼電機 [STATE]？'
+  blocks.encodermotor.stateIdle: 空閒
+  blocks.encodermotor.stateRunning: 運行
+  blocks.encodermotor.stateReached: 完成
