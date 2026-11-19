@@ -1,7 +1,7 @@
 {
   "name": "@blockcode/blocks-mqtt",
-  "private": "true",
   "version": "1.0.0",
+  "private": "true",
   "type": "module",
   "module": "dist/index.js",
   "exports": {
@@ -13,7 +13,6 @@
     }
   },
   "dependencies": {
-    "mqtt": "^5.14.1",
     "preact": "^10.28.4"
   },
   "devDependencies": {

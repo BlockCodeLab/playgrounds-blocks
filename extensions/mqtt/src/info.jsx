@@ -1,4 +1,5 @@
 import { addLocalesMessages, Text } from '@blockcode/core';
+
 import featureImage from './feature.svg';
 import iconImage from './icon.svg';
 
@@ -33,6 +34,6 @@ export default {
       defaultMessage="The standard for IoT messaging."
     />
   ),
-  tags: ['scratch', 'communication'],
+  tags: ['device', 'communication'],
   internetRequired: true,
 };

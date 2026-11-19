@@ -1,10 +1,9 @@
 import { addLocalesMessages, Text } from '@blockcode/core';
-import { emulator } from './lib/emulator';
-import { blocks } from './lib/blocks';
-import mqttFile from './lib/mqtt.py';
 
-import translations from './l10n.yaml';
 import iconImage from './icon.svg';
+import translations from './l10n.yaml';
+import { blocks, menus } from './lib/blocks';
+import { files } from './lib/files';
 
 addLocalesMessages(translations);
 
@@ -16,14 +15,7 @@ export default {
       defaultMessage="MQTT"
     />
   ),
-  files: [
-    {
-      header: true,
-      name: 'mqtt',
-      type: 'text/x-python',
-      uri: mqttFile,
-    },
-  ],
-  emulator,
   blocks,
+  menus,
+  files,
 };

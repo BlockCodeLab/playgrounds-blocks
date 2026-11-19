@@ -1,38 +1,41 @@
 en:
   blocks.mqtt.name: MQTT
-  blocks.mqtt.connect: connect to [URL]
-  blocks.mqtt.subscribe: subscribe topic [TOPIC]
-  blocks.mqtt.publish: publish message [MESSAGE] to topic [TOPIC]
-  blocks.mqtt.whenReceived: when received from topic [TOPIC]
-  blocks.mqtt.message: last message from topic [TOPIC]
-  blocks.mqtt.messageTopic: greeting
-  blocks.mqtt.messageContent: hello
-  blocks.mqtt.whenConnected: when connected to MQTT server
-  blocks.mqtt.isConnected: is connected?
-  blocks.mqtt.close: close connection
+  blocks.mqtt.userConfig: config MQTT client id:[ID] username:[USER] password:[PWD]
+  blocks.mqtt.connect: connect to MQTT server:[SERVER] port:[PORT]
+  blocks.mqtt.publish: publish message [MSG] to the topic [TOPIC] QoS [QOS]
+  blocks.mqtt.subscribe: subscribes to topic [TOPIC] QoS [QOS]
+  blocks.mqtt.whenTopic: when received for topic [TOPIC]
+  blocks.mqtt.message: message content
+  blocks.mqtt.topic1: topic 1
+  blocks.mqtt.message1: message 1
+  blocks.mqtt.qos0: most once
+  blocks.mqtt.qos1: least once
+  blocks.mqtt.qos2: exactly once
 
 zh-Hans:
   blocks.mqtt.name: MQTT
-  blocks.mqtt.connect: 连接到 [URL]
-  blocks.mqtt.subscribe: 订阅主题 [TOPIC]
-  blocks.mqtt.publish: 向主题 [TOPIC] 发送消息 [MESSAGE]
-  blocks.mqtt.whenReceived: 当接收到来自主题 [TOPIC] 的消息
-  blocks.mqtt.message: 主题 [TOPIC] 最后的消息
-  blocks.mqtt.messageTopic: 问候
-  blocks.mqtt.messageContent: 你好
-  blocks.mqtt.whenConnected: 当连接到 MQTT 服务器
-  blocks.mqtt.isConnected: 连接成功？
-  blocks.mqtt.close: 关闭连接
+  blocks.mqtt.userConfig: 配置 MQTT 客户端 ID:[ID] 用户名:[USER] 密码:[PWD]
+  blocks.mqtt.connect: 连接到 MQTT 服务器:[SERVER] 端口号:[PORT]
+  blocks.mqtt.publish: 发布消息 [MSG] 给主题 [TOPIC] QoS [QOS]
+  blocks.mqtt.subscribe: 订阅主题 [TOPIC] QoS [QOS]
+  blocks.mqtt.whenTopic: 当收到主题 [TOPIC] 的消息
+  blocks.mqtt.message: 消息内容
+  blocks.mqtt.topic1: 主题1
+  blocks.mqtt.message1: 消息1
+  blocks.mqtt.qos0: 最多1次
+  blocks.mqtt.qos1: 至少1次
+  blocks.mqtt.qos2: 仅1次
 
 zh-Hant:
   blocks.mqtt.name: MQTT
-  blocks.mqtt.connect: 連接到 [URL]
-  blocks.mqtt.subscribe: 訂閱主題 [TOPIC]
-  blocks.mqtt.publish: 向主題 [TOPIC] 發送消息 [MESSAGE]
-  blocks.mqtt.whenReceived: 當接收到來自主題 [TOPIC] 的消息
-  blocks.mqtt.message: 主題 [TOPIC] 最後的消息
-  blocks.mqtt.messageTopic: 問候
-  blocks.mqtt.messageContent: 你好
-  blocks.mqtt.whenConnected: 當連接到 MQTT 服務器
-  blocks.mqtt.isConnected: 連接成功？
-  blocks.mqtt.close: 關閉連接
+  blocks.mqtt.userConfig: 配置 MQTT 客戶端ID:[ID] 用戶名:[USER] 密碼:[PWD]
+  blocks.mqtt.connect: 連接到 MQTT 服務器:[SERVER] 端口號:[PORT]
+  blocks.mqtt.publish: 發布消息 [MSG] 給主題 [TOPIC] QoS [QOS]
+  blocks.mqtt.subscribe: 訂閱主題 [TOPIC] QoS [QOS]
+  blocks.mqtt.whenTopic: 當收到主題 [TOPIC] 的消息
+  blocks.mqtt.message: 消息內容
+  blocks.mqtt.topic1: 主題1
+  blocks.mqtt.message1: 消息1
+  blocks.mqtt.qos0: 最多1次
+  blocks.mqtt.qos1: 至少1次
+  blocks.mqtt.qos2: 僅1次
